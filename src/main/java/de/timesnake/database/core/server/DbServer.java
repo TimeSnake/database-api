@@ -1,13 +1,14 @@
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.api.message.ChannelServerMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelServerMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.TooLongEntryException;
+import de.timesnake.library.basic.util.Status;
 
 public abstract class DbServer extends TableQuery implements de.timesnake.database.util.server.DbServer {
 
@@ -52,29 +53,29 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
 
     @Override
     public void setStatus(Status.Server status) {
-        super.setWithKey(status, Column.Server.STATUS, () -> NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getStatusMessage(this.getPort(), status)));
+        super.setWithKey(status, Column.Server.STATUS, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.STATUS, status)));
     }
 
     @Override
     public void setStatusSynchronized(Status.Server status) {
         super.setWithKeySynchronized(status, Column.Server.STATUS);
-        NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getStatusMessage(this.getPort(), status));
+        NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.STATUS, status));
     }
 
     @Override
     public void setOnlinePlayers(int playersOnline) {
-        super.setWithKey(playersOnline, Column.Server.ONLINE_PLAYERS, () -> NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getOnlinePlayersMessage(this.getPort(), playersOnline)));
+        super.setWithKey(playersOnline, Column.Server.ONLINE_PLAYERS, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.ONLINE_PLAYERS, playersOnline)));
     }
 
     @Override
     public void setOnlinePlayersSynchronized(int playersOnline) {
         super.setWithKeySynchronized(playersOnline, Column.Server.ONLINE_PLAYERS);
-        NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getOnlinePlayersMessage(this.getPort(), playersOnline));
+        NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.ONLINE_PLAYERS, playersOnline));
     }
 
     @Override
     public void setMaxPlayers(int playersMax) {
-        super.setWithKey(playersMax, Column.Server.MAX_PLAYERS, () -> NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getMaxPlayersMessage(this.getPort(), playersMax)));
+        super.setWithKey(playersMax, Column.Server.MAX_PLAYERS, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.MAX_PLAYERS, playersMax)));
     }
 
     @Override
@@ -82,7 +83,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
         if (password.length() > 255) {
             throw new TooLongEntryException(password, Column.Server.PASSWORD.getType());
         }
-        super.setWithKey(password, Column.Server.PASSWORD, () -> NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getPasswordMessage(this.getPort(), password)));
+        super.setWithKey(password, Column.Server.PASSWORD, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.PASSWORD, password)));
     }
 
     @Override

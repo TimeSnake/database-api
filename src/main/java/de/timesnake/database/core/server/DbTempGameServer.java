@@ -1,7 +1,8 @@
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.api.message.ChannelServerMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelServerMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -31,7 +32,7 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
 
     @Override
     public void setMapName(String mapName) {
-        super.setWithKey(mapName, Column.Server.MAP_NAME, () -> NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getMapMessage(this.getPort(), mapName)));
+        super.setWithKey(mapName, Column.Server.MAP_NAME, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.MAP, mapName)));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
     }
 
     @Override
-    public Type.Server getType() {
+    public Type.Server<de.timesnake.database.util.server.DbTempGameServer> getType() {
         return Type.Server.TEMP_GAME;
     }
 

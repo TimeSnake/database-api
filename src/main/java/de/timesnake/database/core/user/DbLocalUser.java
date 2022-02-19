@@ -3,7 +3,10 @@ package de.timesnake.database.core.user;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbPermGroup;
-import de.timesnake.database.util.object.*;
+import de.timesnake.database.util.object.ColumnMap;
+import de.timesnake.database.util.object.SyncExecute;
+import de.timesnake.database.util.object.TooLongEntryException;
+import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
@@ -12,6 +15,7 @@ import de.timesnake.database.util.user.DataProtectionAgreement;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.database.util.user.DbUserMail;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 import java.util.Date;
@@ -40,13 +44,14 @@ public class DbLocalUser implements DbUser {
     private String serverLast;
     private String serverLobby;
     private String dataProtection;
+    private Long discordId;
 
     public DbLocalUser(de.timesnake.database.core.user.DbUser user) {
         ColumnMap columnMap = user.getFirstWithKey(Set.of(Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
                 Column.User.NICK, Column.User.TIME_COINS, Column.User.STATUS, Column.User.SERVICE,
                 Column.User.ANTI_CHEAT_MESSAGES, Column.User.AIR_MODE, Column.User.TASK, Column.User.TEAM,
                 Column.User.KIT, Column.User.PERMGROUP, Column.User.SERVER, Column.User.SERVER_LAST,
-                Column.User.SERVER_LOBBY, Column.User.DATA_PROTECTION));
+                Column.User.SERVER_LOBBY, Column.User.DATA_PROTECTION, Column.User.DISCORD_ID));
 
         this.user = user;
 
@@ -69,6 +74,7 @@ public class DbLocalUser implements DbUser {
         this.serverLast = columnMap.get(Column.User.SERVER_LAST);
         this.serverLobby = columnMap.get(Column.User.SERVER_LOBBY);
         this.dataProtection = columnMap.get(Column.User.DATA_PROTECTION);
+        this.discordId = columnMap.get(Column.User.DISCORD_ID);
     }
 
 
@@ -353,6 +359,16 @@ public class DbLocalUser implements DbUser {
     public boolean agreedDataProtection(String version) {
         DataProtectionAgreement agreement = this.getDataProtectionAgreement();
         return agreement != null && agreement.getVersion().equals(version);
+    }
+
+    @Override
+    public Long getDiscordId() {
+        return this.discordId;
+    }
+
+    @Override
+    public void setDiscordId(Long id)  {
+        this.user.setDiscordId(id);
     }
 
     @Override

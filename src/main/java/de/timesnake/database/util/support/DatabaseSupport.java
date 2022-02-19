@@ -1,6 +1,6 @@
 package de.timesnake.database.util.support;
 
-import de.timesnake.database.util.object.Status;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 import java.util.UUID;

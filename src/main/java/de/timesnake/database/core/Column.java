@@ -2,8 +2,8 @@ package de.timesnake.database.core;
 
 import de.timesnake.database.util.object.DbIntegerArrayList;
 import de.timesnake.database.util.object.DbStringArrayList;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Date;
 import java.util.UUID;
@@ -92,6 +92,8 @@ public class Column<Value> {
 
         public static final User<String> DATA_PROTECTION = new User<>("data_protection", String.class, ColumnType.varchar(255));
 
+        public static final User<Long> DISCORD_ID = new User<>("discord_id", Long.class, ColumnType.varchar(20));
+
         public static final User<Integer> MAIL_ID = new User<>("id", Integer.class, ColumnType.integer(255));
         public static final User<UUID> MAIL_SENDER_UUID = new User<>("sender_uuid", UUID.getValueClass(), UUID.getType());
         public static final User<String> MAIL_SENDER_NAME = new User<>("sender_name", NAME.getValueClass(), NAME.getType());
@@ -107,7 +109,7 @@ public class Column<Value> {
         public static final Permission<Integer> ID = new Permission<>("id", Integer.class, ColumnType.integer(255, true));
         public static final Permission<String> NAME = new Permission<>("name", String.class, ColumnType.varchar(50));
         public static final Permission<String> PERMISSION = new Permission<>("permission", String.class, ColumnType.varchar(255));
-        public static final Permission<String> MODE = new Permission<>("mode", String.class, ColumnType.varchar(20));
+        public static final Permission<Status.Permission> MODE = new Permission<>("mode", Status.Permission.class, ColumnType.varchar(20));
         public static final Permission<DbStringArrayList> SERVER = new Permission<>("server", DbStringArrayList.class, ColumnType.varchar(255));
 
         Permission(String name, Class<T> valueType, ColumnType type) {

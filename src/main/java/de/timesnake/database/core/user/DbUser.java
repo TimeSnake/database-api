@@ -1,18 +1,23 @@
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.api.message.ChannelUserMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelUserMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbPermGroup;
-import de.timesnake.database.util.object.*;
+import de.timesnake.database.util.object.DatabaseConnector;
+import de.timesnake.database.util.object.SyncExecute;
+import de.timesnake.database.util.object.TooLongEntryException;
+import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.database.util.user.DataProtectionAgreement;
 import de.timesnake.database.util.user.DbUserMail;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 import java.util.Date;
@@ -85,17 +90,17 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setPrefix(String prefix) {
-        super.setWithKey(prefix, Column.User.PREFIX, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getAliasMessage(this.getUniqueId())));
+        super.setWithKey(prefix, Column.User.PREFIX, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.ALIAS)));
     }
 
     @Override
     public void setSuffix(String suffix) {
-        super.setWithKey(suffix, Column.User.SUFFIX, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getAliasMessage(this.getUniqueId())));
+        super.setWithKey(suffix, Column.User.SUFFIX, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.ALIAS)));
     }
 
     @Override
     public void setNick(String nick) {
-        super.setWithKey(nick, Column.User.NICK, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getAliasMessage(this.getUniqueId())));
+        super.setWithKey(nick, Column.User.NICK, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.ALIAS)));
     }
 
     @Override
@@ -188,16 +193,12 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void removePermGroup() {
-        super.setWithKey(null, Column.User.PERMGROUP, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getGroupMessage(this.getUniqueId(), null)));
 
     }
 
     @Override
     public void removePermGroup(SyncExecute syncExecute) {
-        super.setWithKey(null, Column.User.PERMGROUP, () -> {
-            NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getGroupMessage(this.getUniqueId(), null));
-            syncExecute.run();
-        });
+        super.setWithKey(null, Column.User.PERMGROUP, syncExecute);
     }
 
     @Override
@@ -222,12 +223,12 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setStatus(Status.User status) {
-        super.setWithKey(status, Column.User.STATUS, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getStatusMessage(this.getUniqueId(), status)));
+        super.setWithKey(status, Column.User.STATUS, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.STATUS, status)));
     }
 
     @Override
     public void setService(boolean service) {
-        super.setWithKey(service, Column.User.SERVICE, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getServiceMessage(this.getUniqueId(), service)));
+        super.setWithKey(service, Column.User.SERVICE, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.SERVICE, service)));
     }
 
     @Override
@@ -243,7 +244,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     @Override
     public void setStatus(Status.User status, boolean sendChannelMessage) {
         if (sendChannelMessage) {
-            super.setWithKey(status, Column.User.STATUS, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getStatusMessage(this.getUniqueId(), status)));
+            super.setWithKey(status, Column.User.STATUS, () -> NetworkChannel.getChannel().sendMessage(new de.timesnake.channel.util.message.ChannelUserMessage<>(this.getUniqueId(), MessageType.User.STATUS, status)));
         } else {
             super.setWithKey(status, Column.User.STATUS);
         }
@@ -251,13 +252,13 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setTask(String task) {
-        super.setWithKey(task, Column.User.TASK, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getTaskMessage(this.getUniqueId(), task)));
+        super.setWithKey(task, Column.User.TASK, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.TASK, task)));
     }
 
     @Override
     public void setTask(String task, boolean sendChannelMessage) {
         if (sendChannelMessage) {
-            super.setWithKey(task, Column.User.TASK, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getTaskMessage(this.getUniqueId(), task)));
+            super.setWithKey(task, Column.User.TASK, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.TASK, task)));
         } else {
             super.setWithKey(task, Column.User.TASK);
         }
@@ -265,7 +266,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setTeam(String team) {
-        super.setWithKey(team, Column.User.TEAM, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getTeamMessage(this.getUniqueId(), team)));
+        super.setWithKey(team, Column.User.TEAM, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.TEAM, team)));
     }
 
     @Override
@@ -312,6 +313,16 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     public boolean agreedDataProtection(String version) {
         DataProtectionAgreement agreement = this.getDataProtectionAgreement();
         return agreement != null && agreement.getVersion().equals(version);
+    }
+
+    @Override
+    public Long getDiscordId() {
+        return super.getFirstWithKey(Column.User.DISCORD_ID);
+    }
+
+    @Override
+    public void setDiscordId(Long id)  {
+        super.setWithKey(id, Column.User.DISCORD_ID);
     }
 
     @Override

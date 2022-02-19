@@ -1,7 +1,8 @@
 package de.timesnake.database.core.game.statistic;
 
-import de.timesnake.channel.api.message.ChannelUserMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelUserMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
@@ -66,12 +67,12 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
 
     @Override
     public <Value> void setValue(Stat<Value> type, Value value) {
-        super.setWithKey(type.getType().valueToString(value), Column.Game.STAT_USER_VALUE, () -> NetworkChannel.getChannel().sendMessageSynchronized(ChannelUserMessage.getStatisticsMessage(((UUID) this.primaryEntries.get(0).getValue()), type.getName())), new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE));
+        super.setWithKey(type.getType().valueToString(value), Column.Game.STAT_USER_VALUE, () -> NetworkChannel.getChannel().sendMessageSynchronized(new ChannelUserMessage<>(((UUID) this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())), new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE));
     }
 
     @Override
     public <Value> void addValue(Stat<Value> type, Value value) {
-        super.addEntry(this.primaryEntries.with(new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE)), () -> NetworkChannel.getChannel().sendMessageSynchronized(ChannelUserMessage.getStatisticsMessage(((UUID) this.primaryEntries.get(0).getValue()), type.getName())), new TableEntry<>(type.getType().valueToString(value), Column.Game.STAT_USER_VALUE));
+        super.addEntry(this.primaryEntries.with(new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE)), () -> NetworkChannel.getChannel().sendMessageSynchronized(new ChannelUserMessage<>(((UUID) this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())), new TableEntry<>(type.getType().valueToString(value), Column.Game.STAT_USER_VALUE));
     }
 
 }

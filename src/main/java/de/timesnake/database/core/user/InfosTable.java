@@ -3,7 +3,7 @@ package de.timesnake.database.core.user;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Status;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Set;
 import java.util.UUID;

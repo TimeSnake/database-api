@@ -1,7 +1,7 @@
 package de.timesnake.database.core.support;
 
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Status;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.ArrayList;
 import java.util.Collection;
