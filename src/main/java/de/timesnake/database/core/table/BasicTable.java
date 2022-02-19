@@ -5,6 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.*;
+import de.timesnake.library.basic.util.Status;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -337,14 +338,14 @@ public class BasicTable {
         if (value != null) {
             if (value instanceof String) {
                 return replaceNotAllowedStrings(((String) value));
-            } else if (value instanceof Integer || value instanceof Float || value instanceof Double) {
+            } else if (value instanceof Integer || value instanceof Float || value instanceof Double || value instanceof Long) {
                 return replaceNotAllowedStrings(String.valueOf(value));
             } else if (value instanceof StringBuilder || value instanceof UUID) {
                 return replaceNotAllowedStrings(value.toString());
             } else if (value instanceof Boolean) {
                 return (Boolean) value ? "1" : "0";
             } else if (value instanceof Status) {
-                return replaceNotAllowedStrings(((Status) value).getDatabaseValue());
+                return replaceNotAllowedStrings(((Status) value).getSimpleName());
             } else if (value instanceof Type) {
                 return replaceNotAllowedStrings(((Type) value).getDatabaseValue());
             } else if (value instanceof Object[]) {
@@ -398,12 +399,23 @@ public class BasicTable {
             return (Value) Integer.valueOf(string);
         } else if (valueClass.equals(Float.class)) {
             return (Value) Float.valueOf(string);
+        } else if (valueClass.equals(Long.class)) {
+            return (Value) Long.valueOf(string);
         } else if (valueClass.equals(Double.class)) {
             return (Value) Double.valueOf(string);
         } else if (valueClass.equals(UUID.class)) {
             return (Value) UUID.fromString(string);
         } else if (Status.class.isAssignableFrom(valueClass)) {
-            return (Value) Status.getByDatabaseValue(((Column<? extends Status>) column), string);
+            if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.User.class)) {
+                return (Value) de.timesnake.library.basic.util.Status.User.parseValue(string);
+            } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Server.class)) {
+                return (Value) de.timesnake.library.basic.util.Status.Server.parseValue(string);
+            } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Permission.class)) {
+                return (Value) de.timesnake.library.basic.util.Status.Permission.parseValue(string);
+            } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Ticket.class)) {
+                return (Value) de.timesnake.library.basic.util.Status.Ticket.parseValue(string);
+            }
+            return null;
         } else if (Type.class.isAssignableFrom(valueClass)) {
             return (Value) Type.getByDatabaseValue(((Column<? extends Type>) column), string);
         } else if (valueClass.equals(DbIntegerArrayList.class)) {

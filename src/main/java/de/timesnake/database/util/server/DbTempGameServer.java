@@ -19,7 +19,7 @@ public interface DbTempGameServer extends DbPvPServer {
     void setTwinServerPort(Integer port);
 
     @Override
-    Type.Server getType();
+    Type.Server<DbTempGameServer> getType();
 
     boolean areMapsEnabled();
 

@@ -1,9 +1,9 @@
 package de.timesnake.database.util.group;
 
 import de.timesnake.database.util.object.NotLocal;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 

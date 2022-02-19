@@ -1,7 +1,8 @@
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.api.message.ChannelServerMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelServerMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 
@@ -19,6 +20,6 @@ public abstract class DbPvPServer extends DbTaskServer implements de.timesnake.d
 
     @Override
     public void setPvP(boolean oldPvP) {
-        super.setWithKey(oldPvP, Column.Server.OLD_PVP, () -> NetworkChannel.getChannel().sendMessage(ChannelServerMessage.getPvPMessage(this.getPort(), oldPvP)));
+        super.setWithKey(oldPvP, Column.Server.OLD_PVP, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.OLD_PVP, oldPvP)));
     }
 }

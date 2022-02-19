@@ -1,15 +1,16 @@
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.channel.api.message.ChannelGroupMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelGroupMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.group.DbGroup;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +33,7 @@ public class DbPermGroup extends DbGroup implements de.timesnake.database.util.g
 
     @Override
     public void removeInheritance() {
-        super.setWithKey(null, Column.PermGroup.INHERITANCE, () -> NetworkChannel.getChannel().sendMessage(ChannelGroupMessage.getPermissionMessage(this.getName())));
+        super.setWithKey(null, Column.PermGroup.INHERITANCE, () -> NetworkChannel.getChannel().sendMessage(new ChannelGroupMessage<>(this.getName(), MessageType.Group.PERMISSION)));
     }
 
     @Override

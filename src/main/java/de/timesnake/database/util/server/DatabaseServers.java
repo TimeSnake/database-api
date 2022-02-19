@@ -1,7 +1,7 @@
 package de.timesnake.database.util.server;
 
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 

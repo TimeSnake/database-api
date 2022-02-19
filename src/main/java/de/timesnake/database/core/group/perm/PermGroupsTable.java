@@ -1,6 +1,7 @@
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.channel.api.message.ChannelGroupMessage;
+import de.timesnake.channel.util.message.ChannelGroupMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.BasicGroupsTable;
 import de.timesnake.database.util.Database;
@@ -16,7 +17,7 @@ public class PermGroupsTable extends BasicGroupsTable {
     }
 
     public void addPermGroup(String name, int rank, String prefix, String colorChatName) {
-        super.addGroup(name, rank, prefix, colorChatName, ChannelGroupMessage.getAliasMessage(name));
+        super.addGroup(name, rank, prefix, colorChatName, new ChannelGroupMessage<>(name, MessageType.Group.ALIAS));
     }
 
     public Collection<String> getPermGroupsName() {
@@ -28,11 +29,11 @@ public class PermGroupsTable extends BasicGroupsTable {
     }
 
     public void removePermGroup(String name) {
-        super.removeGroup(name, ChannelGroupMessage.getAliasMessage(name));
+        super.removeGroup(name, new ChannelGroupMessage<>(name, MessageType.Group.ALIAS));
     }
 
     public void removePermGroup(int rank) {
-        super.removeGroup(rank, ChannelGroupMessage.getAliasMessage(Database.getGroups().getPermGroup(rank).getName()));
+        super.removeGroup(rank, new ChannelGroupMessage<>(Database.getGroups().getPermGroup(rank).getName(), MessageType.Group.ALIAS));
     }
 
     public boolean containsPermGroup(int rank) {

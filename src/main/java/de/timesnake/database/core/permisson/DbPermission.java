@@ -5,7 +5,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
-import de.timesnake.database.util.object.Status;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 
@@ -37,7 +37,7 @@ public class DbPermission extends TableQuery implements de.timesnake.database.ut
 
     @Override
     public Status.Permission getMode() {
-        return Status.Permission.getByDatabaseValue(super.getFirstWithKey(Column.Permission.MODE));
+        return super.getFirstWithKey(Column.Permission.MODE);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DbPermission extends TableQuery implements de.timesnake.database.ut
 
     @Override
     public void setMode(Status.Permission mode) {
-        super.setWithKey(mode.getDatabaseValue(), Column.Permission.MODE);
+        super.setWithKey(mode, Column.Permission.MODE);
     }
 
     @Override

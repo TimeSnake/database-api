@@ -1,7 +1,8 @@
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.api.message.ChannelUserMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelUserMessage;
+import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -37,7 +38,7 @@ public class PunishmentsTable extends PlayersTable {
         super.set(df.format(date), Column.User.PUNISH_DATE, new TableEntry<>(uuid, Column.User.UUID));
         super.set(castigator, Column.User.PUNISH_CASTIGATOR, new TableEntry<>(uuid, Column.User.UUID));
         super.set(reason, Column.User.PUNISH_REASON, new TableEntry<>(uuid, Column.User.UUID));
-        super.set(server, Column.User.PUNISH_SERVER, () -> NetworkChannel.getChannel().sendMessage(ChannelUserMessage.getPunishMessage(uuid)), new TableEntry<>(uuid, Column.User.UUID));
+        super.set(server, Column.User.PUNISH_SERVER, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PUNISH)), new TableEntry<>(uuid, Column.User.UUID));
     }
 
     public void setPunishment(DbPunishment punishment) {

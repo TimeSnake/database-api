@@ -1,10 +1,10 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.server.DbTaskServer;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.ArrayList;
 import java.util.Collection;

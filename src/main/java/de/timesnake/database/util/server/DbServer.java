@@ -1,8 +1,8 @@
 package de.timesnake.database.util.server;
 
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Status;
 
 public interface DbServer {
 
@@ -32,7 +32,7 @@ public interface DbServer {
 
     void setMaxPlayers(int playersMax);
 
-    Type.Server getType();
+    Type.Server<?> getType();
 
     void setPassword(String password) throws TooLongEntryException;
 

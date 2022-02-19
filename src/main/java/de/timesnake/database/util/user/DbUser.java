@@ -6,6 +6,7 @@ import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 import java.util.Date;
@@ -389,6 +390,11 @@ public interface DbUser extends DbPlayer, DbLocal<DbUser> {
      * @return true of the user agreed the data-protection
      */
     boolean agreedDataProtection(String version);
+
+    Long getDiscordId();
+
+    @NotLocal
+    void setDiscordId(Long id);
 
     /**
      * Removes the user from all tables, punishment excluded

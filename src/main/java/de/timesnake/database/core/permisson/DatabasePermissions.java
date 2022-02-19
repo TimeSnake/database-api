@@ -1,8 +1,8 @@
 package de.timesnake.database.core.permisson;
 
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.object.SyncExecute;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.ArrayList;
 

@@ -3,8 +3,8 @@ package de.timesnake.database.core.support;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.object.ColumnMap;
-import de.timesnake.database.util.object.Status;
 import de.timesnake.database.util.support.DbTicket;
+import de.timesnake.library.basic.util.Status;
 
 import java.util.Date;
 import java.util.Set;

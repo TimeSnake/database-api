@@ -1,7 +1,7 @@
 package de.timesnake.database.core.group;
 
-import de.timesnake.channel.api.message.ChannelMessage;
-import de.timesnake.channel.main.NetworkChannel;
+import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.util.message.ChannelMessage;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
