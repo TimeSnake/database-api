@@ -31,7 +31,7 @@ public class InfosTable extends PlayersTable {
     }
 
     public void backup() {
-        Column<?>[] columns = {Column.User.UUID, Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX, Column.User.NICK, Column.User.TIME_COINS, Column.User.PERMGROUP, Column.User.DATA_PROTECTION};
+        Column<?>[] columns = {Column.User.UUID, Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX, Column.User.NICK, Column.User.TIME_COINS, Column.User.PERMGROUP, Column.User.DATA_PROTECTION, Column.User.DISCORD_ID};
         super.createBackup(columns);
     }
 
