@@ -36,4 +36,8 @@ public interface DbTempGameServer extends DbPvPServer {
     boolean isTeamMerging();
 
     void setTeamMerging(boolean teamMerging);
+
+    boolean isDiscordEnabled();
+
+    void setDiscord(boolean discordEnabled);
 }

@@ -57,6 +57,8 @@ public class Column<Value> {
         public static final Server<Boolean> TEAM_MERGING = new Server<>("team_merging", Boolean.class, ColumnType.tinyint(1));
         public static final Server<Integer> TWIN_SERVER = new Server<>("twin_server", PORT.getValueClass(), PORT.getType());
         public static final Server<String> PASSWORD = new Server<>("password", String.class, ColumnType.varchar(255));
+        public static final Server<Boolean> DISCORD = new Server<>("discord", Boolean.class, ColumnType.tinyint(1));
+
 
         Server(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
