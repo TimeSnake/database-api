@@ -14,10 +14,11 @@ public class TempGameTable extends PvPTable<DbTempGameServer> {
         super.addColumn(Column.Server.TEAM_MAX_PLAYERS);
         super.addColumn(Column.Server.TEAM_MERGING);
         super.addColumn(Column.Server.TWIN_SERVER);
+        super.addColumn(Column.Server.DISCORD);
     }
 
     public void backup() {
-        Column[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.PASSWORD, Column.Server.TASK};
+        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.PASSWORD, Column.Server.TASK};
         super.createBackup(columns);
     }
 

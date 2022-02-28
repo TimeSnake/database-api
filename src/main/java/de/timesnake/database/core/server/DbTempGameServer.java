@@ -43,7 +43,7 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
     @Override
     public DbLoungeServer getTwinServer() {
         Integer port = this.getTwinServerPort();
-        return port == null ? null : (DbLoungeServer) Database.getServers().getServer(Type.Server.LOUNGE, port);
+        return port == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, port);
     }
 
     @Override
@@ -94,5 +94,15 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
     @Override
     public void setTeamMerging(boolean teamMerging) {
         super.setWithKey(teamMerging, Column.Server.TEAM_MERGING);
+    }
+
+    @Override
+    public boolean isDiscordEnabled() {
+        return super.getFirstWithKey(Column.Server.DISCORD);
+    }
+
+    @Override
+    public void setDiscord(boolean discordEnabled) {
+        super.setWithKey(discordEnabled, Column.Server.DISCORD, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.DISCORD, discordEnabled)));
     }
 }
