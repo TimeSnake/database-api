@@ -1,41 +1,52 @@
 package de.timesnake.database.core.story;
 
-import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.TableQuery;
-import de.timesnake.database.util.object.DatabaseConnector;
-
 import java.util.Set;
 import java.util.UUID;
 
-public class DbStoryUser extends TableQuery implements de.timesnake.database.util.story.DbStoryUser {
+public class DbStoryUser implements de.timesnake.database.util.story.DbStoryUser {
 
-    protected DbStoryUser(DatabaseConnector databaseConnector, String nameTable, UUID uuid) {
-        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.Story.USER_UUID));
-    }
+    private final UUID uuid;
+    private final UserBoughtTable boughtTable;
+    private final UserCheckpointsTable checkpointsTable;
 
-    @Override
-    public boolean exists() {
-        return super.getFirstWithKey(Column.Story.CHAPTER_ID) != null;
+    protected DbStoryUser(UUID uuid, UserBoughtTable boughtTable, UserCheckpointsTable checkpointsTable) {
+        this.uuid = uuid;
+        this.boughtTable = boughtTable;
+        this.checkpointsTable = checkpointsTable;
     }
 
     @Override
     public Set<Integer> getChapterIds() {
-        return super.getWithKey(Column.Story.CHAPTER_ID);
+        return this.checkpointsTable.getChapterIds(this.uuid);
     }
 
     @Override
     public Set<Integer> getPartIds(Integer chapterId) {
-        return super.getWithKey(Column.Story.CHAPTER_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID));
+        return this.checkpointsTable.getPartIds(this.uuid, chapterId);
     }
 
     @Override
     public Integer getSectionId(Integer chapterId, Integer partId) {
-        return super.getFirstWithKey(Column.Story.CHAPTER_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
+        return this.checkpointsTable.getSectionId(this.uuid, chapterId, partId);
     }
 
     @Override
     public void setSectionId(Integer chapterId, Integer partId, Integer sectionId) {
-        super.setWithKey(sectionId, Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
+        this.checkpointsTable.setSectionId(this.uuid, chapterId, partId, sectionId);
+    }
+
+    @Override
+    public Set<Integer> getBoughtParts(Integer chapterId) {
+        return this.boughtTable.getBoughtParts(this.uuid, chapterId);
+    }
+
+    @Override
+    public void addBoughtPart(Integer chapterId, Integer partId) {
+        this.boughtTable.addBoughtPart(this.uuid, chapterId, partId);
+    }
+
+    @Override
+    public void removeBoughtChapter(Integer chapterId, Integer partId) {
+        this.boughtTable.removeBoughtChapter(this.uuid, chapterId, partId);
     }
 }

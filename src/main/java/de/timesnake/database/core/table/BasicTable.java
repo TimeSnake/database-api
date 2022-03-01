@@ -71,7 +71,9 @@ public class BasicTable {
             closeQuery(connection, ps, null);
         }
 
-        this.setSynchronized(Set.of(values), primaryValues.getPrimaryEntries());
+        if (values.length > 0) {
+            this.setSynchronized(Set.of(values), primaryValues.getPrimaryEntries());
+        }
     }
 
     // add entry

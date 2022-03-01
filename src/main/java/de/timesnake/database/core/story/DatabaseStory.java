@@ -6,34 +6,34 @@ import java.util.UUID;
 
 public class DatabaseStory extends DatabaseConnector implements de.timesnake.database.util.story.DatabaseStory {
 
-    private final StoryUserTable userTable;
+    private final UserCheckpointsTable checkpointsTable;
+    private final UserBoughtTable boughtTable;
 
-    private final String userTableName;
 
-    public DatabaseStory(String name, String url, String user, String password, String userTableName) {
+    private final String checkpointsTableName;
+    private final String boughtTableName;
+
+    public DatabaseStory(String name, String url, String user, String password, String checkpointsTableName, String boughtTableName) {
         super(name, url, user, password);
-        this.userTableName = userTableName;
-        this.userTable = new StoryUserTable(this, userTableName);
+        this.checkpointsTableName = checkpointsTableName;
+        this.boughtTableName = boughtTableName;
+        this.checkpointsTable = new UserCheckpointsTable(this, this.checkpointsTableName);
+        this.boughtTable = new UserBoughtTable(this, this.boughtTableName);
     }
 
     public void createTables() {
-        this.userTable.create();
+        this.checkpointsTable.create();
+        this.boughtTable.create();
     }
 
     public void backupTables() {
-        this.userTable.backup();
+        this.checkpointsTable.backup();
+        this.boughtTable.backup();
     }
 
     @Override
     public DbStoryUser getUser(UUID uuid) {
-        return this.userTable.getStoryUser(uuid);
+        return new DbStoryUser(uuid, this.boughtTable, this.checkpointsTable);
     }
 
-    public void addUser(UUID uuid, Integer chapterId, Integer partId) {
-        this.userTable.addStoryUser(uuid, chapterId, partId);
-    }
-
-    public void removeStoryUser(UUID uuid, Integer chapterId, Integer partId) {
-        this.userTable.removeStoryUser(uuid, chapterId, partId);
-    }
 }
