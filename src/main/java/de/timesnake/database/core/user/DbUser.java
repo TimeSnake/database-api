@@ -233,7 +233,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setAntiCheatMessages(boolean enable) {
-        super.set(enable, Column.User.ANTI_CHEAT_MESSAGES);
+        super.setWithKey(enable, Column.User.ANTI_CHEAT_MESSAGES);
     }
 
     @Override
