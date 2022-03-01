@@ -116,7 +116,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
         decorations = new DatabaseDecoration(config.getDatabaseName(DECORATIONS_NAME), config.getDatabaseUrl(DECORATIONS_NAME), user, password, config.getDatabaseTable(DECORATIONS_NAME, "heads"));
 
-        story = new DatabaseStory(config.getDatabaseName(STORY_NAME), config.getDatabaseUrl(STORY_NAME), user, password, config.getDatabaseTable(STORY_NAME, "users"));
+        story = new DatabaseStory(config.getDatabaseName(STORY_NAME), config.getDatabaseUrl(STORY_NAME), user, password, config.getDatabaseTable(STORY_NAME, "user_checkpoints"), config.getDatabaseTable(STORY_NAME, "user_bought"));
 
         isConnected = true;
     }

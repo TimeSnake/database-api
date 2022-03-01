@@ -308,6 +308,7 @@ public class Column<Value> {
         public static final Story<Integer> PART_ID = new Story<>("part_id", Integer.class, ColumnType.integer(2));
         public static final Story<Integer> SECTION_ID = new Story<>("section_id", Integer.class, ColumnType.integer(2));
 
+
         Story(String name, Class<T> tClass, ColumnType columnType) {
             super(name, tClass, columnType);
         }

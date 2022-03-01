@@ -3,7 +3,6 @@ package de.timesnake.database.util.story;
 import java.util.Set;
 
 public interface DbStoryUser {
-    boolean exists();
 
     Set<Integer> getChapterIds();
 
@@ -12,4 +11,10 @@ public interface DbStoryUser {
     Integer getSectionId(Integer chapterId, Integer partId);
 
     void setSectionId(Integer chapterId, Integer partId, Integer sectionId);
+
+    Set<Integer> getBoughtParts(Integer chapterId);
+
+    void addBoughtPart(Integer chapterId, Integer partId);
+
+    void removeBoughtChapter(Integer chapterId, Integer partId);
 }
