@@ -17,8 +17,8 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
         super.addColumn(Column.Server.TASK);
     }
 
-    public void addServer(int port, String name, String task, Status.Server status) {
-        super.addServer(port, name, status);
+    public void addServer(int port, String name, String task, Status.Server status, String folderPath) {
+        super.addServer(port, name, status, folderPath);
         super.setSynchronized(task, Column.Server.TASK, new TableEntry<>(port, Column.Server.PORT));
     }
 

@@ -28,6 +28,7 @@ public class InfosTable extends PlayersTable {
         super.addColumn(Column.User.SERVER_LAST);
         super.addColumn(Column.User.SERVER_LOBBY);
         super.addColumn(Column.User.DATA_PROTECTION);
+        super.addColumn(Column.User.DISCORD_ID);
     }
 
     public void backup() {

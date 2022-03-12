@@ -39,4 +39,6 @@ public interface DbServer {
     String getPassword();
 
     boolean hasPassword();
+
+    String getFolderPath();
 }
