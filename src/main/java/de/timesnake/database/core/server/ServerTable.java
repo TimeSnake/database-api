@@ -20,6 +20,7 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
         super.addColumn(Column.Server.STATUS);
         super.addColumn(Column.Server.ONLINE_PLAYERS);
         super.addColumn(Column.Server.MAX_PLAYERS);
+        super.addColumn(Column.Server.FOLDER_PATH);
         super.addColumn(Column.Server.PASSWORD);
     }
 
@@ -28,7 +29,7 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
     }
 
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.PASSWORD};
+        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
         super.createBackup(columns);
     }
 
@@ -47,12 +48,12 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
         return super.get(Column.Server.PORT);
     }
 
-    public void addServer(int port, String name, Status.Server status) {
-        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)), new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME), new TableEntry<>(0, Column.Server.ONLINE_PLAYERS));
+    public void addServer(int port, String name, Status.Server status, String folderPath) {
+        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)), new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME), new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath, Column.Server.FOLDER_PATH));
     }
 
-    public void addServer(int port, String name, Status.Server status, String password) {
-        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)), new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME), new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(password, Column.Server.PASSWORD));
+    public void addServer(int port, String name, Status.Server status, String folderPath, String password) {
+        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)), new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME), new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath, Column.Server.FOLDER_PATH), new TableEntry<>(password, Column.Server.PASSWORD));
     }
 
     public abstract Server getServer(int port);

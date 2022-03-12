@@ -156,43 +156,43 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addLobby(int port, String name, Status.Server status) {
+    public void addLobby(int port, String name, Status.Server status, String folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOBBY);
         if (table != null) {
-            table.addServer(port, name, status);
+            table.addServer(port, name, status, folderPath);
         }
 
     }
 
     @Override
-    public void addGame(int port, String name, String task, Status.Server status) {
+    public void addGame(int port, String name, String task, Status.Server status, String folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.GAME);
         if (table != null) {
-            ((GameTable) table).addServer(port, name, task, status);
+            ((GameTable) table).addServer(port, name, task, status, folderPath);
         }
     }
 
     @Override
-    public void addLounge(int port, String name, Status.Server status) {
+    public void addLounge(int port, String name, Status.Server status, String folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOUNGE);
         if (table != null) {
-            table.addServer(port, name, status);
+            table.addServer(port, name, status, folderPath);
         }
     }
 
     @Override
-    public void addTempGame(int port, String name, String task, Status.Server status) {
+    public void addTempGame(int port, String name, String task, Status.Server status, String folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.TEMP_GAME);
         if (table != null) {
-            ((TempGameTable) table).addServer(port, name, task, status);
+            ((TempGameTable) table).addServer(port, name, task, status, folderPath);
         }
     }
 
     @Override
-    public void addBuild(int port, String name, Status.Server status) {
+    public void addBuild(int port, String name, String task, Status.Server status, String folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.BUILD);
         if (table != null) {
-            table.addServer(port, name, status);
+            ((BuildTable) table).addServer(port, name, task, status, folderPath);
         }
     }
 

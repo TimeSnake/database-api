@@ -55,8 +55,16 @@ public class BasicTable {
     // add entry sync
 
     protected void addEntrySynchronized(PrimaryEntries primaryValues, TableEntry<?>... values) {
+        this.addEntrySynchronized(false, primaryValues, values);
+    }
+
+    protected void addEntrySynchronized(boolean overrideExisting, PrimaryEntries primaryValues, TableEntry<?>... values) {
         String columnPrimaryString = primaryValues.getColumnsAsEntry();
         String valuePrimaryString = primaryValues.getValuesAsEntry();
+
+        if (overrideExisting) {
+            this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new TableEntry[0]));
+        }
 
         Connection connection = this.databaseConnector.getConnection();
         PreparedStatement ps = null;
@@ -79,8 +87,12 @@ public class BasicTable {
     // add entry
 
     protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute, TableEntry<?>... values) {
+        this.addEntry(false, primaryEntries, syncExecute, values);
+    }
+
+    protected void addEntry(boolean overrideExisting, PrimaryEntries primaryEntries, SyncExecute syncExecute, TableEntry<?>... values) {
         new Thread(() -> {
-            addEntrySynchronized(primaryEntries, values);
+            addEntrySynchronized(overrideExisting, primaryEntries, values);
             syncExecute.run();
         }).start();
     }

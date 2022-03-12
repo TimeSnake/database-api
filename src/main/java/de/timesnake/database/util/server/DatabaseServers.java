@@ -35,13 +35,13 @@ public interface DatabaseServers {
 
     Collection<Integer> getServerPorts(Type.Server<?> type);
 
-    void addLobby(int port, String name, Status.Server status);
+    void addLobby(int port, String name, Status.Server status, String folderPath);
 
-    void addGame(int port, String name, String task, Status.Server status);
+    void addGame(int port, String name, String task, Status.Server status, String folderPath);
 
-    void addLounge(int port, String name, Status.Server status);
+    void addLounge(int port, String name, Status.Server status, String folderPath);
 
-    void addTempGame(int port, String name, String task, Status.Server status);
+    void addTempGame(int port, String name, String task, Status.Server status, String folderPath);
 
-    void addBuild(int port, String name, Status.Server status);
+    void addBuild(int port, String name, String task, Status.Server status, String folderPath);
 }

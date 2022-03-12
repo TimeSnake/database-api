@@ -96,4 +96,9 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
         return this.getPassword() != null;
     }
 
+    @Override
+    public String getFolderPath() {
+        return super.getFirstWithKey(Column.Server.FOLDER_PATH);
+    }
+
 }
