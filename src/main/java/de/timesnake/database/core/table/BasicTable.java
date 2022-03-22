@@ -3,7 +3,6 @@ package de.timesnake.database.core.table;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.*;
 import de.timesnake.library.basic.util.Status;
 
@@ -72,7 +71,6 @@ public class BasicTable {
         try {
             ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" + " (" + columnPrimaryString + ")" + "VALUES (" + valuePrimaryString + ");");
             ps.executeUpdate();
-            DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] " + columnPrimaryString + ":" + valuePrimaryString + " inserted into " + tableName);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

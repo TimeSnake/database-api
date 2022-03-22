@@ -121,9 +121,8 @@ public class Table extends BasicTable {
                     ps = null;
 
                     try {
-                        ps = connection.prepareStatement("ALTER TABLE " + this.tableName + " MODIFY COLUMN " + column.getName() + " " + column.getType().getName() + ";");
+                        ps = connection.prepareStatement("ALTER TABLE `" + this.tableName + "` MODIFY COLUMN " + column.getName() + " " + column.getType().getName() + ";");
                         ps.executeUpdate();
-                        DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Column: " + column.getName() + " updated type to: " + column.getType().getName());
                     } catch (SQLException e) {
                         e.printStackTrace();
                         return;
@@ -139,9 +138,8 @@ public class Table extends BasicTable {
                 ps = null;
 
                 try {
-                    ps = connection.prepareStatement("ALTER TABLE " + this.tableName + " ADD COLUMN `" + column.getName() + "` " + column.getType().getName() + " AFTER `" + columnBefore.getName() + "`;");
+                    ps = connection.prepareStatement("ALTER TABLE `" + this.tableName + "` ADD COLUMN `" + column.getName() + "` " + column.getType().getName() + " AFTER `" + columnBefore.getName() + "`;");
                     ps.executeUpdate();
-                    DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Column: " + column.getName() + " created!");
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return;
@@ -179,10 +177,8 @@ public class Table extends BasicTable {
             ps = connection.createStatement();
             ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`");
             ps.addBatch("CREATE TABLE IF NOT EXISTS `" + this.tableName + "_tmp`" + " LIKE " + this.tableName + "");
-            ps.addBatch("ALTER TABLE " + this.tableName + "_tmp ENGINE=memory");
+            ps.addBatch("ALTER TABLE `" + this.tableName + "_tmp` ENGINE=memory");
             ps.executeBatch();
-
-            DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "_tmp] Table " + this.tableName + "_tmp created with primary-keys: " + this.primaryColumnsCreation);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -200,7 +196,6 @@ public class Table extends BasicTable {
             ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "`");
             ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`");
             ps.executeBatch();
-            DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Table " + this.tableName + " deleted");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -214,14 +209,13 @@ public class Table extends BasicTable {
         PreparedStatement ps = null;
 
         try {
-            ps = connection.prepareStatement("INSERT INTO " + this.tableName + "_tmp SELECT * FROM " + this.tableName + ";");
+            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp` SELECT * FROM `" + this.tableName + "`;");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             BasicTable.closeQuery(connection, ps, null);
         }
-        System.out.println("[Database][" + this.tableName + "] Loaded " + this.tableName + " table into memory (" + this.tableName + "_tmp)");
     }
 
     protected void createBackup() {
@@ -231,8 +225,8 @@ public class Table extends BasicTable {
 
         try {
             ps = connection.createStatement();
-            ps.addBatch("DELETE FROM " + this.tableName + "");
-            ps.addBatch("INSERT INTO " + this.tableName + " SELECT * FROM " + this.tableName + "_tmp");
+            ps.addBatch("DELETE FROM `" + this.tableName + "`");
+            ps.addBatch("INSERT INTO `" + this.tableName + "` SELECT * FROM `" + this.tableName + "_tmp`");
             ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`");
 
             ps.executeBatch();
@@ -241,8 +235,6 @@ public class Table extends BasicTable {
         } finally {
             BasicTable.closeQuery(connection, ps, null);
         }
-
-        DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Saved " + this.tableName + "_tmp on disk " + "(" + this.tableName + ")");
     }
 
     protected void createBackup(Column<?>[] columns) {
@@ -251,7 +243,7 @@ public class Table extends BasicTable {
         PreparedStatement ps = null;
 
         try {
-            ps = connection.prepareStatement("DELETE FROM " + this.tableName + ";");
+            ps = connection.prepareStatement("DELETE FROM `" + this.tableName + "`;");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -263,7 +255,7 @@ public class Table extends BasicTable {
         ps = null;
 
         try {
-            ps = connection.prepareStatement("INSERT INTO " + this.tableName + " (" + this.getColumnsAsString(columns) + ") SELECT " + this.getColumnsAsString(columns) + " FROM " + this.tableName + "_tmp;");
+            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "` (" + this.getColumnsAsString(columns) + ") SELECT " + this.getColumnsAsString(columns) + " FROM `" + this.tableName + "_tmp`;");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -282,8 +274,6 @@ public class Table extends BasicTable {
         } finally {
             BasicTable.closeQuery(connection, ps, null);
         }
-
-        DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Saved " + this.tableName + "_tmp on disk " + "(" + this.tableName + ")");
     }
 
     private String getColumnsAsString(Column<?>... columns) {
