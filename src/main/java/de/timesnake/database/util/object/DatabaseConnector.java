@@ -27,13 +27,12 @@ public class DatabaseConnector {
 
         this.ds = new BasicDataSource();
 
-        this.ds.setDriverClassName("com.mysql.jdbc.Driver");
         this.ds.setUrl(this.url);
         this.ds.setUsername(this.user);
         this.ds.setPassword(this.password);
         this.ds.setMinIdle(0);
         this.ds.setMaxIdle(10);
-        this.ds.setMaxOpenPreparedStatements(100);
+        this.ds.setMaxOpenPreparedStatements(50);
 
         try {
             this.ds.start();
