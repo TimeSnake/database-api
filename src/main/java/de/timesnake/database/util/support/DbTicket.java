@@ -1,11 +1,11 @@
 package de.timesnake.database.util.support;
 
-import de.timesnake.database.util.object.DbLocal;
+import de.timesnake.database.util.object.DbCached;
 import de.timesnake.library.basic.util.Status;
 
 import java.util.Date;
 
-public interface DbTicket extends DbLocal<DbTicket> {
+public interface DbTicket extends DbCached<DbTicket> {
 
     boolean exists();
 

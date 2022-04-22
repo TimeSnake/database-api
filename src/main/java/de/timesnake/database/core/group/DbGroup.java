@@ -59,7 +59,7 @@ public class DbGroup extends TableQuery implements de.timesnake.database.util.gr
 
     @Override
     public de.timesnake.database.util.group.DbGroup toLocal() {
-        return new DbLocalGroup(this);
+        return new DbCachedGroup(this);
     }
 
     @Override

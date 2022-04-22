@@ -1,9 +1,9 @@
 package de.timesnake.database.util.group;
 
-import de.timesnake.database.util.object.DbLocal;
+import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotLocal;
 
-public interface DbGroup extends DbLocal<DbGroup> {
+public interface DbGroup extends DbCached<DbGroup> {
 
     boolean exists();
 

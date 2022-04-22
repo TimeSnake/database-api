@@ -187,7 +187,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
      */
     @Override
     public de.timesnake.database.util.game.DbMap toLocal() {
-        return new DbLocalMap(this);
+        return new DbCachedMap(this);
     }
 
     @Override

@@ -396,7 +396,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public de.timesnake.database.util.user.DbUser toLocal() {
-        return new DbLocalUser(this);
+        return new DbCachedUser(this);
     }
 
     @Override

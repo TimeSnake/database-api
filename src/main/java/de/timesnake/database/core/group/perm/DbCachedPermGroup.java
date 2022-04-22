@@ -1,6 +1,6 @@
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.database.core.group.DbLocalGroup;
+import de.timesnake.database.core.group.DbCachedGroup;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.SyncExecute;
@@ -9,11 +9,11 @@ import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 
-public class DbLocalPermGroup extends DbLocalGroup implements DbPermGroup {
+public class DbCachedPermGroup extends DbCachedGroup implements DbPermGroup {
 
     private String inheritGroup;
 
-    public DbLocalPermGroup(de.timesnake.database.core.group.perm.DbPermGroup group) {
+    public DbCachedPermGroup(de.timesnake.database.core.group.perm.DbPermGroup group) {
         super(group);
 
         DbPermGroup inheritGroup = group.getInheritance();
@@ -95,7 +95,7 @@ public class DbLocalPermGroup extends DbLocalGroup implements DbPermGroup {
 
     @Override
     public DbPermGroup toLocal() {
-        return new DbLocalPermGroup(((de.timesnake.database.core.group.perm.DbPermGroup) super.group));
+        return new DbCachedPermGroup(((de.timesnake.database.core.group.perm.DbPermGroup) super.group));
     }
 
     @Override

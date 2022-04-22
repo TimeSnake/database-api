@@ -6,7 +6,7 @@ import de.timesnake.database.util.object.ColumnMap;
 
 import java.util.Set;
 
-public class DbLocalGroup implements DbGroup {
+public class DbCachedGroup implements DbGroup {
 
     protected final de.timesnake.database.core.group.DbGroup group;
 
@@ -15,10 +15,11 @@ public class DbLocalGroup implements DbGroup {
     private String prefix;
     private String chatColorName;
 
-    public DbLocalGroup(de.timesnake.database.core.group.DbGroup group) {
+    public DbCachedGroup(de.timesnake.database.core.group.DbGroup group) {
         this.group = group;
 
-        ColumnMap columnMap = this.group.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.PREFIX, Column.Group.CHAT_COLOR));
+        ColumnMap columnMap = this.group.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.PREFIX,
+                Column.Group.CHAT_COLOR));
 
         this.rank = group.getRank();
         this.name = columnMap.get(Column.Group.NAME);
@@ -77,7 +78,7 @@ public class DbLocalGroup implements DbGroup {
 
     @Override
     public DbGroup toLocal() {
-        return new DbLocalGroup(this.group);
+        return new DbCachedGroup(this.group);
     }
 
     @Override

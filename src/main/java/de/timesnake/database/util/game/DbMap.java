@@ -1,12 +1,12 @@
 package de.timesnake.database.util.game;
 
-import de.timesnake.database.util.object.DbLocal;
+import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.database.util.object.NotLocal;
 
 import java.util.*;
 
-public interface DbMap extends DbLocal<DbMap> {
+public interface DbMap extends DbCached<DbMap> {
 
     boolean exists();
 

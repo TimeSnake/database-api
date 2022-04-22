@@ -9,7 +9,7 @@ import de.timesnake.library.basic.util.Status;
 import java.util.Date;
 import java.util.Set;
 
-public class DbLocalTicket implements DbTicket {
+public class DbCachedTicket implements DbTicket {
 
     private final de.timesnake.database.core.support.DbTicket ticket;
 
@@ -21,8 +21,9 @@ public class DbLocalTicket implements DbTicket {
     private Status.Ticket status;
     private final Date date;
 
-    public DbLocalTicket(de.timesnake.database.core.support.DbTicket ticket) {
-        ColumnMap columnMap = ticket.getFirstWithKey(Set.of(Column.Support.UUID, Column.Support.NAME, Column.Support.MESSAGE, Column.Support.ANSWER, Column.Support.STATUS, Column.Support.DATE));
+    public DbCachedTicket(de.timesnake.database.core.support.DbTicket ticket) {
+        ColumnMap columnMap = ticket.getFirstWithKey(Set.of(Column.Support.UUID, Column.Support.NAME,
+                Column.Support.MESSAGE, Column.Support.ANSWER, Column.Support.STATUS, Column.Support.DATE));
 
         this.ticket = ticket;
 
@@ -100,7 +101,7 @@ public class DbLocalTicket implements DbTicket {
 
     @Override
     public DbTicket toLocal() {
-        return new DbLocalTicket(this.ticket);
+        return new DbCachedTicket(this.ticket);
     }
 
     @Override
