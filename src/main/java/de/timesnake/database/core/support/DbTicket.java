@@ -80,7 +80,7 @@ public class DbTicket extends TableQuery implements de.timesnake.database.util.s
         if (!this.exists()) {
             return null;
         }
-        return new DbLocalTicket(this);
+        return new DbCachedTicket(this);
     }
 
     @Override

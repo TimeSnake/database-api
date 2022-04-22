@@ -99,7 +99,7 @@ public class DbPermGroup extends DbGroup implements de.timesnake.database.util.g
 
     @Override
     public de.timesnake.database.util.group.DbPermGroup toLocal() {
-        return new DbLocalPermGroup(this);
+        return new DbCachedPermGroup(this);
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public interface DbUser extends DbPlayer, DbLocal<DbUser> {
+public interface DbUser extends DbPlayer, DbCached<DbUser> {
 
     /**
      * Checks if all tables contains the user

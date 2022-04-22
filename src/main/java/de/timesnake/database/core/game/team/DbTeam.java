@@ -32,7 +32,7 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
 
     @Override
     public de.timesnake.database.util.game.DbTeam toLocal() {
-        return new DbLocalTeam(this);
+        return new DbCachedTeam(this);
     }
 
     @Override

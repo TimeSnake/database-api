@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class DbLocalMap extends DbLocalMapInfo implements DbMap {
+public class DbCachedMap extends DbLocalMapInfo implements DbMap {
 
     private final de.timesnake.database.core.game.map.DbMap map;
 
-    public DbLocalMap(de.timesnake.database.core.game.map.DbMap map) {
+    public DbCachedMap(de.timesnake.database.core.game.map.DbMap map) {
         super(map.getDbInfo());
         this.map = map;
     }
@@ -103,7 +103,7 @@ public class DbLocalMap extends DbLocalMapInfo implements DbMap {
      */
     @Override
     public DbMap toLocal() {
-        return new DbLocalMap(this.map);
+        return new DbCachedMap(this.map);
     }
 
     @Override

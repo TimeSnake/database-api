@@ -1,18 +1,18 @@
 package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.group.DbLocalGroup;
+import de.timesnake.database.core.group.DbCachedGroup;
 import de.timesnake.database.util.game.DbTeam;
 import de.timesnake.database.util.object.ColumnMap;
 
 import java.util.Set;
 
-public class DbLocalTeam extends DbLocalGroup implements DbTeam {
+public class DbCachedTeam extends DbCachedGroup implements DbTeam {
 
     private float ratio;
     private String colorName;
 
-    public DbLocalTeam(de.timesnake.database.core.game.team.DbTeam team) {
+    public DbCachedTeam(de.timesnake.database.core.game.team.DbTeam team) {
         super(team);
 
         ColumnMap columnMap = team.getFirstWithKey(Set.of(Column.Team.RATIO, Column.Team.COLOR));
@@ -45,7 +45,7 @@ public class DbLocalTeam extends DbLocalGroup implements DbTeam {
 
     @Override
     public DbTeam toLocal() {
-        return new DbLocalTeam(((de.timesnake.database.core.game.team.DbTeam) this.group));
+        return new DbCachedTeam(((de.timesnake.database.core.game.team.DbTeam) this.group));
     }
 
     @Override

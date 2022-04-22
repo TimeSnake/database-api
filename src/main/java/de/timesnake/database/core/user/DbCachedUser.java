@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
-public class DbLocalUser implements DbUser {
+public class DbCachedUser implements DbUser {
 
     private final de.timesnake.database.core.user.DbUser user;
 
@@ -46,7 +46,7 @@ public class DbLocalUser implements DbUser {
     private String dataProtection;
     private Long discordId;
 
-    public DbLocalUser(de.timesnake.database.core.user.DbUser user) {
+    public DbCachedUser(de.timesnake.database.core.user.DbUser user) {
         ColumnMap columnMap = user.getFirstWithKey(Set.of(Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
                 Column.User.NICK, Column.User.TIME_COINS, Column.User.STATUS, Column.User.SERVICE,
                 Column.User.ANTI_CHEAT_MESSAGES, Column.User.AIR_MODE, Column.User.TASK, Column.User.TEAM,
@@ -442,7 +442,7 @@ public class DbLocalUser implements DbUser {
 
     @Override
     public DbUser toLocal() {
-        return new DbLocalUser(this.user);
+        return new DbCachedUser(this.user);
     }
 
     @Override
