@@ -1,6 +1,6 @@
 package de.timesnake.database.util.game;
 
-import de.timesnake.database.util.object.NotLocal;
+import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.Type;
 
 import java.util.Collection;
@@ -10,46 +10,46 @@ public interface DbGameInfo {
 
     boolean exists();
 
-    @NotLocal
+    @NotCached
     void setDisplayName(String displayName);
 
-    @NotLocal
+    @NotCached
     void setChatColorName(String chatColorName);
 
-    @NotLocal
+    @NotCached
     void setAutoStart(int autoStart);
 
-    @NotLocal
+    @NotCached
     void setMinPlayers(int minPlayers);
 
-    @NotLocal
+    @NotCached
     void setMaxPlayers(int maxPlayers);
 
-    @NotLocal
+    @NotCached
     void setHeadLine(String description);
 
-    @NotLocal
+    @NotCached
     void setItem(String itemName);
 
-    @NotLocal
+    @NotCached
     void setSlot(int slot);
 
-    @NotLocal
+    @NotCached
     void setKitsAvailability(Type.Availability kits);
 
-    @NotLocal
+    @NotCached
     void setMapsAvailability(Type.Availability maps);
 
-    @NotLocal
+    @NotCached
     void setTemporary(boolean isTemporary);
 
-    @NotLocal
+    @NotCached
     void setTeamAmounts(Collection<Integer> amounts);
 
-    @NotLocal
+    @NotCached
     void setTeamMergeAvailability(Type.Availability teamMerging);
 
-    @NotLocal
+    @NotCached
     void setDescription(Collection<String> description);
 
     String getName();

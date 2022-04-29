@@ -7,7 +7,7 @@ public interface DbCached<T> {
      * <\p>
      * This object shouldn't be used for a longer time, otherwise the object could contain invalid data.
      * It is recommended to use this for many data requests on the same data object in a short time.
-     * Methods with the {@link NotLocal}-Annotation are not working on the cached data, so these methods are ending
+     * Methods with the {@link NotCached}-Annotation are not working on the cached data, so these methods are ending
      * in database queries.
      * </\p>
      *

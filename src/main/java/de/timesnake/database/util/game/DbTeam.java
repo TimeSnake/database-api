@@ -1,16 +1,16 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.group.DbGroup;
-import de.timesnake.database.util.object.NotLocal;
+import de.timesnake.database.util.object.NotCached;
 
 public interface DbTeam extends DbGroup {
 
-    @NotLocal
+    @NotCached
     void setRatio(float ratio);
 
     Float getRatio();
 
-    @NotLocal
+    @NotCached
     void setColor(String colorName);
 
     String getColorName();

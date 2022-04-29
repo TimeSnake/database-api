@@ -1,28 +1,28 @@
 package de.timesnake.database.util.group;
 
 import de.timesnake.database.util.object.DbCached;
-import de.timesnake.database.util.object.NotLocal;
+import de.timesnake.database.util.object.NotCached;
 
 public interface DbGroup extends DbCached<DbGroup> {
 
     boolean exists();
 
-    @NotLocal
+    @NotCached
     void setName(String name);
 
     String getName();
 
-    @NotLocal
+    @NotCached
     void setRank(int rank);
 
     Integer getRank();
 
-    @NotLocal
+    @NotCached
     void setPrefix(String prefix);
 
     String getPrefix();
 
-    @NotLocal
+    @NotCached
     void setChatColorName(String chatColorName);
 
     String getChatColorName();

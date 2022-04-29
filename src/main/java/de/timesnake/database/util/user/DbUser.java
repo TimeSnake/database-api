@@ -18,7 +18,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     /**
      * Checks if all tables contains the user
      */
-    @NotLocal
+    @NotCached
     void checkEntries();
 
     /**
@@ -30,16 +30,8 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param reason     The reason to set
      * @param server     The server to set
      */
-    @NotLocal
+    @NotCached
     void setPunishment(Type.Punishment type, Date date, String castigator, String reason, String server);
-
-    /**
-     * Sets the user punishment
-     *
-     * @param punishment The {@link DbPunishment} to set
-     */
-    @NotLocal
-    void setPunishment(DbPunishment punishment);
 
     /**
      * Checks if the user has a punishment
@@ -48,7 +40,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return true if the user has a punishment
      */
-    @NotLocal
+    @NotCached
     boolean hasPunishment();
 
     /**
@@ -56,8 +48,16 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the {@link DbPunishment}
      */
-    @NotLocal
+    @NotCached
     DbPunishment getPunishment();
+
+    /**
+     * Sets the user punishment
+     *
+     * @param punishment The {@link DbPunishment} to set
+     */
+    @NotCached
+    void setPunishment(DbPunishment punishment);
 
     /**
      * Gets the user prefix
@@ -117,7 +117,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param mode       The {@link Status.Permission} to set
      * @param servers    The servers to set
      */
-    @NotLocal
+    @NotCached
     void addPermission(String permission, Status.Permission mode, String... servers);
 
     /**
@@ -128,7 +128,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param servers     The servers to set
      * @param syncExecute
      */
-    @NotLocal
+    @NotCached
     void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers);
 
 
@@ -138,7 +138,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param permission The name to permission to check
      * @return true if the user has the permission
      */
-    @NotLocal
+    @NotCached
     boolean hasPermission(String permission);
 
     /**
@@ -147,7 +147,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param permission The name of the permission to get
      * @return the {@link DbPermission}
      */
-    @NotLocal
+    @NotCached
     DbPermission getPermission(String permission);
 
     /**
@@ -155,7 +155,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return a {@link DbPermission}-{@link List}
      */
-    @NotLocal
+    @NotCached
     Collection<DbPermission> getPermissions();
 
     /**
@@ -163,7 +163,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param permission The name of the permission to remove
      */
-    @NotLocal
+    @NotCached
     void removePermission(String permission);
 
     /**
@@ -172,7 +172,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param permission  The name of the permission to remove
      * @param syncExecute The object to execute sync
      */
-    @NotLocal
+    @NotCached
     void removePermission(String permission, SyncExecute syncExecute);
 
     /**
@@ -209,7 +209,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return true if the user has a permission-group
      */
-    @NotLocal
+    @NotCached
     boolean hasPermGroup();
 
     /**
@@ -224,7 +224,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * <p>
      * Sets the permission-group to null
      */
-    @NotLocal
+    @NotCached
     void removePermGroup();
 
     /**
@@ -232,7 +232,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * <p>
      * Sets the permission-group to null
      */
-    @NotLocal
+    @NotCached
     void removePermGroup(SyncExecute syncExecute);
 
     /**
@@ -261,7 +261,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param name The name to set
      */
-    @NotLocal
+    @NotCached
     void setName(String name);
 
     /**
@@ -269,15 +269,15 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param status The {@link Status.User} to set
      */
-    @NotLocal
+    @NotCached
     void setStatus(Status.User status);
 
-    @NotLocal
+    @NotCached
     void setService(boolean service);
 
     void setAntiCheatMessages(boolean enable);
 
-    @NotLocal
+    @NotCached
     void setAirMode(boolean airMode);
 
     /**
@@ -286,7 +286,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param status             The {@link Status.User} to set
      * @param sendChannelMessage Set true to send a channel-message
      */
-    @NotLocal
+    @NotCached
     void setStatus(Status.User status, boolean sendChannelMessage);
 
     /**
@@ -294,7 +294,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param task The task to set
      */
-    @NotLocal
+    @NotCached
     void setTask(String task);
 
     /**
@@ -303,7 +303,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param task               The task to set
      * @param sendChannelMessage Set true to send a channel-message
      */
-    @NotLocal
+    @NotCached
     void setTask(String task, boolean sendChannelMessage);
 
     /**
@@ -311,7 +311,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param team The name of the team to set
      */
-    @NotLocal
+    @NotCached
     void setTeam(String team);
 
     /**
@@ -319,7 +319,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param permGroup The name of the permission-group to set
      */
-    @NotLocal
+    @NotCached
     void setPermGroup(String permGroup);
 
     /**
@@ -328,7 +328,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param permGroup   The name of the permission-group to set
      * @param syncExecute The code that run sync
      */
-    @NotLocal
+    @NotCached
     void setPermGroup(String permGroup, SyncExecute syncExecute);
 
     /**
@@ -336,7 +336,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param server The name of the server to set
      */
-    @NotLocal
+    @NotCached
     void setServer(String server);
 
     /**
@@ -344,7 +344,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param serverLast The name of the server to set
      */
-    @NotLocal
+    @NotCached
     void setServerLast(String serverLast);
 
     /**
@@ -352,7 +352,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param serverLobby The name of the lobby to set
      */
-    @NotLocal
+    @NotCached
     void setServerLobby(String serverLobby);
 
     /**
@@ -363,7 +363,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param agreement The {@link DataProtectionAgreement} to agree
      */
-    @NotLocal
+    @NotCached
     void agreeDataProtection(DataProtectionAgreement agreement);
 
     /**
@@ -371,7 +371,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * <p>
      * Sets the data-protection to null
      */
-    @NotLocal
+    @NotCached
     void disagreeDataProtection();
 
     /**
@@ -393,13 +393,13 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
 
     Long getDiscordId();
 
-    @NotLocal
+    @NotCached
     void setDiscordId(Long id);
 
     /**
      * Removes the user from all tables, punishment excluded
      */
-    @NotLocal
+    @NotCached
     void deleteEntries();
 
     /**
@@ -407,7 +407,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param kitName The id of the kit to set
      */
-    @NotLocal
+    @NotCached
     void setKit(Integer kitName);
 
     /**
@@ -431,7 +431,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param coins The value of the coins to set
      */
-    @NotLocal
+    @NotCached
     void setCoins(float coins);
 
     /**
@@ -439,7 +439,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param coins The value of the coins to add
      */
-    @NotLocal
+    @NotCached
     void addCoins(float coins);
 
     /**
@@ -447,7 +447,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @param coins The value of the coins to remove
      */
-    @NotLocal
+    @NotCached
     void removeCoins(float coins);
 
     //support
@@ -457,7 +457,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the {@link DbTicket}-{@link List}
      */
-    @NotLocal
+    @NotCached
     Collection<DbTicket> getTickets();
 
     /**
@@ -466,7 +466,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param id The id of the ticket to get
      * @return the {@link DbTicket}
      */
-    @NotLocal
+    @NotCached
     DbTicket getTicket(Integer id);
 
     //mails
@@ -476,7 +476,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return a {@link Collection} of {@link DbUserMail}s send to the user
      */
-    @NotLocal
+    @NotCached
     Collection<DbUserMail> getMails();
 
     /**
@@ -485,7 +485,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param id The id of the mail to get
      * @return {@link DbUserMail} if exists, else null
      */
-    @NotLocal
+    @NotCached
     DbUserMail getMail(Integer id);
 
     /**
@@ -494,7 +494,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param id The id of the mail to delete
      * @return true if mail existed before, else false
      */
-    @NotLocal
+    @NotCached
     boolean deleteMail(Integer id);
 
 
@@ -508,7 +508,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @throws TooLongEntryException The max message length is 255
      */
-    @NotLocal
+    @NotCached
     Integer addMail(UUID senderUuid, String senderName, String message) throws TooLongEntryException;
 
 }

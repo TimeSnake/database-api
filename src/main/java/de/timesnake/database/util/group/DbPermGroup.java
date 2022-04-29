@@ -1,6 +1,6 @@
 package de.timesnake.database.util.group;
 
-import de.timesnake.database.util.object.NotLocal;
+import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
@@ -9,16 +9,16 @@ import java.util.Collection;
 
 public interface DbPermGroup extends DbGroup {
 
-    @NotLocal
+    @NotCached
     void setInheritance(String inheritGroup);
 
-    @NotLocal
+    @NotCached
     void setInheritance(String inheritGroup, SyncExecute syncExecute);
 
-    @NotLocal
+    @NotCached
     void removeInheritance();
 
-    @NotLocal
+    @NotCached
     void removeInheritance(SyncExecute syncExecute);
 
     /**
@@ -28,28 +28,28 @@ public interface DbPermGroup extends DbGroup {
      */
     DbPermGroup getInheritance();
 
-    @NotLocal
+    @NotCached
     Collection<DbPermGroup> getGroupsInherit();
 
-    @NotLocal
+    @NotCached
     Collection<DbPermission> getPermissions();
 
-    @NotLocal
+    @NotCached
     DbPermission getPermission(String permission);
 
-    @NotLocal
+    @NotCached
     void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers);
 
-    @NotLocal
+    @NotCached
     void addPermission(String permission, Status.Permission mode, String... servers);
 
-    @NotLocal
+    @NotCached
     boolean hasPermission(String permission);
 
-    @NotLocal
+    @NotCached
     void removePermission(String permission);
 
-    @NotLocal
+    @NotCached
     void removePermission(String permission, SyncExecute syncExecute);
 
     @Override
