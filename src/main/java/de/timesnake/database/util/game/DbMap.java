@@ -2,7 +2,7 @@ package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
-import de.timesnake.database.util.object.NotLocal;
+import de.timesnake.database.util.object.NotCached;
 
 import java.util.*;
 
@@ -10,7 +10,7 @@ public interface DbMap extends DbCached<DbMap> {
 
     boolean exists();
 
-    @NotLocal
+    @NotCached
     void delete();
 
     String getName();
@@ -23,34 +23,34 @@ public interface DbMap extends DbCached<DbMap> {
 
     String getWorldName();
 
-    @NotLocal
+    @NotCached
     DbGame getGame();
 
-    @NotLocal
+    @NotCached
     DbLocation getLocation(Integer number);
 
-    @NotLocal
+    @NotCached
     DbLocation getFirstLocation();
 
-    @NotLocal
+    @NotCached
     Integer getFirstLocationNumber();
 
-    @NotLocal
+    @NotCached
     DbLocation getLastLocation();
 
-    @NotLocal
+    @NotCached
     Integer getLastLocationNumber();
 
-    @NotLocal
+    @NotCached
     HashMap<Integer, DbLocation> getMapLocations();
 
-    @NotLocal
+    @NotCached
     void addLocation(Integer number, DbLocation location);
 
-    @NotLocal
+    @NotCached
     void deleteLocation(Integer number);
 
-    @NotLocal
+    @NotCached
     boolean containsLocation(Integer number);
 
     String getItemName();
@@ -61,22 +61,22 @@ public interface DbMap extends DbCached<DbMap> {
 
     boolean isEnabled();
 
-    @NotLocal
+    @NotCached
     void setDisplayName(String displayName);
 
-    @NotLocal
+    @NotCached
     void setInfo(Collection<String> info);
 
-    @NotLocal
+    @NotCached
     List<UUID> getAuthors();
 
-    @NotLocal
-    List<String> getAuthorNames();
-
-    @NotLocal
+    @NotCached
     void setAuthors(Collection<UUID> authors);
 
-    @NotLocal
+    @NotCached
+    List<String> getAuthorNames();
+
+    @NotCached
     void setAuthorNames(Collection<String> authors);
 
     void setEnabled(boolean enable);

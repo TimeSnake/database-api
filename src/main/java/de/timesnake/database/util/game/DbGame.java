@@ -1,7 +1,7 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.core.game.statistic.GameUserStatistic;
-import de.timesnake.database.util.object.NotLocal;
+import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.Stat;
 
@@ -11,97 +11,97 @@ import java.util.UUID;
 
 public interface DbGame extends DbGameInfo {
 
-    @NotLocal
+    @NotCached
     void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName);
 
-    @NotLocal
+    @NotCached
     void removeTeam(String name);
 
-    @NotLocal
+    @NotCached
     void removeTeam(int rank);
 
-    @NotLocal
+    @NotCached
     Integer getHighestRank();
 
-    @NotLocal
+    @NotCached
     boolean containsTeam(int rank);
 
-    @NotLocal
+    @NotCached
     boolean containsTeam(String name);
 
-    @NotLocal
+    @NotCached
     DbTeam getTeam(String name);
 
-    @NotLocal
+    @NotCached
     DbTeam getTeam(int rank);
 
-    @NotLocal
+    @NotCached
     Collection<String> getTeamNames();
 
-    @NotLocal
+    @NotCached
     Collection<Integer> getTeamRanks();
 
-    @NotLocal
+    @NotCached
     Collection<DbTeam> getTeams();
 
-    @NotLocal
+    @NotCached
     Collection<Integer> getKitIds();
 
-    @NotLocal
+    @NotCached
     DbKit getKit(int id);
 
-    @NotLocal
+    @NotCached
     DbKit getKit(String name);
 
-    @NotLocal
+    @NotCached
     void removeKit(Integer id);
 
-    @NotLocal
+    @NotCached
     void removeKitSynchronized(Integer id);
 
-    @NotLocal
+    @NotCached
     void addKit(Integer id, String name, String itemType, Collection<String> description) throws UnsupportedStringException;
 
-    @NotLocal
+    @NotCached
     void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException;
 
-    @NotLocal
+    @NotCached
     Collection<DbKit> getKits();
 
-    @NotLocal
+    @NotCached
     void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName, Collection<String> description, Collection<String> info, Collection<String> authors);
 
-    @NotLocal
+    @NotCached
     void removeMap(String name);
 
-    @NotLocal
+    @NotCached
     DbMap getMap(String mapName);
 
-    @NotLocal
+    @NotCached
     Collection<DbMap> getMaps();
 
-    @NotLocal
+    @NotCached
     Collection<DbMap> getMaps(Integer players);
 
-    @NotLocal
+    @NotCached
     boolean containsMap(String mapName);
 
-    @NotLocal
+    @NotCached
     Set<Stat<?>> getStats();
 
-    @NotLocal
+    @NotCached
     <ValueType> Stat<ValueType> getStat(String name, Stat.Type<ValueType> type);
 
-    @NotLocal
+    @NotCached
     void addStat(Stat<?> stat);
 
-    @NotLocal
+    @NotCached
     void removeStat(Stat<?> stat);
 
-    @NotLocal
+    @NotCached
     GameUserStatistic getUserStatistic(UUID uuid);
 
-    @NotLocal
+    @NotCached
     Collection<GameUserStatistic> getUserStatistics();
 
     /**
