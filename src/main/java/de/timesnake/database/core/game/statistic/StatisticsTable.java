@@ -1,6 +1,7 @@
 package de.timesnake.database.core.game.statistic;
 
 import de.timesnake.database.util.object.DatabaseConnector;
+import de.timesnake.library.basic.util.Tuple;
 import de.timesnake.library.basic.util.statistics.Stat;
 
 import java.util.Collection;
@@ -54,5 +55,9 @@ public class StatisticsTable {
 
     public GameUserStatistic getUserStatistic(UUID uuid) {
         return this.userTable.getStatistic(uuid);
+    }
+
+    public <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type) {
+        return this.userTable.getStatOfUsers(type);
     }
 }

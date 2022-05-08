@@ -6,10 +6,12 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.*;
 import de.timesnake.library.basic.util.Status;
 
+import java.awt.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.*;
 
 public class BasicTable {
@@ -57,300 +59,12 @@ public class BasicTable {
         this.addEntrySynchronized(false, primaryValues, values);
     }
 
-    protected void addEntrySynchronized(boolean overrideExisting, PrimaryEntries primaryValues, TableEntry<?>... values) {
-        String columnPrimaryString = primaryValues.getColumnsAsEntry();
-        String valuePrimaryString = primaryValues.getValuesAsEntry();
-
-        if (overrideExisting) {
-            this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new TableEntry[0]));
-        }
-
-        Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
-
-        try {
-            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" + " (" + columnPrimaryString + ")" + "VALUES (" + valuePrimaryString + ");");
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeQuery(connection, ps, null);
-        }
-
-        if (values.length > 0) {
-            this.setSynchronized(Set.of(values), primaryValues.getPrimaryEntries());
-        }
-    }
-
-    // add entry
-
-    protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute, TableEntry<?>... values) {
-        this.addEntry(false, primaryEntries, syncExecute, values);
-    }
-
-    protected void addEntry(boolean overrideExisting, PrimaryEntries primaryEntries, SyncExecute syncExecute, TableEntry<?>... values) {
-        new Thread(() -> {
-            addEntrySynchronized(overrideExisting, primaryEntries, values);
-            syncExecute.run();
-        }).start();
-    }
-
-    protected final void addEntry(PrimaryEntries primaryEntries, TableEntry<?>... values) {
-        this.addEntry(primaryEntries, () -> {
-        }, values);
-    }
-
-
-    // add entry auto id sync
-
-    protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, TableEntry<?>... values) {
-        Integer id = this.getEntryId(idColumn);
-        this.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(id, idColumn)), values);
-        return id;
-    }
-
-    protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, PrimaryEntries primaryEntries, TableEntry<?>... values) {
-        List<TableEntry<?>> primaryList = primaryEntries.getPrimaryEntries();
-        TableEntry<?>[] primaryArray = new TableEntry[primaryList.size()];
-        primaryArray = primaryList.toArray(primaryArray);
-        Integer id = this.getEntryId(idColumn, primaryArray);
-        this.addEntrySynchronized(primaryEntries.with(new TableEntry<>(id, idColumn)), values);
-        return id;
-    }
-
-    // add entry auto id
-
-    protected final Integer addEntryWithAutoId(Column<Integer> idColumn, SyncExecute syncExecute, TableEntry<?>... values) {
-        Integer id = this.getEntryId(idColumn);
-        this.addEntry(new PrimaryEntries(new TableEntry<>(id, idColumn)), syncExecute, values);
-        return id;
-    }
-
-    protected final Integer addEntryWithAutoId(Column<Integer> idColumn, TableEntry<?>... values) {
-        return this.addEntryWithAutoId(idColumn, () -> {
-        }, values);
-    }
-
-    private int getEntryId(Column<Integer> idColumn, TableEntry<?>... primaryValues) {
-        int id = 1;
-        Collection<Integer> ids = this.get(idColumn, primaryValues);
-        if (ids == null) {
-            ids = new ArrayList<>();
-        }
-        while (ids.contains(id)) {
-            id++;
-        }
-        return id;
-    }
-
-
-    // delete entry sync
-
-    protected void deleteEntrySynchronized(TableEntry<?>... entries) {
-        String whereClause = parseToWhereClause(entries);
-
-        Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
-
-        try {
-            ps = connection.prepareStatement("DELETE FROM `" + this.tableName + "_tmp`" + whereClause + ";");
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeQuery(connection, ps, null);
-        }
-    }
-
-    // delete entry
-
-    protected void deleteEntry(SyncExecute syncExecute, TableEntry<?>... entries) {
-        new Thread(() -> {
-            this.deleteEntrySynchronized(entries);
-            syncExecute.run();
-        }).start();
-    }
-
-    protected void deleteEntry(TableEntry<?>... entries) {
-        this.deleteEntry(() -> {
-        }, entries);
-    }
-
-    protected final Integer getHighestInteger(Column<Integer> resultColumn, TableEntry<?>... entries) {
-        String s = BasicTable.parseToWhereClause(entries);
-
-        Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            ps = connection.prepareStatement("SELECT MAX(`" + resultColumn.getName() + "`) FROM `" + this.tableName + "_tmp`" + s + ";");
-            rs = ps.executeQuery();
-
-            Integer value = null;
-            if (rs.next()) {
-                value = rs.getInt("MAX(`" + resultColumn.getName() + "`)");
-                if (rs.wasNull()) {
-                    return null;
-                }
-            }
-            return value;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            BasicTable.closeQuery(connection, ps, rs);
-        }
-        return null;
-
-    }
-
-    protected final Integer getLowestInteger(Column<Integer> resultColumn, TableEntry<?>... entries) {
-        String s = BasicTable.parseToWhereClause(entries);
-
-        Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            ps = connection.prepareStatement("SELECT MIN(`" + resultColumn.getName() + "`) FROM `" + this.tableName + "_tmp`" + s + ";");
-            rs = ps.executeQuery();
-
-            Integer value = null;
-            if (rs.next()) {
-                value = rs.getInt("MIN(`" + resultColumn.getName() + "`)");
-                if (rs.wasNull()) {
-                    return null;
-                }
-            }
-            return value;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            BasicTable.closeQuery(connection, ps, rs);
-        }
-        return null;
-
-    }
-
-    public <Value> Value getFirst(Column<Value> resultColumn, TableEntry<?>... entries) {
-        return this.getFirst(Set.of(resultColumn), entries).get(resultColumn);
-    }
-
-    public ColumnMap getFirst(Set<Column<?>> resultColumn, TableEntry<?>... entries) {
-        Set<ColumnMap> result = this.get(resultColumn, entries);
-        return result.isEmpty() ? new ColumnMap() : result.iterator().next();
-    }
-
-    public <Value> Set<Value> get(Column<Value> resultColumn, TableEntry<?>... entries) {
-        Set<ColumnMap> results = this.get(Set.of(resultColumn), entries);
-        Set<Value> values = new HashSet<>();
-
-        for (ColumnMap result : results) {
-            values.add(result.get(resultColumn));
-        }
-
-        return values;
-    }
-
-    public Set<ColumnMap> get(Set<Column<?>> resultColumn, TableEntry<?>... entries) {
-        String s = parseToWhereClause(entries);
-
-        Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        Set<ColumnMap> result = new HashSet<>();
-
-        try {
-            ps = connection.prepareStatement("SELECT " + parseToSelectClause(resultColumn) + " FROM `" + this.tableName + "_tmp`" + s + ";");
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                ColumnMap map = new ColumnMap();
-                for (Column<?> column : resultColumn) {
-                    map.put(column, parseTypeFromString(column, rs.getString(column.getName())));
-                }
-                result.add(map);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            BasicTable.closeQuery(connection, ps, rs);
-        }
-
-        return result;
-    }
-
-    // set data
-
-    protected final <Value> void set(Value value, Column<Value> valueColumn, TableEntry<?>... entries) {
-        this.set(value, valueColumn, () -> {
-        }, entries);
-    }
-
-    protected final <Value> void set(Value value, Column<Value> valueColumn, SyncExecute syncExecute, TableEntry<?>... entries) {
-        new Thread(() -> {
-            setSynchronized(value, valueColumn, entries);
-            syncExecute.run();
-        }).start();
-    }
-
-    protected final <Value> void setSynchronized(Value value, Column<Value> valueColumn, TableEntry<?>... entries) {
-        this.setSynchronized(Set.of(new TableEntry<>(value, valueColumn)), entries);
-    }
-
-    protected final void setSynchronized(Set<TableEntry<?>> values, Collection<TableEntry<?>> keys) {
-        this.setSynchronized(values, keys.toArray(new TableEntry[0]));
-    }
-
-    protected final void setSynchronized(Set<TableEntry<?>> values, TableEntry<?>... keys) {
-        String whereClause = parseToWhereClause(keys);
-
-        if (values != null) {
-            Connection connection = this.databaseConnector.getConnection();
-            PreparedStatement ps = null;
-
-            try {
-                ps = connection.prepareStatement("UPDATE `" + this.tableName + "_tmp` SET " + parseToUpdateClause(values) + whereClause + ";");
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                closeQuery(connection, ps, null);
-            }
-        }
-    }
-
-    public static void closeQuery(Connection connection, Statement ps, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
-
-
     public static <Value> String parseType(Value value) {
         if (value != null) {
             if (value instanceof String) {
                 return replaceNotAllowedStrings(((String) value));
-            } else if (value instanceof Integer || value instanceof Float || value instanceof Double || value instanceof Long) {
+            } else if (value instanceof Integer || value instanceof Float || value instanceof Double
+                    || value instanceof Long) {
                 return replaceNotAllowedStrings(String.valueOf(value));
             } else if (value instanceof StringBuilder || value instanceof UUID) {
                 return replaceNotAllowedStrings(value.toString());
@@ -387,11 +101,22 @@ public class BasicTable {
                 return null;
             } else if (value instanceof Date) {
                 return replaceNotAllowedStrings(DATE_FORMAT.format(value));
+            } else if (value instanceof BlockSide) {
+                return ((BlockSide) value).name();
             } else if (value instanceof Object) {
                 return replaceNotAllowedStrings(value.toString());
+            } else if (value instanceof Color) {
+                return ((Color) value).getRed() + ENTRY_ARRAY_SPLITTER + ((Color) value).getGreen() + ENTRY_ARRAY_SPLITTER +
+                        ((Color) value).getBlue() + ENTRY_ARRAY_SPLITTER + ((Color) value).getAlpha();
             }
         }
         return null;
+    }
+
+    // add entry
+
+    protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute, TableEntry<?>... values) {
+        this.addEntry(false, primaryEntries, syncExecute, values);
     }
 
     public static <Value> Value parseTypeFromString(Column<Value> column, String string) {
@@ -460,8 +185,306 @@ public class BasicTable {
             } catch (ParseException e) {
                 return null;
             }
+        } else if (valueClass.equals(BlockSide.class)) {
+            return (Value) BlockSide.valueOf(string.toUpperCase());
+        } else if (valueClass.equals(Color.class)) {
+            String[] rgba = string.replace(" ", "").split(ENTRY_ARRAY_SPLITTER);
+            return (Value) new Color(Integer.valueOf(rgba[0]), Integer.valueOf(rgba[1]), Integer.valueOf(rgba[2]),
+                    Integer.valueOf(rgba[3]));
         }
         return (Value) string;
+    }
+
+    protected final void addEntry(PrimaryEntries primaryEntries, TableEntry<?>... values) {
+        this.addEntry(primaryEntries, () -> {
+        }, values);
+    }
+
+
+    // add entry auto id sync
+
+    protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, TableEntry<?>... values) {
+        Integer id = this.getEntryId(idColumn);
+        this.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(id, idColumn)), values);
+        return id;
+    }
+
+    protected void addEntrySynchronized(boolean overrideExisting, PrimaryEntries primaryValues,
+                                        TableEntry<?>... values) {
+        String columnPrimaryString = primaryValues.getColumnsAsEntry();
+        String valuePrimaryString = primaryValues.getValuesAsEntry();
+
+        if (overrideExisting) {
+            this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new TableEntry[0]));
+        }
+
+        Connection connection = this.databaseConnector.getConnection();
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" + " (" +
+                    columnPrimaryString + ")" + "VALUES (" + valuePrimaryString + ");");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeQuery(connection, ps, null);
+        }
+
+        if (values.length > 0) {
+            this.setSynchronized(Set.of(values), primaryValues.getPrimaryEntries());
+        }
+    }
+
+    // add entry auto id
+
+    protected void addEntry(boolean overrideExisting, PrimaryEntries primaryEntries, SyncExecute syncExecute,
+                            TableEntry<?>... values) {
+        new Thread(() -> {
+            addEntrySynchronized(overrideExisting, primaryEntries, values);
+            syncExecute.run();
+        }).start();
+    }
+
+    protected final Integer addEntryWithAutoId(Column<Integer> idColumn, TableEntry<?>... values) {
+        return this.addEntryWithAutoId(idColumn, () -> {
+        }, values);
+    }
+
+    private int getEntryId(Column<Integer> idColumn, TableEntry<?>... primaryValues) {
+        int id = 1;
+        Collection<Integer> ids = this.get(idColumn, primaryValues);
+        if (ids == null) {
+            ids = new ArrayList<>();
+        }
+        while (ids.contains(id)) {
+            id++;
+        }
+        return id;
+    }
+
+
+    // delete entry sync
+
+    protected void deleteEntrySynchronized(TableEntry<?>... entries) {
+        String whereClause = parseToWhereClause(entries);
+
+        Connection connection = this.databaseConnector.getConnection();
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement("DELETE FROM `" + this.tableName + "_tmp`" + whereClause + ";");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeQuery(connection, ps, null);
+        }
+    }
+
+    // delete entry
+
+    protected void deleteEntry(SyncExecute syncExecute, TableEntry<?>... entries) {
+        new Thread(() -> {
+            this.deleteEntrySynchronized(entries);
+            syncExecute.run();
+        }).start();
+    }
+
+    protected void deleteEntry(TableEntry<?>... entries) {
+        this.deleteEntry(() -> {
+        }, entries);
+    }
+
+    protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, PrimaryEntries primaryEntries,
+                                                           TableEntry<?>... values) {
+        List<TableEntry<?>> primaryList = primaryEntries.getPrimaryEntries();
+        TableEntry<?>[] primaryArray = new TableEntry[primaryList.size()];
+        primaryArray = primaryList.toArray(primaryArray);
+        Integer id = this.getEntryId(idColumn, primaryArray);
+        this.addEntrySynchronized(primaryEntries.with(new TableEntry<>(id, idColumn)), values);
+        return id;
+    }
+
+    protected final Integer addEntryWithAutoId(Column<Integer> idColumn, SyncExecute syncExecute,
+                                               TableEntry<?>... values) {
+        Integer id = this.getEntryId(idColumn);
+        this.addEntry(new PrimaryEntries(new TableEntry<>(id, idColumn)), syncExecute, values);
+        return id;
+    }
+
+    public <Value> Value getFirst(Column<Value> resultColumn, TableEntry<?>... entries) {
+        return this.getFirst(Set.of(resultColumn), entries).get(resultColumn);
+    }
+
+    public ColumnMap getFirst(Set<Column<?>> resultColumn, TableEntry<?>... entries) {
+        Set<ColumnMap> result = this.get(resultColumn, entries);
+        return result.isEmpty() ? new ColumnMap() : result.iterator().next();
+    }
+
+    public <Value> Set<Value> get(Column<Value> resultColumn, TableEntry<?>... entries) {
+        Set<ColumnMap> results = this.get(Set.of(resultColumn), entries);
+        Set<Value> values = new HashSet<>();
+
+        for (ColumnMap result : results) {
+            values.add(result.get(resultColumn));
+        }
+
+        return values;
+    }
+
+    protected final Integer getHighestInteger(Column<Integer> resultColumn, TableEntry<?>... entries) {
+        String s = BasicTable.parseToWhereClause(entries);
+
+        Connection connection = this.databaseConnector.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = connection.prepareStatement("SELECT MAX(`" + resultColumn.getName() + "`) FROM `" +
+                    this.tableName + "_tmp`" + s + ";");
+            rs = ps.executeQuery();
+
+            Integer value = null;
+            if (rs.next()) {
+                value = rs.getInt("MAX(`" + resultColumn.getName() + "`)");
+                if (rs.wasNull()) {
+                    return null;
+                }
+            }
+            return value;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BasicTable.closeQuery(connection, ps, rs);
+        }
+        return null;
+
+    }
+
+    // set data
+
+    protected final <Value> void set(Value value, Column<Value> valueColumn, TableEntry<?>... entries) {
+        this.set(value, valueColumn, () -> {
+        }, entries);
+    }
+
+    protected final Integer getLowestInteger(Column<Integer> resultColumn, TableEntry<?>... entries) {
+        String s = BasicTable.parseToWhereClause(entries);
+
+        Connection connection = this.databaseConnector.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = connection.prepareStatement("SELECT MIN(`" + resultColumn.getName() + "`) FROM `" +
+                    this.tableName + "_tmp`" + s + ";");
+            rs = ps.executeQuery();
+
+            Integer value = null;
+            if (rs.next()) {
+                value = rs.getInt("MIN(`" + resultColumn.getName() + "`)");
+                if (rs.wasNull()) {
+                    return null;
+                }
+            }
+            return value;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BasicTable.closeQuery(connection, ps, rs);
+        }
+        return null;
+
+    }
+
+    protected final <Value> void setSynchronized(Value value, Column<Value> valueColumn, TableEntry<?>... entries) {
+        this.setSynchronized(Set.of(new TableEntry<>(value, valueColumn)), entries);
+    }
+
+    protected final void setSynchronized(Set<TableEntry<?>> values, Collection<TableEntry<?>> keys) {
+        this.setSynchronized(values, keys.toArray(new TableEntry[0]));
+    }
+
+    public Set<ColumnMap> get(Set<Column<?>> resultColumn, TableEntry<?>... entries) {
+        String s = parseToWhereClause(entries);
+
+        Connection connection = this.databaseConnector.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Set<ColumnMap> result = new HashSet<>();
+
+        try {
+            ps = connection.prepareStatement("SELECT " + parseToSelectClause(resultColumn) + " FROM `" +
+                    this.tableName + "_tmp`" + s + ";");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ColumnMap map = new ColumnMap();
+                for (Column<?> column : resultColumn) {
+                    map.put(column, parseTypeFromString(column, rs.getString(column.getName())));
+                }
+                result.add(map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BasicTable.closeQuery(connection, ps, rs);
+        }
+
+        return result;
+    }
+
+    public static void closeQuery(Connection connection, Statement ps, ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    protected final <Value> void set(Value value, Column<Value> valueColumn, SyncExecute syncExecute,
+                                     TableEntry<?>... entries) {
+        new Thread(() -> {
+            setSynchronized(value, valueColumn, entries);
+            syncExecute.run();
+        }).start();
+    }
+
+    protected final void setSynchronized(Set<TableEntry<?>> values, TableEntry<?>... keys) {
+        String whereClause = parseToWhereClause(keys);
+
+        if (values != null) {
+            Connection connection = this.databaseConnector.getConnection();
+            PreparedStatement ps = null;
+
+            try {
+                ps = connection.prepareStatement("UPDATE `" + this.tableName + "_tmp` SET " +
+                        parseToUpdateClause(values) + whereClause + ";");
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                closeQuery(connection, ps, null);
+            }
+        }
     }
 
     public static String replaceNotAllowedStrings(String value) {

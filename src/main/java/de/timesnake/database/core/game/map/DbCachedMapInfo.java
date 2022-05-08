@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-public class DbLocalMapInfo {
+public class DbCachedMapInfo {
 
     protected final DbMapInfo mapInfo;
 
@@ -21,12 +21,14 @@ public class DbLocalMapInfo {
     private ArrayList<String> info;
     private boolean enabled;
 
-    public DbLocalMapInfo(DbMapInfo mapInfo) {
+    public DbCachedMapInfo(DbMapInfo mapInfo) {
         this.mapInfo = mapInfo;
 
         this.name = mapInfo.getName();
 
-        ColumnMap columnMap = mapInfo.getFirstWithKey(Set.of(Column.Game.MAP_DISPLAY_NAME, Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_ITEM, Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
+        ColumnMap columnMap = mapInfo.getFirstWithKey(Set.of(Column.Game.MAP_DISPLAY_NAME,
+                Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_ITEM,
+                Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
 
         this.displayName = columnMap.get(Column.Game.MAP_DISPLAY_NAME);
         this.minPlayers = columnMap.get(Column.Game.MAP_MIN_PLAYERS);

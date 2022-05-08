@@ -1,25 +1,49 @@
 package de.timesnake.database.util.game;
 
+import de.timesnake.database.util.object.BlockSide;
+import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
+import de.timesnake.database.util.object.NotCached;
 
-public interface DbLoungeMap {
+import java.awt.*;
+import java.util.Collection;
+
+public interface DbLoungeMap extends DbCached<DbLoungeMap> {
 
     boolean exists();
 
     String getName();
 
-    String getWorldName(String locName);
+    String getWorldName();
 
-    Double getX(String locName);
+    Double getX();
 
-    Double getY(String locName);
+    Double getY();
 
-    Double getZ(String locName);
+    Double getZ();
 
-    Float getYaw(String locName);
+    Float getYaw();
 
-    Float getPitch(String locName);
+    Float getPitch();
 
-    DbLocation getLocation(String locName);
+    DbLocation getLocation();
 
+    @NotCached
+    void addMapDisplay(Integer displayIndex, Integer x, Integer y, Integer z,
+                       BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
+                       Color firstColor, Color secondColor, Color thirdColor);
+
+    @NotCached
+    void removeMapDisplay(Integer displayIndex);
+
+    @NotCached
+    boolean containsMapDisplay(Integer displayIndex);
+
+    DbLoungeMapDisplay getMapDisplay(Integer displayIndex);
+
+    @NotCached
+    Collection<DbLoungeMapDisplay> getMapDisplays();
+
+    @NotCached
+    Collection<DbLoungeMapDisplay> getCachedMapDisplays();
 }

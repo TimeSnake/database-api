@@ -6,17 +6,18 @@ import de.timesnake.database.util.game.DbKit;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.game.DbTeam;
 import de.timesnake.database.util.object.UnsupportedStringException;
+import de.timesnake.library.basic.util.Tuple;
 import de.timesnake.library.basic.util.statistics.Stat;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
-public class DbLocalGame extends DbLocalGameInfo implements DbGame {
+public class DbCachedGame extends DbCachedGameInfo implements DbGame {
 
     private final de.timesnake.database.core.game.DbGame game;
 
-    public DbLocalGame(de.timesnake.database.core.game.DbGame game) {
+    public DbCachedGame(de.timesnake.database.core.game.DbGame game) {
         super(game);
 
         this.game = game;
@@ -178,8 +179,13 @@ public class DbLocalGame extends DbLocalGameInfo implements DbGame {
     }
 
     @Override
+    public <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type) {
+        return this.game.getStatOfUsers(type);
+    }
+
+    @Override
     public DbGame toLocal() {
-        return new DbLocalGame(this.game);
+        return new DbCachedGame(this.game);
     }
 
     @Override

@@ -3,6 +3,7 @@ package de.timesnake.database.util.game;
 import de.timesnake.database.core.game.statistic.GameUserStatistic;
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.UnsupportedStringException;
+import de.timesnake.library.basic.util.Tuple;
 import de.timesnake.library.basic.util.statistics.Stat;
 
 import java.util.Collection;
@@ -103,6 +104,9 @@ public interface DbGame extends DbGameInfo {
 
     @NotCached
     Collection<GameUserStatistic> getUserStatistics();
+
+    @NotCached
+    <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type);
 
     /**
      * {@inheritDoc}
