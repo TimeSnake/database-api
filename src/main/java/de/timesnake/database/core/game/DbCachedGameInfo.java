@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class DbLocalGameInfo implements DbGameInfo {
+public class DbCachedGameInfo implements DbGameInfo {
 
     private final de.timesnake.database.core.game.DbGameInfo gameInfo;
 
@@ -31,11 +31,14 @@ public class DbLocalGameInfo implements DbGameInfo {
     private Type.Availability teamMerge;
     private List<String> description;
 
-    public DbLocalGameInfo(de.timesnake.database.core.game.DbGameInfo gameInfo) {
+    public DbCachedGameInfo(de.timesnake.database.core.game.DbGameInfo gameInfo) {
         this.gameInfo = gameInfo;
         this.name = gameInfo.getName();
 
-        ColumnMap columnMap = this.gameInfo.getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.CHAT_COLOR, Column.Game.AUTO_START, Column.Game.MIN_PLAYERS, Column.Game.MAX_PLAYERS, Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.TEMPORARY, Column.Game.KITS, Column.Game.MAPS, Column.Game.TEAM_AMOUNTS, Column.Game.TEAM_MERGE, Column.Game.DESCRIPTION));
+        ColumnMap columnMap = this.gameInfo.getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.CHAT_COLOR,
+                Column.Game.AUTO_START, Column.Game.MIN_PLAYERS, Column.Game.MAX_PLAYERS, Column.Game.HEAD_LINE,
+                Column.Game.ITEM, Column.Game.SLOT, Column.Game.TEMPORARY, Column.Game.KITS, Column.Game.MAPS,
+                Column.Game.TEAM_AMOUNTS, Column.Game.TEAM_MERGE, Column.Game.DESCRIPTION));
 
         this.displayName = columnMap.get(Column.Game.DISPLAY_NAME);
         this.chatColor = columnMap.get(Column.Game.CHAT_COLOR);
@@ -219,7 +222,7 @@ public class DbLocalGameInfo implements DbGameInfo {
 
     @Override
     public DbGameInfo toLocal() {
-        return new DbLocalGameInfo(this.gameInfo);
+        return new DbCachedGameInfo(this.gameInfo);
     }
 
     @Override

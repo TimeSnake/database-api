@@ -169,7 +169,7 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
 
     @Override
     public de.timesnake.database.util.game.DbGameInfo toLocal() {
-        return new DbLocalGameInfo(this);
+        return new DbCachedGameInfo(this);
     }
 
     @Override

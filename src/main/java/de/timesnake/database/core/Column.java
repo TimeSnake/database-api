@@ -1,10 +1,12 @@
 package de.timesnake.database.core;
 
+import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DbIntegerArrayList;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -216,31 +218,71 @@ public class Column<Value> {
         public static final Game<Integer> MAP_MIN_PLAYERS = new Game<>("min_players", Server.MAX_PLAYERS.getValueClass(), Server.MAX_PLAYERS.getType());
         public static final Game<Integer> MAP_MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getValueClass(), Server.MAX_PLAYERS.getType());
         public static final Game<DbStringArrayList> MAP_DESCRIPTION = new Game<>("description", DbStringArrayList.class, ColumnType.varchar(1000));
-        public static final Game<DbStringArrayList> MAP_INFO = new Game<>("info", DbStringArrayList.class, ColumnType.varchar(255));
+        public static final Game<DbStringArrayList> MAP_INFO = new Game<>("info", DbStringArrayList.class,
+                ColumnType.varchar(255));
         public static final Game<Boolean> MAP_ENABLE = new Game<>("enable", Boolean.class, ColumnType.tinyint(1));
         public static final Game<UUID> MAP_AUTHOR_UUID = new Game<>("author_uuid", UUID.class, User.UUID.getType());
         // kit
         public static final Game<Integer> KIT_ID = new Game<>("id", Integer.class, ColumnType.integer(255));
         public static final Game<String> KIT_NAME = new Game<>("name", String.class, ColumnType.varchar(100));
         public static final Game<String> KIT_ITEM = new Game<>("item_type", String.class, ColumnType.varchar(50));
-        public static final Game<DbStringArrayList> KIT_DESCRIPTION = new Game<>("description", DbStringArrayList.class, ColumnType.varchar(2000));
+        public static final Game<DbStringArrayList> KIT_DESCRIPTION = new Game<>("description",
+                DbStringArrayList.class, ColumnType.varchar(2000));
         // lounge map
         public static final Game<String> LOUNGE_MAP_NAME = new Game<>("name", String.class, ColumnType.varchar(100));
-        public static final Game<String> LOUNGE_MAP_LOC_WORLD = new Game<>("loc_world", String.class, ColumnType.varchar(100));
-        public static final Game<String> LOUNGE_MAP_LOC_NAME = new Game<>("loc_name", String.class, ColumnType.varchar(255));
-        public static final Game<Double> LOUNGE_MAP_LOC_X = new Game<>("loc_x", Double.class, ColumnType.varchar(20));
-        public static final Game<Double> LOUNGE_MAP_LOC_Y = new Game<>("loc_y", Double.class, ColumnType.varchar(20));
-        public static final Game<Double> LOUNGE_MAP_LOC_Z = new Game<>("loc_z", Double.class, ColumnType.varchar(20));
-        public static final Game<Float> LOUNGE_MAP_LOC_YAW = new Game<>("loc_yaw", Float.class, ColumnType.varchar(20));
-        public static final Game<Float> LOUNGE_MAP_LOC_PITCH = new Game<>("loc_pitch", Float.class, ColumnType.varchar(20));
+        public static final Game<String> LOUNGE_MAP_WORLD = new Game<>("world", String.class, ColumnType.varchar(100));
+        public static final Game<Double> LOUNGE_MAP_LOC_X = new Game<>("spawn_loc_x", Double.class,
+                ColumnType.varchar(20));
+        public static final Game<Double> LOUNGE_MAP_LOC_Y = new Game<>("spawn_loc_y", Double.class,
+                ColumnType.varchar(20));
+        public static final Game<Double> LOUNGE_MAP_LOC_Z = new Game<>("spawn_loc_z", Double.class,
+                ColumnType.varchar(20));
+        public static final Game<Float> LOUNGE_MAP_LOC_YAW = new Game<>("spawn_loc_yaw", Float.class,
+                ColumnType.varchar(20));
+        public static final Game<Float> LOUNGE_MAP_LOC_PITCH = new Game<>("spawn_loc_pitch", Float.class,
+                ColumnType.varchar(20));
+
+        public static final Game<Integer> LOUNGE_MAP_DISPLAY_INDEX = new Game<>("display_index", Integer.class,
+                ColumnType.integer(20));
+        public static final Game<Integer> LOUNGE_MAP_DISPLAY_X = new Game<>("display_x", Integer.class,
+                ColumnType.integer(20));
+        public static final Game<Integer> LOUNGE_MAP_DISPLAY_Y = new Game<>("display_y", Integer.class,
+                ColumnType.integer(20));
+        public static final Game<Integer> LOUNGE_MAP_DISPLAY_Z = new Game<>("display_z", Integer.class,
+                ColumnType.integer(20));
+        public static final Game<BlockSide> LOUNGE_MAP_DISPLAY_FACING = new Game<>("display_facing", BlockSide.class,
+                ColumnType.varchar(20));
+        public static final Game<BlockSide> LOUNGE_MAP_DISPLAY_ORIENTATION = new Game<>("display_orientation",
+                BlockSide.class, ColumnType.varchar(20));
+        public static final Game<Color> LOUNGE_MAP_DISPLAY_TITLE_COLOR = new Game<>("display_title_color",
+                Color.class, ColumnType.varchar(100));
+        public static final Game<Color> LOUNGE_MAP_DISPLAY_STAT_NAME_COLOR = new Game<>("display_stat_name_color",
+                Color.class, ColumnType.varchar(100));
+        public static final Game<Color> LOUNGE_MAP_DISPLAY_STAT_FIRST_COLOR = new Game<>("display_stat_first_color",
+                Color.class, ColumnType.varchar(100));
+        public static final Game<Color> LOUNGE_MAP_DISPLAY_STAT_SECOND_COLOR = new Game<>("display_stat_second_color"
+                , Color.class, ColumnType.varchar(100));
+        public static final Game<Color> LOUNGE_MAP_DISPLAY_STAT_THIRD_COLOR = new Game<>("display_stat_third_color",
+                Color.class, ColumnType.varchar(100));
+
 
         // statistics
         public static final Game<String> STAT_TYPE_NAME = new Game<>("name", String.class, ColumnType.varchar(255));
-        public static final Game<String> STAT_TYPE_DISPLAY_NAME = new Game<>("display_name", String.class, ColumnType.varchar(255));
+        public static final Game<String> STAT_TYPE_DISPLAY_NAME = new Game<>("display_name", String.class,
+                ColumnType.varchar(255));
         public static final Game<String> STAT_TYPE_TYPE = new Game<>("type", String.class, ColumnType.varchar(255));
-        public static final Game<String> STAT_TYPE_DEFAULT_VALUE = new Game<>("default_value", String.class, ColumnType.varchar(255));
-        public static final Game<Integer> STAT_TYPE_DISPLAY_INDEX = new Game<>("display_index", Integer.class, ColumnType.integer(10));
-        public static final Game<Integer> STAT_TYPE_DISPLAY_LINE_INDEX = new Game<>("display_line_index", Integer.class, ColumnType.integer(10));
+        public static final Game<String> STAT_TYPE_DEFAULT_VALUE = new Game<>("default_value", String.class,
+                ColumnType.varchar(255));
+        public static final Game<Integer> STAT_TYPE_DISPLAY_INDEX = new Game<>("display_index", Integer.class,
+                ColumnType.integer(10));
+        public static final Game<Integer> STAT_TYPE_DISPLAY_LINE_INDEX = new Game<>("display_line_index",
+                Integer.class, ColumnType.integer(10));
+        public static final Game<Boolean> STAT_TYPE_GLOBAL_DISPLAY = new Game<>("global_display", Boolean.class,
+                ColumnType.tinyint(1));
+        public static final Game<Integer> STAT_TYPE_GLOBAL_DISPLAY_INDEX = new Game<>("global_display_index",
+                Integer.class, ColumnType.integer(10));
+        public static final Game<Integer> STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX = new Game<>("global_display_line_index"
+                , Integer.class, ColumnType.integer(10));
 
         public static final Game<UUID> STAT_USER_UUID = new Game<>("user_uuid", UUID.class, User.UUID.getType());
         public static final Game<String> STAT_USER_TYPE = new Game<>("type", String.class, ColumnType.varchar(100));

@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface DatabaseLounges {
 
-    void addMap(String name, String locName, DbLocation spawn);
+    void addMap(String name, DbLocation spawn);
 
     void removeMap(String name);
 
@@ -15,4 +15,6 @@ public interface DatabaseLounges {
     DbLoungeMap getMap(String name);
 
     Collection<DbLoungeMap> getMaps();
+
+    Collection<DbLoungeMap> getCachedMaps();
 }

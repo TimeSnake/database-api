@@ -88,35 +88,75 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         connection.createDatabase(config.getDatabaseName(STORY_NAME));
         connection.createDatabase(config.getDatabaseName(GAME_STATISTICS_NAME));
 
-        servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), config.getDatabaseUrl(SERVERS_NAME), user, password, config.getDatabaseTable(SERVERS_NAME, "lobbys"), config.getDatabaseTable(SERVERS_NAME, "games"), config.getDatabaseTable(SERVERS_NAME, "lounges"), config.getDatabaseTable(SERVERS_NAME, "tempGames"), config.getDatabaseTable(SERVERS_NAME, "builds"));
+        servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), config.getDatabaseUrl(SERVERS_NAME),
+                user, password,
+                config.getDatabaseTable(SERVERS_NAME, "lobbys", "lobbys"),
+                config.getDatabaseTable(SERVERS_NAME, "games", "games"),
+                config.getDatabaseTable(SERVERS_NAME, "lounges", "lounges"),
+                config.getDatabaseTable(SERVERS_NAME, "tempGames", "tempGames"),
+                config.getDatabaseTable(SERVERS_NAME, "builds", "builds"));
 
-        users = new DatabaseUsers(config.getDatabaseName(USERS_NAME), config.getDatabaseUrl(USERS_NAME), user, password, config.getDatabaseTable(USERS_NAME, "info"), config.getDatabaseTable(USERS_NAME, "punishments"), config.getDatabaseTable(USERS_NAME, "mails"));
+        users = new DatabaseUsers(config.getDatabaseName(USERS_NAME),
+                config.getDatabaseUrl(USERS_NAME), user, password,
+                config.getDatabaseTable(USERS_NAME, "info", "info"),
+                config.getDatabaseTable(USERS_NAME, "punishments", "punishments"),
+                config.getDatabaseTable(USERS_NAME, "mails", "mails"));
 
-        groups = new DatabaseGroups(config.getDatabaseName(GROUPS_NAME), config.getDatabaseUrl(GROUPS_NAME), user, password, config.getDatabaseTable(GROUPS_NAME, "permGroups"));
+        groups = new DatabaseGroups(config.getDatabaseName(GROUPS_NAME), config.getDatabaseUrl(GROUPS_NAME),
+                user, password,
+                config.getDatabaseTable(GROUPS_NAME, "permGroups", "permGroups"));
 
-        permissions = new DatabasePermissions(config.getDatabaseName(PERMISSIONS_NAME), config.getDatabaseUrl(PERMISSIONS_NAME), user, password, config.getDatabaseTable(PERMISSIONS_NAME, "permissions"));
+        permissions = new DatabasePermissions(config.getDatabaseName(PERMISSIONS_NAME),
+                config.getDatabaseUrl(PERMISSIONS_NAME),
+                user, password,
+                config.getDatabaseTable(PERMISSIONS_NAME, "permissions", "permissions"));
 
-        games = new DatabaseGames(config.getDatabaseName(GAMES_NAME), config.getDatabaseUrl(GAMES_NAME), user, password, config.getDatabaseTable(GAMES_NAME, "infos"));
+        games = new DatabaseGames(config.getDatabaseName(GAMES_NAME), config.getDatabaseUrl(GAMES_NAME),
+                user, password,
+                config.getDatabaseTable(GAMES_NAME, "infos", "infos"));
 
-        gameTeams = new DatabaseTeams(config.getDatabaseName(TEAMS_NAME), config.getDatabaseUrl(TEAMS_NAME), user, password);
+        gameTeams = new DatabaseTeams(config.getDatabaseName(TEAMS_NAME), config.getDatabaseUrl(TEAMS_NAME),
+                user, password);
 
-        gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME), config.getDatabaseUrl(MAPS_NAME), user, password, config.getDatabaseTable(MAPS_NAME, "info"), config.getDatabaseTable(MAPS_NAME, "locations"), config.getDatabaseTable(MAPS_NAME, "authors"));
+        gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME), config.getDatabaseUrl(MAPS_NAME),
+                user, password,
+                config.getDatabaseTable(MAPS_NAME, "info", "info"),
+                config.getDatabaseTable(MAPS_NAME, "locations", "locations"),
+                config.getDatabaseTable(MAPS_NAME, "authors", "authors"));
 
-        gameKits = new DatabaseKits(config.getDatabaseName(KITS_NAME), config.getDatabaseUrl(KITS_NAME), user, password);
+        gameKits = new DatabaseKits(config.getDatabaseName(KITS_NAME), config.getDatabaseUrl(KITS_NAME),
+                user, password);
 
-        gameStatistics = new DatabaseGameStatistics(config.getDatabaseName(GAME_STATISTICS_NAME), config.getDatabaseUrl(GAME_STATISTICS_NAME), user, password, config.getDatabaseTable(GAME_STATISTICS_NAME, "user_statistics"), config.getDatabaseTable(GAME_STATISTICS_NAME, "statistic_types"));
+        gameStatistics = new DatabaseGameStatistics(config.getDatabaseName(GAME_STATISTICS_NAME),
+                config.getDatabaseUrl(GAME_STATISTICS_NAME), user, password,
+                config.getDatabaseTable(GAME_STATISTICS_NAME, "user_statistics", "user_statistics"),
+                config.getDatabaseTable(GAME_STATISTICS_NAME, "statistic_types", "statistic_types"));
 
-        lounges = new DatabaseLounges(config.getDatabaseName(LOUNGES_NAME), config.getDatabaseUrl(LOUNGES_NAME), user, password, config.getDatabaseTable(LOUNGES_NAME, "maps"));
+        lounges = new DatabaseLounges(config.getDatabaseName(LOUNGES_NAME), config.getDatabaseUrl(LOUNGES_NAME),
+                user, password,
+                config.getDatabaseTable(LOUNGES_NAME, "maps", "maps"),
+                config.getDatabaseTable(LOUNGES_NAME, "map_displays", "map_displays"));
 
-        support = new DatabaseSupport(config.getDatabaseName(SUPPORT_NAME), config.getDatabaseUrl(SUPPORT_NAME), user, password, config.getDatabaseTable(SUPPORT_NAME, "tickets"));
+        support = new DatabaseSupport(config.getDatabaseName(SUPPORT_NAME), config.getDatabaseUrl(SUPPORT_NAME),
+                user, password,
+                config.getDatabaseTable(SUPPORT_NAME, "tickets", "tickets"));
 
-        hungerGames = new DatabaseHungerGames(config.getDatabaseName(HUNGER_GAMES_NAME), config.getDatabaseUrl(HUNGER_GAMES_NAME), user, password, config.getDatabaseTable(HUNGER_GAMES_NAME, "items"));
+        hungerGames = new DatabaseHungerGames(config.getDatabaseName(HUNGER_GAMES_NAME),
+                config.getDatabaseUrl(HUNGER_GAMES_NAME), user, password,
+                config.getDatabaseTable(HUNGER_GAMES_NAME, "items", "items"));
 
-        endGame = new DatabaseEndGame(config.getDatabaseName(END_GAME_NAME), config.getDatabaseUrl(END_GAME_NAME), user, password, config.getDatabaseTable(END_GAME_NAME, "worlds"));
+        endGame = new DatabaseEndGame(config.getDatabaseName(END_GAME_NAME), config.getDatabaseUrl(END_GAME_NAME),
+                user, password,
+                config.getDatabaseTable(END_GAME_NAME, "worlds", "worlds"));
 
-        decorations = new DatabaseDecoration(config.getDatabaseName(DECORATIONS_NAME), config.getDatabaseUrl(DECORATIONS_NAME), user, password, config.getDatabaseTable(DECORATIONS_NAME, "heads"));
+        decorations = new DatabaseDecoration(config.getDatabaseName(DECORATIONS_NAME),
+                config.getDatabaseUrl(DECORATIONS_NAME),
+                user, password,
+                config.getDatabaseTable(DECORATIONS_NAME, "heads", "heads"));
 
-        story = new DatabaseStory(config.getDatabaseName(STORY_NAME), config.getDatabaseUrl(STORY_NAME), user, password, config.getDatabaseTable(STORY_NAME, "user_checkpoints"), config.getDatabaseTable(STORY_NAME, "user_bought"));
+        story = new DatabaseStory(config.getDatabaseName(STORY_NAME), config.getDatabaseUrl(STORY_NAME), user, password,
+                config.getDatabaseTable(STORY_NAME, "user_checkpoints", "user_checkpoints"),
+                config.getDatabaseTable(STORY_NAME, "user_bought", "user_bought"));
 
         isConnected = true;
     }

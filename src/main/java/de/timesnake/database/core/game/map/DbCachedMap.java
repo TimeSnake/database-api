@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class DbCachedMap extends DbLocalMapInfo implements DbMap {
+public class DbCachedMap extends DbCachedMapInfo implements DbMap {
 
     private final de.timesnake.database.core.game.map.DbMap map;
 

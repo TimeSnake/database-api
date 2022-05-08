@@ -9,24 +9,29 @@ import java.util.Collection;
 public class DatabaseLounges extends DatabaseConnector implements de.timesnake.database.util.game.DatabaseLounges {
 
     protected DbLoungeMapTable loungeMapTable;
+    protected DbLoungeMapDisplayTable loungeMapDisplayTable;
 
-    public DatabaseLounges(String name, String url, String user, String password, String loungeMapTableName) {
+    public DatabaseLounges(String name, String url, String user, String password, String loungeMapTableName,
+                           String loungeMapDisplayTableName) {
         super(name, url, user, password);
 
         this.loungeMapTable = new DbLoungeMapTable(this, loungeMapTableName);
+        this.loungeMapDisplayTable = new DbLoungeMapDisplayTable(this, loungeMapDisplayTableName);
     }
 
     public void createTables() {
         this.loungeMapTable.create();
+        this.loungeMapDisplayTable.create();
     }
 
     public void backupTables() {
         this.loungeMapTable.backup();
+        this.loungeMapDisplayTable.backup();
     }
 
     @Override
-    public void addMap(String name, String locName, DbLocation spawn) {
-        this.loungeMapTable.addMap(name, locName, spawn);
+    public void addMap(String name, DbLocation spawn) {
+        this.loungeMapTable.addMap(name, spawn);
     }
 
     @Override
@@ -37,17 +42,22 @@ public class DatabaseLounges extends DatabaseConnector implements de.timesnake.d
 
     @Override
     public boolean containsMap(String name) {
-        return this.loungeMapTable.containsMap(name);
+        return this.loungeMapTable.containsMap(name, this.loungeMapDisplayTable);
     }
 
 
     @Override
     public de.timesnake.database.util.game.DbLoungeMap getMap(String name) {
-        return this.loungeMapTable.getMap(name);
+        return this.loungeMapTable.getMap(name, this.loungeMapDisplayTable);
     }
 
     @Override
     public Collection<DbLoungeMap> getMaps() {
-        return this.loungeMapTable.getMaps();
+        return this.loungeMapTable.getMaps(this.loungeMapDisplayTable);
+    }
+
+    @Override
+    public Collection<DbLoungeMap> getCachedMaps() {
+        return this.loungeMapTable.getCachedMaps(this.loungeMapDisplayTable);
     }
 }
