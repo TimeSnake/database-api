@@ -37,3 +37,18 @@ publishing {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+task buildFatJar(type: Jar) {
+    baseName = rootProject.name
+    from {
+        configurations.runtimeClasspath.collect {
+            exclude('META-INF/LICENSE.txt')
+            exclude('META-INF/NOTICE.txt')
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
+
+jar.finalizedBy(buildFatJar)
+
