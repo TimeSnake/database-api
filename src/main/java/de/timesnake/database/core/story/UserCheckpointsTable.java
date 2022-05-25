@@ -31,26 +31,33 @@ public class UserCheckpointsTable extends Table {
     }
 
     public Set<Integer> getPartIds(UUID uuid, Integer chapterId) {
-        return super.get(Column.Story.PART_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(uuid, Column.Story.USER_UUID));
+        return super.get(Column.Story.PART_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
+                new TableEntry<>(uuid, Column.Story.USER_UUID));
     }
 
     public Integer getSectionId(UUID uuid, Integer chapterId, Integer partId) {
-        return super.getFirst(Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID));
+        return super.getFirst(Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
+                new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID));
     }
 
     public void setSectionId(UUID uuid, Integer chapterId, Integer partId, Integer sectionId) {
-        if (super.getFirst(Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID)) != null) {
-            super.set(sectionId, Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID));
+        if (super.getFirst(Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
+                new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID)) != null) {
+            super.set(sectionId, Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
+                    new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID));
         } else {
             this.addStoryUser(uuid, chapterId, partId, sectionId);
         }
     }
 
     public void addStoryUser(UUID uuid, Integer chapterId, Integer partId, Integer sectionId) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID)), new TableEntry<>(sectionId, Column.Story.SECTION_ID));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
+                        new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID)),
+                new TableEntry<>(sectionId, Column.Story.SECTION_ID));
     }
 
     public void removeStoryUser(UUID uuid, Integer chapterId, Integer partId) {
-        super.deleteEntry(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
+        super.deleteEntry(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId,
+                Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
     }
 }

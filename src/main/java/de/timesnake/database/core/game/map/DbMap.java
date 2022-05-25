@@ -24,7 +24,8 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         this.name = mapName;
 
         this.info = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName).getMapInfo(mapName);
-        this.mapLocations = DatabaseManager.getInstance().getGameMaps().getMapsSpawnsTable(gameName).getMapLocations(mapName);
+        this.mapLocations =
+                DatabaseManager.getInstance().getGameMaps().getMapsSpawnsTable(gameName).getMapLocations(mapName);
         this.authorTable = DatabaseManager.getInstance().getGameMaps().getMapsAuthorTable(gameName);
     }
 
@@ -55,6 +56,11 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     }
 
     @Override
+    public void setDisplayName(String displayName) {
+        this.info.setDisplayName(displayName);
+    }
+
+    @Override
     public Integer getMinPlayers() {
         return this.info.getMinPlayers();
     }
@@ -67,6 +73,11 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     @Override
     public boolean isEnabled() {
         return this.info.isEnabled();
+    }
+
+    @Override
+    public void setEnabled(boolean enable) {
+        this.info.setEnabled(enable);
     }
 
     @Override
@@ -140,18 +151,8 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     }
 
     @Override
-    public void setDisplayName(String displayName) {
-        this.info.setDisplayName(displayName);
-    }
-
-    @Override
     public void setInfo(Collection<String> info) {
         this.info.setInfo(info);
-    }
-
-    @Override
-    public void setEnabled(boolean enable) {
-        this.info.setEnabled(enable);
     }
 
     @Override
@@ -160,15 +161,15 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     }
 
     @Override
-    public List<String> getAuthorNames() {
-        return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorName)).collect(Collectors.toList());
-    }
-
-    @Override
     public void setAuthors(Collection<UUID> authors) {
         for (UUID uuid : authors) {
             this.authorTable.addMapAuthor(this.name, uuid);
         }
+    }
+
+    @Override
+    public List<String> getAuthorNames() {
+        return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorName)).collect(Collectors.toList());
     }
 
     @Override

@@ -23,43 +23,8 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
-    public void setDisplayName(String displayName) {
-        super.setWithKey(displayName, Column.Game.DISPLAY_NAME);
-    }
-
-    @Override
-    public void setChatColorName(String chatColorName) {
-        super.setWithKey(chatColorName, Column.Game.CHAT_COLOR);
-    }
-
-    @Override
-    public void setAutoStart(int autoStart) {
-        super.setWithKey(autoStart, Column.Game.AUTO_START);
-    }
-
-    @Override
-    public void setMinPlayers(int minPlayers) {
-        super.setWithKey(minPlayers, Column.Game.MIN_PLAYERS);
-    }
-
-    @Override
-    public void setMaxPlayers(int maxPlayers) {
-        super.setWithKey(maxPlayers, Column.Game.MAX_PLAYERS);
-    }
-
-    @Override
-    public void setHeadLine(String headLine) {
-        super.setWithKey(headLine, Column.Game.HEAD_LINE);
-    }
-
-    @Override
     public void setItem(String itemName) {
         super.setWithKey(itemName, Column.Game.ITEM);
-    }
-
-    @Override
-    public void setSlot(int slot) {
-        super.setWithKey(slot, Column.Game.SLOT);
     }
 
     @Override
@@ -73,23 +38,8 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
-    public void setTemporary(boolean isTemporary) {
-        super.setWithKey(isTemporary, Column.Game.TEMPORARY);
-    }
-
-    @Override
-    public void setTeamAmounts(Collection<Integer> amounts) {
-        super.setWithKey(new DbIntegerArrayList(amounts), Column.Game.TEAM_AMOUNTS);
-    }
-
-    @Override
-    public void setTeamMergeAvailability(Type.Availability teamMerging) {
-        super.setWithKey(teamMerging, Column.Game.TEAM_MERGE);
-    }
-
-    @Override
-    public void setDescription(Collection<String> description) {
-        super.setWithKey(new DbStringArrayList(description), Column.Game.DESCRIPTION);
+    public void setEqualTeamSize(Boolean equalSize) {
+        super.setWithKey(equalSize, Column.Game.EQUAL_TEAM_SIZE);
     }
 
     @Override
@@ -103,8 +53,18 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public void setDisplayName(String displayName) {
+        super.setWithKey(displayName, Column.Game.DISPLAY_NAME);
+    }
+
+    @Override
     public String getChatColorName() {
         return super.getFirstWithKey(Column.Game.CHAT_COLOR);
+    }
+
+    @Override
+    public void setChatColorName(String chatColorName) {
+        super.setWithKey(chatColorName, Column.Game.CHAT_COLOR);
     }
 
     @Override
@@ -113,8 +73,18 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public void setAutoStart(int autoStart) {
+        super.setWithKey(autoStart, Column.Game.AUTO_START);
+    }
+
+    @Override
     public Integer getMaxPlayers() {
         return super.getFirstWithKey(Column.Game.MAX_PLAYERS);
+    }
+
+    @Override
+    public void setMaxPlayers(int maxPlayers) {
+        super.setWithKey(maxPlayers, Column.Game.MAX_PLAYERS);
     }
 
     @Override
@@ -123,8 +93,18 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public void setMinPlayers(int minPlayers) {
+        super.setWithKey(minPlayers, Column.Game.MIN_PLAYERS);
+    }
+
+    @Override
     public String getHeadLine() {
         return super.getFirstWithKey(Column.Game.HEAD_LINE);
+    }
+
+    @Override
+    public void setHeadLine(String headLine) {
+        super.setWithKey(headLine, Column.Game.HEAD_LINE);
     }
 
     @Override
@@ -138,8 +118,18 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public void setSlot(int slot) {
+        super.setWithKey(slot, Column.Game.SLOT);
+    }
+
+    @Override
     public boolean isTemporary() {
         return super.getFirstWithKey(Column.Game.TEMPORARY);
+    }
+
+    @Override
+    public void setTemporary(boolean isTemporary) {
+        super.setWithKey(isTemporary, Column.Game.TEMPORARY);
     }
 
     @Override
@@ -158,13 +148,33 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public void setTeamAmounts(Collection<Integer> amounts) {
+        super.setWithKey(new DbIntegerArrayList(amounts), Column.Game.TEAM_AMOUNTS);
+    }
+
+    @Override
     public Type.Availability getTeamMergeAvailability() {
         return super.getFirstWithKey(Column.Game.TEAM_MERGE);
     }
 
     @Override
+    public void setTeamMergeAvailability(Type.Availability teamMerging) {
+        super.setWithKey(teamMerging, Column.Game.TEAM_MERGE);
+    }
+
+    @Override
+    public Boolean isEqualTeamSize() {
+        return super.getFirstWithKey(Column.Game.EQUAL_TEAM_SIZE);
+    }
+
+    @Override
     public List<String> getDescription() {
         return super.getFirstWithKey(Column.Game.DESCRIPTION);
+    }
+
+    @Override
+    public void setDescription(Collection<String> description) {
+        super.setWithKey(new DbStringArrayList(description), Column.Game.DESCRIPTION);
     }
 
     @Override

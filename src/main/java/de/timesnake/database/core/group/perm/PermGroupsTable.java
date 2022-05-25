@@ -33,7 +33,8 @@ public class PermGroupsTable extends BasicGroupsTable {
     }
 
     public void removePermGroup(int rank) {
-        super.removeGroup(rank, new ChannelGroupMessage<>(Database.getGroups().getPermGroup(rank).getName(), MessageType.Group.ALIAS));
+        super.removeGroup(rank, new ChannelGroupMessage<>(Database.getGroups().getPermGroup(rank).getName(),
+                MessageType.Group.ALIAS));
     }
 
     public boolean containsPermGroup(int rank) {

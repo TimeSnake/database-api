@@ -32,7 +32,8 @@ public class DatabasePermissions extends DatabaseConnector implements de.timesna
     }
 
     @Override
-    public void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute, String... servers) {
+    public void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute,
+                              String... servers) {
         this.permissionsTable.addPermission(name, permission, mode, syncExecute, servers);
     }
 
@@ -54,7 +55,8 @@ public class DatabasePermissions extends DatabaseConnector implements de.timesna
     @Override
     public de.timesnake.database.util.permission.DbPermission getPermission(String name, String permission) {
         if (this.permissionsTable.getIdFromName(name, permission) != 0) {
-            return new DbPermission(this, this.permissionsTable.getIdFromName(name, permission), this.permissionsTableName);
+            return new DbPermission(this, this.permissionsTable.getIdFromName(name, permission),
+                    this.permissionsTableName);
         }
         return null;
     }

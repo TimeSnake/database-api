@@ -15,7 +15,8 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     private final String punishmentTableName;
     private final String mailsTableName;
 
-    public DatabaseUsers(String name, String url, String user, String password, String infoTable, String punishmentTable, String mailsTable) {
+    public DatabaseUsers(String name, String url, String user, String password, String infoTable,
+                         String punishmentTable, String mailsTable) {
         super(name, url, user, password);
         this.infoTableName = infoTable;
         this.punishmentTableName = punishmentTable;
@@ -51,14 +52,16 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     @Override
     public DbUser getUser(UUID uuid) {
         if (uuid != null) {
-            return new DbUser(this, uuid, this.infoTableName, this.punishmentTableName, this.mailsTableName, this.punishmentsTable, this.mailsTable);
+            return new DbUser(this, uuid, this.infoTableName, this.punishmentTableName, this.mailsTableName,
+                    this.punishmentsTable, this.mailsTable);
         }
         return null;
     }
 
     @Override
     public DbUser getUser(String name) {
-        return new DbUser(this, this.infosTable.getUniqueIdFromName(name), this.infoTableName, this.punishmentTableName, this.mailsTableName, this.punishmentsTable, this.mailsTable);
+        return new DbUser(this, this.infosTable.getUniqueIdFromName(name), this.infoTableName,
+                this.punishmentTableName, this.mailsTableName, this.punishmentsTable, this.mailsTable);
     }
 
     @Override

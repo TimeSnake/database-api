@@ -64,8 +64,12 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
         this.statisticsTable = game.statisticsTable;
     }
 
-    protected void create(String name, String displayName, String chatColorName, int autoStart, int minPlayers, int maxPlayers, String description, String itemName, int slot, boolean isTemporary, Type.Availability kits, Type.Availability maps, Type.Availability teamMerge, Integer... teamAmounts) {
-        this.infoTable.addGame(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description, itemName, slot, isTemporary, kits, maps, teamMerge, teamAmounts);
+    protected void create(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
+                          int maxPlayers, String description, String itemName, int slot, boolean isTemporary,
+                          Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
+                          Boolean teamEqualSize, Integer... teamAmounts) {
+        this.infoTable.addGame(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description,
+                itemName, slot, isTemporary, kits, maps, teamMerge, teamEqualSize, teamAmounts);
         this.createTables();
     }
 
@@ -245,7 +249,8 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
     }
 
     @Override
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName, Collection<String> description, Collection<String> info, Collection<String> authors) {
+    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
+                       Collection<String> description, Collection<String> info, Collection<String> authors) {
         if (this.mapsTable != null) {
             this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
         }

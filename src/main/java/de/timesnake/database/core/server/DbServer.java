@@ -22,6 +22,11 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
     }
 
     @Override
+    public void setName(String name) {
+        super.setWithKey(name, Column.Server.NAME);
+    }
+
+    @Override
     public boolean exists() {
         return super.getFirstWithKey(Column.Server.PORT) != null;
     }
@@ -37,8 +42,22 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
     }
 
     @Override
+    public void setStatus(Status.Server status) {
+        super.setWithKey(status, Column.Server.STATUS,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.STATUS, status)));
+    }
+
+    @Override
     public Integer getOnlinePlayers() {
         return super.getFirstWithKey(Column.Server.ONLINE_PLAYERS);
+    }
+
+    @Override
+    public void setOnlinePlayers(int playersOnline) {
+        super.setWithKey(playersOnline, Column.Server.ONLINE_PLAYERS,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.ONLINE_PLAYERS, playersOnline)));
     }
 
     @Override
@@ -47,35 +66,29 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
     }
 
     @Override
-    public void setName(String name) {
-        super.setWithKey(name, Column.Server.NAME);
-    }
-
-    @Override
-    public void setStatus(Status.Server status) {
-        super.setWithKey(status, Column.Server.STATUS, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.STATUS, status)));
+    public void setMaxPlayers(int playersMax) {
+        super.setWithKey(playersMax, Column.Server.MAX_PLAYERS,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.MAX_PLAYERS, playersMax)));
     }
 
     @Override
     public void setStatusSynchronized(Status.Server status) {
         super.setWithKeySynchronized(status, Column.Server.STATUS);
-        NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.STATUS, status));
-    }
-
-    @Override
-    public void setOnlinePlayers(int playersOnline) {
-        super.setWithKey(playersOnline, Column.Server.ONLINE_PLAYERS, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.ONLINE_PLAYERS, playersOnline)));
+        NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.STATUS,
+                status));
     }
 
     @Override
     public void setOnlinePlayersSynchronized(int playersOnline) {
         super.setWithKeySynchronized(playersOnline, Column.Server.ONLINE_PLAYERS);
-        NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.ONLINE_PLAYERS, playersOnline));
+        NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                MessageType.Server.ONLINE_PLAYERS, playersOnline));
     }
 
     @Override
-    public void setMaxPlayers(int playersMax) {
-        super.setWithKey(playersMax, Column.Server.MAX_PLAYERS, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.MAX_PLAYERS, playersMax)));
+    public String getPassword() {
+        return super.getFirstWithKey(Column.Server.PASSWORD);
     }
 
     @Override
@@ -83,12 +96,9 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
         if (password.length() > 255) {
             throw new TooLongEntryException(password, Column.Server.PASSWORD.getType());
         }
-        super.setWithKey(password, Column.Server.PASSWORD, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.PASSWORD, password)));
-    }
-
-    @Override
-    public String getPassword() {
-        return super.getFirstWithKey(Column.Server.PASSWORD);
+        super.setWithKey(password, Column.Server.PASSWORD,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.PASSWORD, password)));
     }
 
     @Override

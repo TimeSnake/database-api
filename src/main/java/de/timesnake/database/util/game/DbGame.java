@@ -70,7 +70,8 @@ public interface DbGame extends DbGameInfo {
     Collection<DbKit> getKits();
 
     @NotCached
-    void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName, Collection<String> description, Collection<String> info, Collection<String> authors);
+    void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
+                Collection<String> description, Collection<String> info, Collection<String> authors);
 
     @NotCached
     void removeMap(String name);

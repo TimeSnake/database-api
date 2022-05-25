@@ -37,9 +37,13 @@ public class DbMapLocations extends TableQuery {
             return null;
         }
 
-        ColumnMap columnMap = super.getFirstWithKey(Set.of(Column.Location.WORLD, Column.Location.X, Column.Location.Y, Column.Location.Z, Column.Location.YAW, Column.Location.PITCH), new TableEntry<>(number, Column.Location.NUMBER));
+        ColumnMap columnMap = super.getFirstWithKey(Set.of(Column.Location.WORLD, Column.Location.X,
+                        Column.Location.Y, Column.Location.Z, Column.Location.YAW, Column.Location.PITCH),
+                new TableEntry<>(number, Column.Location.NUMBER));
 
-        return new DbLocation(columnMap.get(Column.Location.WORLD), columnMap.get(Column.Location.X), columnMap.get(Column.Location.Y), columnMap.get(Column.Location.Z), columnMap.get(Column.Location.YAW), columnMap.get(Column.Location.PITCH));
+        return new DbLocation(columnMap.get(Column.Location.WORLD), columnMap.get(Column.Location.X),
+                columnMap.get(Column.Location.Y), columnMap.get(Column.Location.Z),
+                columnMap.get(Column.Location.YAW), columnMap.get(Column.Location.PITCH));
     }
 
     public DbLocation getFirstLocation() {
@@ -70,7 +74,12 @@ public class DbMapLocations extends TableQuery {
         if (number == null) {
             return;
         }
-        super.addEntry(super.primaryEntries.with(new TableEntry<>(number, Column.Location.NUMBER)), new TableEntry<>(number, Column.Location.NUMBER), new TableEntry<>(location.getWorldName(), Column.Location.WORLD), new TableEntry<>(location.getX(), Column.Location.X), new TableEntry<>(location.getY(), Column.Location.Y), new TableEntry<>(location.getZ(), Column.Location.Z), new TableEntry<>(location.getYaw(), Column.Location.YAW), new TableEntry<>(location.getPitch(), Column.Location.PITCH));
+        super.addEntry(super.primaryEntries.with(new TableEntry<>(number, Column.Location.NUMBER)),
+                new TableEntry<>(number, Column.Location.NUMBER), new TableEntry<>(location.getWorldName(),
+                        Column.Location.WORLD), new TableEntry<>(location.getX(), Column.Location.X),
+                new TableEntry<>(location.getY(), Column.Location.Y), new TableEntry<>(location.getZ(),
+                        Column.Location.Z), new TableEntry<>(location.getYaw(), Column.Location.YAW),
+                new TableEntry<>(location.getPitch(), Column.Location.PITCH));
     }
 
     public void deleteLocation(Integer number) {

@@ -24,14 +24,17 @@ public class UserBoughtTable extends Table {
     }
 
     public Set<Integer> getBoughtParts(UUID uuid, Integer chapterId) {
-        return super.get(Column.Story.PART_ID, new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId, Column.Story.CHAPTER_ID));
+        return super.get(Column.Story.PART_ID, new TableEntry<>(uuid, Column.Story.USER_UUID),
+                new TableEntry<>(chapterId, Column.Story.CHAPTER_ID));
     }
 
     public void addBoughtPart(UUID uuid, Integer chapterId, Integer partId) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID)));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId,
+                Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID)));
     }
 
     public void removeBoughtChapter(UUID uuid, Integer chapterId, Integer partId) {
-        super.deleteEntry(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId, Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
+        super.deleteEntry(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId,
+                Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
     }
 }

@@ -13,7 +13,8 @@ public class GameTable extends PvPTable<DbGameServer> {
 
     @Override
     public void backup() {
-        Column[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK, Column.Server.PASSWORD, Column.Server.OLD_PVP};
+        Column[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK,
+                Column.Server.PASSWORD, Column.Server.OLD_PVP};
         super.createBackup(columns);
     }
 

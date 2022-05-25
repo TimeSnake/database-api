@@ -28,6 +28,7 @@ public class DbGamesInfoTable extends Table {
         super.addColumn(Column.Game.MAPS);
         super.addColumn(Column.Game.TEAM_AMOUNTS);
         super.addColumn(Column.Game.TEAM_MERGE);
+        super.addColumn(Column.Game.EQUAL_TEAM_SIZE);
         super.addColumn(Column.Game.DESCRIPTION);
     }
 
@@ -40,8 +41,25 @@ public class DbGamesInfoTable extends Table {
         super.createBackup();
     }
 
-    public void addGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers, int maxPlayers, String headLine, String itemName, int slot, boolean isTemporary, Type.Availability kits, Type.Availability maps, Type.Availability teamMerge, Integer... teamAmounts) {
-        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(name, Column.Game.NAME)), new TableEntry<>(displayName, Column.Game.DISPLAY_NAME), new TableEntry<>(chatColorName, Column.Game.CHAT_COLOR), new TableEntry<>(autoStart, Column.Game.AUTO_START), new TableEntry<>(minPlayers, Column.Game.MIN_PLAYERS), new TableEntry<>(maxPlayers, Column.Game.MAX_PLAYERS), new TableEntry<>(headLine, Column.Game.HEAD_LINE), new TableEntry<>(itemName, Column.Game.ITEM), new TableEntry<>(slot, Column.Game.SLOT), new TableEntry<>(kits, Column.Game.KITS), new TableEntry<>(maps, Column.Game.MAPS), new TableEntry<>(isTemporary, Column.Game.TEMPORARY), new TableEntry<>(teamMerge, Column.Game.TEAM_MERGE), new TableEntry<>(new DbIntegerArrayList(Arrays.asList(teamAmounts)), Column.Game.TEAM_AMOUNTS));
+    public void addGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
+                        int maxPlayers, String headLine, String itemName, int slot, boolean isTemporary,
+                        Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
+                        Boolean teamEqualSize, Integer... teamAmounts) {
+        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(name, Column.Game.NAME)),
+                new TableEntry<>(displayName, Column.Game.DISPLAY_NAME),
+                new TableEntry<>(chatColorName, Column.Game.CHAT_COLOR),
+                new TableEntry<>(autoStart, Column.Game.AUTO_START),
+                new TableEntry<>(minPlayers, Column.Game.MIN_PLAYERS),
+                new TableEntry<>(maxPlayers, Column.Game.MAX_PLAYERS),
+                new TableEntry<>(headLine, Column.Game.HEAD_LINE),
+                new TableEntry<>(itemName, Column.Game.ITEM),
+                new TableEntry<>(slot, Column.Game.SLOT),
+                new TableEntry<>(kits, Column.Game.KITS),
+                new TableEntry<>(maps, Column.Game.MAPS),
+                new TableEntry<>(isTemporary, Column.Game.TEMPORARY),
+                new TableEntry<>(teamMerge, Column.Game.TEAM_MERGE),
+                new TableEntry<>(teamEqualSize, Column.Game.EQUAL_TEAM_SIZE),
+                new TableEntry<>(new DbIntegerArrayList(Arrays.asList(teamAmounts)), Column.Game.TEAM_AMOUNTS));
     }
 
 

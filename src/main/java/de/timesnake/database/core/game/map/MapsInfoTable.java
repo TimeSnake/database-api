@@ -35,8 +35,14 @@ public class MapsInfoTable extends Table {
         super.delete();
     }
 
-    public void addMapInfo(String name, String displayName, Integer minPlayers, Integer maxPlayer, String itemName, Collection<String> description, Collection<String> info) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(name, Column.Game.MAP_NAME)), new TableEntry<>(displayName, Column.Game.MAP_DISPLAY_NAME), new TableEntry<>(minPlayers, Column.Game.MAP_MIN_PLAYERS), new TableEntry<>(maxPlayer, Column.Game.MAP_MAX_PLAYERS), new TableEntry<>(itemName, Column.Game.MAP_ITEM), new TableEntry<>(new DbStringArrayList(description), Column.Game.MAP_DESCRIPTION), new TableEntry<>(new DbStringArrayList(info), Column.Game.MAP_INFO), new TableEntry<>(true, Column.Game.MAP_ENABLE));
+    public void addMapInfo(String name, String displayName, Integer minPlayers, Integer maxPlayer, String itemName,
+                           Collection<String> description, Collection<String> info) {
+        super.addEntry(new PrimaryEntries(new TableEntry<>(name, Column.Game.MAP_NAME)), new TableEntry<>(displayName
+                        , Column.Game.MAP_DISPLAY_NAME), new TableEntry<>(minPlayers, Column.Game.MAP_MIN_PLAYERS),
+                new TableEntry<>(maxPlayer, Column.Game.MAP_MAX_PLAYERS), new TableEntry<>(itemName,
+                        Column.Game.MAP_ITEM), new TableEntry<>(new DbStringArrayList(description),
+                        Column.Game.MAP_DESCRIPTION), new TableEntry<>(new DbStringArrayList(info),
+                        Column.Game.MAP_INFO), new TableEntry<>(true, Column.Game.MAP_ENABLE));
     }
 
     public void removeMapInfo(String name) {

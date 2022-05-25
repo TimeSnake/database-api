@@ -14,7 +14,9 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     private final ServerMap serverTables = new ServerMap();
 
-    public DatabaseServers(String name, String url, String user, String password, String lobbysTableName, String gamesTableName, String loungesTableName, String tempGamesTableName, String buildsTableName) {
+    public DatabaseServers(String name, String url, String user, String password, String lobbysTableName,
+                           String gamesTableName, String loungesTableName, String tempGamesTableName,
+                           String buildsTableName) {
         super(name, url, user, password);
 
         this.serverTables.put(Type.Server.LOBBY, new LobbyTable(this, lobbysTableName));
@@ -38,7 +40,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     @Override
     public <S extends DbServer> Type.Server<S> getServerType(int port) {
-        for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry : this.serverTables.entrySet()) {
+        for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
+                this.serverTables.entrySet()) {
             if (entry.getValue().getServer(port) != null && entry.getValue().getServer(port).exists()) {
                 return (Type.Server<S>) entry.getKey();
             }
@@ -48,7 +51,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     @Override
     public <S extends DbServer> Type.Server<S> getServerType(String name) {
-        for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry : this.serverTables.entrySet()) {
+        for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
+                this.serverTables.entrySet()) {
             if (entry.getValue().getServer(name) != null && entry.getValue().getServer(name).exists()) {
                 return (Type.Server<S>) entry.getKey();
             }

@@ -34,7 +34,8 @@ public class Table extends BasicTable {
         super(databaseConnector, tableName);
         this.primaryColumns = primaryColumns;
         if (this.primaryColumns.size() == 1) {
-            this.primaryColumnsCreation = " `" + this.primaryColumns.get(0).getName() + "` " + this.primaryColumns.get(0).getType().getName() + " PRIMARY KEY";
+            this.primaryColumnsCreation =
+                    " `" + this.primaryColumns.get(0).getName() + "` " + this.primaryColumns.get(0).getType().getName() + " PRIMARY KEY";
         } else {
             StringBuilder primaryList = new StringBuilder();
             StringBuilder sb = new StringBuilder();
@@ -70,7 +71,8 @@ public class Table extends BasicTable {
             ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + this.tableName + "` (" + this.primaryColumnsCreation + ");");
             ps.executeUpdate();
 
-            DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Table " + this.tableName + " created with primary-keys: " + primaryColumnsCreation);
+            DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Table " + this.tableName + " " +
+                    "created with primary-keys: " + primaryColumnsCreation);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -290,12 +292,12 @@ public class Table extends BasicTable {
         return columns;
     }
 
-    public List<Column<?>> getPrimaryColumns() {
-        return primaryColumns;
-    }
-
     protected void setColumns(List<Column<?>> columns) {
         this.columns = columns;
+    }
+
+    public List<Column<?>> getPrimaryColumns() {
+        return primaryColumns;
     }
 
     /**

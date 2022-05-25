@@ -29,6 +29,7 @@ public class DbCachedGameInfo implements DbGameInfo {
     private Type.Availability maps;
     private DbIntegerArrayList teamAmounts;
     private Type.Availability teamMerge;
+    private Boolean equalTeamSize;
     private List<String> description;
 
     public DbCachedGameInfo(de.timesnake.database.core.game.DbGameInfo gameInfo) {
@@ -38,7 +39,8 @@ public class DbCachedGameInfo implements DbGameInfo {
         ColumnMap columnMap = this.gameInfo.getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.CHAT_COLOR,
                 Column.Game.AUTO_START, Column.Game.MIN_PLAYERS, Column.Game.MAX_PLAYERS, Column.Game.HEAD_LINE,
                 Column.Game.ITEM, Column.Game.SLOT, Column.Game.TEMPORARY, Column.Game.KITS, Column.Game.MAPS,
-                Column.Game.TEAM_AMOUNTS, Column.Game.TEAM_MERGE, Column.Game.DESCRIPTION));
+                Column.Game.TEAM_AMOUNTS, Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE,
+                Column.Game.DESCRIPTION));
 
         this.displayName = columnMap.get(Column.Game.DISPLAY_NAME);
         this.chatColor = columnMap.get(Column.Game.CHAT_COLOR);
@@ -53,6 +55,7 @@ public class DbCachedGameInfo implements DbGameInfo {
         this.maps = columnMap.get(Column.Game.MAPS);
         this.teamAmounts = columnMap.get(Column.Game.TEAM_AMOUNTS);
         this.teamMerge = columnMap.get(Column.Game.TEAM_MERGE);
+        this.equalTeamSize = columnMap.get(Column.Game.EQUAL_TEAM_SIZE);
         this.description = columnMap.get(Column.Game.DESCRIPTION);
     }
 
@@ -62,51 +65,9 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-        this.gameInfo.setDisplayName(displayName);
-    }
-
-    @Override
-    public void setChatColorName(String chatColorName) {
-        this.chatColor = chatColorName;
-        this.gameInfo.setChatColorName(chatColorName);
-    }
-
-    @Override
-    public void setAutoStart(int autoStart) {
-        this.autoStart = autoStart;
-        this.gameInfo.setAutoStart(autoStart);
-    }
-
-    @Override
-    public void setMinPlayers(int minPlayers) {
-        this.minPlayers = minPlayers;
-        this.gameInfo.setMinPlayers(minPlayers);
-    }
-
-    @Override
-    public void setMaxPlayers(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
-        this.gameInfo.setMaxPlayers(maxPlayers);
-    }
-
-    @Override
-    public void setHeadLine(String description) {
-        this.headLine = description;
-        this.gameInfo.setHeadLine(description);
-    }
-
-    @Override
     public void setItem(String itemName) {
         this.item = itemName;
         this.gameInfo.setItem(itemName);
-    }
-
-    @Override
-    public void setSlot(int slot) {
-        this.slot = slot;
-        this.gameInfo.setSlot(slot);
     }
 
     @Override
@@ -122,30 +83,6 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
-    public void setTemporary(boolean isTemporary) {
-        this.temporary = isTemporary;
-        this.gameInfo.setTemporary(isTemporary);
-    }
-
-    @Override
-    public void setTeamAmounts(Collection<Integer> amounts) {
-        this.teamAmounts = new DbIntegerArrayList(amounts);
-        this.gameInfo.setTeamAmounts(amounts);
-    }
-
-    @Override
-    public void setTeamMergeAvailability(Type.Availability teamMerging) {
-        this.teamMerge = teamMerging;
-        this.gameInfo.setTeamMergeAvailability(teamMerging);
-    }
-
-    @Override
-    public void setDescription(Collection<String> description) {
-        this.description = new DbStringArrayList(description);
-        this.gameInfo.setDescription(description);
-    }
-
-    @Override
     public String getName() {
         return this.name;
     }
@@ -156,8 +93,20 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+        this.gameInfo.setDisplayName(displayName);
+    }
+
+    @Override
     public String getChatColorName() {
         return this.chatColor;
+    }
+
+    @Override
+    public void setChatColorName(String chatColorName) {
+        this.chatColor = chatColorName;
+        this.gameInfo.setChatColorName(chatColorName);
     }
 
     @Override
@@ -166,8 +115,20 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
+    public void setAutoStart(int autoStart) {
+        this.autoStart = autoStart;
+        this.gameInfo.setAutoStart(autoStart);
+    }
+
+    @Override
     public Integer getMinPlayers() {
         return this.minPlayers;
+    }
+
+    @Override
+    public void setMinPlayers(int minPlayers) {
+        this.minPlayers = minPlayers;
+        this.gameInfo.setMinPlayers(minPlayers);
     }
 
     @Override
@@ -176,8 +137,20 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
+        this.gameInfo.setMaxPlayers(maxPlayers);
+    }
+
+    @Override
     public String getHeadLine() {
         return this.headLine;
+    }
+
+    @Override
+    public void setHeadLine(String description) {
+        this.headLine = description;
+        this.gameInfo.setHeadLine(description);
     }
 
     @Override
@@ -191,8 +164,20 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
+    public void setSlot(int slot) {
+        this.slot = slot;
+        this.gameInfo.setSlot(slot);
+    }
+
+    @Override
     public boolean isTemporary() {
         return this.temporary;
+    }
+
+    @Override
+    public void setTemporary(boolean isTemporary) {
+        this.temporary = isTemporary;
+        this.gameInfo.setTemporary(isTemporary);
     }
 
     @Override
@@ -211,13 +196,42 @@ public class DbCachedGameInfo implements DbGameInfo {
     }
 
     @Override
+    public void setTeamAmounts(Collection<Integer> amounts) {
+        this.teamAmounts = new DbIntegerArrayList(amounts);
+        this.gameInfo.setTeamAmounts(amounts);
+    }
+
+    @Override
     public Type.Availability getTeamMergeAvailability() {
         return this.teamMerge;
     }
 
     @Override
+    public void setTeamMergeAvailability(Type.Availability teamMerging) {
+        this.teamMerge = teamMerging;
+        this.gameInfo.setTeamMergeAvailability(teamMerging);
+    }
+
+    @Override
+    public Boolean isEqualTeamSize() {
+        return this.equalTeamSize;
+    }
+
+    @Override
+    public void setEqualTeamSize(Boolean equalSize) {
+        this.equalTeamSize = equalSize;
+        this.gameInfo.setEqualTeamSize(equalSize);
+    }
+
+    @Override
     public List<String> getDescription() {
         return this.description;
+    }
+
+    @Override
+    public void setDescription(Collection<String> description) {
+        this.description = new DbStringArrayList(description);
+        this.gameInfo.setDescription(description);
     }
 
     @Override

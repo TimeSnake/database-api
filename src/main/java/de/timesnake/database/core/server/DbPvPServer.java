@@ -20,6 +20,8 @@ public abstract class DbPvPServer extends DbTaskServer implements de.timesnake.d
 
     @Override
     public void setPvP(boolean oldPvP) {
-        super.setWithKey(oldPvP, Column.Server.OLD_PVP, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.OLD_PVP, oldPvP)));
+        super.setWithKey(oldPvP, Column.Server.OLD_PVP,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.OLD_PVP, oldPvP)));
     }
 }

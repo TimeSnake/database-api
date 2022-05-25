@@ -31,7 +31,8 @@ public abstract class PlayersTable extends Table {
     }
 
     public void addPlayer(UUID uuid, String name) {
-        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(uuid, Column.User.UUID)), new TableEntry<>(name, Column.User.NAME));
+        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(uuid, Column.User.UUID)),
+                new TableEntry<>(name, Column.User.NAME));
     }
 
     public void create() {

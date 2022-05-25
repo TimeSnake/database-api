@@ -119,7 +119,8 @@ public class DbCachedGame extends DbCachedGameInfo implements DbGame {
     }
 
     @Override
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName, Collection<String> description, Collection<String> info, Collection<String> authors) {
+    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
+                       Collection<String> description, Collection<String> info, Collection<String> authors) {
         this.game.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
     }
 

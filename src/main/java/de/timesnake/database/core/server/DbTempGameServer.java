@@ -32,7 +32,9 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
 
     @Override
     public void setMapName(String mapName) {
-        super.setWithKey(mapName, Column.Server.MAP_NAME, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.MAP, mapName)));
+        super.setWithKey(mapName, Column.Server.MAP_NAME,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.MAP, mapName)));
     }
 
     @Override
@@ -41,14 +43,14 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
     }
 
     @Override
-    public DbLoungeServer getTwinServer() {
-        Integer port = this.getTwinServerPort();
-        return port == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, port);
+    public void setTwinServerPort(Integer port) {
+        super.setWithKeySynchronized(port, Column.Server.TWIN_SERVER);
     }
 
     @Override
-    public void setTwinServerPort(Integer port) {
-        super.setWithKeySynchronized(port, Column.Server.TWIN_SERVER);
+    public DbLoungeServer getTwinServer() {
+        Integer port = this.getTwinServerPort();
+        return port == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, port);
     }
 
     @Override
@@ -77,13 +79,13 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
     }
 
     @Override
-    public void setMaxPlayersPerTeam(Integer maxPlayersPerTeam) {
-        super.setWithKey(maxPlayersPerTeam, Column.Server.TEAM_MAX_PLAYERS);
+    public Integer getMaxPlayersPerTeam() {
+        return super.getFirstWithKey(Column.Server.TEAM_MAX_PLAYERS);
     }
 
     @Override
-    public Integer getMaxPlayersPerTeam() {
-        return super.getFirstWithKey(Column.Server.TEAM_MAX_PLAYERS);
+    public void setMaxPlayersPerTeam(Integer maxPlayersPerTeam) {
+        super.setWithKey(maxPlayersPerTeam, Column.Server.TEAM_MAX_PLAYERS);
     }
 
     @Override
@@ -103,6 +105,8 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
 
     @Override
     public void setDiscord(boolean discordEnabled) {
-        super.setWithKey(discordEnabled, Column.Server.DISCORD, () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(), MessageType.Server.DISCORD, discordEnabled)));
+        super.setWithKey(discordEnabled, Column.Server.DISCORD,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                        MessageType.Server.DISCORD, discordEnabled)));
     }
 }

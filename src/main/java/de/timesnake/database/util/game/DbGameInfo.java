@@ -11,28 +11,7 @@ public interface DbGameInfo {
     boolean exists();
 
     @NotCached
-    void setDisplayName(String displayName);
-
-    @NotCached
-    void setChatColorName(String chatColorName);
-
-    @NotCached
-    void setAutoStart(int autoStart);
-
-    @NotCached
-    void setMinPlayers(int minPlayers);
-
-    @NotCached
-    void setMaxPlayers(int maxPlayers);
-
-    @NotCached
-    void setHeadLine(String description);
-
-    @NotCached
     void setItem(String itemName);
-
-    @NotCached
-    void setSlot(int slot);
 
     @NotCached
     void setKitsAvailability(Type.Availability kits);
@@ -40,37 +19,51 @@ public interface DbGameInfo {
     @NotCached
     void setMapsAvailability(Type.Availability maps);
 
-    @NotCached
-    void setTemporary(boolean isTemporary);
-
-    @NotCached
-    void setTeamAmounts(Collection<Integer> amounts);
-
-    @NotCached
-    void setTeamMergeAvailability(Type.Availability teamMerging);
-
-    @NotCached
-    void setDescription(Collection<String> description);
+    void setEqualTeamSize(Boolean equalSize);
 
     String getName();
 
     String getDisplayName();
 
+    @NotCached
+    void setDisplayName(String displayName);
+
     String getChatColorName();
+
+    @NotCached
+    void setChatColorName(String chatColorName);
 
     Integer getAutoStart();
 
+    @NotCached
+    void setAutoStart(int autoStart);
+
     Integer getMinPlayers();
+
+    @NotCached
+    void setMinPlayers(int minPlayers);
 
     Integer getMaxPlayers();
 
+    @NotCached
+    void setMaxPlayers(int maxPlayers);
+
     String getHeadLine();
+
+    @NotCached
+    void setHeadLine(String description);
 
     String getItemName();
 
     Integer getSlot();
 
+    @NotCached
+    void setSlot(int slot);
+
     boolean isTemporary();
+
+    @NotCached
+    void setTemporary(boolean isTemporary);
 
     Type.Availability getKitAvailability();
 
@@ -78,9 +71,20 @@ public interface DbGameInfo {
 
     Collection<Integer> getTeamAmounts();
 
+    @NotCached
+    void setTeamAmounts(Collection<Integer> amounts);
+
     Type.Availability getTeamMergeAvailability();
 
+    @NotCached
+    void setTeamMergeAvailability(Type.Availability teamMerging);
+
+    Boolean isEqualTeamSize();
+
     List<String> getDescription();
+
+    @NotCached
+    void setDescription(Collection<String> description);
 
     DbGameInfo toLocal();
 

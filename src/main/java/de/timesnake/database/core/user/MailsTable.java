@@ -46,7 +46,11 @@ public class MailsTable extends Table {
         if (msg.length() > 255) {
             throw new TooLongEntryException(msg, Column.User.MAIL_MESSAGE.getType());
         }
-        return super.addEntryWithAutoIdSynchronized(Column.User.MAIL_ID, new PrimaryEntries(new TableEntry<>(uuid, Column.User.UUID)), new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(name, Column.User.NAME), new TableEntry<>(senderUuid, Column.User.MAIL_SENDER_UUID), new TableEntry<>(senderName, Column.User.MAIL_SENDER_NAME), new TableEntry<>(msg, Column.User.MAIL_MESSAGE));
+        return super.addEntryWithAutoIdSynchronized(Column.User.MAIL_ID, new PrimaryEntries(new TableEntry<>(uuid,
+                        Column.User.UUID)), new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(name,
+                        Column.User.NAME), new TableEntry<>(senderUuid, Column.User.MAIL_SENDER_UUID),
+                new TableEntry<>(senderName, Column.User.MAIL_SENDER_NAME), new TableEntry<>(msg,
+                        Column.User.MAIL_MESSAGE));
     }
 
     public Collection<DbUserMail> getMails(UUID uuid) {
@@ -61,7 +65,8 @@ public class MailsTable extends Table {
     }
 
     public DbUserMail getMail(UUID uuid, Integer id) {
-        String name = super.getFirst(Column.User.NAME, new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(id, Column.User.MAIL_ID));
+        String name = super.getFirst(Column.User.NAME, new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(id,
+                Column.User.MAIL_ID));
         if (name != null) {
             return new de.timesnake.database.core.user.DbUserMail(this.databaseConnector, super.tableName, uuid, id);
         }

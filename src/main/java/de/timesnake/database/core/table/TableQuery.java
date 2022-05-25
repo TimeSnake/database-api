@@ -84,7 +84,8 @@ public abstract class TableQuery extends BasicTable {
         this.set(value, valueColumn, this.addPrimaryKeys(entries));
     }
 
-    protected <Value> void setWithKey(Value value, Column<Value> valueColumn, SyncExecute syncExecute, TableEntry<?>... entries) {
+    protected <Value> void setWithKey(Value value, Column<Value> valueColumn, SyncExecute syncExecute,
+                                      TableEntry<?>... entries) {
         this.set(value, valueColumn, syncExecute, this.addPrimaryKeys(entries));
     }
 
