@@ -9,7 +9,8 @@ public interface DatabasePermissions {
 
     void addPermission(String name, String permission, Status.Permission mode, String... servers);
 
-    void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute, String... servers);
+    void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute,
+                       String... servers);
 
     void deletePermission(String name, String permission);
 

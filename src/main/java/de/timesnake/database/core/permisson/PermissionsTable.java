@@ -25,27 +25,40 @@ public class PermissionsTable extends Table {
     }
 
     protected void addPermission(String name, String permission, Status.Permission mode, String... servers) {
-        super.addEntryWithAutoIdSynchronized(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION), new TableEntry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new TableEntry<>(mode, Column.Permission.MODE));
+        super.addEntryWithAutoIdSynchronized(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME),
+                new TableEntry<>(permission, Column.Permission.PERMISSION),
+                new TableEntry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new TableEntry<>(mode,
+                        Column.Permission.MODE));
     }
 
-    protected void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute, String... servers) {
-        super.addEntryWithAutoId(Column.Permission.ID, syncExecute, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION), new TableEntry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new TableEntry<>(mode, Column.Permission.MODE));
+    protected void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute,
+                                 String... servers) {
+        super.addEntryWithAutoId(Column.Permission.ID, syncExecute, new TableEntry<>(name, Column.Permission.NAME),
+                new TableEntry<>(permission, Column.Permission.PERMISSION),
+                new TableEntry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new TableEntry<>(mode,
+                        Column.Permission.MODE));
     }
 
     protected void addPermission(UUID uuid, String permission, Status.Permission mode, String... servers) {
-        this.addPermission(uuid.toString(), permission, mode, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PERMISSION)), servers);
+        this.addPermission(uuid.toString(), permission, mode,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid,
+                        MessageType.User.PERMISSION)), servers);
     }
 
     protected void removePermission(String name, String permission) {
-        super.deleteEntry(new TableEntry<>(permission, Column.Permission.PERMISSION), new TableEntry<>(name, Column.Permission.NAME));
+        super.deleteEntry(new TableEntry<>(permission, Column.Permission.PERMISSION), new TableEntry<>(name,
+                Column.Permission.NAME));
     }
 
     protected void removePermission(String name, String permission, SyncExecute syncExecute) {
-        super.deleteEntry(syncExecute, new TableEntry<>(permission, Column.Permission.PERMISSION), new TableEntry<>(name, Column.Permission.NAME));
+        super.deleteEntry(syncExecute, new TableEntry<>(permission, Column.Permission.PERMISSION),
+                new TableEntry<>(name, Column.Permission.NAME));
     }
 
     protected void removePermission(UUID uuid, String permission) {
-        this.removePermission(uuid.toString(), permission, () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PERMISSION)));
+        this.removePermission(uuid.toString(), permission,
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid,
+                        MessageType.User.PERMISSION)));
     }
 
     public void create() {
@@ -57,11 +70,13 @@ public class PermissionsTable extends Table {
     }
 
     public boolean containsPermission(String name, String permission) {
-        return super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION)) != null && super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION)) != 0;
+        return super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME),
+                new TableEntry<>(permission, Column.Permission.PERMISSION)) != null && super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION)) != 0;
     }
 
     public Integer getIdFromName(String name, String permission) {
-        return super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION));
+        return super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME),
+                new TableEntry<>(permission, Column.Permission.PERMISSION));
     }
 
     public Collection<Integer> getIdsFromName(String name) {

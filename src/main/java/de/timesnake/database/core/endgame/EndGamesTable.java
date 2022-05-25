@@ -34,7 +34,8 @@ public class EndGamesTable extends Table {
     }
 
     public void addUser(UUID uuid, String name, DbGameServer server) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.EndGame.PLAYER_UUID)), new TableEntry<>(name, Column.EndGame.PLAYER_NAME), new TableEntry<>(server.getName(), Column.EndGame.SERVER));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.EndGame.PLAYER_UUID)), new TableEntry<>(name,
+                Column.EndGame.PLAYER_NAME), new TableEntry<>(server.getName(), Column.EndGame.SERVER));
     }
 
     public void removeUser(UUID uuid) {

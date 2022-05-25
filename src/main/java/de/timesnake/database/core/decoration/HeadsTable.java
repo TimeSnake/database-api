@@ -39,7 +39,8 @@ public class HeadsTable extends Table {
         if (tag == null) {
             return false;
         }
-        super.addEntry(new PrimaryEntries(new TableEntry<>(tag, Column.Decoration.HEAD_TAG)), new TableEntry<>(name, Column.Decoration.HEAD_NAME), new TableEntry<>(section, Column.Decoration.HEAD_SECTION));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(tag, Column.Decoration.HEAD_TAG)), new TableEntry<>(name,
+                Column.Decoration.HEAD_NAME), new TableEntry<>(section, Column.Decoration.HEAD_SECTION));
         return true;
 
     }

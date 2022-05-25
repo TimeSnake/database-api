@@ -66,7 +66,9 @@ public class KitsTable extends Table {
                 throw new UnsupportedStringException(BasicTable.ENTRY_ARRAY_SPLITTER);
             }
         }
-        super.addEntry(new PrimaryEntries(new TableEntry<>(id, Column.Game.KIT_ID)), new TableEntry<>(name, Column.Game.KIT_NAME), new TableEntry<>(itemType, Column.Game.KIT_ITEM), new TableEntry<>(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(id, Column.Game.KIT_ID)), new TableEntry<>(name,
+                        Column.Game.KIT_NAME), new TableEntry<>(itemType, Column.Game.KIT_ITEM),
+                new TableEntry<>(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION));
     }
 
     public void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException {
@@ -75,6 +77,8 @@ public class KitsTable extends Table {
                 throw new UnsupportedStringException(BasicTable.ENTRY_ARRAY_SPLITTER);
             }
         }
-        super.addEntryWithAutoIdSynchronized(Column.Game.KIT_ID, new TableEntry<>(name, Column.Game.KIT_NAME), new TableEntry<>(itemType, Column.Game.KIT_ITEM), new TableEntry<>(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION));
+        super.addEntryWithAutoIdSynchronized(Column.Game.KIT_ID, new TableEntry<>(name, Column.Game.KIT_NAME),
+                new TableEntry<>(itemType, Column.Game.KIT_ITEM), new TableEntry<>(new DbStringArrayList(description)
+                        , Column.Game.KIT_DESCRIPTION));
     }
 }

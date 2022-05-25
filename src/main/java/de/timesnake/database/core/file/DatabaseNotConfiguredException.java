@@ -19,6 +19,7 @@ public class DatabaseNotConfiguredException extends Throwable {
     }
 
     public String getMessage() {
-        return "[Database] WARNING Database " + this.databaseType + ": Value " + this.missingValueType + "is not configured";
+        return "[Database] WARNING Database " + this.databaseType + ": Value " + this.missingValueType + "is not " +
+                "configured";
     }
 }

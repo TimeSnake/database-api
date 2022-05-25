@@ -13,7 +13,8 @@ public class DatabaseStory extends DatabaseConnector implements de.timesnake.dat
     private final String checkpointsTableName;
     private final String boughtTableName;
 
-    public DatabaseStory(String name, String url, String user, String password, String checkpointsTableName, String boughtTableName) {
+    public DatabaseStory(String name, String url, String user, String password, String checkpointsTableName,
+                         String boughtTableName) {
         super(name, url, user, password);
         this.checkpointsTableName = checkpointsTableName;
         this.boughtTableName = boughtTableName;

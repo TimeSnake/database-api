@@ -23,7 +23,10 @@ public class TicketsTable extends Table {
     }
 
     protected Integer addTicket(String uuid, String name, String message) {
-        return super.addEntryWithAutoIdSynchronized(Column.Support.ID, new TableEntry<>(uuid, Column.Support.UUID), new TableEntry<>(name, Column.Support.NAME), new TableEntry<>(message, Column.Support.MESSAGE), new TableEntry<>(Status.Ticket.OPEN, Column.Support.STATUS), new TableEntry<>(new Date(), Column.Support.DATE));
+        return super.addEntryWithAutoIdSynchronized(Column.Support.ID, new TableEntry<>(uuid, Column.Support.UUID),
+                new TableEntry<>(name, Column.Support.NAME), new TableEntry<>(message, Column.Support.MESSAGE),
+                new TableEntry<>(Status.Ticket.OPEN, Column.Support.STATUS), new TableEntry<>(new Date(),
+                        Column.Support.DATE));
     }
 
     public void removeTicket(int id) {

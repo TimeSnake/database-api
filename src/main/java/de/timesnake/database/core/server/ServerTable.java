@@ -29,7 +29,8 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
     }
 
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
+        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS,
+                Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
         super.createBackup(columns);
     }
 
@@ -49,11 +50,17 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
     }
 
     public void addServer(int port, String name, Status.Server status, String folderPath) {
-        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)), new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME), new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath, Column.Server.FOLDER_PATH));
+        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)),
+                new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME),
+                new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath,
+                        Column.Server.FOLDER_PATH));
     }
 
     public void addServer(int port, String name, Status.Server status, String folderPath, String password) {
-        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)), new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME), new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath, Column.Server.FOLDER_PATH), new TableEntry<>(password, Column.Server.PASSWORD));
+        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)),
+                new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME),
+                new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath,
+                        Column.Server.FOLDER_PATH), new TableEntry<>(password, Column.Server.PASSWORD));
     }
 
     public abstract Server getServer(int port);

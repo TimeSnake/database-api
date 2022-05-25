@@ -27,6 +27,7 @@ public class DbCachedUser implements DbUser {
     private final de.timesnake.database.core.user.DbUser user;
 
     private final UUID uuid;
+    private final String permGroup;
     private String name;
     private String prefix;
     private String suffix;
@@ -39,7 +40,6 @@ public class DbCachedUser implements DbUser {
     private String task;
     private String team;
     private Integer kit;
-    private final String permGroup;
     private String server;
     private String serverLast;
     private String serverLobby;
@@ -89,6 +89,12 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+        this.user.setName(name);
+    }
+
+    @Override
     public UUID getUniqueId() {
         return this.uuid;
     }
@@ -104,11 +110,6 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setPunishment(DbPunishment punishment) {
-        this.user.setPunishment(punishment);
-    }
-
-    @Override
     public boolean hasPunishment() {
         return this.user.hasPunishment();
     }
@@ -119,18 +120,13 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public void setPunishment(DbPunishment punishment) {
+        this.user.setPunishment(punishment);
+    }
+
+    @Override
     public String getPrefix() {
         return this.prefix;
-    }
-
-    @Override
-    public String getSuffix() {
-        return this.suffix;
-    }
-
-    @Override
-    public String getNick() {
-        return this.nick;
     }
 
     @Override
@@ -140,9 +136,19 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public String getSuffix() {
+        return this.suffix;
+    }
+
+    @Override
     public void setSuffix(String suffix) {
         this.suffix = suffix;
         this.user.setSuffix(suffix);
+    }
+
+    @Override
+    public String getNick() {
+        return this.nick;
     }
 
     @Override
@@ -197,8 +203,20 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public void setStatus(Status.User status) {
+        this.status = status;
+        this.user.setStatus(status);
+    }
+
+    @Override
     public boolean isService() {
         return this.service;
+    }
+
+    @Override
+    public void setService(boolean service) {
+        this.service = service;
+        this.user.setService(service);
     }
 
     @Override
@@ -212,8 +230,20 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public void setAirMode(boolean airMode) {
+        this.airMode = airMode;
+        this.user.setAirMode(airMode);
+    }
+
+    @Override
     public String getTask() {
         return this.task;
+    }
+
+    @Override
+    public void setTask(String task) {
+        this.task = task;
+        this.user.setTask(task);
     }
 
     @Override
@@ -232,6 +262,11 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public void setPermGroup(String permGroup) {
+        this.user.setPermGroup(permGroup);
+    }
+
+    @Override
     public void removePermGroup() {
         this.user.removePermGroup();
     }
@@ -247,8 +282,20 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public void setServer(String server) {
+        this.server = server;
+        this.user.setServer(server);
+    }
+
+    @Override
     public DbServer getServerLast() {
         return Database.getServers().getServer(this.serverLast);
+    }
+
+    @Override
+    public void setServerLast(String serverLast) {
+        this.serverLast = serverLast;
+        this.user.setServerLast(serverLast);
     }
 
     @Override
@@ -257,21 +304,9 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-        this.user.setName(name);
-    }
-
-    @Override
-    public void setStatus(Status.User status) {
-        this.status = status;
-        this.user.setStatus(status);
-    }
-
-    @Override
-    public void setService(boolean service) {
-        this.service = service;
-        this.user.setService(service);
+    public void setServerLobby(String serverLobby) {
+        this.serverLobby = serverLobby;
+        this.user.setServerLobby(serverLobby);
     }
 
     @Override
@@ -281,21 +316,9 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setAirMode(boolean airMode) {
-        this.airMode = airMode;
-        this.user.setAirMode(airMode);
-    }
-
-    @Override
     public void setStatus(Status.User status, boolean sendChannelMessage) {
         this.status = status;
         this.user.setStatus(status, sendChannelMessage);
-    }
-
-    @Override
-    public void setTask(String task) {
-        this.task = task;
-        this.user.setTask(task);
     }
 
     @Override
@@ -311,31 +334,8 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setPermGroup(String permGroup) {
-        this.user.setPermGroup(permGroup);
-    }
-
-    @Override
     public void setPermGroup(String permGroup, SyncExecute syncExecute) {
         this.user.setPermGroup(permGroup, syncExecute);
-    }
-
-    @Override
-    public void setServer(String server) {
-        this.server = server;
-        this.user.setServer(server);
-    }
-
-    @Override
-    public void setServerLast(String serverLast) {
-        this.serverLast = serverLast;
-        this.user.setServerLast(serverLast);
-    }
-
-    @Override
-    public void setServerLobby(String serverLobby) {
-        this.serverLobby = serverLobby;
-        this.user.setServerLobby(serverLobby);
     }
 
     @Override
@@ -367,7 +367,7 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setDiscordId(Long id)  {
+    public void setDiscordId(Long id) {
         this.user.setDiscordId(id);
     }
 
@@ -377,14 +377,14 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setKit(Integer kitName) {
-        this.kit = kitName;
-        this.user.setKit(kitName);
+    public Integer getKit() {
+        return this.kit;
     }
 
     @Override
-    public Integer getKit() {
-        return this.kit;
+    public void setKit(Integer kitName) {
+        this.kit = kitName;
+        this.user.setKit(kitName);
     }
 
     @Override

@@ -29,15 +29,23 @@ public class BasicGroupsTable extends Table {
     }
 
     protected void addGroup(String name, Integer rank, String prefix, String colorChatName) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.RANK)), new TableEntry<>(name, Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX), new TableEntry<>(colorChatName.toUpperCase(), Column.Group.CHAT_COLOR));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.RANK)), new TableEntry<>(name,
+                        Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
+                new TableEntry<>(colorChatName.toUpperCase(), Column.Group.CHAT_COLOR));
     }
 
     protected void addGroup(String name, Integer rank, String prefix, String colorChatName, SyncExecute syncExecute) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.RANK)), syncExecute, new TableEntry<>(name, Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX), new TableEntry<>(colorChatName.toUpperCase(), Column.Group.CHAT_COLOR));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.RANK)), syncExecute,
+                new TableEntry<>(name, Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
+                new TableEntry<>(colorChatName.toUpperCase(), Column.Group.CHAT_COLOR));
     }
 
-    protected void addGroup(String name, Integer rank, String prefix, String colorChatName, ChannelMessage channelMessage) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.RANK)), () -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(name, Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX), new TableEntry<>(colorChatName.toUpperCase(), Column.Group.CHAT_COLOR));
+    protected void addGroup(String name, Integer rank, String prefix, String colorChatName,
+                            ChannelMessage channelMessage) {
+        super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.RANK)),
+                () -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(name,
+                        Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
+                new TableEntry<>(colorChatName.toUpperCase(), Column.Group.CHAT_COLOR));
     }
 
     protected boolean containsGroup(int rank) {
@@ -61,7 +69,8 @@ public class BasicGroupsTable extends Table {
     }
 
     protected void removeGroup(int rank, ChannelMessage channelMessage) {
-        super.deleteEntry(() -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(rank, Column.Group.RANK));
+        super.deleteEntry(() -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(rank,
+                Column.Group.RANK));
     }
 
     protected Collection<String> getGroupsName() {

@@ -10,7 +10,8 @@ import java.util.UUID;
 public class DbUserMail extends TableQuery implements de.timesnake.database.util.user.DbUserMail {
 
     public DbUserMail(DatabaseConnector databaseConnector, String nameTable, UUID uuid, Integer id) {
-        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(id, Column.User.MAIL_ID));
+        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(id,
+                Column.User.MAIL_ID));
     }
 
     @Override

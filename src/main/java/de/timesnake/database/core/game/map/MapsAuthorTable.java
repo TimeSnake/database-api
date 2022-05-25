@@ -29,11 +29,13 @@ public class MapsAuthorTable extends Table {
     }
 
     public void addMapAuthor(String mapName, UUID authorUuid) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(mapName, Column.Game.MAP_NAME), new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID)));
+        super.addEntry(new PrimaryEntries(new TableEntry<>(mapName, Column.Game.MAP_NAME),
+                new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID)));
     }
 
     public void removeMapAuthor(String mapName, UUID authorUuid) {
-        super.deleteEntry(new TableEntry<>(mapName, Column.Game.MAP_NAME), new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID));
+        super.deleteEntry(new TableEntry<>(mapName, Column.Game.MAP_NAME), new TableEntry<>(authorUuid,
+                Column.Game.MAP_AUTHOR_UUID));
     }
 
     public DbMapAuthor getMapAuthor(String mapName, UUID authorUuid) {

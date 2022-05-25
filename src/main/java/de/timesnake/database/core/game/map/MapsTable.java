@@ -39,7 +39,8 @@ public class MapsTable {
         this.authorTable.delete();
     }
 
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName, Collection<String> description, Collection<String> info, Collection<String> authors) {
+    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
+                       Collection<String> description, Collection<String> info, Collection<String> authors) {
         this.infoTable.addMapInfo(name, displayName, minPlayers, maxPlayers, itemName, description, info);
         this.getMap(name).setAuthorNames(authors);
     }

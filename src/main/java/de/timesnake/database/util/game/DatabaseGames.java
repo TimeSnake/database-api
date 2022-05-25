@@ -10,7 +10,10 @@ public interface DatabaseGames {
 
     boolean containsGame(String gameName);
 
-    DbGame createGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers, int maxPlayers, String description, String itemName, int slot, boolean isTemporary, Type.Availability kits, Type.Availability maps, Type.Availability teamMerge, Integer... teamAmounts);
+    DbGame createGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
+                      int maxPlayers, String description, String itemName, int slot, boolean isTemporary,
+                      Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
+                      Boolean equalTeamSize, Integer... teamAmounts);
 
     void deleteGame(String name);
 

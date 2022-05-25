@@ -22,12 +22,6 @@ public class DbCachedPermGroup extends DbCachedGroup implements DbPermGroup {
     }
 
     @Override
-    public void setInheritance(String inheritGroup) {
-        this.inheritGroup = inheritGroup;
-        ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).setInheritance(inheritGroup);
-    }
-
-    @Override
     public void setInheritance(String inheritGroup, SyncExecute syncExecute) {
         this.inheritGroup = inheritGroup;
         ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).setInheritance(inheritGroup, syncExecute);
@@ -54,6 +48,12 @@ public class DbCachedPermGroup extends DbCachedGroup implements DbPermGroup {
     }
 
     @Override
+    public void setInheritance(String inheritGroup) {
+        this.inheritGroup = inheritGroup;
+        ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).setInheritance(inheritGroup);
+    }
+
+    @Override
     public Collection<DbPermGroup> getGroupsInherit() {
         return ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).getGroupsInherit();
     }
@@ -70,7 +70,8 @@ public class DbCachedPermGroup extends DbCachedGroup implements DbPermGroup {
 
     @Override
     public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers) {
-        ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).addPermission(permission, mode, syncExecute, servers);
+        ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).addPermission(permission, mode, syncExecute,
+                servers);
     }
 
     @Override

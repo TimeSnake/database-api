@@ -49,7 +49,10 @@ public class HungerGamesItemsTable extends Table {
     }
 
     public void addItem(String type, Integer amount, Float chance, Integer level) {
-        super.addEntryWithAutoIdSynchronized(Column.HungerGames.ITEM_ID, new TableEntry<>(type, Column.HungerGames.ITEM_TYPE), new TableEntry<>(amount, Column.HungerGames.ITEM_AMOUNT), new TableEntry<>(chance, Column.HungerGames.ITEM_CHANCE), new TableEntry<>(level, Column.HungerGames.ITEM_LEVEL));
+        super.addEntryWithAutoIdSynchronized(Column.HungerGames.ITEM_ID, new TableEntry<>(type,
+                        Column.HungerGames.ITEM_TYPE), new TableEntry<>(amount, Column.HungerGames.ITEM_AMOUNT),
+                new TableEntry<>(chance, Column.HungerGames.ITEM_CHANCE), new TableEntry<>(level,
+                        Column.HungerGames.ITEM_LEVEL));
     }
 
     public void removeItem(String type, Integer amount) {
@@ -61,6 +64,7 @@ public class HungerGamesItemsTable extends Table {
     }
 
     public Integer getId(String type, Integer amount) {
-        return super.getFirst(Column.HungerGames.ITEM_ID, new TableEntry<>(type, Column.HungerGames.ITEM_TYPE), new TableEntry<>(amount, Column.HungerGames.ITEM_AMOUNT));
+        return super.getFirst(Column.HungerGames.ITEM_ID, new TableEntry<>(type, Column.HungerGames.ITEM_TYPE),
+                new TableEntry<>(amount, Column.HungerGames.ITEM_AMOUNT));
     }
 }

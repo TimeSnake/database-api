@@ -11,7 +11,8 @@ import java.util.UUID;
 public class DbMapAuthor extends TableQuery {
 
     protected DbMapAuthor(DatabaseConnector databaseConnector, String nameTable, String mapName, UUID authorUuid) {
-        super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.MAP_NAME), new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID));
+        super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.MAP_NAME),
+                new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID));
     }
 
     @Override

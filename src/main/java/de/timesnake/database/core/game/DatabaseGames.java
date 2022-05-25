@@ -42,10 +42,16 @@ public class DatabaseGames extends DatabaseConnector implements de.timesnake.dat
     }
 
     @Override
-    public de.timesnake.database.util.game.DbGame createGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers, int maxPlayers, String description, String itemName, int slot, boolean isTemporary, Type.Availability kits, Type.Availability maps, Type.Availability teamMerge, Integer... teamAmounts) {
+    public de.timesnake.database.util.game.DbGame createGame(String name, String displayName, String chatColorName,
+                                                             int autoStart, int minPlayers, int maxPlayers,
+                                                             String description, String itemName, int slot,
+                                                             boolean isTemporary, Type.Availability kits,
+                                                             Type.Availability maps, Type.Availability teamMerge,
+                                                             Boolean equalTeamSize, Integer... teamAmounts) {
 
         DbGame game = new DbGame(this, name, this.dbGamesInfoTable);
-        game.create(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description, itemName, slot, isTemporary, kits, maps, teamMerge, teamAmounts);
+        game.create(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description, itemName, slot,
+                isTemporary, kits, maps, teamMerge, equalTeamSize, teamAmounts);
         return game;
     }
 

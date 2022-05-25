@@ -24,7 +24,8 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
 
     @Override
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK, Column.Server.PASSWORD};
+        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK,
+                Column.Server.PASSWORD};
         super.createBackup(columns);
     }
 

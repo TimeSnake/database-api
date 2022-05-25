@@ -32,13 +32,19 @@ public class InfosTable extends PlayersTable {
     }
 
     public void backup() {
-        Column<?>[] columns = {Column.User.UUID, Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX, Column.User.NICK, Column.User.TIME_COINS, Column.User.PERMGROUP, Column.User.DATA_PROTECTION, Column.User.DISCORD_ID};
+        Column<?>[] columns = {Column.User.UUID, Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
+                Column.User.NICK, Column.User.TIME_COINS, Column.User.PERMGROUP, Column.User.DATA_PROTECTION,
+                Column.User.DISCORD_ID};
         super.createBackup(columns);
     }
 
     public void addPlayer(UUID uuid, String name, String permGroup, String server) {
         super.addPlayer(uuid, name);
-        super.setSynchronized(Set.of(new TableEntry<>(Status.User.ONLINE, Column.User.STATUS), new TableEntry<>(false, Column.User.AIR_MODE), new TableEntry<>(null, Column.User.TEAM), new TableEntry<>(permGroup, Column.User.PERMGROUP), new TableEntry<>(server, Column.User.SERVER), new TableEntry<>(server, Column.User.SERVER_LAST), new TableEntry<>(server, Column.User.SERVER_LOBBY), new TableEntry<>(false, Column.User.SERVICE)), new TableEntry<>(uuid, Column.User.UUID));
+        super.setSynchronized(Set.of(new TableEntry<>(Status.User.ONLINE, Column.User.STATUS), new TableEntry<>(false
+                , Column.User.AIR_MODE), new TableEntry<>(null, Column.User.TEAM), new TableEntry<>(permGroup,
+                Column.User.PERMGROUP), new TableEntry<>(server, Column.User.SERVER), new TableEntry<>(server,
+                Column.User.SERVER_LAST), new TableEntry<>(server, Column.User.SERVER_LOBBY), new TableEntry<>(false,
+                Column.User.SERVICE)), new TableEntry<>(uuid, Column.User.UUID));
     }
 
 }
