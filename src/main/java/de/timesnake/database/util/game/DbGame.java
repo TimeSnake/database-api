@@ -3,10 +3,11 @@ package de.timesnake.database.util.game;
 import de.timesnake.database.core.game.statistic.GameUserStatistic;
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.UnsupportedStringException;
-import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.basic.util.statistics.Stat;
+import de.timesnake.library.basic.util.statistics.StatPeriod;
+import de.timesnake.library.basic.util.statistics.StatType;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -89,16 +90,16 @@ public interface DbGame extends DbGameInfo {
     boolean containsMap(String mapName);
 
     @NotCached
-    Set<Stat<?>> getStats();
+    Set<StatType<?>> getStats();
 
     @NotCached
-    <ValueType> Stat<ValueType> getStat(String name, Stat.Type<ValueType> type);
+    StatType<?> getStat(String nam);
 
     @NotCached
-    void addStat(Stat<?> stat);
+    void addStat(StatType<?> stat);
 
     @NotCached
-    void removeStat(Stat<?> stat);
+    void removeStat(StatType<?> stat);
 
     @NotCached
     GameUserStatistic getUserStatistic(UUID uuid);
@@ -107,7 +108,7 @@ public interface DbGame extends DbGameInfo {
     Collection<GameUserStatistic> getUserStatistics();
 
     @NotCached
-    <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type);
+    <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type);
 
     /**
      * {@inheritDoc}

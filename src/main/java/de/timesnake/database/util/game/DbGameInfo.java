@@ -19,6 +19,7 @@ public interface DbGameInfo {
     @NotCached
     void setMapsAvailability(Type.Availability maps);
 
+    @NotCached
     void setEqualTeamSize(Boolean equalSize);
 
     String getName();
@@ -80,6 +81,13 @@ public interface DbGameInfo {
     void setTeamMergeAvailability(Type.Availability teamMerging);
 
     Boolean isEqualTeamSize();
+
+    String getTexturePackLink();
+
+    @NotCached
+    void setTexturePackLink(String texturePack);
+
+    Boolean hasTexturePack();
 
     List<String> getDescription();
 

@@ -12,13 +12,10 @@ import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.object.UnsupportedStringException;
-import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.basic.util.statistics.Stat;
+import de.timesnake.library.basic.util.statistics.StatPeriod;
+import de.timesnake.library.basic.util.statistics.StatType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class DbGame extends DbGameInfo implements de.timesnake.database.util.game.DbGame {
 
@@ -67,9 +64,9 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
     protected void create(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
                           int maxPlayers, String description, String itemName, int slot, boolean isTemporary,
                           Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
-                          Boolean teamEqualSize, Integer... teamAmounts) {
+                          Boolean teamEqualSize, String texturePack, Integer... teamAmounts) {
         this.infoTable.addGame(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description,
-                itemName, slot, isTemporary, kits, maps, teamMerge, teamEqualSize, teamAmounts);
+                itemName, slot, isTemporary, kits, maps, teamMerge, teamEqualSize, texturePack, teamAmounts);
         this.createTables();
     }
 
@@ -296,22 +293,22 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
     }
 
     @Override
-    public Set<Stat<?>> getStats() {
+    public Set<StatType<?>> getStats() {
         return statisticsTable.getStats();
     }
 
     @Override
-    public <ValueType> Stat<ValueType> getStat(String name, Stat.Type<ValueType> type) {
-        return statisticsTable.getStat(name, type);
+    public StatType<?> getStat(String name) {
+        return statisticsTable.getStat(name);
     }
 
     @Override
-    public void addStat(Stat<?> stat) {
+    public void addStat(StatType<?> stat) {
         statisticsTable.addStat(stat);
     }
 
     @Override
-    public void removeStat(Stat<?> stat) {
+    public void removeStat(StatType<?> stat) {
         statisticsTable.removeStat(stat);
     }
 
@@ -326,8 +323,8 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
     }
 
     @Override
-    public <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type) {
-        return this.statisticsTable.getStatOfUsers(type);
+    public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
+        return this.statisticsTable.getStatOfUsers(period, type);
     }
 
     @Override

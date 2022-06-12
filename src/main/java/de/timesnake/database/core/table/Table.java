@@ -27,7 +27,6 @@ public class Table extends BasicTable {
 
     protected Table(DatabaseConnector databaseConnector, String tableName, Column<?>... primaryColumns) {
         this(databaseConnector, tableName, List.of(primaryColumns));
-
     }
 
     protected Table(DatabaseConnector databaseConnector, String tableName, List<Column<?>> primaryColumns) {

@@ -6,10 +6,11 @@ import de.timesnake.database.util.game.DbKit;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.game.DbTeam;
 import de.timesnake.database.util.object.UnsupportedStringException;
-import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.basic.util.statistics.Stat;
+import de.timesnake.library.basic.util.statistics.StatPeriod;
+import de.timesnake.library.basic.util.statistics.StatType;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -150,22 +151,22 @@ public class DbCachedGame extends DbCachedGameInfo implements DbGame {
     }
 
     @Override
-    public Set<Stat<?>> getStats() {
+    public Set<StatType<?>> getStats() {
         return this.game.getStats();
     }
 
     @Override
-    public <ValueType> Stat<ValueType> getStat(String name, Stat.Type<ValueType> type) {
-        return this.game.getStat(name, type);
+    public StatType<?> getStat(String name) {
+        return this.game.getStat(name);
     }
 
     @Override
-    public void addStat(Stat<?> stat) {
+    public void addStat(StatType<?> stat) {
         this.game.addStat(stat);
     }
 
     @Override
-    public void removeStat(Stat<?> stat) {
+    public void removeStat(StatType<?> stat) {
         this.game.removeStat(stat);
     }
 
@@ -180,8 +181,8 @@ public class DbCachedGame extends DbCachedGameInfo implements DbGame {
     }
 
     @Override
-    public <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type) {
-        return this.game.getStatOfUsers(type);
+    public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
+        return this.game.getStatOfUsers(period, type);
     }
 
     @Override

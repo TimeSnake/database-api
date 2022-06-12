@@ -6,7 +6,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.library.basic.util.statistics.Stat;
+import de.timesnake.library.basic.util.statistics.StatType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,8 +39,8 @@ public class StatisticTypesTable extends Table {
         super.delete();
     }
 
-    public Set<Stat<?>> getStats() {
-        Set<Stat<?>> stats = new HashSet<>();
+    public Set<StatType<?>> getStats() {
+        Set<StatType<?>> stats = new HashSet<>();
 
         Set<ColumnMap> types = super.get(Set.of(Column.Game.STAT_TYPE_NAME, Column.Game.STAT_TYPE_TYPE,
                 Column.Game.STAT_TYPE_DISPLAY_NAME, Column.Game.STAT_TYPE_DEFAULT_VALUE,
@@ -51,50 +51,46 @@ public class StatisticTypesTable extends Table {
         for (ColumnMap map : types) {
             String typeString = map.get(Column.Game.STAT_TYPE_TYPE);
 
-            Stat.Type<?> type = Stat.Type.TYPES_BY_NAME.get(typeString);
-
-            if (type == null) {
-                continue;
-            }
-
             String name = map.get(Column.Game.STAT_TYPE_NAME);
             String displayName = map.get(Column.Game.STAT_TYPE_DISPLAY_NAME);
-            Object defaultValue = type.valueOf(map.get(Column.Game.STAT_TYPE_DEFAULT_VALUE));
+            String defaultValue = map.get(Column.Game.STAT_TYPE_DEFAULT_VALUE);
             Integer displayIndex = map.get(Column.Game.STAT_TYPE_DISPLAY_INDEX);
             Integer displayLineIndex = map.get(Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX);
             Boolean globalDisplay = map.get(Column.Game.STAT_TYPE_GLOBAL_DISPLAY);
             Integer globalDisplayIndex = map.get(Column.Game.STAT_TYPE_GLOBAL_DISPLAY_INDEX);
             Integer globalDisplayLineIndex = map.get(Column.Game.STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX);
 
-            stats.add(type.asStat(name, displayName, defaultValue, displayIndex, displayLineIndex, globalDisplay,
-                    globalDisplayIndex, globalDisplayLineIndex));
+            stats.add(StatType.wrapStatType(typeString, name, displayName, defaultValue, displayIndex, displayLineIndex,
+                    globalDisplay, globalDisplayIndex, globalDisplayLineIndex));
         }
 
         return stats;
     }
 
-    public <ValueType> Stat<ValueType> getStat(String name, Stat.Type<ValueType> type) {
+    public StatType<?> getStat(String name) {
         ColumnMap map = super.getFirst(Set.of(Column.Game.STAT_TYPE_NAME, Column.Game.STAT_TYPE_TYPE,
                         Column.Game.STAT_TYPE_DISPLAY_NAME, Column.Game.STAT_TYPE_DEFAULT_VALUE,
                         Column.Game.STAT_TYPE_DISPLAY_INDEX, Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX),
                 new TableEntry<>(name, Column.Game.STAT_TYPE_NAME));
 
+        String typeString = map.get(Column.Game.STAT_TYPE_TYPE);
+
         String displayName = map.get(Column.Game.STAT_TYPE_DISPLAY_NAME);
-        Object defaultValue = type.valueOf(map.get(Column.Game.STAT_TYPE_DEFAULT_VALUE));
+        String defaultValue = map.get(Column.Game.STAT_TYPE_DEFAULT_VALUE);
         Integer displayIndex = map.get(Column.Game.STAT_TYPE_DISPLAY_INDEX);
         Integer displayLineIndex = map.get(Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX);
         Boolean globalDisplay = map.get(Column.Game.STAT_TYPE_GLOBAL_DISPLAY);
         Integer globalDisplayIndex = map.get(Column.Game.STAT_TYPE_GLOBAL_DISPLAY_INDEX);
         Integer globalDisplayLineIndex = map.get(Column.Game.STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX);
 
-        return type.asStat(name, displayName, defaultValue, displayIndex, displayLineIndex, globalDisplay,
-                globalDisplayIndex, globalDisplayLineIndex);
+        return StatType.wrapStatType(typeString, name, displayName, defaultValue, displayIndex, displayLineIndex,
+                globalDisplay, globalDisplayIndex, globalDisplayLineIndex);
     }
 
-    public void addStat(Stat<?> stat) {
+    public void addStat(StatType<?> stat) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(stat.getName(), Column.Game.STAT_TYPE_NAME)),
                 new TableEntry<>(stat.getDisplayName(), Column.Game.STAT_TYPE_DISPLAY_NAME),
-                new TableEntry<>(stat.getType().getName(), Column.Game.STAT_TYPE_TYPE),
+                new TableEntry<>(stat.getType(), Column.Game.STAT_TYPE_TYPE),
                 new TableEntry<>(stat.getDefaultValueAsString(), Column.Game.STAT_TYPE_DEFAULT_VALUE),
                 new TableEntry<>(stat.getDisplayIndex(), Column.Game.STAT_TYPE_DISPLAY_INDEX),
                 new TableEntry<>(stat.getDisplayLineIndex(), Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX),
@@ -103,7 +99,7 @@ public class StatisticTypesTable extends Table {
                 new TableEntry<>(stat.getGlobalDisplayLineIndex(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX));
     }
 
-    public void removeStat(Stat<?> stat) {
+    public void removeStat(StatType<?> stat) {
         super.deleteEntrySynchronized(new TableEntry<>(stat.getName(), Column.Game.STAT_TYPE_NAME));
     }
 

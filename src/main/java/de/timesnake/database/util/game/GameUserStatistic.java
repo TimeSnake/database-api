@@ -1,17 +1,29 @@
 package de.timesnake.database.util.game;
 
-import de.timesnake.library.basic.util.statistics.Stat;
+import de.timesnake.library.basic.util.statistics.StatPeriod;
+import de.timesnake.library.basic.util.statistics.StatType;
 
+import java.util.Collection;
 import java.util.Map;
 
 public interface GameUserStatistic {
-    Map<Stat<?>, Object> get(Stat<?>... stats);
 
-    <Value> Value getValue(Stat<Value> stat);
+    Map<StatType<?>, Object> get(StatPeriod period, StatType<?>... stats);
 
-    <Value> void set(Map<Stat<Value>, Value> valuesByType);
+    Map<StatType<?>, Map<StatPeriod, Object>> get(Collection<StatPeriod> periods, StatType<?>... stats);
 
-    <Value> void setValue(Stat<Value> type, Value value);
+    <Value> Value getValue(StatPeriod period, StatType<Value> stat);
 
-    <Value> void addValue(Stat<Value> type, Value value);
+    <Value> Map<StatPeriod, Value> getValues(Collection<StatPeriod> periods, StatType<Value> stat);
+
+    <Value> void set(StatPeriod period, Map<StatType<Value>, Value> valuesByType);
+
+    <Value> void setValue(StatPeriod period, StatType<Value> type, Value value);
+
+    <Value> void setValues(Map<StatPeriod, Value> valuesByPeriod, StatType<Value> type);
+
+    <Value> void setValues(StatType<Value> type, Value value);
+
+    @Deprecated
+    <Value> void addValue(StatPeriod period, StatType<Value> type, Value value);
 }

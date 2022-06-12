@@ -1,10 +1,11 @@
 package de.timesnake.database.core.game.statistic;
 
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.basic.util.statistics.Stat;
+import de.timesnake.library.basic.util.statistics.StatPeriod;
+import de.timesnake.library.basic.util.statistics.StatType;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,19 +34,19 @@ public class StatisticsTable {
         this.userTable.delete();
     }
 
-    public Set<Stat<?>> getStats() {
+    public Set<StatType<?>> getStats() {
         return typesTable.getStats();
     }
 
-    public <ValueType> Stat<ValueType> getStat(String name, Stat.Type<ValueType> type) {
-        return typesTable.getStat(name, type);
+    public StatType<?> getStat(String name) {
+        return typesTable.getStat(name);
     }
 
-    public void addStat(Stat<?> stat) {
+    public void addStat(StatType<?> stat) {
         typesTable.addStat(stat);
     }
 
-    public void removeStat(Stat<?> stat) {
+    public void removeStat(StatType<?> stat) {
         typesTable.removeStat(stat);
     }
 
@@ -57,7 +58,7 @@ public class StatisticsTable {
         return this.userTable.getStatistic(uuid);
     }
 
-    public <Value> Collection<Tuple<UUID, Value>> getStatOfUsers(Stat<Value> type) {
-        return this.userTable.getStatOfUsers(type);
+    public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
+        return this.userTable.getStatOfUsers(period, type);
     }
 }

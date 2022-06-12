@@ -46,7 +46,8 @@ public class PrimaryEntries {
     public String getValuesAsEntry() {
         StringBuilder sb = new StringBuilder();
         for (TableEntry<?> entry : this.primaryEntries) {
-            sb.append("'").append(Table.parseType(entry.getValue())).append("'");
+            sb.append(Table.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
+
             sb.append(", ");
         }
         sb.delete(sb.length() - 2, sb.length());
@@ -58,7 +59,7 @@ public class PrimaryEntries {
         for (TableEntry<?> entry : this.primaryEntries) {
             sb.append(entry.getColumn().getName());
             sb.append("=");
-            sb.append("'").append(entry.getValue()).append("'");
+            sb.append(Table.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
             sb.append(" AND ");
         }
         sb.delete(sb.length() - 5, sb.length());

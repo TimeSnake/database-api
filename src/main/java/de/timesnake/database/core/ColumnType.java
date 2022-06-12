@@ -3,7 +3,7 @@ package de.timesnake.database.core;
 public abstract class ColumnType {
 
     public static ColumnType integer(int length) {
-        return new ColumnType("int", length) {
+        return new ColumnType("int", length, false) {
             @Override
             public String getName() {
                 return "int(" + this.length + ")";
@@ -12,7 +12,7 @@ public abstract class ColumnType {
     }
 
     public static ColumnType integer(int length, boolean autoIncrement) {
-        return new ColumnType("int", length) {
+        return new ColumnType("int", length, false) {
             @Override
             public String getName() {
                 return autoIncrement ? "int(" + this.length + ") AUTO_INCREMENT" : "int(" + this.length + ")";
@@ -21,7 +21,7 @@ public abstract class ColumnType {
     }
 
     public static ColumnType varchar(int length) {
-        return new ColumnType("varchar", length) {
+        return new ColumnType("varchar", length, true) {
             @Override
             public String getName() {
                 return "varchar(" + this.length + ")";
@@ -30,7 +30,7 @@ public abstract class ColumnType {
     }
 
     public static ColumnType tinyint(int length) {
-        return new ColumnType("tinyint", length) {
+        return new ColumnType("tinyint", length, false) {
             @Override
             public String getName() {
                 return "tinyint(" + this.length + ")";
@@ -40,10 +40,12 @@ public abstract class ColumnType {
 
     protected final String name;
     protected final int length;
+    protected final boolean wrapped;
 
-    ColumnType(String name, int length) {
+    ColumnType(String name, int length, boolean wrapped) {
         this.name = name;
         this.length = length;
+        this.wrapped = wrapped;
     }
 
     public String getSimpleName() {
@@ -52,6 +54,10 @@ public abstract class ColumnType {
 
     public int getLength() {
         return length;
+    }
+
+    public boolean isWrapped() {
+        return wrapped;
     }
 
     public abstract String getName();
