@@ -47,11 +47,12 @@ public class DatabaseGames extends DatabaseConnector implements de.timesnake.dat
                                                              String description, String itemName, int slot,
                                                              boolean isTemporary, Type.Availability kits,
                                                              Type.Availability maps, Type.Availability teamMerge,
-                                                             Boolean equalTeamSize, Integer... teamAmounts) {
+                                                             Boolean equalTeamSize, String texturePack,
+                                                             Integer... teamAmounts) {
 
         DbGame game = new DbGame(this, name, this.dbGamesInfoTable);
         game.create(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description, itemName, slot,
-                isTemporary, kits, maps, teamMerge, equalTeamSize, teamAmounts);
+                isTemporary, kits, maps, teamMerge, equalTeamSize, texturePack, teamAmounts);
         return game;
     }
 

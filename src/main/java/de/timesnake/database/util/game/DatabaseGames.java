@@ -13,7 +13,7 @@ public interface DatabaseGames {
     DbGame createGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
                       int maxPlayers, String description, String itemName, int slot, boolean isTemporary,
                       Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
-                      Boolean equalTeamSize, Integer... teamAmounts);
+                      Boolean equalTeamSize, String texturePack, Integer... teamAmounts);
 
     void deleteGame(String name);
 

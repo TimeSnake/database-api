@@ -11,11 +11,11 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Columns contains the database column name and type. The {@link Value} is mapping the value to a java object
+ * Column contains the database column name and type. The {@link Value} is mapping the value to a java object
  *
  * @param <Value> The object type, allowed classes are {@link Integer}, {@link String}, {@link Boolean}, {@link Float},
  *                {@link Double}, {@link UUID}, {@code String[]}, {@code Integer[]}, {@link DbStringArrayList},
- *                {@link DbIntegerArrayList}
+ *                {@link DbIntegerArrayList}, {@link Status}, {@link Type}, {@link  Color}
  */
 public class Column<Value> {
 
@@ -253,6 +253,8 @@ public class Column<Value> {
                 ColumnType.varchar(50));
         public static final Game<Boolean> EQUAL_TEAM_SIZE = new Game<>("equal_team_size", Boolean.class,
                 ColumnType.tinyint(1));
+        public static final Game<String> TEXTURE_PACK_LINK = new Game<>("texture_pack_link", String.class,
+                ColumnType.varchar(1000));
         public static final Game<DbStringArrayList> DESCRIPTION = new Game<>("description", DbStringArrayList.class,
                 ColumnType.varchar(1000));
 
@@ -335,7 +337,10 @@ public class Column<Value> {
 
         public static final Game<UUID> STAT_USER_UUID = new Game<>("user_uuid", UUID.class, User.UUID.getType());
         public static final Game<String> STAT_USER_TYPE = new Game<>("type", String.class, ColumnType.varchar(100));
-        public static final Game<String> STAT_USER_VALUE = new Game<>("value", String.class, ColumnType.varchar(255));
+        public static final Game<String> STAT_USER_VALUE_QUARTER = new Game<>("value_quarter", String.class,
+                ColumnType.varchar(255));
+        public static final Game<String> STAT_USER_VALUE_ALL_TIME = new Game<>("value_all_time", String.class,
+                ColumnType.varchar(255));
 
 
         Game(String name, Class<T> valueType, ColumnType type) {

@@ -30,6 +30,7 @@ public class DbCachedGameInfo implements DbGameInfo {
     private DbIntegerArrayList teamAmounts;
     private Type.Availability teamMerge;
     private Boolean equalTeamSize;
+    private String texturePack;
     private List<String> description;
 
     public DbCachedGameInfo(de.timesnake.database.core.game.DbGameInfo gameInfo) {
@@ -40,6 +41,7 @@ public class DbCachedGameInfo implements DbGameInfo {
                 Column.Game.AUTO_START, Column.Game.MIN_PLAYERS, Column.Game.MAX_PLAYERS, Column.Game.HEAD_LINE,
                 Column.Game.ITEM, Column.Game.SLOT, Column.Game.TEMPORARY, Column.Game.KITS, Column.Game.MAPS,
                 Column.Game.TEAM_AMOUNTS, Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE,
+                Column.Game.TEXTURE_PACK_LINK,
                 Column.Game.DESCRIPTION));
 
         this.displayName = columnMap.get(Column.Game.DISPLAY_NAME);
@@ -56,6 +58,7 @@ public class DbCachedGameInfo implements DbGameInfo {
         this.teamAmounts = columnMap.get(Column.Game.TEAM_AMOUNTS);
         this.teamMerge = columnMap.get(Column.Game.TEAM_MERGE);
         this.equalTeamSize = columnMap.get(Column.Game.EQUAL_TEAM_SIZE);
+        this.texturePack = columnMap.get(Column.Game.TEXTURE_PACK_LINK);
         this.description = columnMap.get(Column.Game.DESCRIPTION);
     }
 
@@ -221,6 +224,22 @@ public class DbCachedGameInfo implements DbGameInfo {
     public void setEqualTeamSize(Boolean equalSize) {
         this.equalTeamSize = equalSize;
         this.gameInfo.setEqualTeamSize(equalSize);
+    }
+
+    @Override
+    public String getTexturePackLink() {
+        return this.texturePack;
+    }
+
+    @Override
+    public void setTexturePackLink(String texturePack) {
+        this.texturePack = texturePack;
+        this.gameInfo.setTexturePackLink(texturePack);
+    }
+
+    @Override
+    public Boolean hasTexturePack() {
+        return this.texturePack != null;
     }
 
     @Override

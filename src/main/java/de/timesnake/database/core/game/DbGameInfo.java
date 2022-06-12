@@ -168,6 +168,21 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public String getTexturePackLink() {
+        return super.getFirstWithKey(Column.Game.TEXTURE_PACK_LINK);
+    }
+
+    @Override
+    public void setTexturePackLink(String texturePack) {
+        super.setWithKey(texturePack, Column.Game.TEXTURE_PACK_LINK);
+    }
+
+    @Override
+    public Boolean hasTexturePack() {
+        return super.getFirstWithKey(Column.Game.TEXTURE_PACK_LINK) != null;
+    }
+
+    @Override
     public List<String> getDescription() {
         return super.getFirstWithKey(Column.Game.DESCRIPTION);
     }
