@@ -38,9 +38,18 @@ publishing {
             artifact sourceJar {
                 classifier "sources"
             }
+
+
+        }
+        mavenJavaAll(MavenPublication) {
+            version version + '-all'
+            artifact {
+                file "build/libs/" + description + "-" + version + ".jar"
+            }
         }
     }
 }
+
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -49,10 +58,9 @@ tasks.withType(JavaCompile) {
 task buildFatJar(type: Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     baseName = rootProject.name
+    classifier = "all"
     from {
         configurations.runtimeClasspath.collect {
-            exclude('META-INF/LICENSE.txt')
-            exclude('META-INF/NOTICE.txt')
             it.isDirectory() ? it : zipTree(it)
         }
     }
@@ -60,4 +68,6 @@ task buildFatJar(type: Jar) {
 }
 
 jar.finalizedBy(buildFatJar)
+
+publishMavenJavaAllPublicationToMavenLocal.dependsOn(buildFatJar)
 
