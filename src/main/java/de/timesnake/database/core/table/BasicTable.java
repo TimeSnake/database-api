@@ -54,7 +54,7 @@ public class BasicTable {
                 if (((Object[]) value).length != 0) {
                     StringBuilder array = new StringBuilder();
                     for (Object element : ((Object[]) value)) {
-                        array.append(parseTypeToString(element));
+                        array.append(parseTypeToString(element)).append(ENTRY_ARRAY_SPLITTER);
                     }
                     array.delete(array.length() - ENTRY_ARRAY_SPLITTER.length() - 1, array.length());
                     return replaceNotAllowedStrings(parseTypeToString(array));
@@ -63,7 +63,7 @@ public class BasicTable {
                 if (((Collection<?>) value).size() > 0) {
                     StringBuilder list = new StringBuilder();
                     for (Object element : ((Collection<?>) value)) {
-                        list.append(parseTypeToString(element));
+                        list.append(parseTypeToString(element)).append(ENTRY_ARRAY_SPLITTER);
                     }
                     list.delete(list.length() - ENTRY_ARRAY_SPLITTER.length() - 1, list.length());
                     return replaceNotAllowedStrings(parseTypeToString(list));

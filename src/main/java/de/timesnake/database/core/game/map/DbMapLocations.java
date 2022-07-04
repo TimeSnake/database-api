@@ -75,10 +75,11 @@ public class DbMapLocations extends TableQuery {
             return;
         }
         super.addEntry(super.primaryEntries.with(new TableEntry<>(number, Column.Location.NUMBER)),
-                new TableEntry<>(number, Column.Location.NUMBER), new TableEntry<>(location.getWorldName(),
-                        Column.Location.WORLD), new TableEntry<>(location.getX(), Column.Location.X),
-                new TableEntry<>(location.getY(), Column.Location.Y), new TableEntry<>(location.getZ(),
-                        Column.Location.Z), new TableEntry<>(location.getYaw(), Column.Location.YAW),
+                new TableEntry<>(location.getWorldName(), Column.Location.WORLD),
+                new TableEntry<>(location.getX(), Column.Location.X),
+                new TableEntry<>(location.getY(), Column.Location.Y),
+                new TableEntry<>(location.getZ(), Column.Location.Z),
+                new TableEntry<>(location.getYaw(), Column.Location.YAW),
                 new TableEntry<>(location.getPitch(), Column.Location.PITCH));
     }
 
