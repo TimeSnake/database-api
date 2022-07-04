@@ -17,6 +17,9 @@ public interface DbMap extends DbCached<DbMap> {
 
     String getDisplayName();
 
+    @NotCached
+    void setDisplayName(String displayName);
+
     Integer getMinPlayers();
 
     Integer getMaxPlayers();
@@ -59,13 +62,13 @@ public interface DbMap extends DbCached<DbMap> {
 
     ArrayList<String> getInfo();
 
+    @NotCached
+    void setInfo(Collection<String> info);
+
     boolean isEnabled();
 
     @NotCached
-    void setDisplayName(String displayName);
-
-    @NotCached
-    void setInfo(Collection<String> info);
+    void setEnabled(boolean enable);
 
     @NotCached
     List<UUID> getAuthors();
@@ -78,6 +81,4 @@ public interface DbMap extends DbCached<DbMap> {
 
     @NotCached
     void setAuthorNames(Collection<String> authors);
-
-    void setEnabled(boolean enable);
 }
