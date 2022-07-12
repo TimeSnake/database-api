@@ -264,8 +264,12 @@ public class Table extends BasicTable {
             BasicTable.closeQuery(connection, ps, null);
         }
 
-        connection = this.databaseConnector.getConnection();
-        ps = null;
+        this.dropTmpTable();
+    }
+
+    protected void dropTmpTable() {
+        Connection connection = this.databaseConnector.getConnection();
+        PreparedStatement ps = null;
 
         try {
             ps = connection.prepareStatement("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`;");
@@ -276,6 +280,7 @@ public class Table extends BasicTable {
             BasicTable.closeQuery(connection, ps, null);
         }
     }
+
 
     private String getColumnsAsString(Column<?>... columns) {
         StringBuilder sb = new StringBuilder();

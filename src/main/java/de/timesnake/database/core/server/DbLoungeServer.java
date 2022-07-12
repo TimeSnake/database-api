@@ -13,7 +13,7 @@ public class DbLoungeServer extends DbTaskServer implements de.timesnake.databas
 
     @Override
     public de.timesnake.database.util.server.DbTempGameServer getTwinServer() {
-        for (DbTempGameServer server : Database.getServers().<DbTempGameServer>getServers(Type.Server.TEMP_GAME)) {
+        for (DbTempGameServer server : Database.getServers().getServers(Type.Server.TEMP_GAME)) {
             if (server.getTwinServerPort() != null && server.getTwinServerPort().equals(super.getPort())) {
                 return server;
             }

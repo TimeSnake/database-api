@@ -67,6 +67,12 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         String user = config.getString("database.user");
         String password = config.getString("database.password");
 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         DatabaseConnector connection = new DatabaseConnector("mysql", config.getString("database.url"), user, password);
         connection.createDatabase(config.getDatabaseName(SERVERS_NAME));
         connection.createDatabase(config.getDatabaseName(USERS_NAME));

@@ -64,9 +64,11 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
     protected void create(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
                           int maxPlayers, String description, String itemName, int slot, boolean isTemporary,
                           Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
-                          Boolean teamEqualSize, String texturePack, Integer... teamAmounts) {
+                          Boolean teamEqualSize, String texturePack, Integer playerTrackingRange,
+                          Integer... teamAmounts) {
         this.infoTable.addGame(name, displayName, chatColorName, autoStart, minPlayers, maxPlayers, description,
-                itemName, slot, isTemporary, kits, maps, teamMerge, teamEqualSize, texturePack, teamAmounts);
+                itemName, slot, isTemporary, kits, maps, teamMerge, teamEqualSize, texturePack, playerTrackingRange,
+                teamAmounts);
         this.createTables();
     }
 

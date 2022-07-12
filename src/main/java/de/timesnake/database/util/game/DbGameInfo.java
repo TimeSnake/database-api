@@ -89,6 +89,11 @@ public interface DbGameInfo {
 
     Boolean hasTexturePack();
 
+    Integer getPlayerTrackingRange();
+
+    @NotCached
+    void setPlayerTrackingRange(Integer playerTrackingRange);
+
     List<String> getDescription();
 
     @NotCached

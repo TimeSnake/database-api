@@ -1,6 +1,5 @@
 package de.timesnake.database.core.server;
 
-import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 public class LoungeTable extends TaskTable<DbLoungeServer> {
@@ -11,8 +10,7 @@ public class LoungeTable extends TaskTable<DbLoungeServer> {
 
     @Override
     public void backup() {
-        Column[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.PASSWORD};
-        super.createBackup(columns);
+        this.dropTmpTable();
     }
 
     @Override
