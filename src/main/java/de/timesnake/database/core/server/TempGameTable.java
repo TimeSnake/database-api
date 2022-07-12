@@ -17,9 +17,9 @@ public class TempGameTable extends PvPTable<DbTempGameServer> {
         super.addColumn(Column.Server.DISCORD);
     }
 
+    @Override
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.PASSWORD, Column.Server.TASK};
-        super.createBackup(columns);
+        super.dropTmpTable();
     }
 
     @Override

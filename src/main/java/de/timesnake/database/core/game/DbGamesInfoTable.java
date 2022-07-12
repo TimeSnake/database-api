@@ -30,6 +30,7 @@ public class DbGamesInfoTable extends Table {
         super.addColumn(Column.Game.TEAM_MERGE);
         super.addColumn(Column.Game.EQUAL_TEAM_SIZE);
         super.addColumn(Column.Game.TEXTURE_PACK_LINK);
+        super.addColumn(Column.Game.PLAYER_TRACKING_RANGE);
         super.addColumn(Column.Game.DESCRIPTION);
     }
 
@@ -45,7 +46,8 @@ public class DbGamesInfoTable extends Table {
     public void addGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers,
                         int maxPlayers, String headLine, String itemName, int slot, boolean isTemporary,
                         Type.Availability kits, Type.Availability maps, Type.Availability teamMerge,
-                        Boolean teamEqualSize, String texturePack, Integer... teamAmounts) {
+                        Boolean teamEqualSize, String texturePack, Integer playerTrackingRange,
+                        Integer... teamAmounts) {
         super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(name, Column.Game.NAME)),
                 new TableEntry<>(displayName, Column.Game.DISPLAY_NAME),
                 new TableEntry<>(chatColorName, Column.Game.CHAT_COLOR),
@@ -61,6 +63,7 @@ public class DbGamesInfoTable extends Table {
                 new TableEntry<>(teamMerge, Column.Game.TEAM_MERGE),
                 new TableEntry<>(teamEqualSize, Column.Game.EQUAL_TEAM_SIZE),
                 new TableEntry<>(texturePack, Column.Game.TEXTURE_PACK_LINK),
+                new TableEntry<>(playerTrackingRange, Column.Game.PLAYER_TRACKING_RANGE),
                 new TableEntry<>(new DbIntegerArrayList(Arrays.asList(teamAmounts)), Column.Game.TEAM_AMOUNTS));
     }
 

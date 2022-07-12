@@ -255,6 +255,8 @@ public class Column<Value> {
                 ColumnType.tinyint(1));
         public static final Game<String> TEXTURE_PACK_LINK = new Game<>("texture_pack_link", String.class,
                 ColumnType.varchar(1000));
+        public static final Game<Integer> PLAYER_TRACKING_RANGE = new Game<>("player_tracking_range", Integer.class,
+                ColumnType.integer(6));
         public static final Game<DbStringArrayList> DESCRIPTION = new Game<>("description", DbStringArrayList.class,
                 ColumnType.varchar(1000));
 

@@ -183,6 +183,16 @@ public class DbGameInfo extends TableQuery implements de.timesnake.database.util
     }
 
     @Override
+    public Integer getPlayerTrackingRange() {
+        return super.getFirstWithKey(Column.Game.PLAYER_TRACKING_RANGE);
+    }
+
+    @Override
+    public void setPlayerTrackingRange(Integer playerTrackingRange) {
+        super.setWithKey(playerTrackingRange, Column.Game.PLAYER_TRACKING_RANGE);
+    }
+
+    @Override
     public List<String> getDescription() {
         return super.getFirstWithKey(Column.Game.DESCRIPTION);
     }
