@@ -235,30 +235,33 @@ public class Column<Value> {
         public static final Game<String> DISPLAY_NAME = new Game<>("display_name", String.class,
                 ColumnType.varchar(50));
         public static final Game<String> CHAT_COLOR = new Game<>("chat_color", String.class, ColumnType.varchar(20));
-        public static final Game<Integer> AUTO_START = new Game<>("auto_start", Server.MAX_PLAYERS.getValueClass(),
-                Server.MAX_PLAYERS.getType());
-        public static final Game<Integer> MIN_PLAYERS = new Game<>("min_players", Server.MAX_PLAYERS.getValueClass(),
-                Server.MAX_PLAYERS.getType());
-        public static final Game<Integer> MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getValueClass(),
-                Server.MAX_PLAYERS.getType());
         public static final Game<String> HEAD_LINE = new Game<>("head_line", String.class, ColumnType.varchar(1000));
         public static final Game<String> ITEM = new Game<>("item", String.class, ColumnType.varchar(255));
         public static final Game<Integer> SLOT = new Game<>("slot", Integer.class, ColumnType.integer(4));
-        public static final Game<Boolean> TEMPORARY = new Game<>("temporary", Boolean.class, ColumnType.tinyint(1));
-        public static final Game<Type.Availability> KITS = new Game<>("kits", Type.Availability.class,
-                ColumnType.varchar(50));
-        public static final Game<Type.Availability> MAPS = new Game<>("maps", Type.Availability.class,
-                ColumnType.varchar(50));
-        public static final Game<DbIntegerArrayList> TEAM_AMOUNTS = new Game<>("team_amounts",
-                DbIntegerArrayList.class, ColumnType.varchar(255));
-        public static final Game<Type.Availability> TEAM_MERGE = new Game<>("team_merge", Type.Availability.class,
-                ColumnType.varchar(50));
-        public static final Game<Boolean> EQUAL_TEAM_SIZE = new Game<>("equal_team_size", Boolean.class,
-                ColumnType.tinyint(1));
+
+        public static final Game<Integer> MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getValueClass(), Server.MAX_PLAYERS.getType());
+        public static final Game<Type.Availability> MAPS = new Game<>("maps", Type.Availability.class, ColumnType.varchar(50));
+        public static final Game<Type.Availability> KITS = new Game<>("kits", Type.Availability.class, ColumnType.varchar(50));
+        public static final Game<Boolean> STATISTICS = new Game<>("statistics", Boolean.class, ColumnType.tinyint(1));
         public static final Game<String> TEXTURE_PACK_LINK = new Game<>("texture_pack_link", String.class,
                 ColumnType.varchar(1000));
         public static final Game<Integer> PLAYER_TRACKING_RANGE = new Game<>("player_tracking_range", Integer.class,
                 ColumnType.integer(6));
+
+        public static final Game<Boolean> GENERATEABLE = new Game<>("generateable", Boolean.class, ColumnType.tinyint(1));
+        public static final Game<Boolean> ALLOW_AUTO_DELETE = new Game<>("allow_auto_delete", Boolean.class, ColumnType.tinyint(1));
+        public static final Game<Boolean> OWNABLE = new Game<>("ownable", Boolean.class, ColumnType.tinyint(1));
+
+        public static final Game<Integer> AUTO_START_PLAYER_NUMBER = new Game<>("auto_start_player_number", Server.MAX_PLAYERS.getValueClass(),
+                Server.MAX_PLAYERS.getType());
+        public static final Game<Integer> MIN_PLAYER_NUMBER = new Game<>("min_player_number", Server.MAX_PLAYERS.getValueClass(),
+                Server.MAX_PLAYERS.getType());
+        public static final Game<DbIntegerArrayList> TEAM_SIZES = new Game<>("team_sizes",
+                DbIntegerArrayList.class, ColumnType.varchar(255));
+        public static final Game<Type.Availability> TEAM_MERGE = new Game<>("team_merge", Type.Availability.class,
+                ColumnType.varchar(50));
+        public static final Game<Boolean> EQUAL_TEAM_SIZE_REQUIRED = new Game<>("equal_team_size_required", Boolean.class,
+                ColumnType.tinyint(1));
         public static final Game<DbStringArrayList> DESCRIPTION = new Game<>("description", DbStringArrayList.class,
                 ColumnType.varchar(1000));
 

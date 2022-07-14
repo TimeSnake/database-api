@@ -2,10 +2,14 @@ package de.timesnake.database.util;
 
 import de.timesnake.database.core.file.DatabaseConfig;
 import de.timesnake.database.core.file.DatabaseNotConfiguredException;
+import de.timesnake.database.core.game.DatabaseGames;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.decoration.DatabaseDecoration;
 import de.timesnake.database.util.endgame.DatabaseEndGame;
-import de.timesnake.database.util.game.*;
+import de.timesnake.database.util.game.DatabaseLounges;
+import de.timesnake.database.util.game.DbKit;
+import de.timesnake.database.util.game.DbMap;
+import de.timesnake.database.util.game.DbTeam;
 import de.timesnake.database.util.group.DatabaseGroups;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.hungergames.DatabaseHungerGames;

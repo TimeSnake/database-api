@@ -11,40 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public interface DbGame extends DbGameInfo {
+public interface DbGame {
 
-    @NotCached
-    void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName);
+    boolean exists();
 
-    @NotCached
-    void removeTeam(String name);
-
-    @NotCached
-    void removeTeam(int rank);
-
-    @NotCached
-    Integer getHighestRank();
-
-    @NotCached
-    boolean containsTeam(int rank);
-
-    @NotCached
-    boolean containsTeam(String name);
-
-    @NotCached
-    DbTeam getTeam(String name);
-
-    @NotCached
-    DbTeam getTeam(int rank);
-
-    @NotCached
-    Collection<String> getTeamNames();
-
-    @NotCached
-    Collection<Integer> getTeamRanks();
-
-    @NotCached
-    Collection<DbTeam> getTeams();
+    DbGameInfo getInfo();
 
     @NotCached
     Collection<Integer> getKitIds();
@@ -93,7 +64,7 @@ public interface DbGame extends DbGameInfo {
     Set<StatType<?>> getStats();
 
     @NotCached
-    StatType<?> getStat(String nam);
+    StatType<?> getStat(String name);
 
     @NotCached
     void addStat(StatType<?> stat);
@@ -110,15 +81,7 @@ public interface DbGame extends DbGameInfo {
     @NotCached
     <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    DbGame toLocal();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     DbGame toDatabase();
+
+    DbGame toLocal();
 }
