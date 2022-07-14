@@ -3,7 +3,7 @@ package de.timesnake.database.core.game;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbIntegerArrayList;
 import de.timesnake.database.util.object.Type;
@@ -11,7 +11,7 @@ import de.timesnake.database.util.object.Type;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class DbGamesInfoTable extends Table {
+public class DbGamesInfoTable extends TableDDL {
 
     protected DbGamesInfoTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.Game.NAME);
@@ -39,8 +39,9 @@ public class DbGamesInfoTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public void addGame(String name, String displayName, String chatColorName, int autoStart, int minPlayers,

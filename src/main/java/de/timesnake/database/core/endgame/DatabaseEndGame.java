@@ -19,10 +19,12 @@ public class DatabaseEndGame extends DatabaseConnector implements de.timesnake.d
         this.usersTable = new EndGamesTable(this, this.usersTableName);
     }
 
+    @Override
     public void createTables() {
         this.usersTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.usersTable.backup();
     }

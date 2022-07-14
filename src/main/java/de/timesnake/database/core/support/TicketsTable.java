@@ -2,7 +2,7 @@ package de.timesnake.database.core.support;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
 
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
-public class TicketsTable extends Table {
+public class TicketsTable extends TableDDL {
 
     protected TicketsTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.Support.ID);
@@ -37,8 +37,9 @@ public class TicketsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public Collection<Integer> getTicketIds() {

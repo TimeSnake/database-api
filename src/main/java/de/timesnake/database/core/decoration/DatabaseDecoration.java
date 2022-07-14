@@ -17,10 +17,12 @@ public class DatabaseDecoration extends DatabaseConnector implements de.timesnak
         this.headsTable = new HeadsTable(this, this.headsTableName);
     }
 
+    @Override
     public void createTables() {
         this.headsTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.headsTable.backup();
     }

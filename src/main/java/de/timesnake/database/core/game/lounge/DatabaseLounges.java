@@ -19,11 +19,13 @@ public class DatabaseLounges extends DatabaseConnector implements de.timesnake.d
         this.loungeMapDisplayTable = new DbLoungeMapDisplayTable(this, loungeMapDisplayTableName);
     }
 
+    @Override
     public void createTables() {
         this.loungeMapTable.create();
         this.loungeMapDisplayTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.loungeMapTable.backup();
         this.loungeMapDisplayTable.backup();

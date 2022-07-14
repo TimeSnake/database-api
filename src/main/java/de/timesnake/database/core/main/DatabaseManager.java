@@ -12,12 +12,15 @@ import de.timesnake.database.core.game.statistic.DatabaseGameStatistics;
 import de.timesnake.database.core.game.team.DatabaseTeams;
 import de.timesnake.database.core.group.perm.DatabaseGroups;
 import de.timesnake.database.core.hungergames.DatabaseHungerGames;
+import de.timesnake.database.core.network.DatabaseNetwork;
 import de.timesnake.database.core.permisson.DatabasePermissions;
 import de.timesnake.database.core.server.DatabaseServers;
 import de.timesnake.database.core.story.DatabaseStory;
 import de.timesnake.database.core.support.DatabaseSupport;
 import de.timesnake.database.core.user.DatabaseUsers;
 import de.timesnake.database.util.object.DatabaseConnector;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DatabaseManager implements de.timesnake.database.util.Database {
 
@@ -40,10 +43,9 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     private static final String LOUNGES_NAME = "game_lounges";
     private static final String DECORATIONS_NAME = "decorations";
     private static final String STORY_NAME = "story";
+    private static final String NETWORK_NAME = "network";
     private static final DatabaseManager instance = new DatabaseManager();
-    /**
-     * For debug
-     */
+    private final ConcurrentHashMap<String, DatabaseConnector> databasesByName = new ConcurrentHashMap<>();
     private boolean broadcast = false;
     private DatabaseServers servers;
     private DatabaseGroups groups;
@@ -60,6 +62,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     private DatabaseLounges lounges;
     private DatabaseDecoration decorations;
     private DatabaseStory story;
+    private DatabaseNetwork network;
     private boolean isConnected = false;
 
     @Override
@@ -89,55 +92,75 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         connection.createDatabase(config.getDatabaseName(DECORATIONS_NAME));
         connection.createDatabase(config.getDatabaseName(STORY_NAME));
         connection.createDatabase(config.getDatabaseName(GAME_STATISTICS_NAME));
+        connection.createDatabase(config.getDatabaseName(NETWORK_NAME));
 
         servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), config.getDatabaseUrl(SERVERS_NAME),
                 user, password, "lobbys", "games", "lounges",
                 "tempGames", "builds");
+        this.databasesByName.put(SERVERS_NAME, servers);
 
         users = new DatabaseUsers(config.getDatabaseName(USERS_NAME),
                 config.getDatabaseUrl(USERS_NAME), user, password, "info", "punishments", "mails");
+        this.databasesByName.put(USERS_NAME, users);
 
         groups = new DatabaseGroups(config.getDatabaseName(GROUPS_NAME), config.getDatabaseUrl(GROUPS_NAME),
                 user, password, "perm_groups");
+        this.databasesByName.put(GROUPS_NAME, groups);
 
         permissions = new DatabasePermissions(config.getDatabaseName(PERMISSIONS_NAME),
                 config.getDatabaseUrl(PERMISSIONS_NAME),
                 user, password, "permissions");
+        this.databasesByName.put(PERMISSIONS_NAME, permissions);
 
         games = new DatabaseGames(config.getDatabaseName(GAMES_NAME), config.getDatabaseUrl(GAMES_NAME),
                 user, password, "infos");
+        this.databasesByName.put(GAMES_NAME, games);
 
         gameTeams = new DatabaseTeams(config.getDatabaseName(TEAMS_NAME), config.getDatabaseUrl(TEAMS_NAME),
                 user, password);
+        this.databasesByName.put(TEAMS_NAME, gameTeams);
 
         gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME), config.getDatabaseUrl(MAPS_NAME),
                 user, password, "info", "locations", "authors");
+        this.databasesByName.put(MAPS_NAME, gameMaps);
 
         gameKits = new DatabaseKits(config.getDatabaseName(KITS_NAME), config.getDatabaseUrl(KITS_NAME),
                 user, password);
+        this.databasesByName.put(KITS_NAME, gameKits);
 
         gameStatistics = new DatabaseGameStatistics(config.getDatabaseName(GAME_STATISTICS_NAME),
                 config.getDatabaseUrl(GAME_STATISTICS_NAME), user, password,
                 "user_statistics", "statistic_types");
+        this.databasesByName.put(GAME_STATISTICS_NAME, gameStatistics);
 
         lounges = new DatabaseLounges(config.getDatabaseName(LOUNGES_NAME), config.getDatabaseUrl(LOUNGES_NAME),
                 user, password, "maps", "map_displays");
+        this.databasesByName.put(LOUNGES_NAME, lounges);
 
         support = new DatabaseSupport(config.getDatabaseName(SUPPORT_NAME), config.getDatabaseUrl(SUPPORT_NAME),
                 user, password, "tickets");
+        this.databasesByName.put(SUPPORT_NAME, support);
 
         hungerGames = new DatabaseHungerGames(config.getDatabaseName(HUNGER_GAMES_NAME),
                 config.getDatabaseUrl(HUNGER_GAMES_NAME), user, password, "items");
+        this.databasesByName.put(HUNGER_GAMES_NAME, hungerGames);
 
         endGame = new DatabaseEndGame(config.getDatabaseName(END_GAME_NAME), config.getDatabaseUrl(END_GAME_NAME),
                 user, password, "worlds");
+        this.databasesByName.put(END_GAME_NAME, endGame);
 
         decorations = new DatabaseDecoration(config.getDatabaseName(DECORATIONS_NAME),
-                config.getDatabaseUrl(DECORATIONS_NAME),
-                user, password, "heads");
+                config.getDatabaseUrl(DECORATIONS_NAME), user, password, "heads");
+        this.databasesByName.put(DECORATIONS_NAME, decorations);
 
         story = new DatabaseStory(config.getDatabaseName(STORY_NAME), config.getDatabaseUrl(STORY_NAME), user, password,
                 "user_checkpoints", "user_bought");
+        this.databasesByName.put(STORY_NAME, story);
+
+        network = new DatabaseNetwork(config.getDatabaseName(NETWORK_NAME), config.getDatabaseUrl(NETWORK_NAME), user
+                , password,
+                "files");
+        this.databasesByName.put(NETWORK_NAME, network);
 
         isConnected = true;
     }
@@ -145,17 +168,9 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     @Override
     public void createTables() {
         if (isConnected) {
-            servers.createTables();
-            groups.createTables();
-            permissions.createTables();
-            users.createTables();
-            games.createTables();
-            lounges.createTables();
-            support.createTables();
-            hungerGames.createTables();
-            endGame.createTables();
-            decorations.createTables();
-            story.createTables();
+            for (DatabaseConnector database : this.databasesByName.values()) {
+                database.createTables();
+            }
         }
 
     }
@@ -163,17 +178,9 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     @Override
     public void closeWithBackups() {
         if (isConnected) {
-            servers.backupTables();
-            groups.backupTables();
-            permissions.backupTables();
-            users.backupTables();
-            games.backupTables();
-            lounges.backupTables();
-            support.backupTables();
-            hungerGames.backupTables();
-            endGame.backupTables();
-            decorations.backupTables();
-            story.backupTables();
+            for (DatabaseConnector database : this.databasesByName.values()) {
+                database.backupTables();
+            }
         }
 
         this.close();
@@ -182,20 +189,9 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
     @Override
     public void close() {
-        servers.close();
-        groups.close();
-        permissions.close();
-        users.close();
-        games.close();
-        support.close();
-        hungerGames.close();
-        endGame.close();
-        gameTeams.close();
-        gameMaps.close();
-        gameKits.close();
-        gameStatistics.close();
-        decorations.close();
-        story.close();
+        for (DatabaseConnector database : this.databasesByName.values()) {
+            database.close();
+        }
 
         isConnected = false;
 
@@ -210,31 +206,31 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     }
 
     public de.timesnake.database.util.server.DatabaseServers getServers() {
-        return DatabaseManager.getInstance().servers;
+        return servers;
     }
 
     public DatabaseGroups getGroups() {
-        return DatabaseManager.getInstance().groups;
+        return groups;
     }
 
     public DatabasePermissions getPermissions() {
-        return DatabaseManager.getInstance().permissions;
+        return permissions;
     }
 
     public DatabaseUsers getUsers() {
-        return DatabaseManager.getInstance().users;
+        return users;
     }
 
     public DatabaseGames getGames() {
-        return DatabaseManager.getInstance().games;
+        return games;
     }
 
     public DatabaseSupport getSupport() {
-        return DatabaseManager.getInstance().support;
+        return support;
     }
 
     public DatabaseEndGame getEndGame() {
-        return DatabaseManager.getInstance().endGame;
+        return endGame;
     }
 
     public DatabaseKits getGameKits() {
@@ -267,6 +263,10 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
     public DatabaseStory getStory() {
         return story;
+    }
+
+    public DatabaseNetwork getNetwork() {
+        return network;
     }
 
     public void broadcast(String message) {

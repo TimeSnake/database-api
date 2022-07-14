@@ -2,7 +2,7 @@ package de.timesnake.database.core.game.statistic;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
@@ -11,7 +11,7 @@ import de.timesnake.library.basic.util.statistics.StatType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class UserStatisticsTable extends Table {
+public class UserStatisticsTable extends TableDDL {
     protected UserStatisticsTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.STAT_USER_UUID, Column.Game.STAT_USER_TYPE);
         super.addColumn(Column.Game.STAT_USER_VALUE_QUARTER);
@@ -25,8 +25,9 @@ public class UserStatisticsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     @Override

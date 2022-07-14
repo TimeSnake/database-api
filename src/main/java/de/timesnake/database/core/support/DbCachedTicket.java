@@ -1,7 +1,7 @@
 package de.timesnake.database.core.support;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.library.basic.util.Status;
@@ -16,10 +16,10 @@ public class DbCachedTicket implements DbTicket {
     private final Integer id;
     private final String uuid;
     private final String name;
+    private final Date date;
     private String message;
     private String answer;
     private Status.Ticket status;
-    private final Date date;
 
     public DbCachedTicket(de.timesnake.database.core.support.DbTicket ticket) {
         ColumnMap columnMap = ticket.getFirstWithKey(Set.of(Column.Support.UUID, Column.Support.NAME,
@@ -96,7 +96,7 @@ public class DbCachedTicket implements DbTicket {
 
     @Override
     public String getDateString() {
-        return Table.DATE_FORMAT.format(this.getDate());
+        return TableDDL.DATE_FORMAT.format(this.getDate());
     }
 
     @Override

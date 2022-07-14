@@ -6,6 +6,7 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbTaskServer;
 import de.timesnake.library.basic.util.Status;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
         super.addColumn(Column.Server.TASK);
     }
 
-    public void addServer(int port, String name, String task, Status.Server status, String folderPath) {
+    public void addServer(int port, String name, String task, Status.Server status, Path folderPath) {
         super.addServer(port, name, status, folderPath);
         super.setSynchronized(task, Column.Server.TASK, new TableEntry<>(port, Column.Server.PORT));
     }
@@ -26,7 +27,7 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
     public void backup() {
         Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK,
                 Column.Server.PASSWORD};
-        super.createBackup(columns);
+        super.backup(columns);
     }
 
     public List<Server> getServers(String task) {

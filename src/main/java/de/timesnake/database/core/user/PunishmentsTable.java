@@ -25,8 +25,9 @@ public class PunishmentsTable extends PlayersTable {
         super.addColumn(Column.User.PUNISH_SERVER);
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public void setPunishment(UUID uuid, String name, Type.Punishment type, Date date, String castigator,

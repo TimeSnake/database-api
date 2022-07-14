@@ -1,7 +1,7 @@
 package de.timesnake.database.util.object;
 
 import de.timesnake.database.core.main.DatabaseManager;
-import de.timesnake.database.core.table.BasicTable;
+import de.timesnake.database.core.table.Table;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -10,13 +10,11 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    protected String name;
-
-    protected BasicDataSource ds;
-
-    protected String url;
     private final String user;
     private final String password;
+    protected String name;
+    protected BasicDataSource ds;
+    protected String url;
 
     public DatabaseConnector(String name, String url, String user, String password) {
         this.url = url;
@@ -72,7 +70,7 @@ public class DatabaseConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            BasicTable.closeQuery(connection, ps, null);
+            Table.closeQuery(connection, ps, null);
         }
     }
 
@@ -86,6 +84,14 @@ public class DatabaseConnector {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public void createTables() {
+
+    }
+
+    public void backupTables() {
+
     }
 
 }

@@ -22,11 +22,13 @@ public class DatabaseStory extends DatabaseConnector implements de.timesnake.dat
         this.boughtTable = new UserBoughtTable(this, this.boughtTableName);
     }
 
+    @Override
     public void createTables() {
         this.checkpointsTable.create();
         this.boughtTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.checkpointsTable.backup();
         this.boughtTable.backup();

@@ -4,6 +4,8 @@ import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
 
+import java.nio.file.Path;
+
 public interface DbServer {
 
     void delete();
@@ -12,33 +14,33 @@ public interface DbServer {
 
     String getName();
 
+    void setName(String name);
+
     Integer getPort();
 
     Status.Server getStatus();
 
-    Integer getOnlinePlayers();
-
-    Integer getMaxPlayers();
-
-    void setName(String name);
-
     void setStatus(Status.Server status);
 
-    void setStatusSynchronized(Status.Server status);
+    Integer getOnlinePlayers();
 
     void setOnlinePlayers(int playersOnline);
 
-    void setOnlinePlayersSynchronized(int playersOnline);
+    Integer getMaxPlayers();
 
     void setMaxPlayers(int playersMax);
 
-    Type.Server<?> getType();
+    void setStatusSynchronized(Status.Server status);
 
-    void setPassword(String password) throws TooLongEntryException;
+    void setOnlinePlayersSynchronized(int playersOnline);
+
+    Type.Server<?> getType();
 
     String getPassword();
 
+    void setPassword(String password) throws TooLongEntryException;
+
     boolean hasPassword();
 
-    String getFolderPath();
+    Path getFolderPath();
 }

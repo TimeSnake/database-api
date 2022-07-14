@@ -10,6 +10,8 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.library.basic.util.Status;
 
+import java.nio.file.Path;
+
 public abstract class DbServer extends TableQuery implements de.timesnake.database.util.server.DbServer {
 
     public DbServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
@@ -107,7 +109,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
     }
 
     @Override
-    public String getFolderPath() {
+    public Path getFolderPath() {
         return super.getFirstWithKey(Column.Server.FOLDER_PATH);
     }
 

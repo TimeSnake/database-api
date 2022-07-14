@@ -16,6 +16,7 @@ public class DatabaseGames extends DatabaseConnector implements de.timesnake.dat
         this.dbGamesInfoTable = new DbGamesInfoTable(this, gamesInfoTableName);
     }
 
+    @Override
     public void createTables() {
         this.dbGamesInfoTable.create();
         for (de.timesnake.database.util.game.DbGame game : this.getGames()) {
@@ -23,6 +24,7 @@ public class DatabaseGames extends DatabaseConnector implements de.timesnake.dat
         }
     }
 
+    @Override
     public void backupTables() {
         for (de.timesnake.database.util.game.DbGame game : this.getGames()) {
             ((DbGame) game).backup();

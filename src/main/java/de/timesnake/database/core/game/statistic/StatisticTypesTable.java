@@ -3,7 +3,7 @@ package de.timesnake.database.core.game.statistic;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatType;
@@ -11,7 +11,7 @@ import de.timesnake.library.basic.util.statistics.StatType;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StatisticTypesTable extends Table {
+public class StatisticTypesTable extends TableDDL {
 
     protected StatisticTypesTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.STAT_TYPE_NAME);
@@ -30,8 +30,9 @@ public class StatisticTypesTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     @Override

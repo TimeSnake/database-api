@@ -3,14 +3,14 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public class MapsAuthorTable extends Table {
+public class MapsAuthorTable extends TableDDL {
 
     protected MapsAuthorTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.MAP_NAME, Column.Game.MAP_AUTHOR_UUID);
@@ -20,8 +20,9 @@ public class MapsAuthorTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public void delete() {

@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public abstract class TableQuery extends BasicTable {
+public abstract class TableQuery extends Table {
 
     protected final PrimaryEntries primaryEntries;
     private final List<TableEntry<?>> primaryEntriesList;

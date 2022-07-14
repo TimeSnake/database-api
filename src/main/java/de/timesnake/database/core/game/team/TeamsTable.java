@@ -21,8 +21,9 @@ public class TeamsTable extends BasicGroupsTable {
         super.create();
     }
 
+    @Override
     public void backup() {
-        createBackup();
+        super.backup();
     }
 
     @Override

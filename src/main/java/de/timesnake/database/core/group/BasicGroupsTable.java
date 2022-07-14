@@ -5,13 +5,13 @@ import de.timesnake.channel.util.message.ChannelMessage;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 
 import java.util.Collection;
 
-public class BasicGroupsTable extends Table {
+public class BasicGroupsTable extends TableDDL {
 
     protected BasicGroupsTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.Group.RANK);
@@ -24,8 +24,9 @@ public class BasicGroupsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     protected void addGroup(String name, Integer rank, String prefix, String colorChatName) {

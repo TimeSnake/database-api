@@ -7,6 +7,8 @@ import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
 
 import java.awt.*;
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.UUID;
 
@@ -66,7 +68,7 @@ public class Column<Value> {
         public static final Server<Integer> TWIN_SERVER = new Server<>("twin_server", PORT.getValueClass(),
                 PORT.getType());
         public static final Server<String> PASSWORD = new Server<>("password", String.class, ColumnType.varchar(255));
-        public static final Server<String> FOLDER_PATH = new Server<>("folder_path", String.class,
+        public static final Server<Path> FOLDER_PATH = new Server<>("folder_path", Path.class,
                 ColumnType.varchar(1000));
         public static final Server<Boolean> DISCORD = new Server<>("discord", Boolean.class, ColumnType.tinyint(1));
 
@@ -420,6 +422,15 @@ public class Column<Value> {
 
 
         Story(String name, Class<T> tClass, ColumnType columnType) {
+            super(name, tClass, columnType);
+        }
+    }
+
+    public static class Network<T> extends Column<T> {
+        public static final Network<String> FILE_NAME = new Network<>("name", String.class, ColumnType.varchar(100));
+        public static final Network<File> FILE_PATH = new Network<>("file_path", File.class, ColumnType.varchar(1000));
+
+        Network(String name, Class<T> tClass, ColumnType columnType) {
             super(name, tClass, columnType);
         }
     }

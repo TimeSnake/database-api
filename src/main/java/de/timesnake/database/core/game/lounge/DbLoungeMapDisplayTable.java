@@ -3,7 +3,7 @@ package de.timesnake.database.core.game.lounge;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-public class DbLoungeMapDisplayTable extends Table {
+public class DbLoungeMapDisplayTable extends TableDDL {
 
     public DbLoungeMapDisplayTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.LOUNGE_MAP_NAME, Column.Game.LOUNGE_MAP_DISPLAY_INDEX);
@@ -33,8 +33,9 @@ public class DbLoungeMapDisplayTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public void addDisplay(String mapName, Integer displayIndex, Integer x, Integer y, Integer z,
