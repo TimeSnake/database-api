@@ -3,14 +3,14 @@ package de.timesnake.database.core.game.lounge;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DbLoungeMapTable extends Table {
+public class DbLoungeMapTable extends TableDDL {
 
     protected DbLoungeMapTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.LOUNGE_MAP_NAME);
@@ -27,8 +27,9 @@ public class DbLoungeMapTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public void addMap(String name, DbLocation spawn) {

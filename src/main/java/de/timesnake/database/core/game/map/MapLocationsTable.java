@@ -23,8 +23,9 @@ public class MapLocationsTable extends LocationsTable {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     @Override

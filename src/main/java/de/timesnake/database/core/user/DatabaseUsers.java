@@ -27,12 +27,14 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         this.mailsTable = new MailsTable(this, this.mailsTableName);
     }
 
+    @Override
     public void createTables() {
         this.infosTable.create();
         this.punishmentsTable.create();
         this.mailsTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.infosTable.backup();
         this.punishmentsTable.backup();

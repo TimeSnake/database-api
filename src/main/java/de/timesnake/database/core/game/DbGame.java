@@ -103,7 +103,7 @@ public class DbGame extends DbGameInfo implements de.timesnake.database.util.gam
             kitsAvailability = Type.Availability.FORBIDDEN;
         }
         if (kitsAvailability.equals(Type.Availability.ALLOWED) || kitsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.kitsTable.createBackup();
+            this.kitsTable.backup();
         }
         Type.Availability mapsAvailability = super.getMapAvailability();
         if (mapsAvailability == null) {

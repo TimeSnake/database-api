@@ -5,7 +5,7 @@ import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.SyncExecute;
@@ -14,7 +14,7 @@ import de.timesnake.library.basic.util.Status;
 import java.util.Collection;
 import java.util.UUID;
 
-public class PermissionsTable extends Table {
+public class PermissionsTable extends TableDDL {
 
     protected PermissionsTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.Permission.ID);
@@ -65,8 +65,9 @@ public class PermissionsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public boolean containsPermission(String name, String permission) {

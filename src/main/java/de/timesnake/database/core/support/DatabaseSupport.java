@@ -20,10 +20,12 @@ public class DatabaseSupport extends DatabaseConnector implements de.timesnake.d
         this.ticketsTable = new TicketsTable(this, ticketsTableName);
     }
 
+    @Override
     public void createTables() {
         ticketsTable.create();
     }
 
+    @Override
     public void backupTables() {
         ticketsTable.backup();
     }

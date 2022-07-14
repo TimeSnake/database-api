@@ -3,13 +3,13 @@ package de.timesnake.database.core.story;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.Set;
 import java.util.UUID;
 
-public class UserCheckpointsTable extends Table {
+public class UserCheckpointsTable extends TableDDL {
 
     protected UserCheckpointsTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Story.USER_UUID, Column.Story.CHAPTER_ID, Column.Story.PART_ID);
@@ -22,8 +22,9 @@ public class UserCheckpointsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public Set<Integer> getChapterIds(UUID uuid) {

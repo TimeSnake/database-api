@@ -3,6 +3,7 @@ package de.timesnake.database.util.server;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
 
+import java.nio.file.Path;
 import java.util.Collection;
 
 public interface DatabaseServers {
@@ -35,13 +36,13 @@ public interface DatabaseServers {
 
     Collection<Integer> getServerPorts(Type.Server<?> type);
 
-    void addLobby(int port, String name, Status.Server status, String folderPath);
+    void addLobby(int port, String name, Status.Server status, Path folderPath);
 
-    void addGame(int port, String name, String task, Status.Server status, String folderPath);
+    void addGame(int port, String name, String task, Status.Server status, Path folderPath);
 
-    void addLounge(int port, String name, Status.Server status, String folderPath);
+    void addLounge(int port, String name, Status.Server status, Path folderPath);
 
-    void addTempGame(int port, String name, String task, Status.Server status, String folderPath);
+    void addTempGame(int port, String name, String task, Status.Server status, Path folderPath);
 
-    void addBuild(int port, String name, String task, Status.Server status, String folderPath);
+    void addBuild(int port, String name, String task, Status.Server status, Path folderPath);
 }

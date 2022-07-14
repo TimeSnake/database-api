@@ -3,16 +3,17 @@ package de.timesnake.database.core.server;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.library.basic.util.Status;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class ServerTable<Server extends DbServer> extends Table {
+public abstract class ServerTable<Server extends DbServer> extends TableDDL {
 
     public ServerTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.Server.PORT);
@@ -28,10 +29,11 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
         Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS,
                 Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
-        super.createBackup(columns);
+        super.backup(columns);
     }
 
     public Integer getPortFromName(String name) {
@@ -49,14 +51,14 @@ public abstract class ServerTable<Server extends DbServer> extends Table {
         return super.get(Column.Server.PORT);
     }
 
-    public void addServer(int port, String name, Status.Server status, String folderPath) {
+    public void addServer(int port, String name, Status.Server status, Path folderPath) {
         super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)),
                 new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME),
                 new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath,
                         Column.Server.FOLDER_PATH));
     }
 
-    public void addServer(int port, String name, Status.Server status, String folderPath, String password) {
+    public void addServer(int port, String name, Status.Server status, Path folderPath, String password) {
         super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)),
                 new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME),
                 new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath,

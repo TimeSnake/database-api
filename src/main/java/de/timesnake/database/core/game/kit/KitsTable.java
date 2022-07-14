@@ -3,15 +3,15 @@ package de.timesnake.database.core.game.kit;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.BasicTable;
 import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.UnsupportedStringException;
 
 import java.util.Collection;
 
-public class KitsTable extends Table {
+public class KitsTable extends TableDDL {
 
     protected KitsTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.KIT_ID);
@@ -26,8 +26,8 @@ public class KitsTable extends Table {
     }
 
     @Override
-    public void createBackup() {
-        super.createBackup();
+    public void backup() {
+        super.backup();
     }
 
     @Override
@@ -62,8 +62,8 @@ public class KitsTable extends Table {
 
     public void addKit(Integer id, String name, String itemType, Collection<String> description) throws UnsupportedStringException {
         for (String string : description) {
-            if (string.contains(BasicTable.ENTRY_ARRAY_SPLITTER)) {
-                throw new UnsupportedStringException(BasicTable.ENTRY_ARRAY_SPLITTER);
+            if (string.contains(Table.ENTRY_ARRAY_SPLITTER)) {
+                throw new UnsupportedStringException(Table.ENTRY_ARRAY_SPLITTER);
             }
         }
         super.addEntry(new PrimaryEntries(new TableEntry<>(id, Column.Game.KIT_ID)), new TableEntry<>(name,
@@ -73,8 +73,8 @@ public class KitsTable extends Table {
 
     public void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException {
         for (String string : description) {
-            if (string.contains(BasicTable.ENTRY_ARRAY_SPLITTER)) {
-                throw new UnsupportedStringException(BasicTable.ENTRY_ARRAY_SPLITTER);
+            if (string.contains(Table.ENTRY_ARRAY_SPLITTER)) {
+                throw new UnsupportedStringException(Table.ENTRY_ARRAY_SPLITTER);
             }
         }
         super.addEntryWithAutoIdSynchronized(Column.Game.KIT_ID, new TableEntry<>(name, Column.Game.KIT_NAME),

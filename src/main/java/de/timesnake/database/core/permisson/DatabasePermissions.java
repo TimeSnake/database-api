@@ -18,10 +18,12 @@ public class DatabasePermissions extends DatabaseConnector implements de.timesna
         this.permissionsTable = new PermissionsTable(this, permissionsTableName);
     }
 
+    @Override
     public void createTables() {
         permissionsTable.create();
     }
 
+    @Override
     public void backupTables() {
         permissionsTable.backup();
     }

@@ -1,6 +1,6 @@
 package de.timesnake.database.core;
 
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class PrimaryEntries {
     public String getValuesAsEntry() {
         StringBuilder sb = new StringBuilder();
         for (TableEntry<?> entry : this.primaryEntries) {
-            sb.append(Table.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
+            sb.append(TableDDL.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
 
             sb.append(", ");
         }
@@ -59,7 +59,7 @@ public class PrimaryEntries {
         for (TableEntry<?> entry : this.primaryEntries) {
             sb.append(entry.getColumn().getName());
             sb.append("=");
-            sb.append(Table.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
+            sb.append(TableDDL.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
             sb.append(" AND ");
         }
         sb.delete(sb.length() - 5, sb.length());

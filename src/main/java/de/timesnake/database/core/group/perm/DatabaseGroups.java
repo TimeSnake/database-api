@@ -18,10 +18,12 @@ public class DatabaseGroups extends DatabaseConnector implements de.timesnake.da
         this.permGroupsTable = new PermGroupsTable(this, this.permGroupsTableName);
     }
 
+    @Override
     public void createTables() {
         this.permGroupsTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.permGroupsTable.backup();
     }

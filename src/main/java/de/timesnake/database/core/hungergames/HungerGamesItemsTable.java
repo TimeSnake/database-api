@@ -2,13 +2,13 @@ package de.timesnake.database.core.hungergames;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class HungerGamesItemsTable extends Table {
+public class HungerGamesItemsTable extends TableDDL {
 
     public HungerGamesItemsTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.HungerGames.ITEM_ID);
@@ -22,8 +22,9 @@ public class HungerGamesItemsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public de.timesnake.database.util.hungergames.DbHungerGamesItem getItem(int id) {

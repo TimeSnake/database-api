@@ -2,7 +2,7 @@ package de.timesnake.database.core.support;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
@@ -41,13 +41,28 @@ public class DbTicket extends TableQuery implements de.timesnake.database.util.s
     }
 
     @Override
+    public void setMessage(String message) {
+        super.setWithKey(message, Column.Support.MESSAGE);
+    }
+
+    @Override
     public String getAnswer() {
         return super.getFirstWithKey(Column.Support.ANSWER);
     }
 
     @Override
+    public void setAnswer(String answer) {
+        super.setWithKey(answer, Column.Support.ANSWER);
+    }
+
+    @Override
     public Status.Ticket getStatus() {
         return super.getFirstWithKey(Column.Support.STATUS);
+    }
+
+    @Override
+    public void setStatus(Status.Ticket status) {
+        super.setWithKey(status, Column.Support.STATUS);
     }
 
     @Override
@@ -57,22 +72,7 @@ public class DbTicket extends TableQuery implements de.timesnake.database.util.s
 
     @Override
     public String getDateString() {
-        return Table.DATE_FORMAT.format(this.getDate());
-    }
-
-    @Override
-    public void setAnswer(String answer) {
-        super.setWithKey(answer, Column.Support.ANSWER);
-    }
-
-    @Override
-    public void setStatus(Status.Ticket status) {
-        super.setWithKey(status, Column.Support.STATUS);
-    }
-
-    @Override
-    public void setMessage(String message) {
-        super.setWithKey(message, Column.Support.MESSAGE);
+        return TableDDL.DATE_FORMAT.format(this.getDate());
     }
 
     @Override

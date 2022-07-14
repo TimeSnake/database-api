@@ -15,10 +15,12 @@ public class DatabaseHungerGames extends DatabaseConnector implements de.timesna
         this.itemsTable = new HungerGamesItemsTable(this, itemsTableName);
     }
 
+    @Override
     public void createTables() {
         this.itemsTable.create();
     }
 
+    @Override
     public void backupTables() {
         this.itemsTable.backup();
     }

@@ -3,14 +3,14 @@ package de.timesnake.database.core.decoration;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class HeadsTable extends Table {
+public class HeadsTable extends TableDDL {
 
     protected HeadsTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Decoration.HEAD_TAG);
@@ -23,8 +23,9 @@ public class HeadsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public boolean containsHead(String tag) {

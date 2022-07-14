@@ -3,7 +3,7 @@ package de.timesnake.database.core.user;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public class MailsTable extends Table {
+public class MailsTable extends TableDDL {
 
     public MailsTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.User.UUID, Column.User.MAIL_ID);
@@ -26,8 +26,9 @@ public class MailsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public Collection<UUID> getPlayerUniqueIds() {

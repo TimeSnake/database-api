@@ -9,6 +9,7 @@ import de.timesnake.database.util.game.*;
 import de.timesnake.database.util.group.DatabaseGroups;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.hungergames.DatabaseHungerGames;
+import de.timesnake.database.util.network.DatabaseNetwork;
 import de.timesnake.database.util.permission.DatabasePermissions;
 import de.timesnake.database.util.server.DatabaseServers;
 import de.timesnake.database.util.story.DatabaseStory;
@@ -214,6 +215,18 @@ public interface Database {
      */
     static DatabaseStory getStory() {
         return DatabaseManager.getInstance().getStory();
+    }
+
+    /**
+     * Gets the network database
+     * <p>
+     * The network database contains information about the network, like file paths
+     * </p>
+     *
+     * @return the {@link  DatabaseNetwork}
+     */
+    static DatabaseNetwork getNetwork() {
+        return DatabaseManager.getInstance().getNetwork();
     }
 
     void connect(DatabaseConfig config) throws DatabaseNotConfiguredException;

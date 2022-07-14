@@ -3,13 +3,13 @@ package de.timesnake.database.core.endgame;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbGameServer;
 
 import java.util.UUID;
 
-public class EndGamesTable extends Table {
+public class EndGamesTable extends TableDDL {
 
     protected EndGamesTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable, Column.EndGame.PLAYER_UUID);
@@ -21,8 +21,9 @@ public class EndGamesTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     public de.timesnake.database.util.endgame.DbEndGameUser getUser(UUID uuid) {

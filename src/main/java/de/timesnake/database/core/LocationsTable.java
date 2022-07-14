@@ -1,12 +1,12 @@
 package de.timesnake.database.core;
 
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
 
 import java.util.HashMap;
 
-public class LocationsTable extends Table {
+public class LocationsTable extends TableDDL {
 
     public LocationsTable(DatabaseConnector databaseConnector, String tableName, Column<String> primaryColumn) {
         super(databaseConnector, tableName, primaryColumn, Column.Location.NUMBER);
@@ -23,8 +23,9 @@ public class LocationsTable extends Table {
         super.create();
     }
 
+    @Override
     public void backup() {
-        super.createBackup();
+        super.backup();
     }
 
     @Override

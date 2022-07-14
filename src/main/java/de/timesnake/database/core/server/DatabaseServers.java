@@ -6,6 +6,7 @@ import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.server.DbTaskServer;
 import de.timesnake.library.basic.util.Status;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -26,12 +27,14 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         this.serverTables.put(Type.Server.BUILD, new BuildTable(this, buildsTableName));
     }
 
+    @Override
     public void createTables() {
         for (ServerTable<? extends DbServer> serverTable : this.serverTables.values()) {
             serverTable.create();
         }
     }
 
+    @Override
     public void backupTables() {
         for (ServerTable<? extends DbServer> serverTable : this.serverTables.values()) {
             serverTable.backup();
@@ -160,7 +163,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addLobby(int port, String name, Status.Server status, String folderPath) {
+    public void addLobby(int port, String name, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOBBY);
         if (table != null) {
             table.addServer(port, name, status, folderPath);
@@ -169,7 +172,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addGame(int port, String name, String task, Status.Server status, String folderPath) {
+    public void addGame(int port, String name, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.GAME);
         if (table != null) {
             ((GameTable) table).addServer(port, name, task, status, folderPath);
@@ -177,7 +180,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addLounge(int port, String name, Status.Server status, String folderPath) {
+    public void addLounge(int port, String name, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOUNGE);
         if (table != null) {
             table.addServer(port, name, status, folderPath);
@@ -185,7 +188,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addTempGame(int port, String name, String task, Status.Server status, String folderPath) {
+    public void addTempGame(int port, String name, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.TEMP_GAME);
         if (table != null) {
             ((TempGameTable) table).addServer(port, name, task, status, folderPath);
@@ -193,7 +196,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addBuild(int port, String name, String task, Status.Server status, String folderPath) {
+    public void addBuild(int port, String name, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.BUILD);
         if (table != null) {
             ((BuildTable) table).addServer(port, name, task, status, folderPath);
