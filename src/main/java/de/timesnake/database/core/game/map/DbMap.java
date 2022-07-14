@@ -1,8 +1,8 @@
 package de.timesnake.database.core.game.map;
 
+import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.Database;
-import de.timesnake.database.util.game.DbGame;
 import de.timesnake.database.util.object.DbLocation;
 
 import java.util.*;

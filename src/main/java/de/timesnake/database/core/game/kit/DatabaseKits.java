@@ -1,6 +1,6 @@
 package de.timesnake.database.core.game.kit;
 
-import de.timesnake.database.util.game.DbGame;
+import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 public class DatabaseKits extends DatabaseConnector {
@@ -14,7 +14,7 @@ public class DatabaseKits extends DatabaseConnector {
     }
 
     public void deleteGameKits(DbGame game) {
-        KitsTable teamsTable = new KitsTable(this, game.getName());
+        KitsTable teamsTable = new KitsTable(this, game.getInfo().getName());
         teamsTable.delete();
     }
 }

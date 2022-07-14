@@ -1,6 +1,6 @@
 package de.timesnake.database.core.game.team;
 
-import de.timesnake.database.util.game.DbGame;
+import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 public class DatabaseTeams extends DatabaseConnector {
@@ -10,7 +10,7 @@ public class DatabaseTeams extends DatabaseConnector {
     }
 
     public void addGame(DbGame game) {
-        new TeamsTable(this, game.getName()).create();
+        new TeamsTable(this, game.getInfo().getName()).create();
     }
 
     public TeamsTable getGameTeams(String gameName) {
@@ -18,7 +18,7 @@ public class DatabaseTeams extends DatabaseConnector {
     }
 
     public void deleteGameTeams(DbGame game) {
-        TeamsTable teamsTable = new TeamsTable(this, game.getName());
+        TeamsTable teamsTable = new TeamsTable(this, game.getInfo().getName());
         teamsTable.delete();
     }
 }

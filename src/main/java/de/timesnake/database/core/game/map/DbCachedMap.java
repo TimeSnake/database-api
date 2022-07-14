@@ -1,6 +1,6 @@
 package de.timesnake.database.core.game.map;
 
-import de.timesnake.database.util.game.DbGame;
+import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.DbLocation;
 
@@ -84,13 +84,13 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
     }
 
     @Override
-    public List<String> getAuthorNames() {
-        return this.map.getAuthorNames();
+    public void setAuthors(Collection<UUID> authors) {
+        this.map.setAuthors(authors);
     }
 
     @Override
-    public void setAuthors(Collection<UUID> authors) {
-        this.map.setAuthors(authors);
+    public List<String> getAuthorNames() {
+        return this.map.getAuthorNames();
     }
 
     @Override

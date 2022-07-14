@@ -1,5 +1,6 @@
 package de.timesnake.database.util.game;
 
+import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.database.util.object.NotCached;

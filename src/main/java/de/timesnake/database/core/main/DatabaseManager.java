@@ -113,7 +113,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         this.databasesByName.put(PERMISSIONS_NAME, permissions);
 
         games = new DatabaseGames(config.getDatabaseName(GAMES_NAME), config.getDatabaseUrl(GAMES_NAME),
-                user, password, "infos");
+                user, password, "non_tmp_infos", "tmp_infos");
         this.databasesByName.put(GAMES_NAME, games);
 
         gameTeams = new DatabaseTeams(config.getDatabaseName(TEAMS_NAME), config.getDatabaseUrl(TEAMS_NAME),
