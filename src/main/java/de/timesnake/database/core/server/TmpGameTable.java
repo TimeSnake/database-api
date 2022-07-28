@@ -3,9 +3,9 @@ package de.timesnake.database.core.server;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 
-public class TempGameTable extends PvPTable<DbTempGameServer> {
+public class TmpGameTable extends PvPTable<DbTmpGameServer> {
 
-    public TempGameTable(DatabaseConnector databaseConnector, String nameTable) {
+    public TmpGameTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable);
         super.addColumn(Column.Server.MAP_NAME);
         super.addColumn(Column.Server.MAPS);
@@ -23,8 +23,8 @@ public class TempGameTable extends PvPTable<DbTempGameServer> {
     }
 
     @Override
-    public DbTempGameServer getServer(int port) {
-        DbTempGameServer server = new DbTempGameServer(this.databaseConnector, port, this.tableName);
+    public DbTmpGameServer getServer(int port) {
+        DbTmpGameServer server = new DbTmpGameServer(this.databaseConnector, port, this.tableName);
         return server.exists() ? server : null;
     }
 

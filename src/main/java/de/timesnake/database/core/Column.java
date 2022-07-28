@@ -55,6 +55,9 @@ public class Column<Value> {
                 ColumnType.integer(6));
         public static final Server<Boolean> OLD_PVP = new Server<>("old_pvp", Boolean.class, ColumnType.tinyint(1));
         public static final Server<String> TASK = new Server<>("task", String.class, ColumnType.varchar(100));
+
+        public static final Server<UUID> OWNER = new Server<>("owner_uuid", UUID.class, ColumnType.varchar(50));
+
         public static final Server<String> GAME_INFO = new Server<>("info", String.class, ColumnType.varchar(255));
         public static final Server<String> MAP_NAME = new Server<>("map_name", String.class, ColumnType.varchar(100));
         public static final Server<Boolean> MAPS = new Server<>("maps", Boolean.class, ColumnType.tinyint(1));
@@ -262,6 +265,7 @@ public class Column<Value> {
                 ColumnType.varchar(50));
         public static final Game<Boolean> EQUAL_TEAM_SIZE_REQUIRED = new Game<>("equal_team_size_required", Boolean.class,
                 ColumnType.tinyint(1));
+        public static final Game<Boolean> HIDE_TEAMS = new Game<>("hide_teams", Boolean.class, ColumnType.tinyint(1));
         public static final Game<DbStringArrayList> DESCRIPTION = new Game<>("description", DbStringArrayList.class,
                 ColumnType.varchar(1000));
 

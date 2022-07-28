@@ -1,6 +1,6 @@
 package de.timesnake.database.util.endgame;
 
-import de.timesnake.database.util.server.DbGameServer;
+import de.timesnake.database.util.server.DbNonTmpGameServer;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public interface DbEndGameUser {
 
     String getName();
 
-    DbGameServer getServer();
+    DbNonTmpGameServer getServer();
 
-    void setServer(DbGameServer server);
+    void setServer(DbNonTmpGameServer server);
 }

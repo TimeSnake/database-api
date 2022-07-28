@@ -9,9 +9,9 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbLoungeServer;
 
-public class DbTempGameServer extends DbPvPServer implements de.timesnake.database.util.server.DbTempGameServer {
+public class DbTmpGameServer extends DbPvPServer implements de.timesnake.database.util.server.DbTmpGameServer {
 
-    public DbTempGameServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
+    public DbTmpGameServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
         super(databaseConnector, port, nameTable);
     }
 
@@ -54,7 +54,7 @@ public class DbTempGameServer extends DbPvPServer implements de.timesnake.databa
     }
 
     @Override
-    public Type.Server<de.timesnake.database.util.server.DbTempGameServer> getType() {
+    public Type.Server<de.timesnake.database.util.server.DbTmpGameServer> getType() {
         return Type.Server.TEMP_GAME;
     }
 

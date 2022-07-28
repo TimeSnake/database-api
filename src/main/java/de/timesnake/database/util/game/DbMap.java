@@ -78,6 +78,12 @@ public interface DbMap extends DbCached<DbMap> {
     void setAuthors(Collection<UUID> authors);
 
     @NotCached
+    void addAuthor(UUID author);
+
+    @NotCached
+    void removeAuthor(UUID author);
+
+    @NotCached
     List<String> getAuthorNames();
 
     @NotCached

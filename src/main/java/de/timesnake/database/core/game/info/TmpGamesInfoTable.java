@@ -12,6 +12,7 @@ public class TmpGamesInfoTable extends GamesInfoTable {
         super.addColumn(Column.Game.TEAM_SIZES);
         super.addColumn(Column.Game.TEAM_MERGE);
         super.addColumn(Column.Game.EQUAL_TEAM_SIZE_REQUIRED);
+        super.addColumn(Column.Game.HIDE_TEAMS);
         super.addColumn(Column.Game.DESCRIPTION);
     }
 

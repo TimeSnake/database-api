@@ -1,6 +1,6 @@
 package de.timesnake.database.util.endgame;
 
-import de.timesnake.database.util.server.DbGameServer;
+import de.timesnake.database.util.server.DbNonTmpGameServer;
 
 import java.util.UUID;
 
@@ -10,9 +10,9 @@ public interface DatabaseEndGame {
 
     boolean containsUser(UUID uuid);
 
-    void addUser(UUID uuid, String name, DbGameServer server);
+    void addUser(UUID uuid, String name, DbNonTmpGameServer server);
 
     void removeUser(UUID uuid);
 
-    UUID getUserFromServer(DbGameServer server);
+    UUID getUserFromServer(DbNonTmpGameServer server);
 }

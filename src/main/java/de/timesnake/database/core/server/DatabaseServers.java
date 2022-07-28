@@ -21,9 +21,9 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         super(name, url, user, password);
 
         this.serverTables.put(Type.Server.LOBBY, new LobbyTable(this, lobbysTableName));
-        this.serverTables.put(Type.Server.GAME, new GameTable(this, gamesTableName));
+        this.serverTables.put(Type.Server.GAME, new NonTmpGameTable(this, gamesTableName));
         this.serverTables.put(Type.Server.LOUNGE, new LoungeTable(this, loungesTableName));
-        this.serverTables.put(Type.Server.TEMP_GAME, new TempGameTable(this, tempGamesTableName));
+        this.serverTables.put(Type.Server.TEMP_GAME, new TmpGameTable(this, tempGamesTableName));
         this.serverTables.put(Type.Server.BUILD, new BuildTable(this, buildsTableName));
     }
 
@@ -175,7 +175,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     public void addGame(int port, String name, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.GAME);
         if (table != null) {
-            ((GameTable) table).addServer(port, name, task, status, folderPath);
+            ((NonTmpGameTable) table).addServer(port, name, task, status, folderPath);
         }
     }
 
@@ -191,7 +191,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     public void addTempGame(int port, String name, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.TEMP_GAME);
         if (table != null) {
-            ((TempGameTable) table).addServer(port, name, task, status, folderPath);
+            ((TmpGameTable) table).addServer(port, name, task, status, folderPath);
         }
     }
 

@@ -130,6 +130,16 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
     public void requireEqualTeamSize(boolean require) {getInfo().requireEqualTeamSize(require);}
 
     @Override
+    public boolean hideTeams() {
+        return getInfo().hideTeams();
+    }
+
+    @Override
+    public void setHideTeams(boolean hide) {
+        getInfo().setHideTeams(hide);
+    }
+
+    @Override
     public List<String> getDescription() {return getInfo().getDescription();}
 
     @Override

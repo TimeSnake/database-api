@@ -65,6 +65,16 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
     }
 
     @Override
+    public boolean hideTeams() {
+        return super.getFirstWithKey(Column.Game.HIDE_TEAMS);
+    }
+
+    @Override
+    public void setHideTeams(boolean hide) {
+        super.setWithKey(hide, Column.Game.HIDE_TEAMS);
+    }
+
+    @Override
     public List<String> getDescription() {
         return super.getFirstWithKey(Column.Game.DESCRIPTION);
     }

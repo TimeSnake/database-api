@@ -32,6 +32,11 @@ public interface DbTmpGameInfo extends DbGameInfo {
     @NotCached
     void requireEqualTeamSize(boolean require);
 
+    boolean hideTeams();
+
+    @NotCached
+    void setHideTeams(boolean hide);
+
     List<String> getDescription();
 
     @NotCached

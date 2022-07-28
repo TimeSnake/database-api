@@ -10,7 +10,7 @@ public class DbLobbyServer extends DbServer implements de.timesnake.database.uti
     }
 
     @Override
-    public Type.Server getType() {
+    public Type.Server<de.timesnake.database.util.server.DbLobbyServer> getType() {
         return Type.Server.LOBBY;
     }
 }
