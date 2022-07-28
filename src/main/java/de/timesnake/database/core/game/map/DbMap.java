@@ -162,9 +162,17 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
 
     @Override
     public void setAuthors(Collection<UUID> authors) {
-        for (UUID uuid : authors) {
-            this.authorTable.addMapAuthor(this.name, uuid);
-        }
+        authors.forEach(this::addAuthor);
+    }
+
+    @Override
+    public void addAuthor(UUID author) {
+        this.authorTable.addMapAuthor(this.name, author);
+    }
+
+    @Override
+    public void removeAuthor(UUID author) {
+        this.authorTable.removeMapAuthor(this.name, author);
     }
 
     @Override

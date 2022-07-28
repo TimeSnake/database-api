@@ -89,6 +89,11 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
     }
 
     @Override
+    public void addAuthor(UUID author) {
+        this.map.addAuthor(author);
+    }
+
+    @Override
     public List<String> getAuthorNames() {
         return this.map.getAuthorNames();
     }
@@ -96,6 +101,11 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
     @Override
     public void setAuthorNames(Collection<String> authors) {
         this.map.setAuthorNames(authors);
+    }
+
+    @Override
+    public void removeAuthor(UUID author) {
+        this.map.removeAuthor(author);
     }
 
     /**

@@ -4,8 +4,8 @@ import de.timesnake.database.util.object.Type;
 
 public interface DbLoungeServer extends DbTaskServer {
 
-    DbTempGameServer getTwinServer();
+    DbTmpGameServer getTwinServer();
 
     @Override
-    Type.Server getType();
+    Type.Server<DbLoungeServer> getType();
 }

@@ -10,7 +10,7 @@ public class DbBuildServer extends DbTaskServer implements de.timesnake.database
     }
 
     @Override
-    public Type.Server getType() {
+    public Type.Server<de.timesnake.database.util.server.DbBuildServer> getType() {
         return Type.Server.BUILD;
     }
 }

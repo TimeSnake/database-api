@@ -5,7 +5,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.server.DbGameServer;
+import de.timesnake.database.util.server.DbNonTmpGameServer;
 
 import java.util.UUID;
 
@@ -36,13 +36,13 @@ public class DbEndGameUser extends TableQuery implements de.timesnake.database.u
     }
 
     @Override
-    public DbGameServer getServer() {
+    public DbNonTmpGameServer getServer() {
         String serverName = super.getFirstWithKey(Column.EndGame.SERVER);
         return serverName == null ? null : Database.getServers().getServer(serverName);
     }
 
     @Override
-    public void setServer(DbGameServer server) {
+    public void setServer(DbNonTmpGameServer server) {
         super.setWithKey(server.getName(), Column.EndGame.SERVER);
     }
 }

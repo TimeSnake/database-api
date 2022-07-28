@@ -2,7 +2,7 @@ package de.timesnake.database.util.server;
 
 import de.timesnake.database.util.object.Type;
 
-public interface DbTempGameServer extends DbPvPServer {
+public interface DbTmpGameServer extends DbPvPServer {
 
     boolean areKitsEnabled();
 
@@ -14,12 +14,12 @@ public interface DbTempGameServer extends DbPvPServer {
 
     Integer getTwinServerPort();
 
-    DbLoungeServer getTwinServer();
-
     void setTwinServerPort(Integer port);
 
+    DbLoungeServer getTwinServer();
+
     @Override
-    Type.Server<DbTempGameServer> getType();
+    Type.Server<DbTmpGameServer> getType();
 
     boolean areMapsEnabled();
 
@@ -29,9 +29,9 @@ public interface DbTempGameServer extends DbPvPServer {
 
     void setTeamAmount(Integer integer);
 
-    void setMaxPlayersPerTeam(Integer maxPlayersPerTeam);
-
     Integer getMaxPlayersPerTeam();
+
+    void setMaxPlayersPerTeam(Integer maxPlayersPerTeam);
 
     boolean isTeamMerging();
 

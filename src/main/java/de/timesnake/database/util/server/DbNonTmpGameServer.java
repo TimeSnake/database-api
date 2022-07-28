@@ -1,6 +1,6 @@
 package de.timesnake.database.util.server;
 
-public interface DbGameServer extends DbTaskServer {
+public interface DbNonTmpGameServer extends DbTaskServer {
 
     String getGameInfo();
 

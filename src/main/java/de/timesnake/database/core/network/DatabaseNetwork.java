@@ -2,6 +2,7 @@ package de.timesnake.database.core.network;
 
 import de.timesnake.database.util.object.DatabaseConnector;
 
+import java.io.File;
 import java.util.List;
 
 public class DatabaseNetwork extends DatabaseConnector implements de.timesnake.database.util.network.DatabaseNetwork {
@@ -24,6 +25,11 @@ public class DatabaseNetwork extends DatabaseConnector implements de.timesnake.d
     @Override
     public void backupTables() {
         networkFilesTable.backup();
+    }
+
+    @Override
+    public void addNetworkFile(String name, File filePath) {
+        this.networkFilesTable.addNetworkFile(name, filePath);
     }
 
     @Override

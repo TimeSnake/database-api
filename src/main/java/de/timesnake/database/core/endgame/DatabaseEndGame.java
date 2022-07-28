@@ -2,7 +2,7 @@ package de.timesnake.database.core.endgame;
 
 import de.timesnake.database.util.endgame.DbEndGameUser;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.server.DbGameServer;
+import de.timesnake.database.util.server.DbNonTmpGameServer;
 
 import java.util.UUID;
 
@@ -40,7 +40,7 @@ public class DatabaseEndGame extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addUser(UUID uuid, String name, DbGameServer server) {
+    public void addUser(UUID uuid, String name, DbNonTmpGameServer server) {
         this.usersTable.addUser(uuid, name, server);
     }
 
@@ -50,7 +50,7 @@ public class DatabaseEndGame extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public UUID getUserFromServer(DbGameServer server) {
+    public UUID getUserFromServer(DbNonTmpGameServer server) {
         return this.usersTable.getUserFromServer(server);
     }
 

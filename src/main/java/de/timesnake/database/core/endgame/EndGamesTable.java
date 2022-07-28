@@ -5,7 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.server.DbGameServer;
+import de.timesnake.database.util.server.DbNonTmpGameServer;
 
 import java.util.UUID;
 
@@ -34,7 +34,7 @@ public class EndGamesTable extends TableDDL {
         return super.getFirst(Column.EndGame.PLAYER_NAME) != null;
     }
 
-    public void addUser(UUID uuid, String name, DbGameServer server) {
+    public void addUser(UUID uuid, String name, DbNonTmpGameServer server) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.EndGame.PLAYER_UUID)), new TableEntry<>(name,
                 Column.EndGame.PLAYER_NAME), new TableEntry<>(server.getName(), Column.EndGame.SERVER));
     }
@@ -43,7 +43,7 @@ public class EndGamesTable extends TableDDL {
         super.deleteEntry(new TableEntry<>(uuid, Column.EndGame.PLAYER_UUID));
     }
 
-    public UUID getUserFromServer(DbGameServer server) {
+    public UUID getUserFromServer(DbNonTmpGameServer server) {
         return super.getFirst(Column.EndGame.PLAYER_UUID, new TableEntry<>(server.getName(), Column.EndGame.SERVER));
     }
 }
