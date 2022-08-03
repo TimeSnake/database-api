@@ -37,6 +37,10 @@ public interface DbTmpGameInfo extends DbGameInfo {
     @NotCached
     void setHideTeams(boolean hide);
 
+    Type.Discord getDiscordType();
+
+    void setDiscordType(Type.Discord type);
+
     List<String> getDescription();
 
     @NotCached

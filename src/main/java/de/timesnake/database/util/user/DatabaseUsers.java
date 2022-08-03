@@ -15,6 +15,10 @@ public interface DatabaseUsers {
      */
     void addUser(UUID uuid, String name, String permGroup, String server);
 
+    de.timesnake.database.core.user.DbUser getUserByDiscordId(Long discordId);
+
+    Collection<de.timesnake.database.core.user.DbUser> getUsers();
+
     /**
      * Gets a user with unique id
      *

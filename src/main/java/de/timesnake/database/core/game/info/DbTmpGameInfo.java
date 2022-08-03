@@ -75,6 +75,16 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
     }
 
     @Override
+    public Type.Discord getDiscordType() {
+        return super.getFirstWithKey(Column.Game.DISCORD_TYPE);
+    }
+
+    @Override
+    public void setDiscordType(Type.Discord type) {
+        super.setWithKey(type, Column.Game.DISCORD_TYPE);
+    }
+
+    @Override
     public List<String> getDescription() {
         return super.getFirstWithKey(Column.Game.DESCRIPTION);
     }

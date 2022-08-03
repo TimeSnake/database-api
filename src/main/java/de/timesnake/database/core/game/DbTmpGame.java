@@ -266,6 +266,16 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     public void setHideTeams(boolean hide) {getInfo().setHideTeams(hide);}
 
     @Override
+    public Type.Discord getDiscordType() {
+        return getInfo().getDiscordType();
+    }
+
+    @Override
+    public void setDiscordType(Type.Discord type) {
+        getInfo().setDiscordType(type);
+    }
+
+    @Override
     public List<String> getDescription() {return getInfo().getDescription();}
 
     @Override

@@ -11,13 +11,13 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
     }
 
     @Override
-    public void setRatio(float ratio) {
-        this.setWithKey(ratio, Column.Team.RATIO);
+    public Float getRatio() {
+        return this.getFirstWithKey(Column.Team.RATIO);
     }
 
     @Override
-    public Float getRatio() {
-        return this.getFirstWithKey(Column.Team.RATIO);
+    public void setRatio(float ratio) {
+        this.setWithKey(ratio, Column.Team.RATIO);
     }
 
     @Override
@@ -28,6 +28,16 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
     @Override
     public String getColorName() {
         return this.parseColor(this.getFirstWithKey(Column.Team.COLOR));
+    }
+
+    @Override
+    public boolean hasPrivateChat() {
+        return this.getFirstWithKey(Column.Team.PRIVATE_CHAT);
+    }
+
+    @Override
+    public void setPrivateChat(Boolean privateChat) {
+        this.setWithKey(privateChat, Column.Team.PRIVATE_CHAT);
     }
 
     @Override

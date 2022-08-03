@@ -14,6 +14,8 @@ public class Type {
             return (T) Type.Punishment.getByDatabaseValue(s);
         } else if (column.getValueClass().equals(Type.Availability.class)) {
             return (T) Type.Availability.getByDatabaseValue(s);
+        } else if (column.getValueClass().equals(Type.Discord.class)) {
+            return (T) Type.Discord.getByDatabaseValue(s);
         }
         return null;
     }
@@ -92,6 +94,28 @@ public class Type {
         }
 
         Availability(String type) {
+            super(type);
+        }
+    }
+
+    public static class Discord extends Type {
+
+        public static final Discord FORBIDDEN = new Discord("forbidden");
+        public static final Discord TEAMS = new Discord("teams");
+        public static final Discord DISTANCE = new Discord("distance");
+        public static final HashMap<String, Discord> TYPES_BY_STRING = new HashMap<>();
+
+        public static Discord getByDatabaseValue(String statusValue) {
+            return TYPES_BY_STRING.get(statusValue);
+        }
+
+        static {
+            TYPES_BY_STRING.put(FORBIDDEN.getDatabaseValue(), FORBIDDEN);
+            TYPES_BY_STRING.put(TEAMS.getDatabaseValue(), TEAMS);
+            TYPES_BY_STRING.put(DISTANCE.getDatabaseValue(), DISTANCE);
+        }
+
+        Discord(String type) {
             super(type);
         }
     }

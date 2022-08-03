@@ -15,6 +15,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
     protected Type.Availability teamMerge;
     protected Boolean equalTimeSizeRequired;
     protected Boolean hideTeams;
+    protected Type.Discord discordType;
     protected List<String> description;
 
     public DbCachedTmpGameInfo(DbTmpGameInfo database) {
@@ -25,7 +26,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
                 Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
                 Column.Game.AUTO_START_PLAYER_NUMBER, Column.Game.MIN_PLAYER_NUMBER, Column.Game.TEAM_SIZES,
                 Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE_REQUIRED, Column.Game.HIDE_TEAMS,
-                Column.Game.DESCRIPTION));
+                Column.Game.DISCORD_TYPE, Column.Game.DESCRIPTION));
 
         this.name = database.getName();
         this.displayName = map.get(Column.Game.DISPLAY_NAME);
@@ -45,6 +46,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.teamMerge = map.get(Column.Game.TEAM_MERGE);
         this.equalTimeSizeRequired = map.get(Column.Game.EQUAL_TEAM_SIZE_REQUIRED);
         this.hideTeams = map.get(Column.Game.HIDE_TEAMS);
+        this.discordType = map.get(Column.Game.DISCORD_TYPE);
         this.description = map.get(Column.Game.DESCRIPTION);
     }
 
@@ -117,6 +119,17 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
     public void setHideTeams(boolean hide) {
         this.hideTeams = hide;
         this.getDatabase().setHideTeams(hideTeams);
+    }
+
+    @Override
+    public Type.Discord getDiscordType() {
+        return this.discordType;
+    }
+
+    @Override
+    public void setDiscordType(Type.Discord type) {
+        this.discordType = type;
+        this.getDatabase().setDiscordType(type);
     }
 
     @Override

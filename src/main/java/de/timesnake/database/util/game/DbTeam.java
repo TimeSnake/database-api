@@ -5,15 +5,20 @@ import de.timesnake.database.util.object.NotCached;
 
 public interface DbTeam extends DbGroup {
 
+    Float getRatio();
+
     @NotCached
     void setRatio(float ratio);
-
-    Float getRatio();
 
     @NotCached
     void setColor(String colorName);
 
     String getColorName();
+
+    boolean hasPrivateChat();
+
+    @NotCached
+    void setPrivateChat(Boolean privateChat);
 
     @Override
     DbTeam toLocal();

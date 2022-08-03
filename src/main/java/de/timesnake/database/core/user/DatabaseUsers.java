@@ -1,8 +1,11 @@
 package de.timesnake.database.core.user;
 
+import de.timesnake.database.core.Column;
+import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class DatabaseUsers extends DatabaseConnector implements de.timesnake.database.util.user.DatabaseUsers {
@@ -49,6 +52,20 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         if (!this.punishmentsTable.contains(uuid)) {
             this.punishmentsTable.addPlayer(uuid, name);
         }
+    }
+
+    @Override
+    public DbUser getUserByDiscordId(Long discordId) {
+        return this.getUser(this.infosTable.getFirst(Column.User.UUID, new TableEntry<>(discordId, Column.User.DISCORD_ID)));
+    }
+
+    @Override
+    public Collection<DbUser> getUsers() {
+        Collection<DbUser> users = new HashSet<>();
+        for (UUID uuid : this.getUsersUuid()) {
+            users.add(this.getUser(uuid));
+        }
+        return users;
     }
 
     @Override
