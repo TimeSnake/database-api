@@ -11,25 +11,27 @@ public class DbCachedTeam extends DbCachedGroup implements DbTeam {
 
     private float ratio;
     private String colorName;
+    private Boolean privateChat;
 
     public DbCachedTeam(de.timesnake.database.core.game.team.DbTeam team) {
         super(team);
 
-        ColumnMap columnMap = team.getFirstWithKey(Set.of(Column.Team.RATIO, Column.Team.COLOR));
+        ColumnMap columnMap = team.getFirstWithKey(Set.of(Column.Team.RATIO, Column.Team.COLOR, Column.Team.PRIVATE_CHAT));
 
         this.ratio = columnMap.get(Column.Team.RATIO);
         this.colorName = columnMap.get(Column.Team.COLOR);
+        this.privateChat = columnMap.get(Column.Team.PRIVATE_CHAT);
+    }
+
+    @Override
+    public Float getRatio() {
+        return this.ratio;
     }
 
     @Override
     public void setRatio(float ratio) {
         this.ratio = ratio;
         ((de.timesnake.database.core.game.team.DbTeam) super.group).setRatio(ratio);
-    }
-
-    @Override
-    public Float getRatio() {
-        return this.ratio;
     }
 
     @Override
@@ -41,6 +43,17 @@ public class DbCachedTeam extends DbCachedGroup implements DbTeam {
     @Override
     public String getColorName() {
         return this.colorName;
+    }
+
+    @Override
+    public boolean hasPrivateChat() {
+        return this.privateChat;
+    }
+
+    @Override
+    public void setPrivateChat(Boolean privateChat) {
+        this.privateChat = privateChat;
+        ((de.timesnake.database.core.game.team.DbTeam) super.group).setPrivateChat(privateChat);
     }
 
     @Override

@@ -140,6 +140,16 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
     }
 
     @Override
+    public Type.Discord getDiscordType() {
+        return getInfo().getDiscordType();
+    }
+
+    @Override
+    public void setDiscordType(Type.Discord type) {
+        getInfo().setDiscordType(type);
+    }
+
+    @Override
     public List<String> getDescription() {return getInfo().getDescription();}
 
     @Override

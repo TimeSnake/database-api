@@ -18,18 +18,13 @@ public class DbGroup extends TableQuery implements de.timesnake.database.util.gr
     }
 
     @Override
-    public void setName(String name) {
-        super.setWithKey(name, Column.Group.NAME);
-    }
-
-    @Override
     public String getName() {
         return super.getFirstWithKey(Column.Group.NAME);
     }
 
     @Override
-    public void setRank(int rank) {
-        super.setWithKey(rank, Column.Group.RANK);
+    public void setName(String name) {
+        super.setWithKey(name, Column.Group.NAME);
     }
 
     @Override
@@ -38,8 +33,8 @@ public class DbGroup extends TableQuery implements de.timesnake.database.util.gr
     }
 
     @Override
-    public void setPrefix(String prefix) {
-        super.setWithKey(prefix, Column.Group.PREFIX);
+    public void setRank(int rank) {
+        super.setWithKey(rank, Column.Group.RANK);
     }
 
     @Override
@@ -48,13 +43,18 @@ public class DbGroup extends TableQuery implements de.timesnake.database.util.gr
     }
 
     @Override
-    public void setChatColorName(String chatColorName) {
-        super.setWithKey(chatColorName, Column.Group.CHAT_COLOR);
+    public void setPrefix(String prefix) {
+        super.setWithKey(prefix, Column.Group.PREFIX);
     }
 
     @Override
     public String getChatColorName() {
         return super.getFirstWithKey(Column.Group.CHAT_COLOR);
+    }
+
+    @Override
+    public void setChatColorName(String chatColorName) {
+        super.setWithKey(chatColorName, Column.Group.CHAT_COLOR);
     }
 
     @Override

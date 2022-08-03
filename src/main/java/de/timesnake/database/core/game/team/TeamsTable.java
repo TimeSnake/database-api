@@ -14,6 +14,7 @@ public class TeamsTable extends BasicGroupsTable {
         super(databaseConnector, nameTable);
         super.addColumn(Column.Team.RATIO);
         super.addColumn(Column.Team.COLOR);
+        super.addColumn(Column.Team.PRIVATE_CHAT);
     }
 
     @Override

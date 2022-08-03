@@ -225,6 +225,7 @@ public class Column<Value> {
         // all from group
         public static final Team<Float> RATIO = new Team<>("ratio", Float.class, ColumnType.varchar(20));
         public static final Team<String> COLOR = new Team<>("color", String.class, ColumnType.varchar(20));
+        public static final Team<Boolean> PRIVATE_CHAT = new Team<>("private_chat", Boolean.class, ColumnType.tinyint(1));
 
         Team(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
@@ -266,6 +267,7 @@ public class Column<Value> {
         public static final Game<Boolean> EQUAL_TEAM_SIZE_REQUIRED = new Game<>("equal_team_size_required", Boolean.class,
                 ColumnType.tinyint(1));
         public static final Game<Boolean> HIDE_TEAMS = new Game<>("hide_teams", Boolean.class, ColumnType.tinyint(1));
+        public static final Game<Type.Discord> DISCORD_TYPE = new Game<>("discord_type", Type.Discord.class, ColumnType.varchar(20));
         public static final Game<DbStringArrayList> DESCRIPTION = new Game<>("description", DbStringArrayList.class,
                 ColumnType.varchar(1000));
 
