@@ -13,8 +13,6 @@ public class UserCheckpointsTable extends TableDDL {
 
     protected UserCheckpointsTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Story.USER_UUID, Column.Story.CHAPTER_ID, Column.Story.PART_ID);
-
-        super.addColumn(Column.Story.PART_ID);
         super.addColumn(Column.Story.SECTION_ID);
     }
 

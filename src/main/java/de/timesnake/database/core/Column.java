@@ -17,7 +17,8 @@ import java.util.UUID;
  *
  * @param <Value> The object type, allowed classes are {@link Integer}, {@link String}, {@link Boolean}, {@link Float},
  *                {@link Double}, {@link UUID}, {@code String[]}, {@code Integer[]}, {@link DbStringArrayList},
- *                {@link DbIntegerArrayList}, {@link Status}, {@link Type}, {@link  Color}
+ *                {@link DbIntegerArrayList}, {@link Status}, {@link Type}, {@link Color}, {@link File}, {@link Path},
+ *                {@link BlockSide}, {@link Date}
  */
 public class Column<Value> {
 
@@ -46,7 +47,7 @@ public class Column<Value> {
 
     public static class Server<T> extends Column<T> {
         public static final Server<Integer> PORT = new Server<>("port", Integer.class, ColumnType.integer(10));
-        public static final Server<String> NAME = new Server<>("name", String.class, ColumnType.varchar(100));
+        public static final Server<String> NAME = new Server<>("name", String.class, ColumnType.varchar(100).notNull().unique());
         public static final Server<Status.Server> STATUS = new Server<>("status", Status.Server.class,
                 ColumnType.varchar(30));
         public static final Server<Integer> ONLINE_PLAYERS = new Server<>("online_players", Integer.class,
@@ -83,7 +84,7 @@ public class Column<Value> {
 
     public static class User<T> extends Column<T> {
         public static final User<UUID> UUID = new User<>("uuid", UUID.class, ColumnType.varchar(50));
-        public static final User<String> NAME = new User<>("name", String.class, ColumnType.varchar(50));
+        public static final User<String> NAME = new User<>("name", String.class, ColumnType.varchar(50).notNull());
         public static final User<Status.User> STATUS = new User<>("status", Status.User.class, ColumnType.varchar(50));
         public static final User<Boolean> ANTI_CHEAT_MESSAGES = new User<>("anti_cheat_messages", Boolean.class,
                 ColumnType.tinyint(1));
@@ -91,13 +92,10 @@ public class Column<Value> {
         public static final User<Boolean> AIR_MODE = new User<>("air_mode", Boolean.class, ColumnType.tinyint(1));
         public static final User<String> TASK = new User<>("task", String.class, ColumnType.varchar(50));
         public static final User<String> TEAM = new User<>("team", String.class, ColumnType.varchar(50));
-        public static final User<String> PERMGROUP = new User<>("permgroup", String.class, ColumnType.varchar(50));
-        public static final User<String> SERVER = new User<>("server", Server.NAME.getValueClass(),
-                Server.NAME.getType());
-        public static final User<String> SERVER_LAST = new User<>("server_last", Server.NAME.getValueClass(),
-                Server.NAME.getType());
-        public static final User<String> SERVER_LOBBY = new User<>("server_lobby", Server.NAME.getValueClass(),
-                Server.NAME.getType());
+        public static final User<String> PERM_GROUP = new User<>("perm_group", String.class, ColumnType.varchar(50));
+        public static final User<String> SERVER = new User<>("server", Server.NAME.getValueClass(), Server.NAME.getType().nonUnique());
+        public static final User<String> SERVER_LAST = new User<>("server_last", Server.NAME.getValueClass(), Server.NAME.getType().nonUnique());
+        public static final User<String> SERVER_LOBBY = new User<>("server_lobby", Server.NAME.getValueClass(), Server.NAME.getType().nonUnique());
         public static final User<Integer> KIT = new User<>("kit", Integer.class, Game.KIT_ID.getType());
 
         public static final User<String> PREFIX = new User<>("prefix", String.class, ColumnType.varchar(255));
@@ -119,11 +117,11 @@ public class Column<Value> {
         public static final User<Long> DISCORD_ID = new User<>("discord_id", Long.class, ColumnType.varchar(20));
 
         public static final User<Integer> MAIL_ID = new User<>("id", Integer.class, ColumnType.integer(255));
-        public static final User<UUID> MAIL_SENDER_UUID = new User<>("sender_uuid", UUID.getValueClass(),
-                UUID.getType());
-        public static final User<String> MAIL_SENDER_NAME = new User<>("sender_name", NAME.getValueClass(),
-                NAME.getType());
+        public static final User<UUID> MAIL_SENDER_UUID = new User<>("sender_uuid", UUID.getValueClass(), UUID.getType());
+        public static final User<String> MAIL_SENDER_NAME = new User<>("sender_name", NAME.getValueClass(), NAME.getType());
         public static final User<String> MAIL_MESSAGE = new User<>("message", String.class, ColumnType.varchar(1000));
+
+        public static final User<String> DISPLAY_GROUP = new User<>("display_group", String.class, Group.NAME.getType());
 
         User(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
@@ -151,11 +149,9 @@ public class Column<Value> {
     public static class Support<T> extends Column<T> {
         public static final Support<Integer> ID = new Support<>("id", Integer.class, ColumnType.integer(255, true));
         public static final Support<String> UUID = new Support<>("uuid", String.class, ColumnType.varchar(50));
-        public static final Support<String> NAME = new Support<>("name", User.NAME.getValueClass(),
-                User.NAME.getType());
+        public static final Support<String> NAME = new Support<>("name", User.NAME.getValueClass(), User.NAME.getType());
         public static final Support<String> MESSAGE = new Support<>("message", String.class, ColumnType.varchar(1000));
-        public static final Support<Status.Ticket> STATUS = new Support<>("status", Status.Ticket.class,
-                ColumnType.varchar(255));
+        public static final Support<Status.Ticket> STATUS = new Support<>("status", Status.Ticket.class, ColumnType.varchar(255));
         public static final Support<String> ANSWER = new Support<>("answer", String.class, ColumnType.varchar(1000));
         public static final Support<Date> DATE = new Support<>("date", Date.class, ColumnType.varchar(255));
 
@@ -165,57 +161,17 @@ public class Column<Value> {
 
     }
 
-    public static class Survival<T> extends Column<T> {
-        public static final Survival<Integer> PRIVATE_BLOCK_ID = new Survival<>("id", Integer.class,
-                ColumnType.integer(255, true));
-        public static final Survival<String> PRIVATE_BLOCK_WORLD = new Survival<>("world", String.class,
-                ColumnType.varchar(100));
-        public static final Survival<Integer> PRIVATE_BLOCK_X = new Survival<>("x", Integer.class,
-                ColumnType.integer(255));
-        public static final Survival<Integer> PRIVATE_BLOCK_Y = new Survival<>("y", Integer.class,
-                ColumnType.integer(255));
-        public static final Survival<Integer> PRIVATE_BLOCK_Z = new Survival<>("z", Integer.class,
-                ColumnType.integer(255));
-        public static final Survival<UUID> PRIVATE_BLOCK_OWNER = new Survival<>("owner", User.UUID.getValueClass(),
-                User.UUID.getType());
-        public static final Survival<String> PRIVATE_BLOCK_MEMBERS = new Survival<>("members", String.class,
-                ColumnType.varchar(255));
-        public static final Survival<String> PRIVATE_BLOCK_PASSWORD = new Survival<>("password", String.class,
-                ColumnType.varchar(255));
-        public static final Survival<Integer> MACHINE_ID = new Survival<>("id", Integer.class, ColumnType.integer(255
-                , true));
-        public static final Survival<String> MACHINE_WORLD = new Survival<>("world", String.class,
-                ColumnType.varchar(100));
-        public static final Survival<Integer> MACHINE_X = new Survival<>("x", Integer.class, ColumnType.integer(255));
-        public static final Survival<Integer> MACHINE_Y = new Survival<>("y", Integer.class, ColumnType.integer(255));
-        public static final Survival<Integer> MACHINE_Z = new Survival<>("z", Integer.class, ColumnType.integer(255));
-        public static final Survival<String> MACHINE_TYPE = new Survival<>("type", String.class,
-                ColumnType.varchar(255));
-
-        Survival(String name, Class<T> valueType, ColumnType type) {
-            super(name, valueType, type);
-        }
-
-    }
-
     public static class Group<T> extends Column<T> {
-        public static final Group<Integer> RANK = new Group<>("rank", Integer.class, ColumnType.integer(20));
         public static final Group<String> NAME = new Group<>("name", String.class, ColumnType.varchar(50));
+        public static final Group<Integer> PRIORITY = new Group<>("priority", Integer.class, ColumnType.integer(20).notNull().unique());
         public static final Group<String> PREFIX = new Group<>("prefix", String.class, ColumnType.varchar(50));
-        public static final Group<String> CHAT_COLOR = new Group<>("chat_color", String.class, ColumnType.varchar(20));
+        public static final Group<String> PREFIX_COLOR = new Group<>("prefix_color", String.class, ColumnType.varchar(20));
+
+        public static final Group<String> INHERITANCE = new Group<>("inheritance", Group.NAME.getValueClass(), Group.NAME.getType());
+
+        public static final Group<Boolean> SHOW_ALWAYS = new Group<>("show_always", Boolean.class, ColumnType.tinyint(1));
 
         Group(String name, Class<T> valueType, ColumnType type) {
-            super(name, valueType, type);
-        }
-
-    }
-
-    public static class PermGroup<T> extends Column<T> {
-        //all from group
-        public static final PermGroup<String> INHERITANCE = new PermGroup<>("inheritance", Group.NAME.getValueClass()
-                , Group.NAME.getType());
-
-        PermGroup(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
         }
 
@@ -241,7 +197,7 @@ public class Column<Value> {
         public static final Game<String> CHAT_COLOR = new Game<>("chat_color", String.class, ColumnType.varchar(20));
         public static final Game<String> HEAD_LINE = new Game<>("head_line", String.class, ColumnType.varchar(1000));
         public static final Game<String> ITEM = new Game<>("item", String.class, ColumnType.varchar(255));
-        public static final Game<Integer> SLOT = new Game<>("slot", Integer.class, ColumnType.integer(4));
+        public static final Game<Integer> SLOT = new Game<>("slot", Integer.class, ColumnType.integer(4).unique());
 
         public static final Game<Integer> MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getValueClass(), Server.MAX_PLAYERS.getType());
         public static final Game<Type.Availability> MAPS = new Game<>("maps", Type.Availability.class, ColumnType.varchar(50));
@@ -288,7 +244,7 @@ public class Column<Value> {
         public static final Game<UUID> MAP_AUTHOR_UUID = new Game<>("author_uuid", UUID.class, User.UUID.getType());
         // kit
         public static final Game<Integer> KIT_ID = new Game<>("id", Integer.class, ColumnType.integer(255));
-        public static final Game<String> KIT_NAME = new Game<>("name", String.class, ColumnType.varchar(100));
+        public static final Game<String> KIT_NAME = new Game<>("name", String.class, ColumnType.varchar(100).unique());
         public static final Game<String> KIT_ITEM = new Game<>("item_type", String.class, ColumnType.varchar(50));
         public static final Game<DbStringArrayList> KIT_DESCRIPTION = new Game<>("description",
                 DbStringArrayList.class, ColumnType.varchar(2000));
@@ -378,16 +334,11 @@ public class Column<Value> {
     }
 
     public static class HungerGames<T> extends Column<T> {
-        public static final HungerGames<Integer> ITEM_ID = new HungerGames<>("id", Integer.class,
-                ColumnType.integer(255, true));
-        public static final HungerGames<String> ITEM_TYPE = new HungerGames<>("type", String.class,
-                ColumnType.varchar(100));
-        public static final HungerGames<Integer> ITEM_AMOUNT = new HungerGames<>("amount", Integer.class,
-                ColumnType.integer(2));
-        public static final HungerGames<Float> ITEM_CHANCE = new HungerGames<>("chance", Float.class,
-                ColumnType.varchar(10));
-        public static final HungerGames<Integer> ITEM_LEVEL = new HungerGames<>("level", Integer.class,
-                ColumnType.integer(3));
+        public static final HungerGames<Integer> ITEM_ID = new HungerGames<>("id", Integer.class, ColumnType.integer(255, true));
+        public static final HungerGames<String> ITEM_TYPE = new HungerGames<>("type", String.class, ColumnType.varchar(100).notNull());
+        public static final HungerGames<Integer> ITEM_AMOUNT = new HungerGames<>("amount", Integer.class, ColumnType.integer(2).notNull());
+        public static final HungerGames<Float> ITEM_CHANCE = new HungerGames<>("chance", Float.class, ColumnType.varchar(10).notNull());
+        public static final HungerGames<Integer> ITEM_LEVEL = new HungerGames<>("level", Integer.class, ColumnType.integer(3).notNull());
 
         HungerGames(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
@@ -396,12 +347,9 @@ public class Column<Value> {
     }
 
     public static class EndGame<T> extends Column<T> {
-        public static final EndGame<String> SERVER = new EndGame<>("server", Server.NAME.getValueClass(),
-                Server.NAME.getType());
-        public static final EndGame<UUID> PLAYER_UUID = new EndGame<>("player_uuid", User.UUID.getValueClass(),
-                User.UUID.getType());
-        public static final EndGame<String> PLAYER_NAME = new EndGame<>("player_name", User.NAME.getValueClass(),
-                User.NAME.getType());
+        public static final EndGame<String> SERVER = new EndGame<>("server", Server.NAME.getValueClass(), Server.NAME.getType());
+        public static final EndGame<UUID> PLAYER_UUID = new EndGame<>("player_uuid", User.UUID.getValueClass(), User.UUID.getType());
+        public static final EndGame<String> PLAYER_NAME = new EndGame<>("player_name", User.NAME.getValueClass(), User.NAME.getType());
 
         EndGame(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
@@ -410,12 +358,9 @@ public class Column<Value> {
     }
 
     public static class Decoration<T> extends Column<T> {
-        public static final Decoration<String> HEAD_NAME = new Decoration<>("name", String.class,
-                ColumnType.varchar(500));
-        public static final Decoration<String> HEAD_SECTION = new Decoration<>("section", String.class,
-                ColumnType.varchar(500));
-        public static final Decoration<String> HEAD_TAG = new Decoration<>("tag", String.class,
-                ColumnType.varchar(500));
+        public static final Decoration<String> HEAD_NAME = new Decoration<>("name", String.class, ColumnType.varchar(500));
+        public static final Decoration<String> HEAD_SECTION = new Decoration<>("section", String.class, ColumnType.varchar(500));
+        public static final Decoration<String> HEAD_TAG = new Decoration<>("tag", String.class, ColumnType.varchar(500));
 
         Decoration(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);

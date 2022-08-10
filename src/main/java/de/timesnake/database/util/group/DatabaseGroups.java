@@ -4,26 +4,31 @@ import java.util.Collection;
 
 public interface DatabaseGroups {
 
-    void addPermGroup(String name, int rank, String prefix, String colorChatName);
+    void addPermGroup(String name, int rank);
 
-    boolean containsGroup(int rank);
+    boolean containsPermGroup(String name);
 
-    boolean containsGroup(String name);
-
-    //TODO Method return update
     DbPermGroup getPermGroup(String name);
 
-    DbPermGroup getPermGroup(int rank);
-
-    void removePermGroup(int rank);
-
     void removePermGroup(String name);
-
-    void removePermGroup(DbPermGroup group);
 
     Collection<String> getPermGroupNames();
 
     Collection<Integer> getPermGroupRanks();
 
-    Collection<DbPermGroup> getPermGroups();
+    Collection<? extends DbPermGroup> getPermGroups();
+
+    void addDisplayGroup(String name, int rank, String prefix, String colorChatName);
+
+    boolean containsDisplayGroup(String name);
+
+    DbDisplayGroup getDisplayGroup(String name);
+
+    void removeDisplayGroup(String name);
+
+    Collection<String> getDisplayGroupNames();
+
+    Collection<Integer> getDisplayGroupRanks();
+
+    Collection<? extends DbDisplayGroup> getDisplayGroups();
 }

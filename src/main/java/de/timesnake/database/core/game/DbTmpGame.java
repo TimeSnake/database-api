@@ -7,6 +7,7 @@ import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -85,26 +86,11 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     }
 
     @Override
-    public void removeTeam(int rank) {
-        if (this.loadTeamsTable()) {
-            this.teamsTable.get().removeTeam(rank);
-        }
-    }
-
-    @Override
     public Integer getHighestRank() {
         if (this.loadTeamsTable()) {
             return this.teamsTable.get().getHighestRank();
         }
         return null;
-    }
-
-    @Override
-    public boolean containsTeam(int rank) {
-        if (this.loadTeamsTable()) {
-            return this.teamsTable.get().containsTeam(rank);
-        }
-        return false;
     }
 
     @Override
@@ -124,19 +110,11 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     }
 
     @Override
-    public DbTeam getTeam(int rank) {
-        if (this.loadTeamsTable()) {
-            return this.teamsTable.get().getTeam(rank);
-        }
-        return null;
-    }
-
-    @Override
     public Collection<String> getTeamNames() {
         if (this.loadTeamsTable()) {
             return this.teamsTable.get().getTeamNames();
         }
-        return null;
+        return new ArrayList<>(0);
     }
 
     @Override
@@ -144,7 +122,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
         if (this.loadTeamsTable()) {
             return this.teamsTable.get().getTeamRanks();
         }
-        return null;
+        return new ArrayList<>(0);
     }
 
     @Override
@@ -152,7 +130,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
         if (this.loadTeamsTable()) {
             return this.teamsTable.get().getTeams();
         }
-        return null;
+        return new ArrayList<>(0);
     }
 
     public Integer getMaxPlayers() {return getInfo().getMaxPlayers();}

@@ -6,8 +6,8 @@ import de.timesnake.database.util.object.DatabaseConnector;
 
 public class DbTeam extends DbGroup implements de.timesnake.database.util.game.DbTeam {
 
-    public DbTeam(DatabaseConnector databaseConnector, int rank, String nameTable) {
-        super(databaseConnector, rank, nameTable);
+    public DbTeam(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, name, nameTable);
     }
 
     @Override

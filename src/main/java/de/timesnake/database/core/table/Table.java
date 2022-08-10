@@ -257,24 +257,14 @@ public class Table {
 
     Table(DatabaseConnector databaseConnector, String tableName) {
         this.databaseConnector = databaseConnector;
-        if (tableName != null) {
-            this.tableName = tableName;
-        } else {
-            this.tableName = null;
-            System.out.println("[Database] ERROR table name is null");
-        }
+        this.tableName = tableName;
         this.updatePolicy = UpdatePolicy.DISCARD_IF_NOT_EXISTS;
 
     }
 
     Table(DatabaseConnector databaseConnector, String tableName, UpdatePolicy updatePolicy) {
         this.databaseConnector = databaseConnector;
-        if (tableName != null) {
-            this.tableName = tableName;
-        } else {
-            this.tableName = null;
-            System.out.println("[Database] ERROR table name is null");
-        }
+        this.tableName = tableName;
         this.updatePolicy = updatePolicy;
     }
 

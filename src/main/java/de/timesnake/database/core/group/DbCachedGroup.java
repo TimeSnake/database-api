@@ -1,63 +1,17 @@
 package de.timesnake.database.core.group;
 
-import de.timesnake.database.core.Column;
-import de.timesnake.database.util.group.DbGroup;
-import de.timesnake.database.util.object.ColumnMap;
+public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.database.util.group.DbGroup {
 
-import java.util.Set;
+    protected String prefix;
+    protected String chatColorName;
 
-public class DbCachedGroup implements DbGroup {
-
-    protected final de.timesnake.database.core.group.DbGroup group;
-
-    private int rank;
-    private String name;
-    private String prefix;
-    private String chatColorName;
-
-    public DbCachedGroup(de.timesnake.database.core.group.DbGroup group) {
-        this.group = group;
-
-        ColumnMap columnMap = this.group.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.PREFIX,
-                Column.Group.CHAT_COLOR));
-
-        this.rank = group.getRank();
-        this.name = columnMap.get(Column.Group.NAME);
-        this.prefix = columnMap.get(Column.Group.PREFIX);
-        this.chatColorName = columnMap.get(Column.Group.CHAT_COLOR);
+    public DbCachedGroup(DbGroup database) {
+        super(database);
     }
 
     @Override
-    public boolean exists() {
-        return this.group.exists();
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-        this.group.setName(name);
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public void setRank(int rank) {
-        this.rank = rank;
-        this.group.setRank(rank);
-    }
-
-    @Override
-    public Integer getRank() {
-        return this.rank;
-    }
-
-    @Override
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-        this.group.setPrefix(prefix);
+    public DbGroup getDatabase() {
+        return (DbGroup) super.getDatabase();
     }
 
     @Override
@@ -66,9 +20,9 @@ public class DbCachedGroup implements DbGroup {
     }
 
     @Override
-    public void setChatColorName(String chatColorName) {
-        this.chatColorName = chatColorName;
-        this.group.setChatColorName(chatColorName);
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+        this.getDatabase().setPrefix(prefix);
     }
 
     @Override
@@ -77,12 +31,18 @@ public class DbCachedGroup implements DbGroup {
     }
 
     @Override
-    public DbGroup toLocal() {
-        return new DbCachedGroup(this.group);
+    public void setChatColorName(String chatColorName) {
+        this.chatColorName = chatColorName;
+        this.getDatabase().setChatColorName(chatColorName);
     }
 
     @Override
-    public DbGroup toDatabase() {
-        return this.group;
+    public de.timesnake.database.util.group.DbGroup toLocal() {
+        return this.getDatabase().toLocal();
+    }
+
+    @Override
+    public de.timesnake.database.util.group.DbGroup toDatabase() {
+        return this.getDatabase();
     }
 }

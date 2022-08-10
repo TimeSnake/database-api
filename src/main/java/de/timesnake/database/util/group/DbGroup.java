@@ -1,29 +1,25 @@
 package de.timesnake.database.util.group;
 
-import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
 
-public interface DbGroup extends DbCached<DbGroup> {
+public interface DbGroup extends DbGroupBasis {
 
     boolean exists();
-
-    @NotCached
-    void setName(String name);
 
     String getName();
 
     @NotCached
-    void setRank(int rank);
+    void setName(String name);
 
     Integer getRank();
-
-    @NotCached
-    void setPrefix(String prefix);
 
     String getPrefix();
 
     @NotCached
-    void setChatColorName(String chatColorName);
+    void setPrefix(String prefix);
 
     String getChatColorName();
+
+    @NotCached
+    void setChatColorName(String chatColorName);
 }

@@ -1,16 +1,14 @@
 package de.timesnake.database.util.group;
 
 import de.timesnake.database.util.object.NotCached;
+import de.timesnake.database.util.object.Nullable;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
 
-public interface DbPermGroup extends DbGroup {
-
-    @NotCached
-    void setInheritance(String inheritGroup);
+public interface DbPermGroup extends DbGroupBasis {
 
     @NotCached
     void setInheritance(String inheritGroup, SyncExecute syncExecute);
@@ -26,7 +24,11 @@ public interface DbPermGroup extends DbGroup {
      *
      * @return the {@link DbPermGroup}, returns null if inheritance is null
      */
+    @Nullable
     DbPermGroup getInheritance();
+
+    @NotCached
+    void setInheritance(String inheritGroup);
 
     @NotCached
     Collection<DbPermGroup> getGroupsInherit();

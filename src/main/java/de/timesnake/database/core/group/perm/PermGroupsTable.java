@@ -1,48 +1,39 @@
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.channel.util.message.ChannelGroupMessage;
-import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.group.BasicGroupsTable;
-import de.timesnake.database.util.Database;
+import de.timesnake.database.core.group.GroupBasisTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-public class PermGroupsTable extends BasicGroupsTable {
+public class PermGroupsTable extends GroupBasisTable {
 
-    public PermGroupsTable(DatabaseConnector databaseConnector, String nameTable) {
-        super(databaseConnector, nameTable);
-        super.addColumn(Column.PermGroup.INHERITANCE);
+    public PermGroupsTable(DatabaseConnector databaseConnector, String tableName) {
+        super(databaseConnector, tableName);
+        super.addColumn(Column.Group.INHERITANCE);
     }
 
-    public void addPermGroup(String name, int rank, String prefix, String colorChatName) {
-        super.addGroup(name, rank, prefix, colorChatName, new ChannelGroupMessage<>(name, MessageType.Group.ALIAS));
+    @Override
+    public void create() {
+        super.create();
     }
 
-    public Collection<String> getPermGroupsName() {
-        return super.getGroupsName();
+    @Override
+    public void backup() {
+        super.backup();
     }
 
-    public Collection<Integer> getPermGroupsRank() {
-        return super.getGroupsRank();
+    public DbPermGroup getGroup(String name) {
+        return new DbPermGroup(this.databaseConnector, name, this.tableName);
     }
 
-    public void removePermGroup(String name) {
-        super.removeGroup(name, new ChannelGroupMessage<>(name, MessageType.Group.ALIAS));
+    public Collection<DbPermGroup> getGroups() {
+        List<DbPermGroup> groups = new ArrayList<>();
+        for (String name : this.getGroupNames()) {
+            groups.add(this.getGroup(name));
+        }
+        return groups;
     }
-
-    public void removePermGroup(int rank) {
-        super.removeGroup(rank, new ChannelGroupMessage<>(Database.getGroups().getPermGroup(rank).getName(),
-                MessageType.Group.ALIAS));
-    }
-
-    public boolean containsPermGroup(int rank) {
-        return super.containsGroup(rank);
-    }
-
-    public boolean containsPermGroup(String name) {
-        return super.containsGroup(name);
-    }
-
 }

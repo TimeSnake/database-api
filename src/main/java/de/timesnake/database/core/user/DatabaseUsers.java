@@ -2,6 +2,7 @@ package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.Collection;
@@ -13,21 +14,25 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     private final InfosTable infosTable;
     private final PunishmentsTable punishmentsTable;
     private final MailsTable mailsTable;
+    private final DisplayGroupsTable displayGroupsTable;
 
     private final String infoTableName;
     private final String punishmentTableName;
     private final String mailsTableName;
+    private final String displayGroupsTableName;
 
     public DatabaseUsers(String name, String url, String user, String password, String infoTable,
-                         String punishmentTable, String mailsTable) {
-        super(name, url, user, password);
+                         String punishmentTable, String mailsTable, String displayGroupsTable) {
+        super(name, url, user, password, DatabaseManager.USERS_MAX_IDLE_CONNECTIONS);
         this.infoTableName = infoTable;
         this.punishmentTableName = punishmentTable;
         this.mailsTableName = mailsTable;
+        this.displayGroupsTableName = displayGroupsTable;
 
         this.infosTable = new InfosTable(this, this.infoTableName);
         this.punishmentsTable = new PunishmentsTable(this, this.punishmentTableName);
         this.mailsTable = new MailsTable(this, this.mailsTableName);
+        this.displayGroupsTable = new DisplayGroupsTable(this, this.displayGroupsTableName);
     }
 
     @Override
@@ -35,6 +40,7 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         this.infosTable.create();
         this.punishmentsTable.create();
         this.mailsTable.create();
+        this.displayGroupsTable.create();
     }
 
     @Override
@@ -42,6 +48,7 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         this.infosTable.backup();
         this.punishmentsTable.backup();
         this.mailsTable.backup();
+        this.displayGroupsTable.backup();
     }
 
     @Override
@@ -72,7 +79,7 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     public DbUser getUser(UUID uuid) {
         if (uuid != null) {
             return new DbUser(this, uuid, this.infoTableName, this.punishmentTableName, this.mailsTableName,
-                    this.punishmentsTable, this.mailsTable);
+                    this.punishmentsTable, this.mailsTable, this.displayGroupsTable);
         }
         return null;
     }
@@ -80,7 +87,8 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     @Override
     public DbUser getUser(String name) {
         return new DbUser(this, this.infosTable.getUniqueIdFromName(name), this.infoTableName,
-                this.punishmentTableName, this.mailsTableName, this.punishmentsTable, this.mailsTable);
+                this.punishmentTableName, this.mailsTableName, this.punishmentsTable, this.mailsTable,
+                this.displayGroupsTable);
     }
 
     @Override

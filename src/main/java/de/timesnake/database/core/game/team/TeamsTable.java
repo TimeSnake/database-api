@@ -2,16 +2,16 @@ package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.group.BasicGroupsTable;
+import de.timesnake.database.core.group.GroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TeamsTable extends BasicGroupsTable {
+public class TeamsTable extends GroupsTable {
 
-    public TeamsTable(DatabaseConnector databaseConnector, String nameTable) {
-        super(databaseConnector, nameTable);
+    public TeamsTable(DatabaseConnector databaseConnector, String tableName) {
+        super(databaseConnector, tableName);
         super.addColumn(Column.Team.RATIO);
         super.addColumn(Column.Team.COLOR);
         super.addColumn(Column.Team.PRIVATE_CHAT);
@@ -34,8 +34,8 @@ public class TeamsTable extends BasicGroupsTable {
 
     public void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName) {
         super.addGroup(name, rank, prefix, colorChatName, () -> {
-            super.set(ratio, Column.Team.RATIO, new TableEntry<>(rank, Column.Group.RANK));
-            super.set(colorName, Column.Team.COLOR, new TableEntry<>(rank, Column.Group.RANK));
+            super.set(ratio, Column.Team.RATIO, new TableEntry<>(rank, Column.Group.PRIORITY));
+            super.set(colorName, Column.Team.COLOR, new TableEntry<>(rank, Column.Group.PRIORITY));
         });
     }
 
@@ -43,16 +43,8 @@ public class TeamsTable extends BasicGroupsTable {
         super.removeGroup(name);
     }
 
-    public void removeTeam(int rank) {
-        super.removeGroup(rank);
-    }
-
     public Integer getHighestRank() {
-        return super.getHighestInteger(Column.Group.RANK);
-    }
-
-    public boolean containsTeam(int rank) {
-        return super.containsGroup(rank);
+        return super.getHighestInteger(Column.Group.PRIORITY);
     }
 
     public boolean containsTeam(String name) {
@@ -60,25 +52,21 @@ public class TeamsTable extends BasicGroupsTable {
     }
 
     public DbTeam getTeam(String name) {
-        return this.getTeam(super.getRankFromName(name));
-    }
-
-    public DbTeam getTeam(int rank) {
-        return new DbTeam(super.databaseConnector, rank, super.tableName);
+        return new DbTeam(this.databaseConnector, name, this.tableName);
     }
 
     public Collection<String> getTeamNames() {
-        return super.getGroupsName();
+        return super.getGroupNames();
     }
 
     public Collection<Integer> getTeamRanks() {
-        return super.getGroupsRank();
+        return super.getGroupRanks();
     }
 
     public Collection<de.timesnake.database.util.game.DbTeam> getTeams() {
         Collection<de.timesnake.database.util.game.DbTeam> teams = new ArrayList<>();
-        for (int rank : this.getTeamRanks()) {
-            teams.add(this.getTeam(rank));
+        for (String name : this.getTeamNames()) {
+            teams.add(this.getTeam(name));
         }
         return teams;
     }

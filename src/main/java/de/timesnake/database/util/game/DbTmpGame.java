@@ -17,22 +17,13 @@ public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
     void removeTeam(String name);
 
     @NotCached
-    void removeTeam(int rank);
-
-    @NotCached
     Integer getHighestRank();
-
-    @NotCached
-    boolean containsTeam(int rank);
 
     @NotCached
     boolean containsTeam(String name);
 
     @NotCached
     de.timesnake.database.core.game.team.DbTeam getTeam(String name);
-
-    @NotCached
-    de.timesnake.database.core.game.team.DbTeam getTeam(int rank);
 
     @NotCached
     Collection<String> getTeamNames();

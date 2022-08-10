@@ -5,20 +5,10 @@ import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-/**
- * Build a new Table:
- * <p>
- * Constructor
- * - define primary columns
- * - add columns (not primary columns)
- * <p>
- * Methods
- * - create and backup methods
- * - other: add, remove, get, getAll
- */
 public class TableDDL extends Table {
 
     protected final List<Column<?>> primaryColumns;
@@ -26,7 +16,7 @@ public class TableDDL extends Table {
     private List<Column<?>> columns = new ArrayList<>();
 
     protected TableDDL(DatabaseConnector databaseConnector, String tableName, Column<?>... primaryColumns) {
-        this(databaseConnector, tableName, List.of(primaryColumns));
+        this(databaseConnector, tableName, Arrays.stream(primaryColumns).toList());
     }
 
     protected TableDDL(DatabaseConnector databaseConnector, String tableName, List<Column<?>> primaryColumns) {
@@ -34,7 +24,8 @@ public class TableDDL extends Table {
         this.primaryColumns = primaryColumns;
         if (this.primaryColumns.size() == 1) {
             this.primaryColumnsCreation =
-                    " `" + this.primaryColumns.get(0).getName() + "` " + this.primaryColumns.get(0).getType().getName() + " PRIMARY KEY";
+                    " `" + this.primaryColumns.get(0).getName() + "` " +
+                            this.primaryColumns.get(0).getType().getName() + " PRIMARY KEY";
         } else {
             StringBuilder primaryList = new StringBuilder();
             StringBuilder sb = new StringBuilder();
@@ -63,111 +54,87 @@ public class TableDDL extends Table {
     protected void create() {
 
         Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
+        Statement ps = null;
         ResultSet rs = null;
 
         try {
-            ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `" + this.tableName + "` (" + this.primaryColumnsCreation + ");");
-            ps.executeUpdate();
+            ps = connection.createStatement();
+
+            ps.executeUpdate("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                    " (" + this.primaryColumnsCreation + ");");
 
             DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Table " + this.tableName + " " +
                     "created with primary-keys: " + primaryColumnsCreation);
+
+
+            Set<String> primaryColumnNames = this.primaryColumns.stream().map(Column::getName).collect(Collectors.toSet());
+
+            Map<String, Column<?>> columnByName = this.columns.stream().collect(Collectors.toMap(Column::getName, Function.identity()));
+
+            rs = ps.executeQuery("SELECT * FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER);
+            ResultSetMetaData meta = rs.getMetaData();
+
+            for (int i = 1; i <= meta.getColumnCount(); i++) {
+                String name = meta.getColumnName(i);
+                String type = meta.getColumnTypeName(i);
+                int size = meta.getColumnDisplaySize(i);
+
+                if (primaryColumnNames.contains(name)) {
+                    continue;
+                }
+
+                Column<?> column = columnByName.remove(name);
+
+                // check if column should exist, if not drop it, else check type
+                if (column != null) {
+                    // check column type
+                    if (!column.getType().getSimpleName().equalsIgnoreCase(type) || column.getType().getLength() != size) {
+                        ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                                " MODIFY " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " " + column.getType().getName() + ";");
+                    }
+                } else {
+                    ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                            " DROP COLUMN " + COLUMN_WRAPPER + name + COLUMN_WRAPPER + ";");
+                }
+            }
+
+            Column<?> columnBefore = this.primaryColumns.get(this.primaryColumns.size() - 1);
+
+            for (Column<?> column : columns) {
+                // add new column
+                if (columnByName.remove(column.getName()) != null) {
+                    ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                            " ADD COLUMN " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " " + column.getType().getName() +
+                            " AFTER " + COLUMN_WRAPPER + columnBefore.getName() + COLUMN_WRAPPER + ";");
+                }
+
+                // update unique column
+                if (column.getType().isUnique()) {
+                    /*
+                    try {
+                        ps.executeUpdate("DROP INDEX " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " ON " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
+                    } catch (SQLSyntaxErrorException ignored) {
+                    }
+
+
+                    System.out.println(this.tableName + " " + column.getName());
+                    ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                            " ADD CONSTRAINT " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " UNIQUE(" + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + ");");
+
+                     */
+                }
+
+                columnBefore = column;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Table.closeQuery(connection, ps, rs);
         }
 
-        Column<?> columnBefore = this.primaryColumns.get(this.primaryColumns.size() - 1);
-        for (Column<?> column : columns) {
-            boolean isExisting = false;
-
-            connection = this.databaseConnector.getConnection();
-            ps = null;
-
-            try {
-                ps = connection.prepareStatement("SHOW COLUMNS FROM `" + this.tableName + "` LIKE '" + column.getName() + "';");
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    if (rs.getString("Field") != null) {
-                        isExisting = true;
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                Table.closeQuery(connection, ps, rs);
-            }
-
-            //if column exists
-            if (isExisting) {
-                boolean isTypeEquals = false;
-
-                connection = this.databaseConnector.getConnection();
-                ps = null;
-
-                try {
-                    ps = connection.prepareStatement("SHOW FIELDS FROM `" + this.tableName + "` WHERE FIELD = '" + column.getName() + "';");
-                    isTypeEquals = this.checkColumnType(ps, column);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    Table.closeQuery(connection, ps, rs);
-                }
-
-                //if type is not equals
-                if (!isTypeEquals) {
-
-                    connection = this.databaseConnector.getConnection();
-                    ps = null;
-
-                    try {
-                        ps = connection.prepareStatement("ALTER TABLE `" + this.tableName + "` MODIFY COLUMN " + column.getName() + " " + column.getType().getName() + ";");
-                        ps.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        return;
-                    } finally {
-                        Table.closeQuery(connection, ps, rs);
-                    }
-                }
-            }
-            //if column not exists
-            else {
-
-                connection = this.databaseConnector.getConnection();
-                ps = null;
-
-                try {
-                    ps = connection.prepareStatement("ALTER TABLE `" + this.tableName + "` ADD COLUMN `" + column.getName() + "` " + column.getType().getName() + " AFTER `" + columnBefore.getName() + "`;");
-                    ps.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return;
-                } finally {
-                    Table.closeQuery(connection, ps, rs);
-                }
-            }
-
-            columnBefore = column;
-        }
-
         this.createTmp();
         this.loadTempData();
 
-    }
-
-    private boolean checkColumnType(PreparedStatement ps, Column<?> column) throws SQLException {
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            String result = rs.getString("Type");
-            if (result.equals(column.getType().getName().toLowerCase())) {
-                return true;
-            } else if ((result.startsWith("int") || result.startsWith("tinyint")) && column.getType().getName().startsWith("boolean")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     protected void createTmp() {
@@ -176,9 +143,10 @@ public class TableDDL extends Table {
         Statement ps = null;
         try {
             ps = connection.createStatement();
-            ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`");
-            ps.addBatch("CREATE TABLE IF NOT EXISTS `" + this.tableName + "_tmp`" + " LIKE " + this.tableName + "");
-            ps.addBatch("ALTER TABLE `" + this.tableName + "_tmp` ENGINE=memory");
+            ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
+            ps.addBatch("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER +
+                    " LIKE " + this.tableName + "");
+            ps.addBatch("ALTER TABLE " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + " ENGINE=memory");
             ps.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -194,8 +162,8 @@ public class TableDDL extends Table {
 
         try {
             ps = connection.createStatement();
-            ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "`");
-            ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`");
+            ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER);
+            ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
             ps.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -210,7 +178,8 @@ public class TableDDL extends Table {
         PreparedStatement ps = null;
 
         try {
-            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp` SELECT * FROM `" + this.tableName + "`;");
+            ps = connection.prepareStatement("INSERT INTO " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER +
+                    " SELECT * FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -226,9 +195,10 @@ public class TableDDL extends Table {
 
         try {
             ps = connection.createStatement();
-            ps.addBatch("DELETE FROM `" + this.tableName + "`");
-            ps.addBatch("INSERT INTO `" + this.tableName + "` SELECT * FROM `" + this.tableName + "_tmp`");
-            ps.addBatch("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`");
+            ps.addBatch("DELETE FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER);
+            ps.addBatch("INSERT INTO " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                    " SELECT * FROM " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
+            ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
 
             ps.executeBatch();
         } catch (SQLException e) {
@@ -241,23 +211,15 @@ public class TableDDL extends Table {
     protected void backup(Column<?>[] columns) {
 
         Connection connection = this.databaseConnector.getConnection();
-        PreparedStatement ps = null;
+        Statement ps = null;
 
         try {
-            ps = connection.prepareStatement("DELETE FROM `" + this.tableName + "`;");
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Table.closeQuery(connection, ps, null);
-        }
-
-        connection = this.databaseConnector.getConnection();
-        ps = null;
-
-        try {
-            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "` (" + this.getColumnsAsString(columns) + ") SELECT " + this.getColumnsAsString(columns) + " FROM `" + this.tableName + "_tmp`;");
-            ps.executeUpdate();
+            ps = connection.createStatement();
+            ps.addBatch("DELETE FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
+            ps.addBatch("INSERT INTO " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
+                    " (" + this.getColumnsAsString(columns) + ") SELECT " + this.getColumnsAsString(columns) +
+                    " FROM " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + ";");
+            ps.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -272,7 +234,8 @@ public class TableDDL extends Table {
         PreparedStatement ps = null;
 
         try {
-            ps = connection.prepareStatement("DROP TABLE IF EXISTS `" + this.tableName + "_tmp`;");
+            ps = connection.prepareStatement("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" +
+                    TABLE_WRAPPER + ";");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

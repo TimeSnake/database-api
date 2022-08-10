@@ -1,44 +1,55 @@
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.database.core.group.DbCachedGroup;
+import de.timesnake.database.core.Column;
+import de.timesnake.database.core.group.DbCachedGroupBasis;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbPermGroup;
+import de.timesnake.database.util.object.ColumnMap;
+import de.timesnake.database.util.object.Nullable;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;
+import java.util.Set;
 
-public class DbCachedPermGroup extends DbCachedGroup implements DbPermGroup {
+public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup {
 
     private String inheritGroup;
 
-    public DbCachedPermGroup(de.timesnake.database.core.group.perm.DbPermGroup group) {
-        super(group);
+    public DbCachedPermGroup(de.timesnake.database.core.group.perm.DbPermGroup database) {
+        super(database);
 
-        DbPermGroup inheritGroup = group.getInheritance();
+        ColumnMap map = this.database.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.INHERITANCE));
 
-        this.inheritGroup = inheritGroup != null ? inheritGroup.getName() : null;
+        this.name = map.get(Column.Group.NAME);
+        this.inheritGroup = map.get(Column.Group.INHERITANCE);
+    }
+
+    @Override
+    public de.timesnake.database.core.group.perm.DbPermGroup getDatabase() {
+        return (de.timesnake.database.core.group.perm.DbPermGroup) super.getDatabase();
     }
 
     @Override
     public void setInheritance(String inheritGroup, SyncExecute syncExecute) {
         this.inheritGroup = inheritGroup;
-        ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).setInheritance(inheritGroup, syncExecute);
+        this.getDatabase().setInheritance(inheritGroup, syncExecute);
     }
 
     @Override
     public void removeInheritance() {
         this.inheritGroup = null;
-        ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).removeInheritance();
+        this.getDatabase().removeInheritance();
     }
 
     @Override
     public void removeInheritance(SyncExecute syncExecute) {
         this.inheritGroup = null;
-        ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).removeInheritance(syncExecute);
+        this.getDatabase().removeInheritance(syncExecute);
     }
 
+    @Nullable
     @Override
     public DbPermGroup getInheritance() {
         if (this.inheritGroup != null) {
@@ -50,57 +61,57 @@ public class DbCachedPermGroup extends DbCachedGroup implements DbPermGroup {
     @Override
     public void setInheritance(String inheritGroup) {
         this.inheritGroup = inheritGroup;
-        ((de.timesnake.database.core.group.perm.DbPermGroup) super.group).setInheritance(inheritGroup);
+        this.getDatabase().setInheritance(inheritGroup);
     }
 
     @Override
     public Collection<DbPermGroup> getGroupsInherit() {
-        return ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).getGroupsInherit();
+        return this.getDatabase().getGroupsInherit();
     }
 
     @Override
     public Collection<DbPermission> getPermissions() {
-        return ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).getPermissions();
+        return this.getDatabase().getPermissions();
     }
 
     @Override
     public DbPermission getPermission(String permission) {
-        return ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).getPermission(permission);
+        return this.getDatabase().getPermission(permission);
     }
 
     @Override
     public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers) {
-        ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).addPermission(permission, mode, syncExecute,
+        this.getDatabase().addPermission(permission, mode, syncExecute,
                 servers);
     }
 
     @Override
     public void addPermission(String permission, Status.Permission mode, String... servers) {
-        ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).addPermission(permission, mode, servers);
+        this.getDatabase().addPermission(permission, mode, servers);
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).hasPermission(permission);
+        return this.getDatabase().hasPermission(permission);
     }
 
     @Override
     public void removePermission(String permission) {
-        ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).removePermission(permission);
+        this.getDatabase().removePermission(permission);
     }
 
     @Override
     public void removePermission(String permission, SyncExecute syncExecute) {
-        ((de.timesnake.database.core.group.perm.DbPermGroup) this.group).removePermission(permission, syncExecute);
+        this.getDatabase().removePermission(permission, syncExecute);
     }
 
     @Override
     public DbPermGroup toLocal() {
-        return new DbCachedPermGroup(((de.timesnake.database.core.group.perm.DbPermGroup) super.group));
+        return this.getDatabase().toLocal();
     }
 
     @Override
     public DbPermGroup toDatabase() {
-        return ((de.timesnake.database.core.group.perm.DbPermGroup) super.group);
+        return this.getDatabase();
     }
 }

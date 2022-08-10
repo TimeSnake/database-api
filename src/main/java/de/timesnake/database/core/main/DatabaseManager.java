@@ -10,7 +10,7 @@ import de.timesnake.database.core.game.lounge.DatabaseLounges;
 import de.timesnake.database.core.game.map.DatabaseMaps;
 import de.timesnake.database.core.game.statistic.DatabaseGameStatistics;
 import de.timesnake.database.core.game.team.DatabaseTeams;
-import de.timesnake.database.core.group.perm.DatabaseGroups;
+import de.timesnake.database.core.group.DatabaseGroups;
 import de.timesnake.database.core.hungergames.DatabaseHungerGames;
 import de.timesnake.database.core.network.DatabaseNetwork;
 import de.timesnake.database.core.permisson.DatabasePermissions;
@@ -23,6 +23,10 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DatabaseManager implements de.timesnake.database.util.Database {
+
+    public static final int DEFAULT_MAX_IDLE_CONNECTIONS = 5;
+    public static final int USERS_MAX_IDLE_CONNECTIONS = 15;
+    public static final int SERVERS_MAX_IDLE_CONNECTIONS = 10;
 
     public static DatabaseManager getInstance() {
         return instance;
@@ -44,9 +48,11 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     private static final String DECORATIONS_NAME = "decorations";
     private static final String STORY_NAME = "story";
     private static final String NETWORK_NAME = "network";
+
     private static final DatabaseManager instance = new DatabaseManager();
+
     private final ConcurrentHashMap<String, DatabaseConnector> databasesByName = new ConcurrentHashMap<>();
-    private boolean broadcast = false;
+
     private DatabaseServers servers;
     private DatabaseGroups groups;
     private DatabasePermissions permissions;
@@ -63,10 +69,14 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     private DatabaseDecoration decorations;
     private DatabaseStory story;
     private DatabaseNetwork network;
+
     private boolean isConnected = false;
+    private boolean broadcast = false;
 
     @Override
     public void connect(DatabaseConfig config) throws DatabaseNotConfiguredException {
+        this.broadcast("Connecting to database...");
+
         String user = config.getString("database.user");
         String password = config.getString("database.password");
 
@@ -100,11 +110,12 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         this.databasesByName.put(SERVERS_NAME, servers);
 
         users = new DatabaseUsers(config.getDatabaseName(USERS_NAME),
-                config.getDatabaseUrl(USERS_NAME), user, password, "info", "punishments", "mails");
+                config.getDatabaseUrl(USERS_NAME), user, password, "info", "punishments",
+                "mails", "display_groups");
         this.databasesByName.put(USERS_NAME, users);
 
         groups = new DatabaseGroups(config.getDatabaseName(GROUPS_NAME), config.getDatabaseUrl(GROUPS_NAME),
-                user, password, "perm_groups");
+                user, password, "perm_groups", "display_groups");
         this.databasesByName.put(GROUPS_NAME, groups);
 
         permissions = new DatabasePermissions(config.getDatabaseName(PERMISSIONS_NAME),
@@ -163,6 +174,8 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         this.databasesByName.put(NETWORK_NAME, network);
 
         isConnected = true;
+
+        this.broadcast("Connected to database");
     }
 
     @Override
@@ -172,7 +185,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
                 database.createTables();
             }
         }
-
+        this.broadcast("Created tables");
     }
 
     @Override
@@ -184,7 +197,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         }
 
         this.close();
-
+        this.broadcast("Saved tables and closed connections");
     }
 
     @Override
@@ -194,7 +207,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         }
 
         isConnected = false;
-
+        this.broadcast("Closed connections");
     }
 
     public boolean isBroadcast() {

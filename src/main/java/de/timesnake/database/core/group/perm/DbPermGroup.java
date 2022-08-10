@@ -5,7 +5,7 @@ import de.timesnake.channel.util.message.ChannelGroupMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.group.DbGroup;
+import de.timesnake.database.core.group.DbGroupBasis;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
@@ -15,32 +15,32 @@ import de.timesnake.library.basic.util.Status;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DbPermGroup extends DbGroup implements de.timesnake.database.util.group.DbPermGroup {
+public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.util.group.DbPermGroup {
 
-    public DbPermGroup(DatabaseConnector databaseConnector, int rank, String nameTable) {
-        super(databaseConnector, rank, nameTable);
+    public DbPermGroup(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, name, nameTable);
     }
 
     @Override
     public void setInheritance(String inheritGroup, SyncExecute syncExecute) {
-        super.setWithKey(inheritGroup, Column.PermGroup.INHERITANCE, syncExecute);
+        super.setWithKey(inheritGroup, Column.Group.INHERITANCE, syncExecute);
     }
 
     @Override
     public void removeInheritance() {
-        super.setWithKey(null, Column.PermGroup.INHERITANCE,
+        super.setWithKey(null, Column.Group.INHERITANCE,
                 () -> NetworkChannel.getChannel().sendMessage(new ChannelGroupMessage<>(this.getName(),
                         MessageType.Group.PERMISSION)));
     }
 
     @Override
     public void removeInheritance(SyncExecute syncExecute) {
-        super.setWithKey(null, Column.PermGroup.INHERITANCE, syncExecute);
+        super.setWithKey(null, Column.Group.INHERITANCE, syncExecute);
     }
 
     @Override
     public de.timesnake.database.util.group.DbPermGroup getInheritance() {
-        String inherit = super.getFirstWithKey(Column.PermGroup.INHERITANCE);
+        String inherit = super.getFirstWithKey(Column.Group.INHERITANCE);
         if (inherit != null) {
             return Database.getGroups().getPermGroup(inherit);
         }
@@ -49,15 +49,15 @@ public class DbPermGroup extends DbGroup implements de.timesnake.database.util.g
 
     @Override
     public void setInheritance(String inheritGroup) {
-        super.setWithKey(inheritGroup, Column.PermGroup.INHERITANCE);
+        super.setWithKey(inheritGroup, Column.Group.INHERITANCE);
     }
 
     @Override
     public Collection<de.timesnake.database.util.group.DbPermGroup> getGroupsInherit() {
         Collection<de.timesnake.database.util.group.DbPermGroup> groups = new ArrayList<>();
-        for (Integer rank : super.get(Column.Group.RANK, new TableEntry<>(this.getName(),
-                Column.PermGroup.INHERITANCE))) {
-            de.timesnake.database.util.group.DbPermGroup group = Database.getGroups().getPermGroup(rank);
+        for (String name : super.get(Column.Group.NAME, new TableEntry<>(this.getName(),
+                Column.Group.INHERITANCE))) {
+            de.timesnake.database.util.group.DbPermGroup group = Database.getGroups().getPermGroup(name);
             if (group.exists()) {
                 groups.add(group);
             }
