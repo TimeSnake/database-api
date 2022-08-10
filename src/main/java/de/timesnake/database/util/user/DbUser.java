@@ -1,5 +1,6 @@
 package de.timesnake.database.util.user;
 
+import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.*;
 import de.timesnake.database.util.permission.DbPermission;
@@ -67,20 +68,6 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     String getPrefix();
 
     /**
-     * Gets the user suffix
-     *
-     * @return the suffix
-     */
-    String getSuffix();
-
-    /**
-     * Gets the user nick
-     *
-     * @return the nick
-     */
-    String getNick();
-
-    /**
      * Sets the user prefix
      *
      * @param prefix The prefix to set
@@ -88,11 +75,25 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     void setPrefix(String prefix);
 
     /**
+     * Gets the user suffix
+     *
+     * @return the suffix
+     */
+    String getSuffix();
+
+    /**
      * Sets the user suffix
      *
      * @param suffix The suffix to set
      */
     void setSuffix(String suffix);
+
+    /**
+     * Gets the user nick
+     *
+     * @return the nick
+     */
+    String getNick();
 
     /**
      * Sets the user nick
@@ -175,6 +176,23 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     @NotCached
     void removePermission(String permission, SyncExecute syncExecute);
 
+    // display group
+
+    @NotCached
+    Collection<String> getDisplayGroupNames();
+
+    @NotCached
+    Collection<DbDisplayGroup> getDisplayGroups();
+
+    @NotCached
+    void addDisplayGroup(String name);
+
+    @NotCached
+    void removeDisplayGroup(String name);
+
+    @NotCached
+    void clearDisplayGroups();
+
     /**
      * Gets the status of the user
      *
@@ -182,11 +200,25 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      */
     Status.User getStatus();
 
+    /**
+     * Sets the status of the user
+     *
+     * @param status The {@link Status.User} to set
+     */
+    @NotCached
+    void setStatus(Status.User status);
+
     boolean isService();
+
+    @NotCached
+    void setService(boolean service);
 
     boolean enabledAntiCheatMessages();
 
     boolean isAirMode();
+
+    @NotCached
+    void setAirMode(boolean airMode);
 
     /**
      * Gets the task of the user
@@ -194,6 +226,14 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @return the task
      */
     String getTask();
+
+    /**
+     * Sets the task of the user
+     *
+     * @param task The task to set
+     */
+    @NotCached
+    void setTask(String task);
 
     /**
      * Gets the name of the team of the user
@@ -220,6 +260,14 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     DbPermGroup getPermGroup();
 
     /**
+     * Sets the permission-group of the user
+     *
+     * @param permGroup The name of the permission-group to set
+     */
+    @NotCached
+    void setPermGroup(String permGroup);
+
+    /**
      * Removes the permission-group of the user
      * <p>
      * Sets the permission-group to null
@@ -243,11 +291,27 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     DbServer getServer();
 
     /**
+     * Sets the server of the user
+     *
+     * @param server The name of the server to set
+     */
+    @NotCached
+    void setServer(String server);
+
+    /**
      * Gets the server on which the user was last
      *
      * @return the last {@link DbServer}
      */
     DbServer getServerLast();
+
+    /**
+     * Sets the last server of the user
+     *
+     * @param serverLast The name of the server to set
+     */
+    @NotCached
+    void setServerLast(String serverLast);
 
     /**
      * Gets the lobby-server on which the user is online or was last
@@ -257,6 +321,14 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     DbLobbyServer getServerLobby();
 
     /**
+     * Sets the lobby of the user
+     *
+     * @param serverLobby The name of the lobby to set
+     */
+    @NotCached
+    void setServerLobby(String serverLobby);
+
+    /**
      * Sets the name of the user
      *
      * @param name The name to set
@@ -264,21 +336,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     @NotCached
     void setName(String name);
 
-    /**
-     * Sets the status of the user
-     *
-     * @param status The {@link Status.User} to set
-     */
-    @NotCached
-    void setStatus(Status.User status);
-
-    @NotCached
-    void setService(boolean service);
-
     void setAntiCheatMessages(boolean enable);
-
-    @NotCached
-    void setAirMode(boolean airMode);
 
     /**
      * Sets the status of the user
@@ -288,14 +346,6 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      */
     @NotCached
     void setStatus(Status.User status, boolean sendChannelMessage);
-
-    /**
-     * Sets the task of the user
-     *
-     * @param task The task to set
-     */
-    @NotCached
-    void setTask(String task);
 
     /**
      * Sets the task of the user
@@ -317,43 +367,11 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     /**
      * Sets the permission-group of the user
      *
-     * @param permGroup The name of the permission-group to set
-     */
-    @NotCached
-    void setPermGroup(String permGroup);
-
-    /**
-     * Sets the permission-group of the user
-     *
      * @param permGroup   The name of the permission-group to set
      * @param syncExecute The code that run sync
      */
     @NotCached
     void setPermGroup(String permGroup, SyncExecute syncExecute);
-
-    /**
-     * Sets the server of the user
-     *
-     * @param server The name of the server to set
-     */
-    @NotCached
-    void setServer(String server);
-
-    /**
-     * Sets the last server of the user
-     *
-     * @param serverLast The name of the server to set
-     */
-    @NotCached
-    void setServerLast(String serverLast);
-
-    /**
-     * Sets the lobby of the user
-     *
-     * @param serverLobby The name of the lobby to set
-     */
-    @NotCached
-    void setServerLobby(String serverLobby);
 
     /**
      * Sets that the user agreed the data-protection
@@ -403,19 +421,19 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     void deleteEntries();
 
     /**
+     * Gets the kit of the user
+     *
+     * @return the id of the kit
+     */
+    Integer getKit();
+
+    /**
      * Sets the kit of the user
      *
      * @param kitName The id of the kit to set
      */
     @NotCached
     void setKit(Integer kitName);
-
-    /**
-     * Gets the kit of the user
-     *
-     * @return the id of the kit
-     */
-    Integer getKit();
 
     //coins
 

@@ -6,6 +6,7 @@ import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.Database;
+import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
@@ -27,12 +28,14 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     private final PunishmentsTable punishmentsTable;
     private final MailsTable mailsTable;
+    private final DbDisplayGroupUser dbDisplayGroupUser;
 
     private final String punishmentTableName;
     private final String mailsTableName;
 
     public DbUser(DatabaseConnector databaseConnector, UUID uuid, String infoTable, String punishmentsTableName,
-                  String mailsTableName, PunishmentsTable punishmentsTable, MailsTable mailsTable) {
+                  String mailsTableName, PunishmentsTable punishmentsTable, MailsTable mailsTable,
+                  DisplayGroupsTable displayGroupsTable) {
         super(databaseConnector, uuid, infoTable);
 
         this.punishmentsTable = punishmentsTable;
@@ -40,6 +43,8 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
         this.punishmentTableName = punishmentsTableName;
         this.mailsTableName = mailsTableName;
+
+        this.dbDisplayGroupUser = displayGroupsTable.getUser(this.getUniqueId());
     }
 
     @Override
@@ -153,6 +158,32 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         Database.getPermissions().deletePermission(this.getUniqueId().toString(), permission, syncExecute);
     }
 
+    // display group
+    @Override
+    public Collection<String> getDisplayGroupNames() {
+        return this.dbDisplayGroupUser.getDisplayGroupNames();
+    }
+
+    @Override
+    public Collection<DbDisplayGroup> getDisplayGroups() {
+        return this.dbDisplayGroupUser.getDisplayGroups();
+    }
+
+    @Override
+    public void addDisplayGroup(String name) {
+        this.dbDisplayGroupUser.addDisplayGroup(name);
+    }
+
+    @Override
+    public void removeDisplayGroup(String name) {
+        this.dbDisplayGroupUser.removeDisplayGroup(name);
+    }
+
+    @Override
+    public void clearDisplayGroups() {
+        this.dbDisplayGroupUser.clearDisplayGroups();
+    }
+
     //info
 
     @Override
@@ -213,12 +244,12 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public boolean hasPermGroup() {
-        return Database.getGroups().containsGroup(super.getFirstWithKey(Column.User.PERMGROUP));
+        return Database.getGroups().containsPermGroup(super.getFirstWithKey(Column.User.PERM_GROUP));
     }
 
     @Override
     public DbPermGroup getPermGroup() {
-        String groupName = super.getFirstWithKey(Column.User.PERMGROUP);
+        String groupName = super.getFirstWithKey(Column.User.PERM_GROUP);
         if (groupName != null) {
             return Database.getGroups().getPermGroup(groupName);
         }
@@ -227,18 +258,19 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setPermGroup(String permGroup) {
-        super.setWithKey(permGroup, Column.User.PERMGROUP);
+        super.setWithKey(permGroup, Column.User.PERM_GROUP);
     }
 
     @Override
     public void removePermGroup() {
-
+        this.setWithKey(null, Column.User.PERM_GROUP);
     }
 
     @Override
     public void removePermGroup(SyncExecute syncExecute) {
-        super.setWithKey(null, Column.User.PERMGROUP, syncExecute);
+        super.setWithKey(null, Column.User.PERM_GROUP, syncExecute);
     }
+
 
     @Override
     public DbServer getServer() {
@@ -310,7 +342,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void setPermGroup(String permGroup, SyncExecute syncExecute) {
-        super.setWithKey(permGroup, Column.User.PERMGROUP, syncExecute);
+        super.setWithKey(permGroup, Column.User.PERM_GROUP, syncExecute);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class InfosTable extends PlayersTable {
         super.addColumn(Column.User.TASK);
         super.addColumn(Column.User.TEAM);
         super.addColumn(Column.User.KIT);
-        super.addColumn(Column.User.PERMGROUP);
+        super.addColumn(Column.User.PERM_GROUP);
         super.addColumn(Column.User.SERVER);
         super.addColumn(Column.User.SERVER_LAST);
         super.addColumn(Column.User.SERVER_LOBBY);
@@ -34,7 +34,7 @@ public class InfosTable extends PlayersTable {
     @Override
     public void backup() {
         Column<?>[] columns = {Column.User.UUID, Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
-                Column.User.NICK, Column.User.TIME_COINS, Column.User.PERMGROUP, Column.User.DATA_PROTECTION,
+                Column.User.NICK, Column.User.TIME_COINS, Column.User.PERM_GROUP, Column.User.DATA_PROTECTION,
                 Column.User.DISCORD_ID};
         super.backup(columns);
     }
@@ -43,7 +43,7 @@ public class InfosTable extends PlayersTable {
         super.addPlayer(uuid, name);
         super.setSynchronized(Set.of(new TableEntry<>(Status.User.ONLINE, Column.User.STATUS), new TableEntry<>(false
                 , Column.User.AIR_MODE), new TableEntry<>(null, Column.User.TEAM), new TableEntry<>(permGroup,
-                Column.User.PERMGROUP), new TableEntry<>(server, Column.User.SERVER), new TableEntry<>(server,
+                Column.User.PERM_GROUP), new TableEntry<>(server, Column.User.SERVER), new TableEntry<>(server,
                 Column.User.SERVER_LAST), new TableEntry<>(server, Column.User.SERVER_LOBBY), new TableEntry<>(false,
                 Column.User.SERVICE)), new TableEntry<>(uuid, Column.User.UUID));
     }

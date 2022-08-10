@@ -1,5 +1,6 @@
 package de.timesnake.database.core.server;
 
+import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbServer;
@@ -18,7 +19,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     public DatabaseServers(String name, String url, String user, String password, String lobbysTableName,
                            String gamesTableName, String loungesTableName, String tempGamesTableName,
                            String buildsTableName) {
-        super(name, url, user, password);
+        super(name, url, user, password, DatabaseManager.SERVERS_MAX_IDLE_CONNECTIONS);
 
         this.serverTables.put(Type.Server.LOBBY, new LobbyTable(this, lobbysTableName));
         this.serverTables.put(Type.Server.GAME, new NonTmpGameTable(this, gamesTableName));

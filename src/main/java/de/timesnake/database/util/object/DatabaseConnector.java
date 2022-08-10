@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
+
     private final String user;
     private final String password;
     protected String name;
@@ -17,6 +18,10 @@ public class DatabaseConnector {
     protected String url;
 
     public DatabaseConnector(String name, String url, String user, String password) {
+        this(name, url, user, password, DatabaseManager.DEFAULT_MAX_IDLE_CONNECTIONS);
+    }
+
+    public DatabaseConnector(String name, String url, String user, String password, int maxIdleConnections) {
         this.url = url;
         this.user = user;
         this.password = password;
@@ -29,7 +34,7 @@ public class DatabaseConnector {
         this.ds.setUsername(this.user);
         this.ds.setPassword(this.password);
         this.ds.setMinIdle(0);
-        this.ds.setMaxIdle(10);
+        this.ds.setMaxIdle(maxIdleConnections);
         this.ds.setMaxOpenPreparedStatements(50);
 
         try {

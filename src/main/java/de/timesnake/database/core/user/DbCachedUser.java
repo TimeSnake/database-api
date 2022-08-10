@@ -2,6 +2,7 @@ package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.Database;
+import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.SyncExecute;
@@ -50,7 +51,7 @@ public class DbCachedUser implements DbUser {
         ColumnMap columnMap = user.getFirstWithKey(Set.of(Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
                 Column.User.NICK, Column.User.TIME_COINS, Column.User.STATUS, Column.User.SERVICE,
                 Column.User.ANTI_CHEAT_MESSAGES, Column.User.AIR_MODE, Column.User.TASK, Column.User.TEAM,
-                Column.User.KIT, Column.User.PERMGROUP, Column.User.SERVER, Column.User.SERVER_LAST,
+                Column.User.KIT, Column.User.PERM_GROUP, Column.User.SERVER, Column.User.SERVER_LAST,
                 Column.User.SERVER_LOBBY, Column.User.DATA_PROTECTION, Column.User.DISCORD_ID));
 
         this.user = user;
@@ -69,7 +70,7 @@ public class DbCachedUser implements DbUser {
         this.task = columnMap.get(Column.User.TASK);
         this.team = columnMap.get(Column.User.TEAM);
         this.kit = columnMap.get(Column.User.KIT);
-        this.permGroup = columnMap.get(Column.User.PERMGROUP);
+        this.permGroup = columnMap.get(Column.User.PERM_GROUP);
         this.server = columnMap.get(Column.User.SERVER);
         this.serverLast = columnMap.get(Column.User.SERVER_LAST);
         this.serverLobby = columnMap.get(Column.User.SERVER_LOBBY);
@@ -198,6 +199,21 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
+    public Collection<String> getDisplayGroupNames() {return user.getDisplayGroupNames();}
+
+    @Override
+    public Collection<DbDisplayGroup> getDisplayGroups() {return user.getDisplayGroups();}
+
+    @Override
+    public void addDisplayGroup(String name) {user.addDisplayGroup(name);}
+
+    @Override
+    public void removeDisplayGroup(String name) {user.removeDisplayGroup(name);}
+
+    @Override
+    public void clearDisplayGroups() {user.clearDisplayGroups();}
+
+    @Override
     public Status.User getStatus() {
         return this.status;
     }
@@ -253,7 +269,7 @@ public class DbCachedUser implements DbUser {
 
     @Override
     public boolean hasPermGroup() {
-        return Database.getGroups().containsGroup(this.permGroup);
+        return Database.getGroups().containsPermGroup(this.permGroup);
     }
 
     @Override

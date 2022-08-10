@@ -2,25 +2,33 @@ package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.DbCachedGroup;
-import de.timesnake.database.util.game.DbTeam;
 import de.timesnake.database.util.object.ColumnMap;
 
 import java.util.Set;
 
-public class DbCachedTeam extends DbCachedGroup implements DbTeam {
+public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database.util.game.DbTeam {
 
     private float ratio;
     private String colorName;
     private Boolean privateChat;
 
-    public DbCachedTeam(de.timesnake.database.core.game.team.DbTeam team) {
+    public DbCachedTeam(DbTeam team) {
         super(team);
 
-        ColumnMap columnMap = team.getFirstWithKey(Set.of(Column.Team.RATIO, Column.Team.COLOR, Column.Team.PRIVATE_CHAT));
+        ColumnMap map = team.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.PREFIX,
+                Column.Group.PREFIX_COLOR, Column.Team.RATIO, Column.Team.COLOR, Column.Team.PRIVATE_CHAT));
 
-        this.ratio = columnMap.get(Column.Team.RATIO);
-        this.colorName = columnMap.get(Column.Team.COLOR);
-        this.privateChat = columnMap.get(Column.Team.PRIVATE_CHAT);
+        this.name = map.get(Column.Group.NAME);
+        this.prefix = map.get(Column.Group.PREFIX);
+        this.chatColorName = map.get(Column.Group.PREFIX_COLOR);
+        this.ratio = map.get(Column.Team.RATIO);
+        this.colorName = map.get(Column.Team.COLOR);
+        this.privateChat = map.get(Column.Team.PRIVATE_CHAT);
+    }
+
+    @Override
+    public DbTeam getDatabase() {
+        return (DbTeam) super.getDatabase();
     }
 
     @Override
@@ -31,13 +39,13 @@ public class DbCachedTeam extends DbCachedGroup implements DbTeam {
     @Override
     public void setRatio(float ratio) {
         this.ratio = ratio;
-        ((de.timesnake.database.core.game.team.DbTeam) super.group).setRatio(ratio);
+        this.getDatabase().setRatio(ratio);
     }
 
     @Override
     public void setColor(String colorName) {
         this.colorName = colorName;
-        ((de.timesnake.database.core.game.team.DbTeam) super.group).setColor(colorName);
+        this.getDatabase().setColor(colorName);
     }
 
     @Override
@@ -53,16 +61,16 @@ public class DbCachedTeam extends DbCachedGroup implements DbTeam {
     @Override
     public void setPrivateChat(Boolean privateChat) {
         this.privateChat = privateChat;
-        ((de.timesnake.database.core.game.team.DbTeam) super.group).setPrivateChat(privateChat);
+        this.getDatabase().setPrivateChat(privateChat);
     }
 
     @Override
-    public DbTeam toLocal() {
-        return new DbCachedTeam(((de.timesnake.database.core.game.team.DbTeam) this.group));
+    public de.timesnake.database.util.game.DbTeam toLocal() {
+        return this.getDatabase().toLocal();
     }
 
     @Override
-    public DbTeam toDatabase() {
-        return ((de.timesnake.database.core.game.team.DbTeam) this.group);
+    public de.timesnake.database.util.game.DbTeam toDatabase() {
+        return this.getDatabase();
     }
 }

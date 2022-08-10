@@ -166,18 +166,8 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
     }
 
     @Override
-    public void removeTeam(int rank) {
-        this.getDatabase().removeTeam(rank);
-    }
-
-    @Override
     public Integer getHighestRank() {
         return this.getDatabase().getHighestRank();
-    }
-
-    @Override
-    public boolean containsTeam(int rank) {
-        return this.getDatabase().containsTeam(rank);
     }
 
     @Override
@@ -188,11 +178,6 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
     @Override
     public DbTeam getTeam(String name) {
         return this.getDatabase().getTeam(name);
-    }
-
-    @Override
-    public DbTeam getTeam(int rank) {
-        return this.getDatabase().getTeam(rank);
     }
 
     @Override
