@@ -18,7 +18,7 @@ public class DbCachedDisplayGroup extends DbCachedGroup implements de.timesnake.
 
         this.name = map.get(Column.Group.NAME);
         this.prefix = map.get(Column.Group.PREFIX);
-        this.chatColorName = map.get(Column.Group.PREFIX_COLOR);
+        this.color = map.get(Column.Group.PREFIX_COLOR);
         this.showAlways = map.get(Column.Group.SHOW_ALWAYS);
     }
 

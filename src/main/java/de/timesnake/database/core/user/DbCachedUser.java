@@ -458,7 +458,7 @@ public class DbCachedUser implements DbUser {
 
     @Override
     public DbUser toLocal() {
-        return new DbCachedUser(this.user);
+        return this.user.toLocal();
     }
 
     @Override

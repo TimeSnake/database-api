@@ -1,5 +1,7 @@
 package de.timesnake.database.util.group;
 
+import de.timesnake.library.basic.util.chat.ExTextColor;
+
 import java.util.Collection;
 
 public interface DatabaseGroups {
@@ -18,7 +20,7 @@ public interface DatabaseGroups {
 
     Collection<? extends DbPermGroup> getPermGroups();
 
-    void addDisplayGroup(String name, int rank, String prefix, String colorChatName);
+    void addDisplayGroup(String name, int rank, String prefix, ExTextColor color);
 
     boolean containsDisplayGroup(String name);
 

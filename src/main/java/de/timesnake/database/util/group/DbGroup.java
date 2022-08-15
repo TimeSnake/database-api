@@ -1,6 +1,7 @@
 package de.timesnake.database.util.group;
 
 import de.timesnake.database.util.object.NotCached;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public interface DbGroup extends DbGroupBasis {
 
@@ -18,8 +19,14 @@ public interface DbGroup extends DbGroupBasis {
     @NotCached
     void setPrefix(String prefix);
 
+    @Deprecated
     String getChatColorName();
 
     @NotCached
+    @Deprecated
     void setChatColorName(String chatColorName);
+
+    ExTextColor getChatColor();
+
+    void setChatColor(ExTextColor color);
 }

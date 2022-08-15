@@ -5,7 +5,8 @@ import de.timesnake.database.core.group.display.DisplayGroupsTable;
 import de.timesnake.database.core.group.perm.DbPermGroup;
 import de.timesnake.database.core.group.perm.PermGroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Nullable;
+import de.timesnake.library.basic.util.Nullable;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.util.Collection;
 
@@ -74,8 +75,8 @@ public class DatabaseGroups extends DatabaseConnector implements de.timesnake.da
     }
 
     @Override
-    public void addDisplayGroup(String name, int rank, String prefix, String colorChatName) {
-        this.displayGroupsTable.addGroup(name, rank, prefix, colorChatName);
+    public void addDisplayGroup(String name, int rank, String prefix, ExTextColor color) {
+        this.displayGroupsTable.addGroup(name, rank, prefix, color);
     }
 
     @Override

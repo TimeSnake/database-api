@@ -1,6 +1,7 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.util.game.DbGameInfoBasis;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public class DbCachedGameInfoBasis implements DbGameInfoBasis {
 
@@ -8,7 +9,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
 
     protected String name;
     protected String displayName;
-    protected String chatColorName;
+    protected ExTextColor textColor;
     protected String itemName;
     protected String headLine;
     protected Integer slot;
@@ -43,14 +44,27 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
     }
 
     @Override
+    @Deprecated
     public String getChatColorName() {
-        return chatColorName;
+        return this.textColor.toString();
     }
 
     @Override
+    @Deprecated
     public void setChatColorName(String chatColorName) {
-        this.chatColorName = chatColorName;
-        this.database.setChatColorName(chatColorName);
+        this.textColor = ExTextColor.NAMES.value(chatColorName);
+        this.database.setTextColor(this.textColor);
+    }
+
+    @Override
+    public ExTextColor getTextColor() {
+        return this.textColor;
+    }
+
+    @Override
+    public void setTextColor(ExTextColor color) {
+        this.textColor = color;
+        this.database.setTextColor(this.textColor);
     }
 
     @Override

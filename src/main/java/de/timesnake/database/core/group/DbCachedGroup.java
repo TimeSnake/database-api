@@ -1,9 +1,11 @@
 package de.timesnake.database.core.group;
 
+import de.timesnake.library.basic.util.chat.ExTextColor;
+
 public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.database.util.group.DbGroup {
 
     protected String prefix;
-    protected String chatColorName;
+    protected ExTextColor color;
 
     public DbCachedGroup(DbGroup database) {
         super(database);
@@ -27,13 +29,25 @@ public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.da
 
     @Override
     public String getChatColorName() {
-        return this.chatColorName;
+        return this.color.toString();
     }
 
     @Override
+    @Deprecated
     public void setChatColorName(String chatColorName) {
-        this.chatColorName = chatColorName;
-        this.getDatabase().setChatColorName(chatColorName);
+        this.color = ExTextColor.NAMES.value(chatColorName);
+        this.getDatabase().setChatColor(color);
+    }
+
+    @Override
+    public ExTextColor getChatColor() {
+        return this.color;
+    }
+
+    @Override
+    public void setChatColor(ExTextColor color) {
+        this.color = color;
+        this.getDatabase().setChatColor(color);
     }
 
     @Override

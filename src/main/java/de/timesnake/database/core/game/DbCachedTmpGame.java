@@ -4,6 +4,7 @@ import de.timesnake.database.core.game.info.DbCachedTmpGameInfo;
 import de.timesnake.database.core.game.team.DbTeam;
 import de.timesnake.database.util.game.DbTmpGame;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.util.Collection;
 import java.util.List;
@@ -76,10 +77,22 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
     public void setDisplayName(String displayName) {getInfo().setDisplayName(displayName);}
 
     @Override
+    @Deprecated
     public String getChatColorName() {return getInfo().getChatColorName();}
 
     @Override
+    @Deprecated
     public void setChatColorName(String chatColorName) {getInfo().setChatColorName(chatColorName);}
+
+    @Override
+    public ExTextColor getTextColor() {
+        return getInfo().getTextColor();
+    }
+
+    @Override
+    public void setTextColor(ExTextColor color) {
+        getInfo().setTextColor(color);
+    }
 
     @Override
     public String getItemName() {return getInfo().getItemName();}
@@ -156,8 +169,8 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
     public void setDescription(List<String> description) {getInfo().setDescription(description);}
 
     @Override
-    public void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName) {
-        this.getDatabase().addTeam(name, rank, prefix, colorChatName, ratio, colorName);
+    public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName) {
+        this.getDatabase().addTeam(name, rank, prefix, color, ratio, colorName);
     }
 
     @Override

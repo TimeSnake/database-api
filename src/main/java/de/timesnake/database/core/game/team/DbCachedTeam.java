@@ -20,7 +20,7 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
 
         this.name = map.get(Column.Group.NAME);
         this.prefix = map.get(Column.Group.PREFIX);
-        this.chatColorName = map.get(Column.Group.PREFIX_COLOR);
+        this.color = map.get(Column.Group.PREFIX_COLOR);
         this.ratio = map.get(Column.Team.RATIO);
         this.colorName = map.get(Column.Team.COLOR);
         this.privateChat = map.get(Column.Team.PRIVATE_CHAT);

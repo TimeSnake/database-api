@@ -3,6 +3,7 @@ package de.timesnake.database.core.game;
 import de.timesnake.database.core.game.info.DbCachedNonTmpGameInfo;
 import de.timesnake.database.util.game.DbNonTmpGame;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
 
@@ -70,10 +71,22 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     public void setDisplayName(String displayName) {getDatabase().setDisplayName(displayName);}
 
     @Override
+    @Deprecated
     public String getChatColorName() {return getDatabase().getChatColorName();}
 
     @Override
+    @Deprecated
     public void setChatColorName(String chatColorName) {getDatabase().setChatColorName(chatColorName);}
+
+    @Override
+    public ExTextColor getTextColor() {
+        return getDatabase().getTextColor();
+    }
+
+    @Override
+    public void setTextColor(ExTextColor color) {
+        getDatabase().setTextColor(color);
+    }
 
     @Override
     public String getItemName() {return getDatabase().getItemName();}

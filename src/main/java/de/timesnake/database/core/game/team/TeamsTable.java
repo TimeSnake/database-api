@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.group.GroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,8 +33,8 @@ public class TeamsTable extends GroupsTable {
         super.delete();
     }
 
-    public void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName) {
-        super.addGroup(name, rank, prefix, colorChatName, () -> {
+    public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName) {
+        super.addGroup(name, rank, prefix, color, () -> {
             super.set(ratio, Column.Team.RATIO, new TableEntry<>(rank, Column.Group.PRIORITY));
             super.set(colorName, Column.Team.COLOR, new TableEntry<>(rank, Column.Group.PRIORITY));
         });

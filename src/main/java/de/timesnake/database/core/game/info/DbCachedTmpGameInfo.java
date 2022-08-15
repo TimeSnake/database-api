@@ -21,7 +21,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
     public DbCachedTmpGameInfo(DbTmpGameInfo database) {
         super(database);
 
-        ColumnMap map = this.getDatabase().getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.CHAT_COLOR,
+        ColumnMap map = this.getDatabase().getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.TEXT_COLOR,
                 Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.MAX_PLAYERS, Column.Game.MAPS,
                 Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
                 Column.Game.AUTO_START_PLAYER_NUMBER, Column.Game.MIN_PLAYER_NUMBER, Column.Game.TEAM_SIZES,
@@ -30,7 +30,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
 
         this.name = database.getName();
         this.displayName = map.get(Column.Game.DISPLAY_NAME);
-        this.chatColorName = map.get(Column.Game.CHAT_COLOR);
+        this.textColor = map.get(Column.Game.TEXT_COLOR);
         this.headLine = map.get(Column.Game.HEAD_LINE);
         this.itemName = map.get(Column.Game.ITEM);
         this.slot = map.get(Column.Game.SLOT);

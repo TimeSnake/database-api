@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public class DbGameInfoBasis extends TableQuery implements de.timesnake.database.util.game.DbGameInfoBasis {
 
@@ -32,13 +33,25 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
     }
 
     @Override
+    @Deprecated
     public String getChatColorName() {
-        return super.getFirstWithKey(Column.Game.CHAT_COLOR);
+        return this.getTextColor().toString();
     }
 
     @Override
+    @Deprecated
     public void setChatColorName(String chatColorName) {
-        super.setWithKey(chatColorName, Column.Game.CHAT_COLOR);
+        this.setTextColor(ExTextColor.NAMES.value(chatColorName));
+    }
+
+    @Override
+    public ExTextColor getTextColor() {
+        return super.getFirstWithKey(Column.Game.TEXT_COLOR);
+    }
+
+    @Override
+    public void setTextColor(ExTextColor color) {
+        super.setWithKey(color, Column.Game.TEXT_COLOR);
     }
 
     @Override

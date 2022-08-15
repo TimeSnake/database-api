@@ -2,6 +2,7 @@ package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.util.Collection;
 
@@ -11,7 +12,7 @@ public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
     DbTmpGameInfo getInfo();
 
     @NotCached
-    void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName);
+    void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName);
 
     @NotCached
     void removeTeam(String name);

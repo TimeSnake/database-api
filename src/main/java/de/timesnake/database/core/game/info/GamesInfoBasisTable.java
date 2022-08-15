@@ -12,7 +12,7 @@ public class GamesInfoBasisTable extends TableDDL {
     protected GamesInfoBasisTable(DatabaseConnector databaseConnector, String tableName) {
         super(databaseConnector, tableName, Column.Game.NAME);
         super.addColumn(Column.Game.DISPLAY_NAME);
-        super.addColumn(Column.Game.CHAT_COLOR);
+        super.addColumn(Column.Game.TEXT_COLOR);
         super.addColumn(Column.Game.HEAD_LINE);
         super.addColumn(Column.Game.ITEM);
         super.addColumn(Column.Game.SLOT);

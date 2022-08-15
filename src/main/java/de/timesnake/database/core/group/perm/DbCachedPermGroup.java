@@ -5,9 +5,9 @@ import de.timesnake.database.core.group.DbCachedGroupBasis;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.ColumnMap;
-import de.timesnake.database.util.object.Nullable;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
+import de.timesnake.library.basic.util.Nullable;
 import de.timesnake.library.basic.util.Status;
 
 import java.util.Collection;

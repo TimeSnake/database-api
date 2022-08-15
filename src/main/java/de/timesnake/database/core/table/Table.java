@@ -6,6 +6,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.*;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.Tuple;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.awt.*;
 import java.io.File;
@@ -84,6 +85,8 @@ public class Table {
                 return ((File) value).getAbsolutePath();
             } else if (value instanceof Path) {
                 return ((Path) value).toString();
+            } else if (value instanceof ExTextColor) {
+                return value.toString();
             }
         }
         return null;
@@ -165,6 +168,8 @@ public class Table {
             return (Value) new File(string);
         } else if (valueClass.equals(Path.class)) {
             return ((Value) Path.of(string));
+        } else if (valueClass.equals(ExTextColor.class)) {
+            return (Value) ExTextColor.NAMES.value(string);
         }
         return (Value) string;
     }

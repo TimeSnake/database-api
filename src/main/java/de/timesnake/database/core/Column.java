@@ -5,6 +5,7 @@ import de.timesnake.database.util.object.DbIntegerArrayList;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.awt.*;
 import java.io.File;
@@ -165,7 +166,7 @@ public class Column<Value> {
         public static final Group<String> NAME = new Group<>("name", String.class, ColumnType.varchar(50));
         public static final Group<Integer> PRIORITY = new Group<>("priority", Integer.class, ColumnType.integer(20).notNull().unique());
         public static final Group<String> PREFIX = new Group<>("prefix", String.class, ColumnType.varchar(50));
-        public static final Group<String> PREFIX_COLOR = new Group<>("prefix_color", String.class, ColumnType.varchar(20));
+        public static final Group<ExTextColor> PREFIX_COLOR = new Group<>("prefix_color", ExTextColor.class, ColumnType.varchar(20));
 
         public static final Group<String> INHERITANCE = new Group<>("inheritance", Group.NAME.getValueClass(), Group.NAME.getType());
 
@@ -194,7 +195,7 @@ public class Column<Value> {
         public static final Game<String> NAME = new Game<>("name", String.class, ColumnType.varchar(50));
         public static final Game<String> DISPLAY_NAME = new Game<>("display_name", String.class,
                 ColumnType.varchar(50));
-        public static final Game<String> CHAT_COLOR = new Game<>("chat_color", String.class, ColumnType.varchar(20));
+        public static final Game<ExTextColor> TEXT_COLOR = new Game<>("text_color", ExTextColor.class, ColumnType.varchar(20));
         public static final Game<String> HEAD_LINE = new Game<>("head_line", String.class, ColumnType.varchar(1000));
         public static final Game<String> ITEM = new Game<>("item", String.class, ColumnType.varchar(255));
         public static final Game<Integer> SLOT = new Game<>("slot", Integer.class, ColumnType.integer(4).unique());
