@@ -7,6 +7,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public class GroupsTable extends GroupBasisTable {
 
@@ -16,23 +17,24 @@ public class GroupsTable extends GroupBasisTable {
         super.addColumn(Column.Group.PREFIX_COLOR);
     }
 
-    protected void addGroup(String name, Integer rank, String prefix, String colorChatName) {
+    protected void addGroup(String name, Integer rank, String prefix, ExTextColor color) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.PRIORITY)), new TableEntry<>(name,
                         Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
-                new TableEntry<>(colorChatName, Column.Group.PREFIX_COLOR));
+                new TableEntry<>(color, Column.Group.PREFIX_COLOR));
     }
 
-    protected void addGroup(String name, Integer rank, String prefix, String colorChatName, SyncExecute syncExecute) {
+
+    protected void addGroup(String name, Integer rank, String prefix, ExTextColor color, SyncExecute syncExecute) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.PRIORITY)), syncExecute,
                 new TableEntry<>(name, Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
-                new TableEntry<>(colorChatName, Column.Group.PREFIX_COLOR));
+                new TableEntry<>(color, Column.Group.PREFIX_COLOR));
     }
 
-    protected void addGroup(String name, Integer rank, String prefix, String colorChatName,
+    protected void addGroup(String name, Integer rank, String prefix, ExTextColor color,
                             ChannelMessage<?, ?> channelMessage) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.PRIORITY)),
                 () -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(name,
                         Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
-                new TableEntry<>(colorChatName, Column.Group.PREFIX_COLOR));
+                new TableEntry<>(color, Column.Group.PREFIX_COLOR));
     }
 }

@@ -1,6 +1,7 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.NotCached;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public interface DbGameInfoBasis {
 
@@ -13,10 +14,17 @@ public interface DbGameInfoBasis {
     @NotCached
     void setDisplayName(String displayName);
 
+    @Deprecated
     String getChatColorName();
 
     @NotCached
+    @Deprecated
     void setChatColorName(String chatColorName);
+
+    ExTextColor getTextColor();
+
+    @NotCached
+    void setTextColor(ExTextColor color);
 
     String getItemName();
 

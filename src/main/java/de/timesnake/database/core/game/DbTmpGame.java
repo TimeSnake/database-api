@@ -6,6 +6,7 @@ import de.timesnake.database.core.game.team.TeamsTable;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,9 +73,9 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
 
     @Override
-    public void addTeam(String name, int rank, String prefix, String colorChatName, float ratio, String colorName) {
+    public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName) {
         if (this.loadTeamsTable()) {
-            this.teamsTable.get().addTeam(name, rank, prefix, colorChatName, ratio, colorName);
+            this.teamsTable.get().addTeam(name, rank, prefix, color, ratio, colorName);
         }
     }
 
@@ -184,10 +185,22 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     public void setDisplayName(String displayName) {getInfo().setDisplayName(displayName);}
 
     @Override
+    @Deprecated
     public String getChatColorName() {return getInfo().getChatColorName();}
 
     @Override
+    @Deprecated
     public void setChatColorName(String chatColorName) {getInfo().setChatColorName(chatColorName);}
+
+    @Override
+    public ExTextColor getTextColor() {
+        return getInfo().getTextColor();
+    }
+
+    @Override
+    public void setTextColor(ExTextColor color) {
+        getInfo().setTextColor(color);
+    }
 
     @Override
     public String getItemName() {return getInfo().getItemName();}

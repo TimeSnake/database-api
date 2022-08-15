@@ -2,6 +2,7 @@ package de.timesnake.database.core.group;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 
 public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.group.DbGroup {
 
@@ -21,14 +22,28 @@ public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.
     }
 
     @Override
+    @Deprecated
     public String getChatColorName() {
+        ExTextColor color = this.getChatColor();
+        return color != null ? color.toString() : null;
+    }
+
+    @Override
+    @Deprecated
+    public void setChatColorName(String chatColorName) {
+        super.setWithKey(ExTextColor.NAMES.value(chatColorName), Column.Group.PREFIX_COLOR);
+    }
+
+    @Override
+    public ExTextColor getChatColor() {
         return super.getFirstWithKey(Column.Group.PREFIX_COLOR);
     }
 
     @Override
-    public void setChatColorName(String chatColorName) {
-        super.setWithKey(chatColorName, Column.Group.PREFIX_COLOR);
+    public void setChatColor(ExTextColor color) {
+        super.setWithKey(color, Column.Group.PREFIX_COLOR);
     }
+
 
     @Override
     public de.timesnake.database.util.group.DbGroup toLocal() {
