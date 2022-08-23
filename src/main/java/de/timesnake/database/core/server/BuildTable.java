@@ -13,4 +13,9 @@ public class BuildTable extends TaskTable<DbBuildServer> {
         DbBuildServer server = new DbBuildServer(this.databaseConnector, port, this.tableName);
         return server.exists() ? server : null;
     }
+
+    @Override
+    public void backup() {
+        super.dropTmpTable();
+    }
 }
