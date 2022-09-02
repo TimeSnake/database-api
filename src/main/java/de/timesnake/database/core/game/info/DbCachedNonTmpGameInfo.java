@@ -32,6 +32,7 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
         this.statistics = map.get(Column.Game.STATISTICS);
         this.texturePackLink = map.get(Column.Game.TEXTURE_PACK_LINK);
         this.playerTrackingRange = map.get(Column.Game.PLAYER_TRACKING_RANGE);
+        this.maxHealth = map.get(Column.Game.MAX_HEALTH);
         this.generateable = map.get(Column.Game.GENERATEABLE);
         this.allowAutoDelete = map.get(Column.Game.ALLOW_AUTO_DELETE);
         this.ownable = map.get(Column.Game.OWNABLE);

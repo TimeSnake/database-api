@@ -40,6 +40,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.statistics = map.get(Column.Game.STATISTICS);
         this.texturePackLink = map.get(Column.Game.TEXTURE_PACK_LINK);
         this.playerTrackingRange = map.get(Column.Game.PLAYER_TRACKING_RANGE);
+        this.maxHealth = map.get(Column.Game.MAX_HEALTH);
         this.autoStartPlayerNumber = map.get(Column.Game.AUTO_START_PLAYER_NUMBER);
         this.minPlayerNumber = map.get(Column.Game.MIN_PLAYER_NUMBER);
         this.teamSizes = map.get(Column.Game.TEAM_SIZES);

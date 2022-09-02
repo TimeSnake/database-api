@@ -77,6 +77,8 @@ public class Column<Value> {
                 ColumnType.varchar(1000));
         public static final Server<Boolean> DISCORD = new Server<>("discord", Boolean.class, ColumnType.tinyint(1));
 
+        public static final Server<String> BUILD_WORLD = new Server<>("world", String.class, ColumnType.varchar(100));
+
 
         Server(String name, Class<T> valueType, ColumnType type) {
             super(name, valueType, type);
@@ -208,6 +210,8 @@ public class Column<Value> {
                 ColumnType.varchar(1000));
         public static final Game<Integer> PLAYER_TRACKING_RANGE = new Game<>("player_tracking_range", Integer.class,
                 ColumnType.integer(6));
+        public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", Integer.class,
+                ColumnType.integer(10));
 
         public static final Game<Boolean> GENERATEABLE = new Game<>("generateable", Boolean.class, ColumnType.tinyint(1));
         public static final Game<Boolean> ALLOW_AUTO_DELETE = new Game<>("allow_auto_delete", Boolean.class, ColumnType.tinyint(1));

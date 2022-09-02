@@ -106,7 +106,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
         servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), config.getDatabaseUrl(SERVERS_NAME),
                 user, password, "lobbys", "non_tmp_games", "lounges",
-                "tmp_games", "builds");
+                "tmp_games", "builds", "build_worlds");
         this.databasesByName.put(SERVERS_NAME, servers);
 
         users = new DatabaseUsers(config.getDatabaseName(USERS_NAME),

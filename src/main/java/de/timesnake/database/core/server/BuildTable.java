@@ -4,13 +4,16 @@ import de.timesnake.database.util.object.DatabaseConnector;
 
 public class BuildTable extends TaskTable<DbBuildServer> {
 
-    public BuildTable(DatabaseConnector databaseConnector, String nameTable) {
+    private final BuildWorldTable buildWorldTable;
+
+    public BuildTable(DatabaseConnector databaseConnector, String nameTable, BuildWorldTable buildWorldTable) {
         super(databaseConnector, nameTable);
+        this.buildWorldTable = buildWorldTable;
     }
 
     @Override
     public DbBuildServer getServer(int port) {
-        DbBuildServer server = new DbBuildServer(this.databaseConnector, port, this.tableName);
+        DbBuildServer server = new DbBuildServer(this.databaseConnector, port, this.tableName, this.buildWorldTable);
         return server.exists() ? server : null;
     }
 

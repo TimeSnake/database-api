@@ -33,7 +33,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
     @Override
     public void setMapName(String mapName) {
         super.setWithKey(mapName, Column.Server.MAP_NAME,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
                         MessageType.Server.MAP, mapName)));
     }
 
@@ -106,7 +106,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
     @Override
     public void setDiscord(boolean discordEnabled) {
         super.setWithKey(discordEnabled, Column.Server.DISCORD,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getPort(),
+                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
                         MessageType.Server.DISCORD, discordEnabled)));
     }
 }
