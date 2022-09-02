@@ -10,16 +10,19 @@ plugins {
 repositories {
     mavenLocal()
     maven {
-        url = uri('https://repo.maven.apache.org/maven2/')
+        url = uri 'https://repo.maven.apache.org/maven2/'
     }
 }
 
 dependencies {
+    compileOnly 'de.timesnake:channel-api:1.0-SNAPSHOT'
+
+    compileOnly 'de.timesnake:library-basic:1.0-SNAPSHOT'
+
     implementation 'org.apache.commons:commons-dbcp2:2.9.0'
     implementation 'mysql:mysql-connector-java:8.0.24'
+
     compileOnly 'net.kyori:adventure-api:4.11.0'
-    compileOnly 'de.timesnake:channel-api:1.0-SNAPSHOT'
-    compileOnly 'de.timesnake:library-basic:1.0-SNAPSHOT'
 }
 
 group = 'de.timesnake'
