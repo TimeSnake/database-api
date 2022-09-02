@@ -5,6 +5,7 @@ import de.timesnake.library.basic.util.Status;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Set;
 
 public interface DatabaseServers {
 
@@ -45,4 +46,8 @@ public interface DatabaseServers {
     void addTempGame(int port, String name, String task, Status.Server status, Path folderPath);
 
     void addBuild(int port, String name, String task, Status.Server status, Path folderPath);
+
+    Set<String> getBuildWorlds();
+
+    String getBuildServerByWorld(String worldName);
 }

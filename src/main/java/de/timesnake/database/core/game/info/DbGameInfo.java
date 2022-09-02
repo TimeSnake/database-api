@@ -76,6 +76,16 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
     }
 
     @Override
+    public Integer getMaxHealth() {
+        return super.getFirstWithKey(Column.Game.MAX_HEALTH);
+    }
+
+    @Override
+    public void setMaxHealth(Integer maxHealth) {
+        super.setWithKey(maxHealth, Column.Game.MAX_HEALTH);
+    }
+
+    @Override
     public de.timesnake.database.util.game.DbGameInfo toDatabase() {
         return this;
     }

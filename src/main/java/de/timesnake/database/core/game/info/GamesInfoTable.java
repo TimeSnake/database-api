@@ -13,6 +13,7 @@ public class GamesInfoTable extends GamesInfoBasisTable {
         super.addColumn(Column.Game.STATISTICS);
         super.addColumn(Column.Game.TEXTURE_PACK_LINK);
         super.addColumn(Column.Game.PLAYER_TRACKING_RANGE);
+        super.addColumn(Column.Game.MAX_HEALTH);
     }
 
     @Override

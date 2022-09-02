@@ -11,21 +11,26 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 public class DatabaseServers extends DatabaseConnector implements de.timesnake.database.util.server.DatabaseServers {
 
     private final ServerMap serverTables = new ServerMap();
 
+    private final BuildWorldTable buildWorldTable;
+
     public DatabaseServers(String name, String url, String user, String password, String lobbysTableName,
                            String gamesTableName, String loungesTableName, String tempGamesTableName,
-                           String buildsTableName) {
+                           String buildsTableName, String buildWorldTableName) {
         super(name, url, user, password, DatabaseManager.SERVERS_MAX_IDLE_CONNECTIONS);
+
+        this.buildWorldTable = new BuildWorldTable(this, buildWorldTableName);
 
         this.serverTables.put(Type.Server.LOBBY, new LobbyTable(this, lobbysTableName));
         this.serverTables.put(Type.Server.GAME, new NonTmpGameTable(this, gamesTableName));
         this.serverTables.put(Type.Server.LOUNGE, new LoungeTable(this, loungesTableName));
         this.serverTables.put(Type.Server.TEMP_GAME, new TmpGameTable(this, tempGamesTableName));
-        this.serverTables.put(Type.Server.BUILD, new BuildTable(this, buildsTableName));
+        this.serverTables.put(Type.Server.BUILD, new BuildTable(this, buildsTableName, this.buildWorldTable));
     }
 
     @Override
@@ -33,6 +38,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         for (ServerTable<? extends DbServer> serverTable : this.serverTables.values()) {
             serverTable.create();
         }
+        this.buildWorldTable.create();
     }
 
     @Override
@@ -40,6 +46,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         for (ServerTable<? extends DbServer> serverTable : this.serverTables.values()) {
             serverTable.backup();
         }
+        this.buildWorldTable.backup();
     }
 
     @Override
@@ -204,5 +211,13 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         }
     }
 
+    @Override
+    public Set<String> getBuildWorlds() {
+        return this.buildWorldTable.getWorldNames();
+    }
 
+    @Override
+    public String getBuildServerByWorld(String worldName) {
+        return this.buildWorldTable.getBuildServer(worldName);
+    }
 }

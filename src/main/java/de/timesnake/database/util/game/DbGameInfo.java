@@ -37,6 +37,11 @@ public interface DbGameInfo extends DbGameInfoBasis {
     @NotCached
     void setPlayerTrackingRange(Integer playerTrackingRange);
 
+    Integer getMaxHealth();
+
+    @NotCached
+    void setMaxHealth(Integer maxHealth);
+
     @Override
     DbGameInfo toDatabase();
 

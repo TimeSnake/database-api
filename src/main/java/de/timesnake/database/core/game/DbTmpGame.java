@@ -173,6 +173,12 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     public void setPlayerTrackingRange(Integer playerTrackingRange) {getInfo().setPlayerTrackingRange(playerTrackingRange);}
 
     @Override
+    public Integer getMaxHealth() {return getInfo().getMaxHealth();}
+
+    @Override
+    public void setMaxHealth(Integer maxHealth) {getInfo().setMaxHealth(maxHealth);}
+
+    @Override
     public boolean exists() {return getInfo().exists();}
 
     @Override

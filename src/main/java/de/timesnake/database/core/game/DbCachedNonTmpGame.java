@@ -20,112 +20,122 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     public DbCachedNonTmpGameInfo getInfo() {return (DbCachedNonTmpGameInfo) super.getInfo();}
 
     @Override
-    public Integer getMaxPlayers() {return getDatabase().getMaxPlayers();}
+    public Integer getMaxPlayers() {return getInfo().getMaxPlayers();}
 
     @Override
-    public void setMaxPlayers(int maxPlayers) {getDatabase().setMaxPlayers(maxPlayers);}
+    public void setMaxPlayers(int maxPlayers) {getInfo().setMaxPlayers(maxPlayers);}
 
     @Override
-    public Type.Availability getMapAvailability() {return getDatabase().getMapAvailability();}
+    public Type.Availability getMapAvailability() {return getInfo().getMapAvailability();}
 
     @Override
-    public void setMapsAvailability(Type.Availability maps) {getDatabase().setMapsAvailability(maps);}
+    public void setMapsAvailability(Type.Availability maps) {getInfo().setMapsAvailability(maps);}
 
     @Override
-    public Type.Availability getKitAvailability() {return getDatabase().getKitAvailability();}
+    public Type.Availability getKitAvailability() {return getInfo().getKitAvailability();}
 
     @Override
-    public void setKitsAvailability(Type.Availability kits) {getDatabase().setKitsAvailability(kits);}
+    public void setKitsAvailability(Type.Availability kits) {getInfo().setKitsAvailability(kits);}
 
     @Override
-    public boolean hasStatistics() {return getDatabase().hasStatistics();}
+    public boolean hasStatistics() {return getInfo().hasStatistics();}
 
     @Override
-    public void setStatistics(boolean statistics) {getDatabase().setStatistics(statistics);}
+    public void setStatistics(boolean statistics) {getInfo().setStatistics(statistics);}
 
     @Override
-    public String getTexturePackLink() {return getDatabase().getTexturePackLink();}
+    public String getTexturePackLink() {return getInfo().getTexturePackLink();}
 
     @Override
-    public void setTexturePackLink(String texturePack) {getDatabase().setTexturePackLink(texturePack);}
+    public void setTexturePackLink(String texturePack) {getInfo().setTexturePackLink(texturePack);}
 
     @Override
-    public Boolean hasTexturePack() {return getDatabase().hasTexturePack();}
+    public Boolean hasTexturePack() {return getInfo().hasTexturePack();}
 
     @Override
-    public Integer getPlayerTrackingRange() {return getDatabase().getPlayerTrackingRange();}
+    public Integer getPlayerTrackingRange() {return getInfo().getPlayerTrackingRange();}
 
     @Override
-    public void setPlayerTrackingRange(Integer playerTrackingRange) {getDatabase().setPlayerTrackingRange(playerTrackingRange);}
+    public void setPlayerTrackingRange(Integer playerTrackingRange) {getInfo().setPlayerTrackingRange(playerTrackingRange);}
 
     @Override
-    public boolean exists() {return getDatabase().exists();}
+    public Integer getMaxHealth() {
+        return getInfo().getMaxHealth();
+    }
 
     @Override
-    public String getName() {return getDatabase().getName();}
+    public void setMaxHealth(Integer maxHealth) {
+        this.getInfo().setMaxHealth(maxHealth);
+    }
 
     @Override
-    public String getDisplayName() {return getDatabase().getDisplayName();}
+    public boolean exists() {return getInfo().exists();}
 
     @Override
-    public void setDisplayName(String displayName) {getDatabase().setDisplayName(displayName);}
+    public String getName() {return getInfo().getName();}
+
+    @Override
+    public String getDisplayName() {return getInfo().getDisplayName();}
+
+    @Override
+    public void setDisplayName(String displayName) {getInfo().setDisplayName(displayName);}
 
     @Override
     @Deprecated
-    public String getChatColorName() {return getDatabase().getChatColorName();}
+    public String getChatColorName() {return getInfo().getChatColorName();}
 
     @Override
     @Deprecated
-    public void setChatColorName(String chatColorName) {getDatabase().setChatColorName(chatColorName);}
+    public void setChatColorName(String chatColorName) {getInfo().setChatColorName(chatColorName);}
 
     @Override
     public ExTextColor getTextColor() {
-        return getDatabase().getTextColor();
+        return getInfo().getTextColor();
     }
 
     @Override
     public void setTextColor(ExTextColor color) {
-        getDatabase().setTextColor(color);
+        getInfo().setTextColor(color);
     }
 
     @Override
-    public String getItemName() {return getDatabase().getItemName();}
+    public String getItemName() {return getInfo().getItemName();}
 
     @Override
-    public void setItem(String itemName) {getDatabase().setItem(itemName);}
+    public void setItem(String itemName) {getInfo().setItem(itemName);}
 
     @Override
-    public String getHeadLine() {return getDatabase().getHeadLine();}
+    public String getHeadLine() {return getInfo().getHeadLine();}
 
     @Override
-    public void setHeadLine(String headLine) {getDatabase().setHeadLine(headLine);}
+    public void setHeadLine(String headLine) {getInfo().setHeadLine(headLine);}
 
     @Override
-    public Integer getSlot() {return getDatabase().getSlot();}
+    public Integer getSlot() {return getInfo().getSlot();}
 
     @Override
-    public void setSlot(int slot) {getDatabase().setSlot(slot);}
+    public void setSlot(int slot) {getInfo().setSlot(slot);}
 
     @Override
-    public boolean isGenerateable() {return getDatabase().isGenerateable();}
+    public boolean isGenerateable() {return getInfo().isGenerateable();}
 
     @Override
-    public void setGenerateable(Boolean generateable) {getDatabase().setGenerateable(generateable);}
+    public void setGenerateable(Boolean generateable) {getInfo().setGenerateable(generateable);}
 
     @Override
-    public boolean isAutoDeleteAllowed() {return getDatabase().isAutoDeleteAllowed();}
+    public boolean isAutoDeleteAllowed() {return getInfo().isAutoDeleteAllowed();}
 
     @Override
-    public void allowAutoDelete(Boolean allowAutoDelete) {getDatabase().allowAutoDelete(allowAutoDelete);}
+    public void allowAutoDelete(Boolean allowAutoDelete) {getInfo().allowAutoDelete(allowAutoDelete);}
 
     @Override
-    public boolean isOwnable() {return getDatabase().isOwnable();}
+    public boolean isOwnable() {return getInfo().isOwnable();}
 
     @Override
-    public void setOwnable(Boolean ownable) {getDatabase().setOwnable(ownable);}
+    public void setOwnable(Boolean ownable) {getInfo().setOwnable(ownable);}
 
     @Override
-    public DbNonTmpGame toDatabase() {return getDatabase().toDatabase();}
+    public DbNonTmpGame toDatabase() {return getDatabase();}
 
     @Override
     public DbNonTmpGame toLocal() {return getDatabase().toLocal();}

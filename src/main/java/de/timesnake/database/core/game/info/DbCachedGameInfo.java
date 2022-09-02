@@ -11,6 +11,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
     protected Boolean statistics;
     protected String texturePackLink;
     protected Integer playerTrackingRange;
+    protected Integer maxHealth;
 
 
     public DbCachedGameInfo(de.timesnake.database.core.game.info.DbGameInfo database) {
@@ -91,6 +92,17 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
     public void setPlayerTrackingRange(Integer playerTrackingRange) {
         this.playerTrackingRange = playerTrackingRange;
         this.getDatabase().setPlayerTrackingRange(playerTrackingRange);
+    }
+
+    @Override
+    public Integer getMaxHealth() {
+        return maxHealth;
+    }
+
+    @Override
+    public void setMaxHealth(Integer maxHealth) {
+        this.maxHealth = maxHealth;
+        this.getDatabase().setMaxHealth(maxHealth);
     }
 
     @Override

@@ -42,6 +42,10 @@ public class DbNonTmpGame extends DbGame implements de.timesnake.database.util.g
 
     public void setPlayerTrackingRange(Integer playerTrackingRange) {getInfo().setPlayerTrackingRange(playerTrackingRange);}
 
+    public Integer getMaxHealth() {return getInfo().getMaxHealth();}
+
+    public void setMaxHealth(Integer maxHealth) {getInfo().setMaxHealth(maxHealth);}
+
     public boolean exists() {return getInfo().exists();}
 
     public String getName() {return getInfo().getName();}
