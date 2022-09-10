@@ -14,9 +14,7 @@ public class NonTmpGameTable extends PvPTable<DbNonTmpGameServer> {
 
     @Override
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK,
-                Column.Server.PASSWORD, Column.Server.OLD_PVP, Column.Server.OWNER};
-        super.backup(columns);
+        super.dropTmpTable();
     }
 
     @Override
