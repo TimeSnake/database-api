@@ -79,6 +79,10 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
         return super.getFirst(Column.Server.NAME, new TableEntry<>(port, Column.Server.PORT)) != null;
     }
 
+    public boolean containsServer(String name) {
+        return super.getFirst(Column.Server.PORT, new TableEntry<>(name, Column.Server.NAME)) != null;
+    }
+
     public void removeServer(int port) {
         super.deleteEntry(new TableEntry<>(port, Column.Server.PORT));
     }

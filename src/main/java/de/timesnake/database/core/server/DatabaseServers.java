@@ -126,6 +126,15 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
+    public boolean containsServer(Type.Server<?> type, String name) {
+        ServerTable<? extends DbServer> table = this.serverTables.get(type);
+        if (table != null) {
+            return table.containsServer(name);
+        }
+        return false;
+    }
+
+    @Override
     public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type, Status.Server status) {
         ServerTable<Server> table = this.serverTables.get(type);
         if (table != null) {
