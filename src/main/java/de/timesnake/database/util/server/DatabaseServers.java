@@ -27,6 +27,8 @@ public interface DatabaseServers {
 
     boolean containsServer(Type.Server<?> type, int port);
 
+    boolean containsServer(Type.Server<?> type, String name);
+
     <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type, Status.Server status);
 
     <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type);
