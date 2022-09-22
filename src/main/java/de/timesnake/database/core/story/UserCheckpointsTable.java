@@ -5,6 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
@@ -25,15 +26,18 @@ public class UserCheckpointsTable extends TableDDL {
         super.backup();
     }
 
+    @Nullable
     public Set<Integer> getChapterIds(UUID uuid) {
         return super.get(Column.Story.CHAPTER_ID, new TableEntry<>(uuid, Column.Story.USER_UUID));
     }
 
+    @Nullable
     public Set<Integer> getPartIds(UUID uuid, Integer chapterId) {
         return super.get(Column.Story.PART_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
                 new TableEntry<>(uuid, Column.Story.USER_UUID));
     }
 
+    @Nullable
     public Integer getSectionId(UUID uuid, Integer chapterId, Integer partId) {
         return super.getFirst(Column.Story.SECTION_ID, new TableEntry<>(chapterId, Column.Story.CHAPTER_ID),
                 new TableEntry<>(partId, Column.Story.PART_ID), new TableEntry<>(uuid, Column.Story.USER_UUID));

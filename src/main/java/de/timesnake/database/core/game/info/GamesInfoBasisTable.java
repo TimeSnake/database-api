@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -28,6 +29,7 @@ public class GamesInfoBasisTable extends TableDDL {
         super.backup();
     }
 
+    @NotNull
     public DbGameInfoBasis getGame(String name) {
         return new DbGameInfoBasis(this.databaseConnector, this.tableName, name);
     }

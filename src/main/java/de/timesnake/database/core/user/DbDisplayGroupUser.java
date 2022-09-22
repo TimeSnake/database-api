@@ -7,6 +7,7 @@ import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -23,6 +24,7 @@ public class DbDisplayGroupUser extends TableQuery {
         return !this.getDisplayGroupNames().isEmpty();
     }
 
+    @NotNull
     public UUID getUuid() {
         return (UUID) this.primaryEntries.get(0).getValue();
     }

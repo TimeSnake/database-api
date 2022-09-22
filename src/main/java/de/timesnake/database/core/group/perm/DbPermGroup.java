@@ -11,6 +11,8 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +40,7 @@ public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.u
         super.setWithKey(null, Column.Group.INHERITANCE, syncExecute);
     }
 
+    @Nullable
     @Override
     public de.timesnake.database.util.group.DbPermGroup getInheritance() {
         String inherit = super.getFirstWithKey(Column.Group.INHERITANCE);
@@ -52,6 +55,7 @@ public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.u
         super.setWithKey(inheritGroup, Column.Group.INHERITANCE);
     }
 
+    @NotNull
     @Override
     public Collection<de.timesnake.database.util.group.DbPermGroup> getGroupsInherit() {
         Collection<de.timesnake.database.util.group.DbPermGroup> groups = new ArrayList<>();
@@ -65,11 +69,13 @@ public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.u
         return groups;
     }
 
+    @NotNull
     @Override
     public Collection<DbPermission> getPermissions() {
         return Database.getPermissions().getPermissions(super.getName());
     }
 
+    @Nullable
     @Override
     public DbPermission getPermission(String permission) {
         return Database.getPermissions().getPermission(super.getName(), permission);
@@ -100,11 +106,13 @@ public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.u
         Database.getPermissions().deletePermission(super.getName(), permission, syncExecute);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbPermGroup toLocal() {
         return new DbCachedPermGroup(this);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbPermGroup toDatabase() {
         return this;

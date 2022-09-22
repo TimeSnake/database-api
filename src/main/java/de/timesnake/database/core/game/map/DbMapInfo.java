@@ -5,6 +5,8 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +17,7 @@ public class DbMapInfo extends TableQuery {
         super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.MAP_NAME));
     }
 
+    @NotNull
     public String getName() {
         return (String) super.primaryEntries.get(0).getValue();
     }
@@ -23,56 +26,60 @@ public class DbMapInfo extends TableQuery {
         return super.getFirstWithKey(Column.Game.MAP_NAME) != null;
     }
 
+    @NotNull
     public String getDisplayName() {
         return super.getFirstWithKey(Column.Game.MAP_DISPLAY_NAME);
-    }
-
-    public Integer getMinPlayers() {
-        return super.getFirstWithKey(Column.Game.MAP_MIN_PLAYERS);
-    }
-
-    public Integer getMaxPlayers() {
-        return super.getFirstWithKey(Column.Game.MAP_MAX_PLAYERS);
-    }
-
-    public String getItemName() {
-        return super.getFirstWithKey(Column.Game.MAP_ITEM);
-    }
-
-    public ArrayList<String> getDescription() {
-        return super.getFirstWithKey(Column.Game.MAP_DESCRIPTION);
-    }
-
-    public ArrayList<String> getInfo() {
-        return super.getFirstWithKey(Column.Game.MAP_INFO);
-    }
-
-    public boolean isEnabled() {
-        return super.getFirstWithKey(Column.Game.MAP_ENABLE);
     }
 
     public void setDisplayName(String displayName) {
         super.setWithKey(displayName, Column.Game.MAP_DISPLAY_NAME);
     }
 
+    @Nullable
+    public Integer getMinPlayers() {
+        return super.getFirstWithKey(Column.Game.MAP_MIN_PLAYERS);
+    }
+
     public void setMinPlayers(Integer minPlayers) {
         super.setWithKey(minPlayers, Column.Game.MAP_MIN_PLAYERS);
+    }
+
+    @Nullable
+    public Integer getMaxPlayers() {
+        return super.getFirstWithKey(Column.Game.MAP_MAX_PLAYERS);
     }
 
     public void setMaxPlayers(Integer maxPlayers) {
         super.setWithKey(maxPlayers, Column.Game.MAP_MAX_PLAYERS);
     }
 
+    @Nullable
+    public String getItemName() {
+        return super.getFirstWithKey(Column.Game.MAP_ITEM);
+    }
+
     public void setItemName(String itemName) {
         this.setWithKey(itemName, Column.Game.MAP_ITEM);
+    }
+
+    public ArrayList<String> getDescription() {
+        return super.getFirstWithKey(Column.Game.MAP_DESCRIPTION);
     }
 
     public void setDescription(Collection<String> description) {
         this.setWithKey(new DbStringArrayList(description), Column.Game.MAP_DESCRIPTION);
     }
 
+    public ArrayList<String> getInfo() {
+        return super.getFirstWithKey(Column.Game.MAP_INFO);
+    }
+
     public void setInfo(Collection<String> info) {
         this.setWithKey(new DbStringArrayList(info), Column.Game.MAP_INFO);
+    }
+
+    public boolean isEnabled() {
+        return super.getFirstWithKey(Column.Game.MAP_ENABLE);
     }
 
     public void setEnabled(boolean enable) {

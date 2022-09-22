@@ -19,7 +19,6 @@ import de.timesnake.database.util.server.DatabaseServers;
 import de.timesnake.database.util.story.DatabaseStory;
 import de.timesnake.database.util.support.DatabaseSupport;
 import de.timesnake.database.util.user.DatabaseUsers;
-import de.timesnake.database.util.user.DbCoins;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 
@@ -115,8 +114,6 @@ public interface Database {
      * The {@link DbUser} contains direct links to the permissions, perm-groups,
      * teams, ...
      * {@link DbPunishment}s,
-     * {@link DbCoins}, {@link de.timesnake.database.core.user.DbUserMail}s can be
-     * found here
      * </\p>
      *
      * @return the {@link DatabaseUsers}

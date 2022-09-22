@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DbStringArrayList;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,6 +41,7 @@ public class DbCachedMapInfo {
 
     }
 
+    @NotNull
     public String getName() {
         return this.name;
     }
@@ -48,32 +50,9 @@ public class DbCachedMapInfo {
         return this.mapInfo.exists();
     }
 
+    @NotNull
     public String getDisplayName() {
         return this.displayName;
-    }
-
-    public Integer getMinPlayers() {
-        return this.minPlayers;
-    }
-
-    public Integer getMaxPlayers() {
-        return this.maxPlayers;
-    }
-
-    public String getItemName() {
-        return this.itemName;
-    }
-
-    public ArrayList<String> getDescription() {
-        return this.description;
-    }
-
-    public ArrayList<String> getInfo() {
-        return this.info;
-    }
-
-    public boolean isEnabled() {
-        return this.enabled;
     }
 
     public void setDisplayName(String displayName) {
@@ -81,9 +60,19 @@ public class DbCachedMapInfo {
         this.mapInfo.setDisplayName(displayName);
     }
 
+    @NotNull
+    public Integer getMinPlayers() {
+        return this.minPlayers;
+    }
+
     public void setMinPlayers(Integer minPlayers) {
         this.minPlayers = minPlayers;
         this.mapInfo.setMinPlayers(minPlayers);
+    }
+
+    @NotNull
+    public Integer getMaxPlayers() {
+        return this.maxPlayers;
     }
 
     public void setMaxPlayers(Integer maxPlayers) {
@@ -91,9 +80,18 @@ public class DbCachedMapInfo {
         this.mapInfo.setMaxPlayers(maxPlayers);
     }
 
+    @NotNull
+    public String getItemName() {
+        return this.itemName;
+    }
+
     public void setItemName(String itemName) {
         this.itemName = itemName;
         this.mapInfo.setItemName(itemName);
+    }
+
+    public ArrayList<String> getDescription() {
+        return this.description;
     }
 
     public void setDescription(Collection<String> description) {
@@ -101,9 +99,17 @@ public class DbCachedMapInfo {
         this.mapInfo.setDescription(description);
     }
 
+    public ArrayList<String> getInfo() {
+        return this.info;
+    }
+
     public void setInfo(Collection<String> info) {
         this.info = new DbStringArrayList(info);
         this.mapInfo.setInfo(info);
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
     public void setEnabled(boolean enable) {

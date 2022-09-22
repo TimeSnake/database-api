@@ -4,6 +4,8 @@ import de.timesnake.database.core.game.info.DbCachedNonTmpGameInfo;
 import de.timesnake.database.util.game.DbNonTmpGame;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
 
@@ -16,21 +18,25 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
         return (de.timesnake.database.core.game.DbNonTmpGame) super.getDatabase();
     }
 
+    @NotNull
     @Override
     public DbCachedNonTmpGameInfo getInfo() {return (DbCachedNonTmpGameInfo) super.getInfo();}
 
+    @Nullable
     @Override
     public Integer getMaxPlayers() {return getInfo().getMaxPlayers();}
 
     @Override
     public void setMaxPlayers(int maxPlayers) {getInfo().setMaxPlayers(maxPlayers);}
 
+    @NotNull
     @Override
     public Type.Availability getMapAvailability() {return getInfo().getMapAvailability();}
 
     @Override
     public void setMapsAvailability(Type.Availability maps) {getInfo().setMapsAvailability(maps);}
 
+    @NotNull
     @Override
     public Type.Availability getKitAvailability() {return getInfo().getKitAvailability();}
 
@@ -43,6 +49,7 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     @Override
     public void setStatistics(boolean statistics) {getInfo().setStatistics(statistics);}
 
+    @Nullable
     @Override
     public String getTexturePackLink() {return getInfo().getTexturePackLink();}
 
@@ -52,12 +59,14 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     @Override
     public Boolean hasTexturePack() {return getInfo().hasTexturePack();}
 
+    @Nullable
     @Override
     public Integer getPlayerTrackingRange() {return getInfo().getPlayerTrackingRange();}
 
     @Override
     public void setPlayerTrackingRange(Integer playerTrackingRange) {getInfo().setPlayerTrackingRange(playerTrackingRange);}
 
+    @Nullable
     @Override
     public Integer getMaxHealth() {
         return getInfo().getMaxHealth();
@@ -71,9 +80,11 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     @Override
     public boolean exists() {return getInfo().exists();}
 
+    @NotNull
     @Override
     public String getName() {return getInfo().getName();}
 
+    @NotNull
     @Override
     public String getDisplayName() {return getInfo().getDisplayName();}
 
@@ -82,12 +93,14 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
 
     @Override
     @Deprecated
+    @NotNull
     public String getChatColorName() {return getInfo().getChatColorName();}
 
     @Override
     @Deprecated
     public void setChatColorName(String chatColorName) {getInfo().setChatColorName(chatColorName);}
 
+    @NotNull
     @Override
     public ExTextColor getTextColor() {
         return getInfo().getTextColor();
@@ -98,18 +111,21 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
         getInfo().setTextColor(color);
     }
 
+    @NotNull
     @Override
     public String getItemName() {return getInfo().getItemName();}
 
     @Override
     public void setItem(String itemName) {getInfo().setItem(itemName);}
 
+    @NotNull
     @Override
     public String getHeadLine() {return getInfo().getHeadLine();}
 
     @Override
     public void setHeadLine(String headLine) {getInfo().setHeadLine(headLine);}
 
+    @NotNull
     @Override
     public Integer getSlot() {return getInfo().getSlot();}
 
@@ -117,16 +133,10 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     public void setSlot(int slot) {getInfo().setSlot(slot);}
 
     @Override
-    public boolean isGenerateable() {return getInfo().isGenerateable();}
+    public boolean isCreationRequestable() {return getInfo().isCreationRequestable();}
 
     @Override
-    public void setGenerateable(Boolean generateable) {getInfo().setGenerateable(generateable);}
-
-    @Override
-    public boolean isAutoDeleteAllowed() {return getInfo().isAutoDeleteAllowed();}
-
-    @Override
-    public void allowAutoDelete(Boolean allowAutoDelete) {getInfo().allowAutoDelete(allowAutoDelete);}
+    public void setCreationRequestable(Boolean creationRequestable) {getInfo().setCreationRequestable(creationRequestable);}
 
     @Override
     public boolean isOwnable() {return getInfo().isOwnable();}
@@ -135,8 +145,21 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     public void setOwnable(Boolean ownable) {getInfo().setOwnable(ownable);}
 
     @Override
+    public boolean isNetherAndEndAllowed() {
+        return getInfo().isNetherAndEndAllowed();
+    }
+
+    @Override
+    public void allowNetherAndEnd(Boolean allow) {
+        getInfo().allowNetherAndEnd(allow);
+    }
+
+
+    @NotNull
+    @Override
     public DbNonTmpGame toDatabase() {return getDatabase();}
 
+    @NotNull
     @Override
     public DbNonTmpGame toLocal() {return getDatabase().toLocal();}
 }

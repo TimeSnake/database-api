@@ -1,6 +1,8 @@
 package de.timesnake.database.util.server;
 
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DbTmpGameServer extends DbPvPServer {
 
@@ -8,16 +10,20 @@ public interface DbTmpGameServer extends DbPvPServer {
 
     void setKitsEnabled(boolean kitsEnabled);
 
+    @Nullable
     String getMapName();
 
     void setMapName(String mapName);
 
+    @Nullable
     Integer getTwinServerPort();
 
     void setTwinServerPort(Integer port);
 
+    @Nullable
     DbLoungeServer getTwinServer();
 
+    @NotNull
     @Override
     Type.Server<DbTmpGameServer> getType();
 
@@ -25,10 +31,12 @@ public interface DbTmpGameServer extends DbPvPServer {
 
     void setMapsEnabled(boolean mapsEnabled);
 
+    @Nullable
     Integer getTeamAmount();
 
     void setTeamAmount(Integer integer);
 
+    @Nullable
     Integer getMaxPlayersPerTeam();
 
     void setMaxPlayersPerTeam(Integer maxPlayersPerTeam);

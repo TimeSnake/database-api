@@ -2,6 +2,7 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.util.game.DbGameInfoBasis;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
 
 public class DbCachedGameInfoBasis implements DbGameInfoBasis {
 
@@ -27,11 +28,13 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
         return this.database.exists();
     }
 
+    @NotNull
     @Override
     public String getName() {
         return name;
     }
 
+    @NotNull
     @Override
     public String getDisplayName() {
         return displayName;
@@ -45,6 +48,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
 
     @Override
     @Deprecated
+    @NotNull
     public String getChatColorName() {
         return this.textColor.toString();
     }
@@ -56,6 +60,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
         this.database.setTextColor(this.textColor);
     }
 
+    @NotNull
     @Override
     public ExTextColor getTextColor() {
         return this.textColor;
@@ -67,6 +72,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
         this.database.setTextColor(this.textColor);
     }
 
+    @NotNull
     @Override
     public String getItemName() {
         return itemName;
@@ -78,6 +84,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
         this.database.setItem(itemName);
     }
 
+    @NotNull
     @Override
     public String getHeadLine() {
         return headLine;
@@ -89,6 +96,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
         this.database.setHeadLine(headLine);
     }
 
+    @NotNull
     @Override
     public Integer getSlot() {
         return slot;
@@ -100,11 +108,13 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
         this.database.setSlot(slot);
     }
 
+    @NotNull
     @Override
     public DbGameInfoBasis toDatabase() {
         return this.getDatabase();
     }
 
+    @NotNull
     @Override
     public DbGameInfoBasis toLocal() {
         return this.getDatabase().toLocal();

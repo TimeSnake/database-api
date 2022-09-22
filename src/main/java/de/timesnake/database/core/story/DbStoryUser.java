@@ -1,5 +1,7 @@
 package de.timesnake.database.core.story;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,16 +17,19 @@ public class DbStoryUser implements de.timesnake.database.util.story.DbStoryUser
         this.checkpointsTable = checkpointsTable;
     }
 
+    @Nullable
     @Override
     public Set<Integer> getChapterIds() {
         return this.checkpointsTable.getChapterIds(this.uuid);
     }
 
+    @Nullable
     @Override
     public Set<Integer> getPartIds(Integer chapterId) {
         return this.checkpointsTable.getPartIds(this.uuid, chapterId);
     }
 
+    @Nullable
     @Override
     public Integer getSectionId(Integer chapterId, Integer partId) {
         return this.checkpointsTable.getSectionId(this.uuid, chapterId, partId);
@@ -35,6 +40,7 @@ public class DbStoryUser implements de.timesnake.database.util.story.DbStoryUser
         this.checkpointsTable.setSectionId(this.uuid, chapterId, partId, sectionId);
     }
 
+    @Nullable
     @Override
     public Set<Integer> getBoughtParts(Integer chapterId) {
         return this.boughtTable.getBoughtParts(this.uuid, chapterId);

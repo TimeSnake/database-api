@@ -7,6 +7,7 @@ import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -68,6 +69,7 @@ public class StatisticTypesTable extends TableDDL {
         return stats;
     }
 
+    @NotNull
     public StatType<?> getStat(String name) {
         ColumnMap map = super.getFirst(Set.of(Column.Game.STAT_TYPE_NAME, Column.Game.STAT_TYPE_TYPE,
                         Column.Game.STAT_TYPE_DISPLAY_NAME, Column.Game.STAT_TYPE_DEFAULT_VALUE,

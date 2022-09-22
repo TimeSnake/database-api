@@ -4,6 +4,7 @@ import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.database.util.object.NotCached;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Collection;
@@ -12,20 +13,28 @@ public interface DbLoungeMap extends DbCached<DbLoungeMap> {
 
     boolean exists();
 
+    @NotNull
     String getName();
 
+    @NotNull
     String getWorldName();
 
+    @NotNull
     Double getX();
 
+    @NotNull
     Double getY();
 
+    @NotNull
     Double getZ();
 
+    @NotNull
     Float getYaw();
 
+    @NotNull
     Float getPitch();
 
+    @NotNull
     DbLocation getLocation();
 
     @NotCached
@@ -39,11 +48,14 @@ public interface DbLoungeMap extends DbCached<DbLoungeMap> {
     @NotCached
     boolean containsMapDisplay(Integer displayIndex);
 
+    @NotNull
     DbLoungeMapDisplay getMapDisplay(Integer displayIndex);
 
     @NotCached
+    @NotNull
     Collection<DbLoungeMapDisplay> getMapDisplays();
 
     @NotCached
+    @NotNull
     Collection<DbLoungeMapDisplay> getCachedMapDisplays();
 }

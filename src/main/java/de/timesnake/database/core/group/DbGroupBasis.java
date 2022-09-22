@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DbGroupBasis extends TableQuery implements de.timesnake.database.util.group.DbGroupBasis {
 
@@ -16,6 +17,7 @@ public class DbGroupBasis extends TableQuery implements de.timesnake.database.ut
         return super.getFirstWithKey(Column.Group.PRIORITY) != null;
     }
 
+    @NotNull
     @Override
     public String getName() {
         return ((String) this.primaryEntries.get(0).getValue());
@@ -26,15 +28,20 @@ public class DbGroupBasis extends TableQuery implements de.timesnake.database.ut
         super.setWithKey(name, Column.Group.NAME);
     }
 
+    @NotNull
     @Override
     public Integer getRank() {
         return super.getFirstWithKey(Column.Group.PRIORITY);
     }
 
+    @NotNull
+    @Override
     public de.timesnake.database.util.group.DbGroupBasis toLocal() {
         return new DbCachedGroupBasis(this);
     }
 
+    @NotNull
+    @Override
     public de.timesnake.database.util.group.DbGroupBasis toDatabase() {
         return this;
     }

@@ -1,5 +1,8 @@
 package de.timesnake.database.util.user;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.UUID;
 
@@ -15,8 +18,10 @@ public interface DatabaseUsers {
      */
     void addUser(UUID uuid, String name, String permGroup, String server);
 
+    @Nullable
     de.timesnake.database.core.user.DbUser getUserByDiscordId(Long discordId);
 
+    @NotNull
     Collection<de.timesnake.database.core.user.DbUser> getUsers();
 
     /**
@@ -25,6 +30,7 @@ public interface DatabaseUsers {
      * @param uuid The unique id of the user
      * @return the {@link DbUser} with the id
      */
+    @Nullable
     DbUser getUser(UUID uuid);
 
     /**
@@ -35,6 +41,7 @@ public interface DatabaseUsers {
      * @param name The name of the user
      * @return the {@link DbUser} with the name
      */
+    @Nullable
     DbUser getUser(String name);
 
     /**
@@ -58,6 +65,7 @@ public interface DatabaseUsers {
      *
      * @return a {@link Collection} of the {@link UUID}s, which are in the database
      */
+    @NotNull
     Collection<UUID> getUsersUuid();
 
     /**
@@ -65,6 +73,7 @@ public interface DatabaseUsers {
      *
      * @return a {@link Collection} of the names, which are in the database
      */
+    @NotNull
     Collection<String> getUsersName();
 
 }

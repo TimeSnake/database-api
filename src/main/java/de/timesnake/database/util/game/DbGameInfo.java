@@ -2,19 +2,24 @@ package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DbGameInfo extends DbGameInfoBasis {
 
+    @Nullable
     Integer getMaxPlayers();
 
     @NotCached
     void setMaxPlayers(int maxPlayers);
 
+    @NotNull
     Type.Availability getMapAvailability();
 
     @NotCached
     void setMapsAvailability(Type.Availability maps);
 
+    @NotNull
     Type.Availability getKitAvailability();
 
     @NotCached
@@ -25,6 +30,7 @@ public interface DbGameInfo extends DbGameInfoBasis {
     @NotCached
     void setStatistics(boolean statistics);
 
+    @Nullable
     String getTexturePackLink();
 
     @NotCached
@@ -32,19 +38,23 @@ public interface DbGameInfo extends DbGameInfoBasis {
 
     Boolean hasTexturePack();
 
+    @Nullable
     Integer getPlayerTrackingRange();
 
     @NotCached
     void setPlayerTrackingRange(Integer playerTrackingRange);
 
+    @Nullable
     Integer getMaxHealth();
 
     @NotCached
     void setMaxHealth(Integer maxHealth);
 
+    @NotNull
     @Override
     DbGameInfo toDatabase();
 
+    @NotNull
     @Override
     DbGameInfo toLocal();
 }

@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.lounge;
 import de.timesnake.database.util.game.DbLoungeMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -48,16 +49,19 @@ public class DatabaseLounges extends DatabaseConnector implements de.timesnake.d
     }
 
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbLoungeMap getMap(String name) {
         return this.loungeMapTable.getMap(name, this.loungeMapDisplayTable);
     }
 
+    @NotNull
     @Override
     public Collection<DbLoungeMap> getMaps() {
         return this.loungeMapTable.getMaps(this.loungeMapDisplayTable);
     }
 
+    @NotNull
     @Override
     public Collection<DbLoungeMap> getCachedMaps() {
         return this.loungeMapTable.getCachedMaps(this.loungeMapDisplayTable);

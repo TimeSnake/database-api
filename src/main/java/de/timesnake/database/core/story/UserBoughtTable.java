@@ -5,6 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class UserBoughtTable extends TableDDL {
         super.backup();
     }
 
+    @Nullable
     public Set<Integer> getBoughtParts(UUID uuid, Integer chapterId) {
         return super.get(Column.Story.PART_ID, new TableEntry<>(uuid, Column.Story.USER_UUID),
                 new TableEntry<>(chapterId, Column.Story.CHAPTER_ID));

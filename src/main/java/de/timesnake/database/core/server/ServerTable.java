@@ -7,6 +7,7 @@ import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
         super.backup(columns);
     }
 
+    @Nullable
     public Integer getPortFromName(String name) {
         if (name != null) {
             return super.getFirst(Column.Server.PORT, new TableEntry<>(name, Column.Server.NAME));
@@ -65,8 +67,10 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
                         Column.Server.FOLDER_PATH), new TableEntry<>(password, Column.Server.PASSWORD));
     }
 
+    @Nullable
     public abstract Server getServer(int port);
 
+    @Nullable
     public Server getServer(String name) {
         Integer port = this.getPortFromName(name);
         if (port == null) {

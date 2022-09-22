@@ -1,6 +1,7 @@
 package de.timesnake.database.util.user;
 
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 
@@ -16,35 +17,8 @@ public interface DbPunishment extends DbPlayer {
      *
      * @return the {@link Type.Punishment}
      */
+    @Nullable
     Type.Punishment getType();
-
-    /**
-     * Gets the deletion-date of the punishment
-     *
-     * @return the {@link Date} of deletion
-     */
-    Date getDate();
-
-    /**
-     * Gets the castigator of the punishment
-     *
-     * @return the castigator name
-     */
-    String getCastigator();
-
-    /**
-     * Gets the reason of the punishment
-     *
-     * @return the reason
-     */
-    String getReason();
-
-    /**
-     * Gets the punished-server of the punishment
-     *
-     * @return the server name
-     */
-    String getServer();
 
     /**
      * Sets the type of the punishment
@@ -54,11 +28,27 @@ public interface DbPunishment extends DbPlayer {
     void setType(Type.Punishment type);
 
     /**
+     * Gets the deletion-date of the punishment
+     *
+     * @return the {@link Date} of deletion
+     */
+    @Nullable
+    Date getDate();
+
+    /**
      * Sets tbe date of the punishment
      *
      * @param date The date to set
      */
     void setDate(Date date);
+
+    /**
+     * Gets the castigator of the punishment
+     *
+     * @return the castigator name
+     */
+    @Nullable
+    String getCastigator();
 
     /**
      * Sets the castigator name of the punishment
@@ -68,11 +58,27 @@ public interface DbPunishment extends DbPlayer {
     void setCastigator(String castigator);
 
     /**
+     * Gets the reason of the punishment
+     *
+     * @return the reason
+     */
+    @Nullable
+    String getReason();
+
+    /**
      * Sets the reason of the punishment
      *
      * @param reason The reason to set
      */
     void setReason(String reason);
+
+    /**
+     * Gets the punished-server of the punishment
+     *
+     * @return the server name
+     */
+    @Nullable
+    String getServer();
 
     /**
      * Sets the punished-server of the punishment

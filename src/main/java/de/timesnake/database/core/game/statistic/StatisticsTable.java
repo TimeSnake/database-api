@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.statistic;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class StatisticsTable {
         return typesTable.getStats();
     }
 
+    @NotNull
     public StatType<?> getStat(String name) {
         return typesTable.getStat(name);
     }
@@ -54,6 +56,7 @@ public class StatisticsTable {
         return this.userTable.getStatistics();
     }
 
+    @NotNull
     public GameUserStatistic getUserStatistic(UUID uuid) {
         return this.userTable.getStatistic(uuid);
     }

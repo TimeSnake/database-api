@@ -7,6 +7,7 @@ import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,6 +66,7 @@ public class MailsTable extends TableDDL {
         return mails;
     }
 
+    @Nullable
     public DbUserMail getMail(UUID uuid, Integer id) {
         String name = super.getFirst(Column.User.NAME, new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(id,
                 Column.User.MAIL_ID));

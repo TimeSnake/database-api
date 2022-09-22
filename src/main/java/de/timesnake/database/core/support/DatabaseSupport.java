@@ -2,6 +2,8 @@ package de.timesnake.database.core.support;
 
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +32,7 @@ public class DatabaseSupport extends DatabaseConnector implements de.timesnake.d
         ticketsTable.backup();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.support.DbTicket addTicket(String uuid, String name, String message) {
         return this.getTicket(this.ticketsTable.addTicket(uuid, name, message));
@@ -50,6 +53,7 @@ public class DatabaseSupport extends DatabaseConnector implements de.timesnake.d
         this.ticketsTable.removeTicket(id);
     }
 
+    @Nullable
     @Override
     public de.timesnake.database.util.support.DbTicket getTicket(int id) {
         return new DbTicket(this, id, this.ticketsTableName);
@@ -78,16 +82,19 @@ public class DatabaseSupport extends DatabaseConnector implements de.timesnake.d
     }
 
 
+    @NotNull
     @Override
     public Collection<Integer> getTicketIds() {
         return this.ticketsTable.getTicketIds();
     }
 
+    @NotNull
     @Override
     public Collection<Integer> getTicketIds(Status.Ticket status) {
         return this.ticketsTable.getTicketIds(status);
     }
 
+    @NotNull
     @Override
     public Collection<de.timesnake.database.util.support.DbTicket> getTickets(UUID uuid) {
         Collection<de.timesnake.database.util.support.DbTicket> tickets = new ArrayList<>();
@@ -97,6 +104,7 @@ public class DatabaseSupport extends DatabaseConnector implements de.timesnake.d
         return tickets;
     }
 
+    @NotNull
     @Override
     public Collection<de.timesnake.database.util.support.DbTicket> getTickets() {
         Collection<de.timesnake.database.util.support.DbTicket> tickets = new ArrayList<>();

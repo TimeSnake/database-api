@@ -1,5 +1,8 @@
 package de.timesnake.database.util.user;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.UUID;
 
 public interface DbUserMail {
@@ -9,6 +12,7 @@ public interface DbUserMail {
      *
      * @return the id
      */
+    @NotNull
     Integer getId();
 
     /**
@@ -16,6 +20,7 @@ public interface DbUserMail {
      *
      * @return the uuid of the receiver
      */
+    @Nullable
     UUID getUniqueId();
 
     /**
@@ -23,6 +28,7 @@ public interface DbUserMail {
      *
      * @return the name of the receiver
      */
+    @Nullable
     String getName();
 
     /**
@@ -30,6 +36,7 @@ public interface DbUserMail {
      *
      * @return the uuid of the sender
      */
+    @Nullable
     UUID getSenderUniqueId();
 
     /**
@@ -37,6 +44,7 @@ public interface DbUserMail {
      *
      * @return the name of the sender
      */
+    @Nullable
     String getSenderName();
 
     /**
@@ -44,6 +52,7 @@ public interface DbUserMail {
      *
      * @return the message of the mail
      */
+    @Nullable
     String getMessage();
 
     /**

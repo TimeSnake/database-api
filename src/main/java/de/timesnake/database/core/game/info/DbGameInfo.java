@@ -3,6 +3,8 @@ package de.timesnake.database.core.game.info;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database.util.game.DbGameInfo {
 
@@ -10,6 +12,7 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super(databaseConnector, nameTable, gameName);
     }
 
+    @Nullable
     @Override
     public Integer getMaxPlayers() {
         return super.getFirstWithKey(Column.Game.MAX_PLAYERS);
@@ -20,9 +23,11 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(maxPlayers, Column.Game.MAX_PLAYERS);
     }
 
+    @NotNull
     @Override
     public Type.Availability getMapAvailability() {
-        return super.getFirstWithKey(Column.Game.MAPS);
+        Type.Availability availability = super.getFirstWithKey(Column.Game.MAPS);
+        return availability != null ? availability : Type.Availability.FORBIDDEN;
     }
 
     @Override
@@ -30,9 +35,11 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(maps, Column.Game.MAPS);
     }
 
+    @NotNull
     @Override
     public Type.Availability getKitAvailability() {
-        return super.getFirstWithKey(Column.Game.KITS);
+        Type.Availability availability = super.getFirstWithKey(Column.Game.KITS);
+        return availability != null ? availability : Type.Availability.FORBIDDEN;
     }
 
     @Override
@@ -50,6 +57,7 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(statistics, Column.Game.STATISTICS);
     }
 
+    @Nullable
     @Override
     public String getTexturePackLink() {
         return super.getFirstWithKey(Column.Game.TEXTURE_PACK_LINK);
@@ -65,6 +73,7 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         return super.getFirstWithKey(Column.Game.TEXTURE_PACK_LINK) != null;
     }
 
+    @Nullable
     @Override
     public Integer getPlayerTrackingRange() {
         return super.getFirstWithKey(Column.Game.PLAYER_TRACKING_RANGE);
@@ -75,6 +84,7 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(playerTrackingRange, Column.Game.PLAYER_TRACKING_RANGE);
     }
 
+    @Nullable
     @Override
     public Integer getMaxHealth() {
         return super.getFirstWithKey(Column.Game.MAX_HEALTH);
@@ -85,11 +95,13 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(maxHealth, Column.Game.MAX_HEALTH);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGameInfo toDatabase() {
         return this;
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGameInfo toLocal() {
         return new DbCachedGameInfo(this);

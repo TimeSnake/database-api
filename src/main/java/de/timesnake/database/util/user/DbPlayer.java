@@ -1,5 +1,7 @@
 package de.timesnake.database.util.user;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
 public interface DbPlayer {
@@ -11,6 +13,7 @@ public interface DbPlayer {
      *
      * @return the name
      */
+    @NotNull
     String getName();
 
     /**
@@ -18,5 +21,6 @@ public interface DbPlayer {
      *
      * @return the {@link UUID}
      */
+    @NotNull
     UUID getUniqueId();
 }

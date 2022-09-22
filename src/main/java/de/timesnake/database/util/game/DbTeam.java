@@ -2,9 +2,11 @@ package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.group.DbGroup;
 import de.timesnake.database.util.object.NotCached;
+import org.jetbrains.annotations.NotNull;
 
 public interface DbTeam extends DbGroup {
 
+    @NotNull
     Float getRatio();
 
     @NotCached
@@ -13,6 +15,7 @@ public interface DbTeam extends DbGroup {
     @NotCached
     void setColor(String colorName);
 
+    @NotNull
     String getColorName();
 
     boolean hasPrivateChat();
@@ -20,9 +23,11 @@ public interface DbTeam extends DbGroup {
     @NotCached
     void setPrivateChat(Boolean privateChat);
 
+    @NotNull
     @Override
     DbTeam toLocal();
 
+    @NotNull
     @Override
     DbTeam toDatabase();
 

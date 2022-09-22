@@ -3,6 +3,7 @@ package de.timesnake.database.core.user;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ public class DisplayGroupsTable extends TableDDL {
         super.backup();
     }
 
+    @NotNull
     public DbDisplayGroupUser getUser(UUID uuid) {
         return new DbDisplayGroupUser(this.databaseConnector, this.tableName, uuid);
     }

@@ -17,6 +17,8 @@ import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Date;
@@ -84,6 +86,7 @@ public class DbCachedUser implements DbUser {
         return this.user.exists();
     }
 
+    @NotNull
     @Override
     public String getName() {
         return this.name;
@@ -95,6 +98,7 @@ public class DbCachedUser implements DbUser {
         this.user.setName(name);
     }
 
+    @NotNull
     @Override
     public UUID getUniqueId() {
         return this.uuid;
@@ -115,6 +119,7 @@ public class DbCachedUser implements DbUser {
         return this.user.hasPunishment();
     }
 
+    @NotNull
     @Override
     public DbPunishment getPunishment() {
         return this.user.getPunishment();
@@ -125,6 +130,7 @@ public class DbCachedUser implements DbUser {
         this.user.setPunishment(punishment);
     }
 
+    @Nullable
     @Override
     public String getPrefix() {
         return this.prefix;
@@ -136,6 +142,7 @@ public class DbCachedUser implements DbUser {
         this.user.setPrefix(prefix);
     }
 
+    @Nullable
     @Override
     public String getSuffix() {
         return this.suffix;
@@ -147,6 +154,7 @@ public class DbCachedUser implements DbUser {
         this.user.setSuffix(suffix);
     }
 
+    @Nullable
     @Override
     public String getNick() {
         return this.nick;
@@ -178,11 +186,13 @@ public class DbCachedUser implements DbUser {
         return this.user.hasPermission(permission);
     }
 
+    @Nullable
     @Override
     public DbPermission getPermission(String permission) {
         return this.user.getPermission(permission);
     }
 
+    @NotNull
     @Override
     public Collection<DbPermission> getPermissions() {
         return this.user.getPermissions();
@@ -198,9 +208,11 @@ public class DbCachedUser implements DbUser {
         this.user.removePermission(permission);
     }
 
+    @NotNull
     @Override
     public Collection<String> getDisplayGroupNames() {return user.getDisplayGroupNames();}
 
+    @NotNull
     @Override
     public Collection<DbDisplayGroup> getDisplayGroups() {return user.getDisplayGroups();}
 
@@ -213,9 +225,10 @@ public class DbCachedUser implements DbUser {
     @Override
     public void clearDisplayGroups() {user.clearDisplayGroups();}
 
+    @NotNull
     @Override
     public Status.User getStatus() {
-        return this.status;
+        return this.status != null ? this.status : Status.User.OFFLINE;
     }
 
     @Override
@@ -251,6 +264,7 @@ public class DbCachedUser implements DbUser {
         this.user.setAirMode(airMode);
     }
 
+    @Nullable
     @Override
     public String getTask() {
         return this.task;
@@ -262,6 +276,7 @@ public class DbCachedUser implements DbUser {
         this.user.setTask(task);
     }
 
+    @Nullable
     @Override
     public String getTeamName() {
         return this.team;
@@ -272,6 +287,7 @@ public class DbCachedUser implements DbUser {
         return Database.getGroups().containsPermGroup(this.permGroup);
     }
 
+    @Nullable
     @Override
     public DbPermGroup getPermGroup() {
         return this.user.getPermGroup();
@@ -292,6 +308,7 @@ public class DbCachedUser implements DbUser {
         this.user.removePermGroup(syncExecute);
     }
 
+    @Nullable
     @Override
     public DbServer getServer() {
         return Database.getServers().getServer(this.server);
@@ -303,6 +320,7 @@ public class DbCachedUser implements DbUser {
         this.user.setServer(server);
     }
 
+    @Nullable
     @Override
     public DbServer getServerLast() {
         return Database.getServers().getServer(this.serverLast);
@@ -314,6 +332,7 @@ public class DbCachedUser implements DbUser {
         this.user.setServerLast(serverLast);
     }
 
+    @Nullable
     @Override
     public DbLobbyServer getServerLobby() {
         return Database.getServers().getServer(this.serverLobby);
@@ -366,6 +385,7 @@ public class DbCachedUser implements DbUser {
         this.user.disagreeDataProtection();
     }
 
+    @Nullable
     @Override
     public DataProtectionAgreement getDataProtectionAgreement() {
         return DataProtectionAgreement.fromString(this.dataProtection);
@@ -377,6 +397,7 @@ public class DbCachedUser implements DbUser {
         return agreement != null && agreement.getVersion().equals(version);
     }
 
+    @Nullable
     @Override
     public Long getDiscordId() {
         return this.discordId;
@@ -392,6 +413,7 @@ public class DbCachedUser implements DbUser {
         this.user.deleteEntries();
     }
 
+    @Nullable
     @Override
     public Integer getKit() {
         return this.kit;
@@ -426,21 +448,25 @@ public class DbCachedUser implements DbUser {
         this.user.removeCoins(coins);
     }
 
+    @NotNull
     @Override
     public Collection<DbTicket> getTickets() {
         return this.user.getTickets();
     }
 
+    @Nullable
     @Override
     public DbTicket getTicket(Integer id) {
         return this.user.getTicket(id);
     }
 
+    @NotNull
     @Override
     public Collection<DbUserMail> getMails() {
         return this.user.getMails();
     }
 
+    @Nullable
     @Override
     public DbUserMail getMail(Integer id) {
         return this.user.getMail(id);
@@ -456,11 +482,13 @@ public class DbCachedUser implements DbUser {
         return this.user.addMail(senderUuid, senderName, message);
     }
 
+    @NotNull
     @Override
     public DbUser toLocal() {
         return this.user.toLocal();
     }
 
+    @NotNull
     @Override
     public DbUser toDatabase() {
         return this.user;

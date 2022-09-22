@@ -8,6 +8,7 @@ import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.UnsupportedStringException;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -43,6 +44,7 @@ public class KitsTable extends TableDDL {
         return new DbKit(this.databaseConnector, id, tableName);
     }
 
+    @Nullable
     public de.timesnake.database.util.game.DbKit getKit(String name) {
         Integer id = super.getFirst(Column.Game.KIT_ID, new TableEntry<>(name, Column.Game.KIT_NAME));
         if (id != null) {

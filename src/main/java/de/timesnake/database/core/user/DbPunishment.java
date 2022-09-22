@@ -3,6 +3,7 @@ package de.timesnake.database.core.user;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,6 +26,7 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
         super.setWithKey(null, Column.User.PUNISH_SERVER);
     }
 
+    @Nullable
     @Override
     public Type.Punishment getType() {
         String type = super.getFirstWithKey(Column.User.PUNISH_TYPE);
@@ -34,6 +36,12 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
         return null;
     }
 
+    @Override
+    public void setType(Type.Punishment type) {
+        super.setWithKey(type.getDatabaseValue(), Column.User.PUNISH_TYPE);
+    }
+
+    @Nullable
     @Override
     public Date getDate() {
         String date = super.getFirstWithKey(Column.User.PUNISH_DATE);
@@ -49,30 +57,15 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
     }
 
     @Override
-    public String getCastigator() {
-        return super.getFirstWithKey(Column.User.PUNISH_CASTIGATOR);
-    }
-
-    @Override
-    public String getReason() {
-        return super.getFirstWithKey(Column.User.PUNISH_REASON);
-    }
-
-    @Override
-    public String getServer() {
-        return super.getFirstWithKey(Column.User.PUNISH_SERVER);
-    }
-
-
-    @Override
-    public void setType(Type.Punishment type) {
-        super.setWithKey(type.getDatabaseValue(), Column.User.PUNISH_TYPE);
-    }
-
-    @Override
     public void setDate(Date date) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         super.setWithKey(df.format(date), Column.User.PUNISH_DATE);
+    }
+
+    @Nullable
+    @Override
+    public String getCastigator() {
+        return super.getFirstWithKey(Column.User.PUNISH_CASTIGATOR);
     }
 
     @Override
@@ -80,9 +73,21 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
         super.setWithKey(castigator, Column.User.PUNISH_CASTIGATOR);
     }
 
+    @Nullable
+    @Override
+    public String getReason() {
+        return super.getFirstWithKey(Column.User.PUNISH_REASON);
+    }
+
     @Override
     public void setReason(String reason) {
         super.setWithKey(reason, Column.User.PUNISH_REASON);
+    }
+
+    @Nullable
+    @Override
+    public String getServer() {
+        return super.getFirstWithKey(Column.User.PUNISH_SERVER);
     }
 
     @Override

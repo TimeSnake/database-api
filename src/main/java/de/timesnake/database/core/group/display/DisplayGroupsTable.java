@@ -3,6 +3,7 @@ package de.timesnake.database.core.group.display;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.GroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +26,7 @@ public class DisplayGroupsTable extends GroupsTable {
         super.backup();
     }
 
+    @NotNull
     public DbDisplayGroup getGroup(String name) {
         return new DbDisplayGroup(this.databaseConnector, name, this.tableName);
     }

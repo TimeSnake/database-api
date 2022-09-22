@@ -8,6 +8,8 @@ import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Date;
@@ -50,6 +52,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @return the {@link DbPunishment}
      */
     @NotCached
+    @NotNull
     DbPunishment getPunishment();
 
     /**
@@ -65,6 +68,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the prefix
      */
+    @Nullable
     String getPrefix();
 
     /**
@@ -79,6 +83,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the suffix
      */
+    @Nullable
     String getSuffix();
 
     /**
@@ -93,6 +98,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the nick
      */
+    @Nullable
     String getNick();
 
     /**
@@ -148,6 +154,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param permission The name of the permission to get
      * @return the {@link DbPermission}
      */
+    @Nullable
     @NotCached
     DbPermission getPermission(String permission);
 
@@ -157,6 +164,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @return a {@link DbPermission}-{@link List}
      */
     @NotCached
+    @NotNull
     Collection<DbPermission> getPermissions();
 
     /**
@@ -179,9 +187,11 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     // display group
 
     @NotCached
+    @NotNull
     Collection<String> getDisplayGroupNames();
 
     @NotCached
+    @NotNull
     Collection<DbDisplayGroup> getDisplayGroups();
 
     @NotCached
@@ -198,6 +208,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the {@link Status.User}
      */
+    @NotNull
     Status.User getStatus();
 
     /**
@@ -225,6 +236,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the task
      */
+    @Nullable
     String getTask();
 
     /**
@@ -240,6 +252,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the team-name
      */
+    @Nullable
     String getTeamName();
 
     /**
@@ -257,6 +270,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the {@link DbPermGroup}
      */
+    @Nullable
     DbPermGroup getPermGroup();
 
     /**
@@ -288,6 +302,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the {@link DbServer}
      */
+    @Nullable
     DbServer getServer();
 
     /**
@@ -303,6 +318,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the last {@link DbServer}
      */
+    @Nullable
     DbServer getServerLast();
 
     /**
@@ -318,6 +334,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return {@link DbLobbyServer}
      */
+    @Nullable
     DbLobbyServer getServerLobby();
 
     /**
@@ -397,6 +414,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the {@link DataProtectionAgreement}
      */
+    @Nullable
     DataProtectionAgreement getDataProtectionAgreement();
 
     /**
@@ -409,6 +427,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      */
     boolean agreedDataProtection(String version);
 
+    @Nullable
     Long getDiscordId();
 
     @NotCached
@@ -425,6 +444,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      *
      * @return the id of the kit
      */
+    @Nullable
     Integer getKit();
 
     /**
@@ -476,6 +496,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @return the {@link DbTicket}-{@link List}
      */
     @NotCached
+    @NotNull
     Collection<DbTicket> getTickets();
 
     /**
@@ -484,6 +505,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param id The id of the ticket to get
      * @return the {@link DbTicket}
      */
+    @Nullable
     @NotCached
     DbTicket getTicket(Integer id);
 
@@ -495,6 +517,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @return a {@link Collection} of {@link DbUserMail}s send to the user
      */
     @NotCached
+    @NotNull
     Collection<DbUserMail> getMails();
 
     /**
@@ -503,6 +526,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param id The id of the mail to get
      * @return {@link DbUserMail} if exists, else null
      */
+    @Nullable
     @NotCached
     DbUserMail getMail(Integer id);
 

@@ -1,7 +1,10 @@
 package de.timesnake.database.util.group;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface DbDisplayGroup extends DbGroup {
 
+    @NotNull
     @Override
     DbDisplayGroup toDatabase();
 
@@ -9,6 +12,7 @@ public interface DbDisplayGroup extends DbGroup {
 
     void setShowAlways(boolean showAlways);
 
+    @NotNull
     @Override
     DbDisplayGroup toLocal();
 }

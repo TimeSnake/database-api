@@ -1,5 +1,7 @@
 package de.timesnake.database.util.object;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface DbCached<T> {
 
     /**
@@ -13,7 +15,9 @@ public interface DbCached<T> {
      *
      * @return a local {@link T} copy
      */
+    @NotNull
     T toLocal();
 
+    @NotNull
     T toDatabase();
 }

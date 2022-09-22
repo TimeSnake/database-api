@@ -6,6 +6,8 @@ import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -21,14 +23,17 @@ public class DbMapLocations extends TableQuery {
         return super.getFirstWithKey(Column.Game.MAP_NAME) != null;
     }
 
+    @NotNull
     public String getName() {
         return (String) super.primaryEntries.get(0).getValue();
     }
 
+    @NotNull
     public String getWorldName() {
         return super.getFirstWithKey(Column.Location.WORLD);
     }
 
+    @Nullable
     public DbLocation getLocation(Integer number) {
         if (number == null) {
             return null;
@@ -46,18 +51,22 @@ public class DbMapLocations extends TableQuery {
                 columnMap.get(Column.Location.YAW), columnMap.get(Column.Location.PITCH));
     }
 
+    @Nullable
     public DbLocation getFirstLocation() {
         return this.getLocation(this.getFirstLocationNumber());
     }
 
+    @Nullable
     public Integer getFirstLocationNumber() {
         return super.getLowestIntegerWithKey(Column.Location.NUMBER);
     }
 
+    @Nullable
     public DbLocation getLastLocation() {
         return this.getLocation(this.getLastLocationNumber());
     }
 
+    @Nullable
     public Integer getLastLocationNumber() {
         return super.getHighestIntegerWithKey(Column.Location.NUMBER);
     }

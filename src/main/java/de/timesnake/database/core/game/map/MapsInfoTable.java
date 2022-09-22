@@ -6,6 +6,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,7 @@ public class MapsInfoTable extends TableDDL {
         super.deleteEntry(new TableEntry<>(name, Column.Game.MAP_NAME));
     }
 
+    @NotNull
     public DbMapInfo getMapInfo(String name) {
         return new DbMapInfo(this.databaseConnector, this.tableName, name);
     }

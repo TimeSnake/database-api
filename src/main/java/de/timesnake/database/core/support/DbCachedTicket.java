@@ -5,6 +5,8 @@ import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.Set;
@@ -41,21 +43,25 @@ public class DbCachedTicket implements DbTicket {
         return this.ticket.exists();
     }
 
+    @NotNull
     @Override
     public Integer getId() {
         return id;
     }
 
+    @NotNull
     @Override
     public String getUuid() {
         return uuid;
     }
 
+    @NotNull
     @Override
     public String getName() {
         return name;
     }
 
+    @NotNull
     @Override
     public String getMessage() {
         return message;
@@ -67,6 +73,7 @@ public class DbCachedTicket implements DbTicket {
         this.ticket.setMessage(message);
     }
 
+    @Nullable
     @Override
     public String getAnswer() {
         return answer;
@@ -78,6 +85,7 @@ public class DbCachedTicket implements DbTicket {
         this.ticket.setAnswer(answer);
     }
 
+    @NotNull
     @Override
     public Status.Ticket getStatus() {
         return status;
@@ -89,21 +97,25 @@ public class DbCachedTicket implements DbTicket {
         this.ticket.setStatus(status);
     }
 
+    @NotNull
     @Override
     public Date getDate() {
         return date;
     }
 
+    @NotNull
     @Override
     public String getDateString() {
         return TableDDL.DATE_FORMAT.format(this.getDate());
     }
 
+    @NotNull
     @Override
     public DbTicket toLocal() {
         return new DbCachedTicket(this.ticket);
     }
 
+    @NotNull
     @Override
     public DbTicket toDatabase() {
         return this.ticket;

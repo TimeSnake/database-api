@@ -7,6 +7,8 @@ import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -32,21 +34,25 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
         return this.database;
     }
 
+    @NotNull
     @Override
     public DbCachedGameInfo getInfo() {
         return this.info;
     }
 
+    @NotNull
     @Override
     public Collection<Integer> getKitIds() {
         return this.database.getKitIds();
     }
 
+    @Nullable
     @Override
     public DbKit getKit(int id) {
         return this.database.getKit(id);
     }
 
+    @Nullable
     @Override
     public DbKit getKit(String name) {
         return this.database.getKit(name);
@@ -72,6 +78,7 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
         this.database.addKit(name, itemType, description);
     }
 
+    @NotNull
     @Override
     public Collection<DbKit> getKits() {
         return this.database.getKits();
@@ -88,16 +95,19 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
         this.database.removeMap(name);
     }
 
+    @NotNull
     @Override
     public DbMap getMap(String mapName) {
         return this.database.getMap(mapName);
     }
 
+    @NotNull
     @Override
     public Collection<DbMap> getMaps() {
         return this.database.getMaps();
     }
 
+    @NotNull
     @Override
     public Collection<DbMap> getMaps(Integer players) {
         return this.database.getMaps(players);
@@ -108,11 +118,13 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
         return this.database.containsMap(mapName);
     }
 
+    @NotNull
     @Override
     public Set<StatType<?>> getStats() {
         return this.database.getStats();
     }
 
+    @Nullable
     @Override
     public StatType<?> getStat(String name) {
         return this.database.getStat(name);
@@ -128,26 +140,31 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
         this.database.removeStat(stat);
     }
 
+    @Nullable
     @Override
     public GameUserStatistic getUserStatistic(UUID uuid) {
         return this.database.getUserStatistic(uuid);
     }
 
+    @NotNull
     @Override
     public Collection<GameUserStatistic> getUserStatistics() {
         return this.database.getUserStatistics();
     }
 
     @Override
+    @NotNull
     public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
         return this.database.getStatOfUsers(period, type);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGame toDatabase() {
         return this.getDatabase();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGame toLocal() {
         return this.getDatabase().toLocal();

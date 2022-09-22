@@ -2,6 +2,7 @@ package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 public class NonTmpGameTable extends PvPTable<DbNonTmpGameServer> {
 
@@ -17,6 +18,7 @@ public class NonTmpGameTable extends PvPTable<DbNonTmpGameServer> {
         super.dropTmpTable();
     }
 
+    @Nullable
     @Override
     public DbNonTmpGameServer getServer(int port) {
         DbNonTmpGameServer server = new DbNonTmpGameServer(this.databaseConnector, port, this.tableName);

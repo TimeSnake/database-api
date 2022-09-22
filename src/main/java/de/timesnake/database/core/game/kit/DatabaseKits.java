@@ -2,6 +2,7 @@ package de.timesnake.database.core.game.kit;
 
 import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DatabaseKits extends DatabaseConnector {
 
@@ -9,6 +10,7 @@ public class DatabaseKits extends DatabaseConnector {
         super(name, url, user, password);
     }
 
+    @NotNull
     public KitsTable getGameKits(String gameName) {
         return new KitsTable(this, gameName);
     }

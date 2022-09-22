@@ -2,13 +2,13 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class NonTmpGamesInfoTable extends GamesInfoTable {
 
     public NonTmpGamesInfoTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable);
-        super.addColumn(Column.Game.GENERATEABLE);
-        super.addColumn(Column.Game.ALLOW_AUTO_DELETE);
+        super.addColumn(Column.Game.CREATION_REQUESTABLE);
         super.addColumn(Column.Game.OWNABLE);
     }
 
@@ -22,6 +22,7 @@ public class NonTmpGamesInfoTable extends GamesInfoTable {
         super.backup();
     }
 
+    @NotNull
     @Override
     public DbNonTmpGameInfo getGame(String name) {
         return new DbNonTmpGameInfo(this.databaseConnector, this.tableName, name);

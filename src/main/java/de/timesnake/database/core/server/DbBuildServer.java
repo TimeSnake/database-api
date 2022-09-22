@@ -6,6 +6,7 @@ import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -18,11 +19,13 @@ public class DbBuildServer extends DbTaskServer implements de.timesnake.database
         this.buildWorldTable = buildWorldTable;
     }
 
+    @NotNull
     @Override
     public Type.Server<de.timesnake.database.util.server.DbBuildServer> getType() {
         return Type.Server.BUILD;
     }
 
+    @NotNull
     @Override
     public Collection<String> getWorldNames() {
         return this.buildWorldTable.getWorldNames(this.getName());

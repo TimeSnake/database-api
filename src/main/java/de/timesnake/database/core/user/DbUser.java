@@ -19,6 +19,8 @@ import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.database.util.user.DataProtectionAgreement;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Date;
@@ -68,6 +70,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         return this.punishmentsTable.contains(super.getUniqueId());
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.user.DbPunishment getPunishment() {
         return new DbPunishment(this.databaseConnector, super.getUniqueId(), this.punishmentTableName);
@@ -80,6 +83,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     //alias
 
+    @Nullable
     @Override
     public String getPrefix() {
         return super.getFirstWithKey(Column.User.PREFIX);
@@ -92,6 +96,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
                         MessageType.User.ALIAS)));
     }
 
+    @Nullable
     @Override
     public String getSuffix() {
         return super.getFirstWithKey(Column.User.SUFFIX);
@@ -104,6 +109,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
                         MessageType.User.ALIAS)));
     }
 
+    @Nullable
     @Override
     public String getNick() {
         return super.getFirstWithKey(Column.User.NICK);
@@ -138,11 +144,13 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         return Database.getPermissions().containsPermission(super.getUniqueId().toString(), permission);
     }
 
+    @Nullable
     @Override
     public DbPermission getPermission(String permission) {
         return Database.getPermissions().getPermission(super.getUniqueId().toString(), permission);
     }
 
+    @NotNull
     @Override
     public Collection<DbPermission> getPermissions() {
         return Database.getPermissions().getPermissions(super.getUniqueId().toString());
@@ -159,11 +167,13 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     }
 
     // display group
+    @NotNull
     @Override
     public Collection<String> getDisplayGroupNames() {
         return this.dbDisplayGroupUser.getDisplayGroupNames();
     }
 
+    @NotNull
     @Override
     public Collection<DbDisplayGroup> getDisplayGroups() {
         return this.dbDisplayGroupUser.getDisplayGroups();
@@ -186,9 +196,11 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     //info
 
+    @NotNull
     @Override
     public Status.User getStatus() {
-        return super.getFirstWithKey(Column.User.STATUS);
+        Status.User status = super.getFirstWithKey(Column.User.STATUS);
+        return status != null ? status : Status.User.OFFLINE;
     }
 
     @Override
@@ -225,6 +237,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         super.setWithKey(airMode, Column.User.AIR_MODE);
     }
 
+    @Nullable
     @Override
     public String getTask() {
         return super.getFirstWithKey(Column.User.TASK);
@@ -237,6 +250,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
                         MessageType.User.TASK, task)));
     }
 
+    @Nullable
     @Override
     public String getTeamName() {
         return super.getFirstWithKey(Column.User.TEAM);
@@ -247,6 +261,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         return Database.getGroups().containsPermGroup(super.getFirstWithKey(Column.User.PERM_GROUP));
     }
 
+    @Nullable
     @Override
     public DbPermGroup getPermGroup() {
         String groupName = super.getFirstWithKey(Column.User.PERM_GROUP);
@@ -272,6 +287,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     }
 
 
+    @Nullable
     @Override
     public DbServer getServer() {
         return Database.getServers().getServer(super.getFirstWithKey(Column.User.SERVER));
@@ -282,6 +298,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         super.setWithKey(server, Column.User.SERVER);
     }
 
+    @Nullable
     @Override
     public DbServer getServerLast() {
         return Database.getServers().getServer(super.getFirstWithKey(Column.User.SERVER_LAST));
@@ -292,6 +309,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         super.setWithKey(serverLast, Column.User.SERVER_LAST);
     }
 
+    @Nullable
     @Override
     public DbLobbyServer getServerLobby() {
         return Database.getServers().getServer(super.getFirstWithKey(Column.User.SERVER_LOBBY));
@@ -366,6 +384,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         return agreement != null && agreement.getVersion().equals(version);
     }
 
+    @Nullable
     @Override
     public Long getDiscordId() {
         return super.getFirstWithKey(Column.User.DISCORD_ID);
@@ -381,6 +400,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         super.deleteWithKey(new TableEntry<>(super.getUniqueId(), Column.User.UUID));
     }
 
+    @Nullable
     @Override
     public Integer getKit() {
         return super.getFirstWithKey(Column.User.KIT);
@@ -414,22 +434,26 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     }
 
     //support
+    @NotNull
     @Override
     public Collection<DbTicket> getTickets() {
         return Database.getSupport().getTickets(this.getUniqueId());
     }
 
+    @Nullable
     @Override
     public DbTicket getTicket(Integer id) {
         return Database.getSupport().getTicket(id);
     }
 
     //mails
+    @NotNull
     @Override
     public Collection<de.timesnake.database.util.user.DbUserMail> getMails() {
         return this.mailsTable.getMails(this.getUniqueId());
     }
 
+    @Nullable
     @Override
     public DbUserMail getMail(Integer id) {
         return this.mailsTable.getMail(this.getUniqueId(), id);
@@ -445,11 +469,13 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         return this.mailsTable.addMessage(this.getUniqueId(), this.getName(), senderUuid, senderName, message);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.user.DbUser toLocal() {
         return new DbCachedUser(this);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.user.DbUser toDatabase() {
         return this;

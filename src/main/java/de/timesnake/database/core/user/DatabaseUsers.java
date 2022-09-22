@@ -4,6 +4,8 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -61,11 +63,13 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         }
     }
 
+    @Nullable
     @Override
     public DbUser getUserByDiscordId(Long discordId) {
         return this.getUser(this.infosTable.getFirst(Column.User.UUID, new TableEntry<>(discordId, Column.User.DISCORD_ID)));
     }
 
+    @NotNull
     @Override
     public Collection<DbUser> getUsers() {
         Collection<DbUser> users = new HashSet<>();
@@ -75,6 +79,7 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         return users;
     }
 
+    @Nullable
     @Override
     public DbUser getUser(UUID uuid) {
         if (uuid != null) {
@@ -84,6 +89,7 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         return null;
     }
 
+    @Nullable
     @Override
     public DbUser getUser(String name) {
         return new DbUser(this, this.infosTable.getUniqueIdFromName(name), this.infoTableName,
@@ -104,11 +110,13 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
         return this.infosTable.containsPlayer(name);
     }
 
+    @NotNull
     @Override
     public Collection<UUID> getUsersUuid() {
         return this.infosTable.getPlayerUniqueIds();
     }
 
+    @NotNull
     @Override
     public Collection<String> getUsersName() {
         return this.infosTable.getPlayerNames();

@@ -3,8 +3,11 @@ package de.timesnake.database.core.permisson;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 
 public class DatabasePermissions extends DatabaseConnector implements de.timesnake.database.util.permission.DatabasePermissions {
 
@@ -54,6 +57,7 @@ public class DatabasePermissions extends DatabaseConnector implements de.timesna
         return this.permissionsTable.containsPermission(name, permission);
     }
 
+    @Nullable
     @Override
     public de.timesnake.database.util.permission.DbPermission getPermission(String name, String permission) {
         if (this.permissionsTable.getIdFromName(name, permission) != 0) {
@@ -63,9 +67,10 @@ public class DatabasePermissions extends DatabaseConnector implements de.timesna
         return null;
     }
 
+    @NotNull
     @Override
-    public ArrayList<de.timesnake.database.util.permission.DbPermission> getPermissions(String name) {
-        ArrayList<de.timesnake.database.util.permission.DbPermission> permissions = new ArrayList<>();
+    public Collection<de.timesnake.database.util.permission.DbPermission> getPermissions(String name) {
+        LinkedList<de.timesnake.database.util.permission.DbPermission> permissions = new LinkedList<>();
         for (int id : this.permissionsTable.getIdsFromName(name)) {
             permissions.add(new DbPermission(this, id, this.permissionsTableName));
         }

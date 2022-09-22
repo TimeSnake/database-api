@@ -1,6 +1,7 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 public class LoungeTable extends TaskTable<DbLoungeServer> {
 
@@ -13,8 +14,10 @@ public class LoungeTable extends TaskTable<DbLoungeServer> {
         this.dropTmpTable();
     }
 
+    @Nullable
     @Override
     public DbLoungeServer getServer(int port) {
-        return new DbLoungeServer(this.databaseConnector, port, this.tableName);
+        DbLoungeServer server = new DbLoungeServer(this.databaseConnector, port, this.tableName);
+        return server.exists() ? server : null;
     }
 }

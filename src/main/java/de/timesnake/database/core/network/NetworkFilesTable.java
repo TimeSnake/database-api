@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -33,6 +34,7 @@ public class NetworkFilesTable extends TableDDL {
         super.set(filePath, Column.Network.FILE_PATH, new TableEntry<>(name, Column.Network.FILE_NAME));
     }
 
+    @NotNull
     public DbNetworkFile getNetworkFile(String name) {
         return new DbNetworkFile(this.databaseConnector, this.tableName, name);
     }

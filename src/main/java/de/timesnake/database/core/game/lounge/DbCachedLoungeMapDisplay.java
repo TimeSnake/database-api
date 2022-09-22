@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.lounge;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.ColumnMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Set;
@@ -55,16 +56,19 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         return this.display.exists();
     }
 
+    @NotNull
     @Override
     public String getMapName() {
         return mapName;
     }
 
+    @NotNull
     @Override
     public Integer getIndex() {
         return displayIndex;
     }
 
+    @NotNull
     @Override
     public Integer getX() {
         return x;
@@ -76,6 +80,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setX(x);
     }
 
+    @NotNull
     @Override
     public Integer getY() {
         return y;
@@ -87,6 +92,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setY(y);
     }
 
+    @NotNull
     @Override
     public Integer getZ() {
         return z;
@@ -98,6 +104,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setZ(z);
     }
 
+    @NotNull
     @Override
     public BlockSide getFacing() {
         return facing;
@@ -109,6 +116,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setFacing(facing);
     }
 
+    @NotNull
     @Override
     public BlockSide getOrientation() {
         return orientation;
@@ -120,6 +128,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setOrientation(orientation);
     }
 
+    @NotNull
     @Override
     public Color getTitleColor() {
         return this.titleColor;
@@ -131,6 +140,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setTitleColor(color);
     }
 
+    @NotNull
     @Override
     public Color getStatNameColor() {
         return this.statNameColor;
@@ -142,6 +152,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setStatNameColor(color);
     }
 
+    @NotNull
     @Override
     public Color getStatFirstColor() {
         return this.statFirstColor;
@@ -153,6 +164,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setStatFirstColor(color);
     }
 
+    @NotNull
     @Override
     public Color getStatSecondColor() {
         return this.statSecondColor;
@@ -164,6 +176,7 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setStatSecondColor(color);
     }
 
+    @NotNull
     @Override
     public Color getStatThirdColor() {
         return this.statThirdColor;
@@ -175,11 +188,13 @@ public class DbCachedLoungeMapDisplay implements de.timesnake.database.util.game
         this.display.setStatThirdColor(color);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbLoungeMapDisplay toLocal() {
         return new DbCachedLoungeMapDisplay(this.display);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbLoungeMapDisplay toDatabase() {
         return this.display;
