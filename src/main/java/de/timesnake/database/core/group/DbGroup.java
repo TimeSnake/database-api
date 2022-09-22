@@ -3,6 +3,8 @@ package de.timesnake.database.core.group;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.group.DbGroup {
 
@@ -11,6 +13,7 @@ public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.
         super(databaseConnector, name, tableName);
     }
 
+    @Nullable
     @Override
     public String getPrefix() {
         return super.getFirstWithKey(Column.Group.PREFIX);
@@ -23,6 +26,7 @@ public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.
 
     @Override
     @Deprecated
+    @Nullable
     public String getChatColorName() {
         ExTextColor color = this.getChatColor();
         return color != null ? color.toString() : null;
@@ -34,6 +38,7 @@ public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.
         super.setWithKey(ExTextColor.NAMES.value(chatColorName), Column.Group.PREFIX_COLOR);
     }
 
+    @Nullable
     @Override
     public ExTextColor getChatColor() {
         return super.getFirstWithKey(Column.Group.PREFIX_COLOR);
@@ -45,11 +50,13 @@ public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.
     }
 
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbGroup toLocal() {
         return new DbCachedGroup(this);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbGroup toDatabase() {
         return this;

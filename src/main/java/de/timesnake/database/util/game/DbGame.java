@@ -5,6 +5,8 @@ import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -15,14 +17,17 @@ public interface DbGame {
 
     boolean exists();
 
+    @NotNull
     DbGameInfo getInfo();
 
     @NotCached
     Collection<Integer> getKitIds();
 
+    @Nullable
     @NotCached
     DbKit getKit(int id);
 
+    @Nullable
     @NotCached
     DbKit getKit(String name);
 
@@ -39,6 +44,7 @@ public interface DbGame {
     void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException;
 
     @NotCached
+    @NotNull
     Collection<DbKit> getKits();
 
     @NotCached
@@ -49,20 +55,25 @@ public interface DbGame {
     void removeMap(String name);
 
     @NotCached
+    @NotNull
     DbMap getMap(String mapName);
 
     @NotCached
+    @NotNull
     Collection<DbMap> getMaps();
 
     @NotCached
+    @NotNull
     Collection<DbMap> getMaps(Integer players);
 
     @NotCached
     boolean containsMap(String mapName);
 
+    @NotNull
     @NotCached
     Set<StatType<?>> getStats();
 
+    @Nullable
     @NotCached
     StatType<?> getStat(String name);
 
@@ -72,16 +83,21 @@ public interface DbGame {
     @NotCached
     void removeStat(StatType<?> stat);
 
+    @Nullable
     @NotCached
     GameUserStatistic getUserStatistic(UUID uuid);
 
+    @NotNull
     @NotCached
     Collection<GameUserStatistic> getUserStatistics();
 
+    @NotNull
     @NotCached
     <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type);
 
+    @NotNull
     DbGame toDatabase();
 
+    @NotNull
     DbGame toLocal();
 }

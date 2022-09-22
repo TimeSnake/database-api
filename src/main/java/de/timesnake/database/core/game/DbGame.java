@@ -14,6 +14,8 @@ import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -41,6 +43,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         this.statisticsTable = game.statisticsTable;
     }
 
+    @NotNull
     @Override
     public DbGameInfo getInfo() {
         return this.info;
@@ -155,6 +158,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return this.getInfo().exists();
     }
 
+    @NotNull
     @Override
     public Collection<Integer> getKitIds() {
         if (this.loadKitsTable()) {
@@ -163,6 +167,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return new ArrayList<>();
     }
 
+    @Nullable
     @Override
     public DbKit getKit(int id) {
         if (this.loadKitsTable()) {
@@ -171,6 +176,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return null;
     }
 
+    @Nullable
     @Override
     public DbKit getKit(String name) {
         if (this.loadKitsTable()) {
@@ -207,6 +213,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         }
     }
 
+    @NotNull
     @Override
     public Collection<DbKit> getKits() {
         Collection<DbKit> kits = new ArrayList<>();
@@ -234,6 +241,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         }
     }
 
+    @NotNull
     @Override
     public DbMap getMap(String mapName) {
         if (this.loadMapsTable()) {
@@ -242,18 +250,21 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return null;
     }
 
-    @Override
-    public Collection<DbMap> getMaps() {
+
+    @NotNull
+    public Collection<DbMap> getMaps(Integer players) {
         if (this.loadMapsTable()) {
-            return this.mapsTable.get().getMaps();
+            return this.mapsTable.get().getMaps(players);
         }
         return new ArrayList<>();
     }
 
+
+    @NotNull
     @Override
-    public Collection<DbMap> getMaps(Integer players) {
+    public Collection<DbMap> getMaps() {
         if (this.loadMapsTable()) {
-            return this.mapsTable.get().getMaps(players);
+            return this.mapsTable.get().getMaps();
         }
         return new ArrayList<>();
     }
@@ -266,14 +277,16 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return false;
     }
 
+    @NotNull
     @Override
     public Set<StatType<?>> getStats() {
         if (this.loadStatisticsTable()) {
             return this.statisticsTable.get().getStats();
         }
-        return null;
+        return new HashSet<>();
     }
 
+    @Nullable
     @Override
     public StatType<?> getStat(String name) {
         if (this.loadStatisticsTable()) {
@@ -296,6 +309,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         }
     }
 
+    @Nullable
     @Override
     public GameUserStatistic getUserStatistic(UUID uuid) {
         if (this.loadStatisticsTable()) {
@@ -304,27 +318,31 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return null;
     }
 
+    @NotNull
     @Override
     public Collection<GameUserStatistic> getUserStatistics() {
         if (this.loadStatisticsTable()) {
             return this.statisticsTable.get().getUserStatistics();
         }
-        return null;
+        return new ArrayList<>();
     }
 
+    @NotNull
     @Override
     public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
         if (this.loadStatisticsTable()) {
             return this.statisticsTable.get().getStatOfUsers(period, type);
         }
-        return null;
+        return new HashMap<>();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGame toDatabase() {
         return this;
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGame toLocal() {
         return new DbCachedGame(this, new DbCachedGameInfo(this.getInfo()));

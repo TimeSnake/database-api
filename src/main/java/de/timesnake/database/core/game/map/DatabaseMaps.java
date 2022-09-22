@@ -1,6 +1,7 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DatabaseMaps extends DatabaseConnector {
 
@@ -24,14 +25,17 @@ public class DatabaseMaps extends DatabaseConnector {
         new MapLocationsTable(this, gameName).delete();
     }
 
+    @NotNull
     public MapsInfoTable getMapsInfoTable(String gameName) {
         return new MapsInfoTable(this, gameName + "_" + this.infoTableName);
     }
 
+    @NotNull
     public MapLocationsTable getMapsSpawnsTable(String gameName) {
         return new MapLocationsTable(this, gameName + "_" + this.spawnsTableName);
     }
 
+    @NotNull
     public MapsAuthorTable getMapsAuthorTable(String gameName) {
         return new MapsAuthorTable(this, gameName + "_" + this.authorsTableName);
     }

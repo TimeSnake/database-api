@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.team;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.DbGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DbTeam extends DbGroup implements de.timesnake.database.util.game.DbTeam {
 
@@ -10,6 +11,7 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
         super(databaseConnector, name, nameTable);
     }
 
+    @NotNull
     @Override
     public Float getRatio() {
         return this.getFirstWithKey(Column.Team.RATIO);
@@ -25,6 +27,7 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
         this.setWithKey(this.parseColor(colorName), Column.Team.COLOR);
     }
 
+    @NotNull
     @Override
     public String getColorName() {
         return this.parseColor(this.getFirstWithKey(Column.Team.COLOR));
@@ -40,11 +43,13 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
         this.setWithKey(privateChat, Column.Team.PRIVATE_CHAT);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTeam toLocal() {
         return new DbCachedTeam(this);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTeam toDatabase() {
         return this;

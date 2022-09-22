@@ -1,27 +1,29 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.NotCached;
+import org.jetbrains.annotations.NotNull;
 
 public interface DbNonTmpGameInfo extends DbGameInfo {
 
-    boolean isGenerateable();
+    boolean isCreationRequestable();
 
     @NotCached
-    void setGenerateable(Boolean generateable);
-
-    boolean isAutoDeleteAllowed();
-
-    @NotCached
-    void allowAutoDelete(Boolean allowAutoDelete);
+    void setCreationRequestable(Boolean creationRequestable);
 
     boolean isOwnable();
 
     @NotCached
     void setOwnable(Boolean ownable);
 
+    boolean isNetherAndEndAllowed();
+
+    void allowNetherAndEnd(Boolean allow);
+
+    @NotNull
     @Override
     DbNonTmpGameInfo toDatabase();
 
+    @NotNull
     @Override
     DbNonTmpGameInfo toLocal();
 }

@@ -2,6 +2,8 @@ package de.timesnake.database.core.decoration;
 
 import de.timesnake.database.util.decoration.DbHead;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -27,6 +29,7 @@ public class DatabaseDecoration extends DatabaseConnector implements de.timesnak
         this.headsTable.backup();
     }
 
+    @Nullable
     @Override
     public DbHead getHead(String tag) {
         return this.headsTable.getHead(tag);
@@ -47,26 +50,31 @@ public class DatabaseDecoration extends DatabaseConnector implements de.timesnak
         return this.headsTable.removeHead(tag);
     }
 
+    @NotNull
     @Override
     public Collection<String> getHeadTags() {
         return this.headsTable.getHeadTags();
     }
 
+    @NotNull
     @Override
     public Collection<String> getHeadTags(String section) {
         return this.headsTable.getHeadTags(section);
     }
 
+    @NotNull
     @Override
     public Collection<DbHead> getHeads() {
         return this.headsTable.getHeads();
     }
 
+    @NotNull
     @Override
     public Collection<DbHead> getHeads(String section) {
         return this.headsTable.getHeads(section);
     }
 
+    @NotNull
     @Override
     public Collection<String> getSections() {
         return this.headsTable.getSections();

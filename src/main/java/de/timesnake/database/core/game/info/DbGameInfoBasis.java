@@ -5,6 +5,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
 
 public class DbGameInfoBasis extends TableQuery implements de.timesnake.database.util.game.DbGameInfoBasis {
 
@@ -17,11 +18,13 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
         return super.getFirstWithKey(Column.Game.NAME) != null;
     }
 
+    @NotNull
     @Override
     public String getName() {
         return (String) super.primaryEntries.get(0).getValue();
     }
 
+    @NotNull
     @Override
     public String getDisplayName() {
         return super.getFirstWithKey(Column.Game.DISPLAY_NAME);
@@ -34,6 +37,7 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
 
     @Override
     @Deprecated
+    @NotNull
     public String getChatColorName() {
         return this.getTextColor().toString();
     }
@@ -44,6 +48,7 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
         this.setTextColor(ExTextColor.NAMES.value(chatColorName));
     }
 
+    @NotNull
     @Override
     public ExTextColor getTextColor() {
         return super.getFirstWithKey(Column.Game.TEXT_COLOR);
@@ -54,6 +59,7 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
         super.setWithKey(color, Column.Game.TEXT_COLOR);
     }
 
+    @NotNull
     @Override
     public String getItemName() {
         return super.getFirstWithKey(Column.Game.ITEM);
@@ -64,6 +70,7 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
         super.setWithKey(itemName, Column.Game.ITEM);
     }
 
+    @NotNull
     @Override
     public String getHeadLine() {
         return super.getFirstWithKey(Column.Game.HEAD_LINE);
@@ -74,6 +81,7 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
         super.setWithKey(headLine, Column.Game.HEAD_LINE);
     }
 
+    @NotNull
     @Override
     public Integer getSlot() {
         return super.getFirstWithKey(Column.Game.SLOT);
@@ -84,11 +92,13 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
         super.setWithKey(slot, Column.Game.SLOT);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGameInfoBasis toDatabase() {
         return this;
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbGameInfoBasis toLocal() {
         return new DbCachedGameInfoBasis(this);

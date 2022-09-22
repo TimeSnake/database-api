@@ -1,6 +1,7 @@
 package de.timesnake.database.core.story;
 
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ public class DatabaseStory extends DatabaseConnector implements de.timesnake.dat
         this.boughtTable.backup();
     }
 
+    @NotNull
     @Override
     public DbStoryUser getUser(UUID uuid) {
         return new DbStoryUser(uuid, this.boughtTable, this.checkpointsTable);

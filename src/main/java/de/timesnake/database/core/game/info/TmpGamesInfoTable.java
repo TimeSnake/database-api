@@ -2,6 +2,7 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class TmpGamesInfoTable extends GamesInfoTable {
 
@@ -27,6 +28,7 @@ public class TmpGamesInfoTable extends GamesInfoTable {
         super.backup();
     }
 
+    @NotNull
     @Override
     public DbTmpGameInfo getGame(String name) {
         return new DbTmpGameInfo(this.databaseConnector, this.tableName, name);

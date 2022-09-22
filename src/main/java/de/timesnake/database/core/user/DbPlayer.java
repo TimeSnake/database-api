@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -18,11 +19,13 @@ public abstract class DbPlayer extends TableQuery implements de.timesnake.databa
         return super.getFirst(Column.User.UUID) != null;
     }
 
+    @NotNull
     @Override
     public String getName() {
         return super.getFirstWithKey(Column.User.NAME);
     }
 
+    @NotNull
     @Override
     public UUID getUniqueId() {
         return (UUID) super.primaryEntries.get(0).getValue();

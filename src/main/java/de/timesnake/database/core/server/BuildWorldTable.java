@@ -5,6 +5,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class BuildWorldTable extends TableDDL {
         return super.get(Column.Server.BUILD_WORLD, new TableEntry<>(serverName, Column.Server.NAME));
     }
 
+    @Nullable
     public String getBuildServer(String worldName) {
         return super.getFirst(Column.Server.NAME, new TableEntry<>(worldName, Column.Server.BUILD_WORLD));
     }

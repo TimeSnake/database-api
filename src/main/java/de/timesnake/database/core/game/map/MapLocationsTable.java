@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.LocationsTable;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,7 @@ public class MapLocationsTable extends LocationsTable {
         return super.get(Column.Game.MAP_NAME).contains(mapName);
     }
 
+    @NotNull
     public DbMapLocations getMapLocations(String mapName) {
         return new DbMapLocations(this.databaseConnector, this.gameName, mapName);
     }

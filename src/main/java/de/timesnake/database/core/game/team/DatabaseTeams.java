@@ -2,6 +2,7 @@ package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DatabaseTeams extends DatabaseConnector {
 
@@ -13,6 +14,7 @@ public class DatabaseTeams extends DatabaseConnector {
         new TeamsTable(this, game.getInfo().getName()).create();
     }
 
+    @NotNull
     public TeamsTable getGameTeams(String gameName) {
         return new TeamsTable(this, gameName);
     }

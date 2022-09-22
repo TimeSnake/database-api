@@ -4,6 +4,8 @@ import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbTmpGameServer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbLoungeServer extends DbTaskServer implements de.timesnake.database.util.server.DbLoungeServer {
 
@@ -11,6 +13,7 @@ public class DbLoungeServer extends DbTaskServer implements de.timesnake.databas
         super(databaseConnector, port, nameTable);
     }
 
+    @Nullable
     @Override
     public DbTmpGameServer getTwinServer() {
         for (DbTmpGameServer server : Database.getServers().getServers(Type.Server.TEMP_GAME)) {
@@ -21,6 +24,7 @@ public class DbLoungeServer extends DbTaskServer implements de.timesnake.databas
         return null;
     }
 
+    @NotNull
     @Override
     public Type.Server<de.timesnake.database.util.server.DbLoungeServer> getType() {
         return Type.Server.LOUNGE;

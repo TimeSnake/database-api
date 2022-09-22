@@ -6,6 +6,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,12 +47,11 @@ public class DbLoungeMapTable extends TableDDL {
         super.deleteEntry(new TableEntry<>(name, Column.Game.LOUNGE_MAP_NAME));
     }
 
-
     public boolean containsMap(String name, DbLoungeMapDisplayTable displayTable) {
         return this.getMap(name, displayTable).exists();
     }
 
-
+    @NotNull
     public de.timesnake.database.util.game.DbLoungeMap getMap(String name, DbLoungeMapDisplayTable displayTable) {
         return new DbLoungeMap(this.databaseConnector, this.tableName, name, displayTable);
     }

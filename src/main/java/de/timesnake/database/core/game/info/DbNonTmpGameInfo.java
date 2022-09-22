@@ -2,6 +2,7 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DbNonTmpGameInfo extends DbGameInfo implements de.timesnake.database.util.game.DbNonTmpGameInfo {
 
@@ -10,23 +11,13 @@ public class DbNonTmpGameInfo extends DbGameInfo implements de.timesnake.databas
     }
 
     @Override
-    public boolean isGenerateable() {
-        return super.getFirstWithKey(Column.Game.GENERATEABLE);
+    public boolean isCreationRequestable() {
+        return super.getFirstWithKey(Column.Game.CREATION_REQUESTABLE);
     }
 
     @Override
-    public void setGenerateable(Boolean generateable) {
-        super.setWithKey(generateable, Column.Game.GENERATEABLE);
-    }
-
-    @Override
-    public boolean isAutoDeleteAllowed() {
-        return super.getFirstWithKey(Column.Game.ALLOW_AUTO_DELETE);
-    }
-
-    @Override
-    public void allowAutoDelete(Boolean allowAutoDelete) {
-        super.setWithKey(allowAutoDelete, Column.Game.ALLOW_AUTO_DELETE);
+    public void setCreationRequestable(Boolean creationRequestable) {
+        super.setWithKey(creationRequestable, Column.Game.CREATION_REQUESTABLE);
     }
 
     @Override
@@ -40,10 +31,22 @@ public class DbNonTmpGameInfo extends DbGameInfo implements de.timesnake.databas
     }
 
     @Override
+    public boolean isNetherAndEndAllowed() {
+        return super.getFirstWithKey(Column.Game.ALLOW_NETHER_END);
+    }
+
+    @Override
+    public void allowNetherAndEnd(Boolean allow) {
+        super.setWithKey(allow, Column.Game.ALLOW_NETHER_END);
+    }
+
+    @NotNull
+    @Override
     public de.timesnake.database.util.game.DbNonTmpGameInfo toDatabase() {
         return this;
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbNonTmpGameInfo toLocal() {
         return new DbCachedNonTmpGameInfo(this);

@@ -4,6 +4,8 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +29,7 @@ public class HungerGamesItemsTable extends TableDDL {
         super.backup();
     }
 
+    @NotNull
     public de.timesnake.database.util.hungergames.DbHungerGamesItem getItem(int id) {
         return new DbHungerGamesItem(this.databaseConnector, this.tableName, id);
     }
@@ -64,6 +67,7 @@ public class HungerGamesItemsTable extends TableDDL {
         super.deleteEntry(new TableEntry<>(id, Column.HungerGames.ITEM_ID));
     }
 
+    @Nullable
     public Integer getId(String type, Integer amount) {
         return super.getFirst(Column.HungerGames.ITEM_ID, new TableEntry<>(type, Column.HungerGames.ITEM_TYPE),
                 new TableEntry<>(amount, Column.HungerGames.ITEM_AMOUNT));

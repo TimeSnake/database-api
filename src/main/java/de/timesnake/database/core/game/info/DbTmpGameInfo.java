@@ -5,6 +5,7 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbIntegerArrayList;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
         super(databaseConnector, nameTable, gameName);
     }
 
+    @NotNull
     @Override
     public Integer getAutoStartPlayerNumber() {
         return super.getFirstWithKey(Column.Game.AUTO_START_PLAYER_NUMBER);
@@ -24,6 +26,7 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
         super.setWithKey(number, Column.Game.AUTO_START_PLAYER_NUMBER);
     }
 
+    @NotNull
     @Override
     public Integer getMinPlayerNumber() {
         return super.getFirstWithKey(Column.Game.MIN_PLAYER_NUMBER);
@@ -44,9 +47,11 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
         super.setWithKey(new DbIntegerArrayList(sizes), Column.Game.TEAM_SIZES);
     }
 
+    @NotNull
     @Override
     public Type.Availability getTeamMergeAvailability() {
-        return super.getFirstWithKey(Column.Game.TEAM_MERGE);
+        Type.Availability availability = super.getFirstWithKey(Column.Game.TEAM_MERGE);
+        return availability != null ? availability : Type.Availability.FORBIDDEN;
     }
 
     @Override
@@ -74,9 +79,11 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
         super.setWithKey(hide, Column.Game.HIDE_TEAMS);
     }
 
+    @NotNull
     @Override
     public Type.Discord getDiscordType() {
-        return super.getFirstWithKey(Column.Game.DISCORD_TYPE);
+        Type.Discord discord = super.getFirstWithKey(Column.Game.DISCORD_TYPE);
+        return discord != null ? discord : Type.Discord.FORBIDDEN;
     }
 
     @Override
@@ -94,11 +101,13 @@ public class DbTmpGameInfo extends DbGameInfo implements de.timesnake.database.u
         super.setWithKey(new DbStringArrayList(description), Column.Game.DESCRIPTION);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTmpGameInfo toDatabase() {
         return this;
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTmpGameInfo toLocal() {
         return new DbCachedTmpGameInfo(this);

@@ -6,6 +6,7 @@ import de.timesnake.database.util.game.DbLoungeMapDisplay;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Collection;
@@ -41,41 +42,49 @@ public class DbCachedLoungeMap implements DbLoungeMap {
         return this.map.exists();
     }
 
+    @NotNull
     @Override
     public String getName() {
         return this.mapName;
     }
 
+    @NotNull
     @Override
     public String getWorldName() {
         return this.worldName;
     }
 
+    @NotNull
     @Override
     public Double getX() {
         return this.location.getX();
     }
 
+    @NotNull
     @Override
     public Double getY() {
         return this.location.getY();
     }
 
+    @NotNull
     @Override
     public Double getZ() {
         return this.location.getZ();
     }
 
+    @NotNull
     @Override
     public Float getYaw() {
         return this.location.getYaw();
     }
 
+    @NotNull
     @Override
     public Float getPitch() {
         return this.location.getPitch();
     }
 
+    @NotNull
     @Override
     public DbLocation getLocation() {
         return this.location;
@@ -99,26 +108,31 @@ public class DbCachedLoungeMap implements DbLoungeMap {
         return this.map.containsMapDisplay(displayIndex);
     }
 
+    @NotNull
     @Override
     public DbLoungeMapDisplay getMapDisplay(Integer displayIndex) {
         return this.map.getMapDisplay(displayIndex);
     }
 
+    @NotNull
     @Override
     public Collection<DbLoungeMapDisplay> getMapDisplays() {
         return this.map.getMapDisplays();
     }
 
+    @NotNull
     @Override
     public Collection<DbLoungeMapDisplay> getCachedMapDisplays() {
         return this.map.getCachedMapDisplays();
     }
 
+    @NotNull
     @Override
     public DbLoungeMap toLocal() {
         return new DbCachedLoungeMap(this.map);
     }
 
+    @NotNull
     @Override
     public DbLoungeMap toDatabase() {
         return this.map;

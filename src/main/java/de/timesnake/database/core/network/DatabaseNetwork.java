@@ -1,6 +1,7 @@
 package de.timesnake.database.core.network;
 
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.List;
@@ -32,11 +33,13 @@ public class DatabaseNetwork extends DatabaseConnector implements de.timesnake.d
         this.networkFilesTable.addNetworkFile(name, filePath);
     }
 
+    @NotNull
     @Override
     public DbNetworkFile getNetworkFile(String name) {
         return this.networkFilesTable.getNetworkFile(name);
     }
 
+    @NotNull
     @Override
     public List<DbNetworkFile> getNetworkFiles() {
         return this.networkFilesTable.getNetworkFiles();

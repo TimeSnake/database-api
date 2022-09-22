@@ -9,6 +9,8 @@ import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 
@@ -18,6 +20,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
         super(databaseConnector, nameTable, new TableEntry<>(port, Column.Server.PORT));
     }
 
+    @NotNull
     @Override
     public String getName() {
         return super.getFirstWithKey(Column.Server.NAME);
@@ -33,14 +36,17 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
         return super.getFirstWithKey(Column.Server.PORT) != null;
     }
 
+    @NotNull
     @Override
     public Integer getPort() {
         return (Integer) super.primaryEntries.get(0).getValue();
     }
 
+    @NotNull
     @Override
     public Status.Server getStatus() {
-        return super.getFirstWithKey(Column.Server.STATUS);
+        Status.Server status = super.getFirstWithKey(Column.Server.STATUS);
+        return status != null ? status : Status.Server.OFFLINE;
     }
 
     @Override
@@ -50,6 +56,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
                         MessageType.Server.STATUS, status)));
     }
 
+    @NotNull
     @Override
     public Integer getOnlinePlayers() {
         return super.getFirstWithKey(Column.Server.ONLINE_PLAYERS);
@@ -62,6 +69,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
                         MessageType.Server.ONLINE_PLAYERS, playersOnline)));
     }
 
+    @Nullable
     @Override
     public Integer getMaxPlayers() {
         return super.getFirstWithKey(Column.Server.MAX_PLAYERS);
@@ -88,6 +96,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
                 MessageType.Server.ONLINE_PLAYERS, playersOnline));
     }
 
+    @Nullable
     @Override
     public String getPassword() {
         return super.getFirstWithKey(Column.Server.PASSWORD);
@@ -108,6 +117,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
         return this.getPassword() != null;
     }
 
+    @NotNull
     @Override
     public Path getFolderPath() {
         return super.getFirstWithKey(Column.Server.FOLDER_PATH);

@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -18,6 +19,7 @@ public class DbNetworkFile extends TableQuery implements de.timesnake.database.u
         return this.getFile() != null;
     }
 
+    @NotNull
     @Override
     public File getFile() {
         return super.getFirstWithKey(Column.Network.FILE_PATH);

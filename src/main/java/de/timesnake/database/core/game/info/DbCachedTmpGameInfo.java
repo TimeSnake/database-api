@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.info;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -56,6 +57,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         return (DbTmpGameInfo) super.getDatabase();
     }
 
+    @NotNull
     @Override
     public Integer getAutoStartPlayerNumber() {
         return this.autoStartPlayerNumber;
@@ -67,6 +69,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.getDatabase().setAutoStartPlayerNumber(number);
     }
 
+    @NotNull
     @Override
     public Integer getMinPlayerNumber() {
         return this.minPlayerNumber;
@@ -89,9 +92,10 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.getDatabase().setTeamSizes(sizes);
     }
 
+    @NotNull
     @Override
     public Type.Availability getTeamMergeAvailability() {
-        return this.teamMerge;
+        return this.teamMerge != null ? this.teamMerge : Type.Availability.FORBIDDEN;
     }
 
     @Override
@@ -122,9 +126,10 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.getDatabase().setHideTeams(hideTeams);
     }
 
+    @NotNull
     @Override
     public Type.Discord getDiscordType() {
-        return this.discordType;
+        return this.discordType != null ? this.discordType : Type.Discord.FORBIDDEN;
     }
 
     @Override
@@ -144,11 +149,13 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.getDatabase().setDescription(description);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTmpGameInfo toDatabase() {
         return this.getDatabase();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTmpGameInfo toLocal() {
         return this.getDatabase().toLocal();

@@ -8,6 +8,8 @@ import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbLoungeServer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbTmpGameServer extends DbPvPServer implements de.timesnake.database.util.server.DbTmpGameServer {
 
@@ -25,6 +27,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
         super.setWithKey(areKitsEnabled, Column.Server.KITS);
     }
 
+    @Nullable
     @Override
     public String getMapName() {
         return super.getFirstWithKey(Column.Server.MAP_NAME);
@@ -37,6 +40,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
                         MessageType.Server.MAP, mapName)));
     }
 
+    @Nullable
     @Override
     public Integer getTwinServerPort() {
         return super.getFirstWithKey(Column.Server.TWIN_SERVER);
@@ -47,12 +51,14 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
         super.setWithKeySynchronized(port, Column.Server.TWIN_SERVER);
     }
 
+    @Nullable
     @Override
     public DbLoungeServer getTwinServer() {
         Integer port = this.getTwinServerPort();
         return port == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, port);
     }
 
+    @NotNull
     @Override
     public Type.Server<de.timesnake.database.util.server.DbTmpGameServer> getType() {
         return Type.Server.TEMP_GAME;
@@ -68,6 +74,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
         super.setWithKey(mapsEnabled, Column.Server.MAPS);
     }
 
+    @Nullable
     @Override
     public Integer getTeamAmount() {
         return super.getFirstWithKey(Column.Server.TEAM_AMOUNT);
@@ -78,6 +85,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
         super.setWithKey(amount, Column.Server.TEAM_AMOUNT);
     }
 
+    @Nullable
     @Override
     public Integer getMaxPlayersPerTeam() {
         return super.getFirstWithKey(Column.Server.TEAM_MAX_PLAYERS);

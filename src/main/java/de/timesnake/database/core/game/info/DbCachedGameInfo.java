@@ -2,6 +2,8 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.util.game.DbGameInfo;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInfo {
 
@@ -23,6 +25,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         return (de.timesnake.database.core.game.info.DbGameInfo) super.getDatabase();
     }
 
+    @Nullable
     @Override
     public Integer getMaxPlayers() {
         return this.maxPlayers;
@@ -34,6 +37,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         this.getDatabase().setMaxPlayers(maxPlayers);
     }
 
+    @NotNull
     @Override
     public Type.Availability getMapAvailability() {
         return this.mapAvailability;
@@ -45,6 +49,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         this.getDatabase().setMapsAvailability(maps);
     }
 
+    @NotNull
     @Override
     public Type.Availability getKitAvailability() {
         return this.kitAvailability;
@@ -67,6 +72,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         this.getDatabase().setStatistics(statistics);
     }
 
+    @Nullable
     @Override
     public String getTexturePackLink() {
         return this.texturePackLink;
@@ -83,6 +89,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         return this.texturePackLink != null;
     }
 
+    @Nullable
     @Override
     public Integer getPlayerTrackingRange() {
         return this.playerTrackingRange;
@@ -94,6 +101,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         this.getDatabase().setPlayerTrackingRange(playerTrackingRange);
     }
 
+    @Nullable
     @Override
     public Integer getMaxHealth() {
         return maxHealth;
@@ -105,11 +113,13 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
         this.getDatabase().setMaxHealth(maxHealth);
     }
 
+    @NotNull
     @Override
     public DbGameInfo toDatabase() {
         return this.getDatabase();
     }
 
+    @NotNull
     @Override
     public DbGameInfo toLocal() {
         return this.getDatabase().toLocal();

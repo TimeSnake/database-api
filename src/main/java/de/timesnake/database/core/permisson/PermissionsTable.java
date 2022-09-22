@@ -10,6 +10,7 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -80,6 +81,7 @@ public class PermissionsTable extends TableDDL {
                 new TableEntry<>(permission, Column.Permission.PERMISSION));
     }
 
+    @Nullable
     public Collection<Integer> getIdsFromName(String name) {
         return super.get(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME));
     }

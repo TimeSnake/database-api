@@ -5,6 +5,8 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.group.GroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +46,7 @@ public class TeamsTable extends GroupsTable {
         super.removeGroup(name);
     }
 
+    @Nullable
     public Integer getHighestRank() {
         return super.getHighestInteger(Column.Group.PRIORITY);
     }
@@ -52,6 +55,7 @@ public class TeamsTable extends GroupsTable {
         return super.containsGroup(name);
     }
 
+    @NotNull
     public DbTeam getTeam(String name) {
         return new DbTeam(this.databaseConnector, name, this.tableName);
     }

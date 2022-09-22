@@ -3,6 +3,7 @@ package de.timesnake.database.core.game.team;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.DbCachedGroup;
 import de.timesnake.database.util.object.ColumnMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -31,6 +32,7 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
         return (DbTeam) super.getDatabase();
     }
 
+    @NotNull
     @Override
     public Float getRatio() {
         return this.ratio;
@@ -48,6 +50,7 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
         this.getDatabase().setColor(colorName);
     }
 
+    @NotNull
     @Override
     public String getColorName() {
         return this.colorName;
@@ -64,11 +67,13 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
         this.getDatabase().setPrivateChat(privateChat);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTeam toLocal() {
         return this.getDatabase().toLocal();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbTeam toDatabase() {
         return this.getDatabase();

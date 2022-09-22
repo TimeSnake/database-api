@@ -3,6 +3,7 @@ package de.timesnake.database.core.group.perm;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.GroupBasisTable;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +26,7 @@ public class PermGroupsTable extends GroupBasisTable {
         super.backup();
     }
 
+    @NotNull
     public DbPermGroup getGroup(String name) {
         return new DbPermGroup(this.databaseConnector, name, this.tableName);
     }

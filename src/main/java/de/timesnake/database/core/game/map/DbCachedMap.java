@@ -3,6 +3,8 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,41 +25,49 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
         this.map.delete();
     }
 
+    @NotNull
     @Override
     public String getWorldName() {
         return this.map.getWorldName();
     }
 
+    @NotNull
     @Override
     public DbGame getGame() {
         return this.map.getGame();
     }
 
+    @Nullable
     @Override
     public DbLocation getLocation(Integer number) {
         return this.map.getLocation(number);
     }
 
+    @Nullable
     @Override
     public DbLocation getFirstLocation() {
         return this.map.getFirstLocation();
     }
 
+    @Nullable
     @Override
     public Integer getFirstLocationNumber() {
         return this.map.getFirstLocationNumber();
     }
 
+    @Nullable
     @Override
     public DbLocation getLastLocation() {
         return this.map.getLastLocation();
     }
 
+    @Nullable
     @Override
     public Integer getLastLocationNumber() {
         return this.map.getLastLocationNumber();
     }
 
+    @NotNull
     @Override
     public HashMap<Integer, DbLocation> getMapLocations() {
         return this.map.getMapLocations();
@@ -78,6 +88,7 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
         return this.map.containsLocation(number);
     }
 
+    @NotNull
     @Override
     public List<UUID> getAuthors() {
         return this.map.getAuthors();
@@ -93,6 +104,7 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
         this.map.addAuthor(author);
     }
 
+    @NotNull
     @Override
     public List<String> getAuthorNames() {
         return this.map.getAuthorNames();
@@ -108,14 +120,13 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
         this.map.removeAuthor(author);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @NotNull
     @Override
     public DbMap toLocal() {
         return new DbCachedMap(this.map);
     }
 
+    @NotNull
     @Override
     public DbMap toDatabase() {
         return this.map;

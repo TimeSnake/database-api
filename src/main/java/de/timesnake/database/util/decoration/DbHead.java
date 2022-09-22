@@ -1,18 +1,23 @@
 package de.timesnake.database.util.decoration;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface DbHead {
 
     boolean exists();
 
     void delete();
 
+    @NotNull
     String getTag();
 
+    @NotNull
     String getName();
 
-    String getSection();
-
     void setName(String name);
+
+    @NotNull
+    String getSection();
 
     void setSection(String section);
 }

@@ -6,6 +6,8 @@ import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.server.DbTaskServer;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         this.buildWorldTable.backup();
     }
 
+    @Nullable
     @Override
     public <S extends DbServer> Type.Server<S> getServerType(int port) {
         for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
@@ -60,6 +63,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return null;
     }
 
+    @Nullable
     @Override
     public <S extends DbServer> Type.Server<S> getServerType(String name) {
         for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
@@ -71,16 +75,19 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return null;
     }
 
+    @Nullable
     @Override
     public <Server extends DbServer> Server getServer(int port) {
         return this.getServer(this.getServerType(port), port);
     }
 
+    @Nullable
     @Override
     public <Server extends DbServer> Server getServer(String name) {
         return this.getServer(this.getServerType(name), name);
     }
 
+    @NotNull
     @Override
     public Collection<Integer> getPorts() {
         ArrayList<Integer> ports = new ArrayList<>();
@@ -90,6 +97,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return ports;
     }
 
+    @Nullable
     @Override
     public <Server extends DbServer> Server getServer(Type.Server<Server> type, int port) {
         ServerTable<Server> table = this.serverTables.get(type);
@@ -99,6 +107,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return null;
     }
 
+    @Nullable
     @Override
     public <Server extends DbServer> Server getServer(Type.Server<Server> type, String name) {
         ServerTable<Server> table = this.serverTables.get(type);
@@ -134,6 +143,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return false;
     }
 
+    @NotNull
     @Override
     public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type, Status.Server status) {
         ServerTable<Server> table = this.serverTables.get(type);
@@ -143,6 +153,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return new ArrayList<>();
     }
 
+    @NotNull
     @Override
     public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type) {
         ServerTable<Server> table = this.serverTables.get(type);
@@ -152,6 +163,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return new ArrayList<>();
     }
 
+    @NotNull
     @Override
     public <Server extends DbTaskServer> Collection<Server> getServers(Type.Server<Server> type, String task) {
         ServerTable<Server> table = this.serverTables.get(type);
@@ -161,6 +173,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return new ArrayList<>();
     }
 
+    @NotNull
     @Override
     public Collection<String> getServerNames(Type.Server<?> type) {
         ServerTable<? extends DbServer> table = this.serverTables.get(type);
@@ -170,6 +183,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return new ArrayList<>();
     }
 
+    @NotNull
     @Override
     public Collection<Integer> getServerPorts(Type.Server<?> type) {
         ServerTable<? extends DbServer> table = this.serverTables.get(type);
@@ -220,11 +234,13 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         }
     }
 
+    @NotNull
     @Override
     public Set<String> getBuildWorlds() {
         return this.buildWorldTable.getWorldNames();
     }
 
+    @Nullable
     @Override
     public String getBuildServerByWorld(String worldName) {
         return this.buildWorldTable.getBuildServer(worldName);

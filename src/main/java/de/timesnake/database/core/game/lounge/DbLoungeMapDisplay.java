@@ -5,6 +5,7 @@ import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -21,16 +22,19 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         return this.getX() != null;
     }
 
+    @NotNull
     @Override
     public String getMapName() {
         return (String) super.primaryEntries.getPrimaryEntries().get(0).getValue();
     }
 
+    @NotNull
     @Override
     public Integer getIndex() {
         return (Integer) super.primaryEntries.getPrimaryEntries().get(1).getValue();
     }
 
+    @NotNull
     @Override
     public Integer getX() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_X);
@@ -41,6 +45,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(x, Column.Game.LOUNGE_MAP_DISPLAY_X);
     }
 
+    @NotNull
     @Override
     public Integer getY() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_Y);
@@ -51,6 +56,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(y, Column.Game.LOUNGE_MAP_DISPLAY_Y);
     }
 
+    @NotNull
     @Override
     public Integer getZ() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_Z);
@@ -61,6 +67,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(z, Column.Game.LOUNGE_MAP_DISPLAY_Z);
     }
 
+    @NotNull
     @Override
     public BlockSide getFacing() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_FACING);
@@ -71,6 +78,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(facing, Column.Game.LOUNGE_MAP_DISPLAY_FACING);
     }
 
+    @NotNull
     @Override
     public BlockSide getOrientation() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_ORIENTATION);
@@ -81,6 +89,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(orientation, Column.Game.LOUNGE_MAP_DISPLAY_ORIENTATION);
     }
 
+    @NotNull
     @Override
     public Color getTitleColor() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_TITLE_COLOR);
@@ -91,6 +100,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(color, Column.Game.LOUNGE_MAP_DISPLAY_TITLE_COLOR);
     }
 
+    @NotNull
     @Override
     public Color getStatNameColor() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_STAT_NAME_COLOR);
@@ -101,6 +111,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(color, Column.Game.LOUNGE_MAP_DISPLAY_STAT_NAME_COLOR);
     }
 
+    @NotNull
     @Override
     public Color getStatFirstColor() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_STAT_FIRST_COLOR);
@@ -111,6 +122,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(color, Column.Game.LOUNGE_MAP_DISPLAY_STAT_FIRST_COLOR);
     }
 
+    @NotNull
     @Override
     public Color getStatSecondColor() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_STAT_SECOND_COLOR);
@@ -121,6 +133,7 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(color, Column.Game.LOUNGE_MAP_DISPLAY_STAT_SECOND_COLOR);
     }
 
+    @NotNull
     @Override
     public Color getStatThirdColor() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_DISPLAY_STAT_THIRD_COLOR);
@@ -131,11 +144,13 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
         super.setWithKey(color, Column.Game.LOUNGE_MAP_DISPLAY_STAT_THIRD_COLOR);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbLoungeMapDisplay toLocal() {
         return this;
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbLoungeMapDisplay toDatabase() {
         return new DbCachedLoungeMapDisplay(this);

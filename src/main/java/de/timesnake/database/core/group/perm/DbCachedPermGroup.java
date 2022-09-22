@@ -7,8 +7,9 @@ import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
-import de.timesnake.library.basic.util.Nullable;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Set;
@@ -64,16 +65,19 @@ public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup
         this.getDatabase().setInheritance(inheritGroup);
     }
 
+    @NotNull
     @Override
     public Collection<DbPermGroup> getGroupsInherit() {
         return this.getDatabase().getGroupsInherit();
     }
 
+    @NotNull
     @Override
     public Collection<DbPermission> getPermissions() {
         return this.getDatabase().getPermissions();
     }
 
+    @Nullable
     @Override
     public DbPermission getPermission(String permission) {
         return this.getDatabase().getPermission(permission);
@@ -105,11 +109,13 @@ public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup
         this.getDatabase().removePermission(permission, syncExecute);
     }
 
+    @NotNull
     @Override
     public DbPermGroup toLocal() {
         return this.getDatabase().toLocal();
     }
 
+    @NotNull
     @Override
     public DbPermGroup toDatabase() {
         return this.getDatabase();

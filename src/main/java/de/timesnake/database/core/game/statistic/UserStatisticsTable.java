@@ -7,6 +7,7 @@ import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ public class UserStatisticsTable extends TableDDL {
         super.delete();
     }
 
+    @NotNull
     public GameUserStatistic getStatistic(UUID uuid) {
         return new GameUserStatistic(this.databaseConnector, this.tableName, uuid);
     }

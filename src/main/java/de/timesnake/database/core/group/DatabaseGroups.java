@@ -5,8 +5,9 @@ import de.timesnake.database.core.group.display.DisplayGroupsTable;
 import de.timesnake.database.core.group.perm.DbPermGroup;
 import de.timesnake.database.core.group.perm.PermGroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.library.basic.util.Nullable;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -49,6 +50,7 @@ public class DatabaseGroups extends DatabaseConnector implements de.timesnake.da
         return this.permGroupsTable.containsGroup(name);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbPermGroup getPermGroup(String name) {
         return this.permGroupsTable.getGroup(name);
@@ -85,6 +87,7 @@ public class DatabaseGroups extends DatabaseConnector implements de.timesnake.da
     }
 
     @Nullable
+    @NotNull
     @Override
     public DbDisplayGroup getDisplayGroup(String name) {
         return this.displayGroupsTable.getGroup(name);

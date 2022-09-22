@@ -5,6 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +40,7 @@ public class MapsAuthorTable extends TableDDL {
                 Column.Game.MAP_AUTHOR_UUID));
     }
 
+    @NotNull
     public DbMapAuthor getMapAuthor(String mapName, UUID authorUuid) {
         return new DbMapAuthor(this.databaseConnector, this.tableName, mapName, authorUuid);
     }

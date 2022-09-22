@@ -1,6 +1,7 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.main.DatabaseManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,7 @@ public class MapsTable {
         this.spawnsTable.deleteMap(name);
     }
 
+    @NotNull
     public de.timesnake.database.util.game.DbMap getMap(String mapName) {
         return new DbMap(gameName, mapName);
     }

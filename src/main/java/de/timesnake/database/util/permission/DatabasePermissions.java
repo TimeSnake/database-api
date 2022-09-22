@@ -2,6 +2,8 @@ package de.timesnake.database.util.permission;
 
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -18,7 +20,9 @@ public interface DatabasePermissions {
 
     boolean containsPermission(String name, String permission);
 
+    @Nullable
     DbPermission getPermission(String name, String permission);
 
+    @NotNull
     Collection<DbPermission> getPermissions(String name);
 }

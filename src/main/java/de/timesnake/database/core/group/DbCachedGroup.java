@@ -1,6 +1,8 @@
 package de.timesnake.database.core.group;
 
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.database.util.group.DbGroup {
 
@@ -16,6 +18,7 @@ public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.da
         return (DbGroup) super.getDatabase();
     }
 
+    @Nullable
     @Override
     public String getPrefix() {
         return this.prefix;
@@ -27,6 +30,7 @@ public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.da
         this.getDatabase().setPrefix(prefix);
     }
 
+    @Nullable
     @Override
     public String getChatColorName() {
         return this.color.toString();
@@ -39,6 +43,7 @@ public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.da
         this.getDatabase().setChatColor(color);
     }
 
+    @Nullable
     @Override
     public ExTextColor getChatColor() {
         return this.color;
@@ -50,11 +55,13 @@ public class DbCachedGroup extends DbCachedGroupBasis implements de.timesnake.da
         this.getDatabase().setChatColor(color);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbGroup toLocal() {
         return this.getDatabase().toLocal();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbGroup toDatabase() {
         return this.getDatabase();

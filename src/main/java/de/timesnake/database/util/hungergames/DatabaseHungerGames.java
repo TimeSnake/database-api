@@ -1,5 +1,8 @@
 package de.timesnake.database.util.hungergames;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 
 public interface DatabaseHungerGames {
@@ -7,6 +10,7 @@ public interface DatabaseHungerGames {
 
     Collection<de.timesnake.database.util.hungergames.DbHungerGamesItem> getItems(Integer level);
 
+    @NotNull
     DbHungerGamesItem getItem(int id);
 
     void addItem(String type, Integer amount, Float chance, Integer level);
@@ -15,5 +19,6 @@ public interface DatabaseHungerGames {
 
     void removeItem(int id);
 
+    @Nullable
     Integer getId(String type, Integer amount);
 }

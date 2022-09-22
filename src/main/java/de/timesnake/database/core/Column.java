@@ -213,9 +213,9 @@ public class Column<Value> {
         public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", Integer.class,
                 ColumnType.integer(10));
 
-        public static final Game<Boolean> GENERATEABLE = new Game<>("generateable", Boolean.class, ColumnType.tinyint(1));
-        public static final Game<Boolean> ALLOW_AUTO_DELETE = new Game<>("allow_auto_delete", Boolean.class, ColumnType.tinyint(1));
+        public static final Game<Boolean> CREATION_REQUESTABLE = new Game<>("creation_requestable", Boolean.class, ColumnType.tinyint(1));
         public static final Game<Boolean> OWNABLE = new Game<>("ownable", Boolean.class, ColumnType.tinyint(1));
+        public static final Game<Boolean> ALLOW_NETHER_END = new Game<>("allow_nether_end", Boolean.class, ColumnType.tinyint(1));
 
         public static final Game<Integer> AUTO_START_PLAYER_NUMBER = new Game<>("auto_start_player_number", Server.MAX_PLAYERS.getValueClass(),
                 Server.MAX_PLAYERS.getType());

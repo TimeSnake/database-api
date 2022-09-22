@@ -5,6 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +33,7 @@ public class HeadsTable extends TableDDL {
         return super.getFirst(Column.Decoration.HEAD_TAG, new TableEntry<>(tag, Column.Decoration.HEAD_TAG)) != null;
     }
 
+    @Nullable
     public de.timesnake.database.util.decoration.DbHead getHead(String tag) {
         return this.containsHead(tag) ? new DbHead(this.databaseConnector, this.tableName, tag) : null;
     }

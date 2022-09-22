@@ -1,5 +1,8 @@
 package de.timesnake.database.util.user;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +16,7 @@ public interface DataProtectionAgreement {
      * @param string The string to convert from
      * @return the {@link DataProtectionAgreement}
      */
+    @Nullable
     static DataProtectionAgreement fromString(String string) {
         if (string != null) {
             String[] args = string.split(";");
@@ -36,6 +40,7 @@ public interface DataProtectionAgreement {
      * @param version The accepted version
      * @return the {@link DataProtectionAgreement}
      */
+    @NotNull
     static DataProtectionAgreement create(Date date, String version) {
         return new de.timesnake.database.core.user.DataProtectionAgreement(date, version);
     }
@@ -45,6 +50,7 @@ public interface DataProtectionAgreement {
      *
      * @return the {@link Date}
      */
+    @NotNull
     Date getDate();
 
     /**
@@ -52,6 +58,7 @@ public interface DataProtectionAgreement {
      *
      * @return the version
      */
+    @NotNull
     String getVersion();
 
     /**
@@ -59,5 +66,6 @@ public interface DataProtectionAgreement {
      *
      * @return the string
      */
+    @NotNull
     String toString();
 }

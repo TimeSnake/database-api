@@ -7,6 +7,7 @@ import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class DbLoungeMapDisplayTable extends TableDDL {
         return this.getDisplay(mapName, displayIndex).exists();
     }
 
+    @NotNull
     public DbLoungeMapDisplay getDisplay(String mapName, Integer displayIndex) {
         return new DbLoungeMapDisplay(this.databaseConnector, this.tableName, mapName, displayIndex);
     }

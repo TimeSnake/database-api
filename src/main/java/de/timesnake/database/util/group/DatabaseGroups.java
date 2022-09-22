@@ -1,6 +1,7 @@
 package de.timesnake.database.util.group;
 
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -10,6 +11,7 @@ public interface DatabaseGroups {
 
     boolean containsPermGroup(String name);
 
+    @NotNull
     DbPermGroup getPermGroup(String name);
 
     void removePermGroup(String name);
@@ -24,6 +26,7 @@ public interface DatabaseGroups {
 
     boolean containsDisplayGroup(String name);
 
+    @NotNull
     DbDisplayGroup getDisplayGroup(String name);
 
     void removeDisplayGroup(String name);

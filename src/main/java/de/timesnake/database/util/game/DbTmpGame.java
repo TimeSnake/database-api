@@ -3,11 +3,14 @@ package de.timesnake.database.util.game;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
 public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
 
+    @NotNull
     @Override
     DbTmpGameInfo getInfo();
 
@@ -17,6 +20,7 @@ public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
     @NotCached
     void removeTeam(String name);
 
+    @Nullable
     @NotCached
     Integer getHighestRank();
 
@@ -24,15 +28,19 @@ public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
     boolean containsTeam(String name);
 
     @NotCached
+    @NotNull
     de.timesnake.database.core.game.team.DbTeam getTeam(String name);
 
     @NotCached
+    @NotNull
     Collection<String> getTeamNames();
 
     @NotCached
+    @NotNull
     Collection<Integer> getTeamRanks();
 
     @NotCached
+    @NotNull
     Collection<de.timesnake.database.util.game.DbTeam> getTeams();
 
 }

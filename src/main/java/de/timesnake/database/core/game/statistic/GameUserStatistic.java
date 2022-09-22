@@ -10,6 +10,8 @@ import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,12 +44,14 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
         return true;
     }
 
+    @NotNull
     @Override
     public Map<StatType<?>, Object> get(StatPeriod period, StatType<?>... stats) {
         return this.get(List.of(period), stats).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
                 entry -> entry.getValue().get(period), (a, b) -> b));
     }
 
+    @NotNull
     @Override
     public Map<StatType<?>, Map<StatPeriod, Object>> get(Collection<StatPeriod> periods, StatType<?>... stats) {
         Map<StatType<?>, Map<StatPeriod, Object>> valuesByType = new HashMap<>();
@@ -94,11 +98,13 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
         return valuesByType;
     }
 
+    @Nullable
     @Override
     public <Value> Value getValue(StatPeriod period, StatType<Value> stat) {
         return this.getValues(List.of(period), stat).get(period);
     }
 
+    @NotNull
     @Override
     public <Value> Map<StatPeriod, Value> getValues(Collection<StatPeriod> periods, StatType<Value> stat) {
         ColumnMap map = super.getFirstWithKey(getPeriodColumns(periods),

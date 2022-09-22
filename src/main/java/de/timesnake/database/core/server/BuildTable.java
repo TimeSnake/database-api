@@ -1,6 +1,7 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 public class BuildTable extends TaskTable<DbBuildServer> {
 
@@ -11,6 +12,7 @@ public class BuildTable extends TaskTable<DbBuildServer> {
         this.buildWorldTable = buildWorldTable;
     }
 
+    @Nullable
     @Override
     public DbBuildServer getServer(int port) {
         DbBuildServer server = new DbBuildServer(this.databaseConnector, port, this.tableName, this.buildWorldTable);

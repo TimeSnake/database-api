@@ -5,6 +5,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,6 +48,7 @@ public abstract class PlayersTable extends TableDDL {
         return super.getFirst(Column.User.UUID, new TableEntry<>(name, Column.User.NAME)) != null;
     }
 
+    @Nullable
     public UUID getUniqueIdFromName(String name) {
         return super.getFirst(Column.User.UUID, new TableEntry<>(name, Column.User.NAME));
     }

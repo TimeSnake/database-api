@@ -3,6 +3,8 @@ package de.timesnake.database.core.server;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -12,6 +14,7 @@ public class DbNonTmpGameServer extends DbPvPServer implements de.timesnake.data
         super(databaseConnector, port, nameTable);
     }
 
+    @Nullable
     @Override
     public String getGameInfo() {
         return super.getFirstWithKey(Column.Server.GAME_INFO);
@@ -22,6 +25,7 @@ public class DbNonTmpGameServer extends DbPvPServer implements de.timesnake.data
         super.setWithKey(info, Column.Server.GAME_INFO);
     }
 
+    @Nullable
     @Override
     public UUID getOwnerUuid() {
         return super.getFirstWithKey(Column.Server.OWNER);
@@ -37,6 +41,7 @@ public class DbNonTmpGameServer extends DbPvPServer implements de.timesnake.data
         return this.getOwnerUuid() != null;
     }
 
+    @NotNull
     @Override
     public Type.Server<de.timesnake.database.util.server.DbNonTmpGameServer> getType() {
         return Type.Server.GAME;

@@ -2,6 +2,8 @@ package de.timesnake.database.core.hungergames;
 
 import de.timesnake.database.util.hungergames.DbHungerGamesItem;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -35,6 +37,7 @@ public class DatabaseHungerGames extends DatabaseConnector implements de.timesna
         return this.itemsTable.getItems(level);
     }
 
+    @NotNull
     @Override
     public DbHungerGamesItem getItem(int id) {
         return this.itemsTable.getItem(id);
@@ -55,6 +58,7 @@ public class DatabaseHungerGames extends DatabaseConnector implements de.timesna
         this.itemsTable.removeItem(id);
     }
 
+    @Nullable
     @Override
     public Integer getId(String type, Integer amount) {
         return this.itemsTable.getId(type, amount);

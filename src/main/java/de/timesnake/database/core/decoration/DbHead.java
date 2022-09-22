@@ -4,6 +4,7 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
 
 public class DbHead extends TableQuery implements de.timesnake.database.util.decoration.DbHead {
 
@@ -21,24 +22,27 @@ public class DbHead extends TableQuery implements de.timesnake.database.util.dec
         super.deleteWithKey();
     }
 
+    @NotNull
     @Override
     public String getTag() {
         return (String) super.primaryEntries.get(0).getValue();
     }
 
+    @NotNull
     @Override
     public String getName() {
         return super.getFirstWithKey(Column.Decoration.HEAD_NAME);
     }
 
     @Override
-    public String getSection() {
-        return super.getFirstWithKey(Column.Decoration.HEAD_SECTION);
-    }
-
-    @Override
     public void setName(String name) {
         super.setWithKey(name, Column.Decoration.HEAD_NAME);
+    }
+
+    @NotNull
+    @Override
+    public String getSection() {
+        return super.getFirstWithKey(Column.Decoration.HEAD_SECTION);
     }
 
     @Override

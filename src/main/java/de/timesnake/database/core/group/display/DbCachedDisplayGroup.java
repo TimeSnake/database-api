@@ -3,6 +3,7 @@ package de.timesnake.database.core.group.display;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.group.DbCachedGroup;
 import de.timesnake.database.util.object.ColumnMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -38,11 +39,13 @@ public class DbCachedDisplayGroup extends DbCachedGroup implements de.timesnake.
         this.getDatabase().setShowAlways(showAlways);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbDisplayGroup toLocal() {
         return this.getDatabase().toLocal();
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.group.DbDisplayGroup toDatabase() {
         return this.getDatabase();

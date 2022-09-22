@@ -4,6 +4,8 @@ import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,11 +47,13 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         return this.info;
     }
 
+    @NotNull
     @Override
     public String getName() {
         return name;
     }
 
+    @NotNull
     @Override
     public String getDisplayName() {
         return this.info.getDisplayName();
@@ -60,11 +64,13 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         this.info.setDisplayName(displayName);
     }
 
+    @Nullable
     @Override
     public Integer getMinPlayers() {
         return this.info.getMinPlayers();
     }
 
+    @Nullable
     @Override
     public Integer getMaxPlayers() {
         return this.info.getMaxPlayers();
@@ -80,41 +86,49 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         this.info.setEnabled(enable);
     }
 
+    @NotNull
     @Override
     public String getWorldName() {
         return this.mapLocations.getWorldName();
     }
 
+    @NotNull
     @Override
     public DbGame getGame() {
         return DatabaseManager.getInstance().getGames().getGame(this.gameName);
     }
 
+    @Nullable
     @Override
     public DbLocation getLocation(Integer number) {
         return this.mapLocations.getLocation(number);
     }
 
+    @Nullable
     @Override
     public DbLocation getFirstLocation() {
         return this.mapLocations.getFirstLocation();
     }
 
+    @Nullable
     @Override
     public Integer getFirstLocationNumber() {
         return this.mapLocations.getFirstLocationNumber();
     }
 
+    @Nullable
     @Override
     public DbLocation getLastLocation() {
         return this.mapLocations.getLastLocation();
     }
 
+    @Nullable
     @Override
     public Integer getLastLocationNumber() {
         return this.mapLocations.getLastLocationNumber();
     }
 
+    @NotNull
     @Override
     public HashMap<Integer, DbLocation> getMapLocations() {
         return this.mapLocations.getLocations();
@@ -135,16 +149,19 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         return this.getLocation(number) != null;
     }
 
+    @Nullable
     @Override
     public String getItemName() {
         return this.info.getItemName();
     }
 
+    @NotNull
     @Override
     public ArrayList<String> getDescription() {
         return this.info.getDescription();
     }
 
+    @NotNull
     @Override
     public ArrayList<String> getInfo() {
         return this.info.getInfo();
@@ -155,6 +172,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         this.info.setInfo(info);
     }
 
+    @NotNull
     @Override
     public List<UUID> getAuthors() {
         return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorUuid)).collect(Collectors.toList());
@@ -175,6 +193,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         this.authorTable.removeMapAuthor(this.name, author);
     }
 
+    @NotNull
     @Override
     public List<String> getAuthorNames() {
         return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorName)).collect(Collectors.toList());
@@ -191,14 +210,13 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbMap toLocal() {
         return new DbCachedMap(this);
     }
 
+    @NotNull
     @Override
     public de.timesnake.database.util.game.DbMap toDatabase() {
         return this;
