@@ -10,6 +10,7 @@ public class NonTmpGamesInfoTable extends GamesInfoTable {
         super(databaseConnector, nameTable);
         super.addColumn(Column.Game.CREATION_REQUESTABLE);
         super.addColumn(Column.Game.OWNABLE);
+        super.addColumn(Column.Game.ALLOW_NETHER_END);
     }
 
     @Override
