@@ -32,7 +32,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
     protected String texturePackLink;
     protected Integer playerTrackingRange;
     protected Integer maxHealth;
-
+    protected Integer viewDistance;
 
     public DbCachedGameInfo(de.timesnake.database.core.game.info.DbGameInfo database) {
         super(database);
@@ -129,6 +129,18 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
     public void setMaxHealth(Integer maxHealth) {
         this.maxHealth = maxHealth;
         this.getDatabase().setMaxHealth(maxHealth);
+    }
+
+    @Nullable
+    @Override
+    public Integer getViewDistance() {
+        return this.viewDistance;
+    }
+
+    @Override
+    public void setViewDistance(Integer viewDistance) {
+        this.viewDistance = viewDistance;
+        this.getDatabase().setViewDistance(viewDistance);
     }
 
     @NotNull

@@ -211,6 +211,13 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     public void setMaxHealth(Integer maxHealth) {getInfo().setMaxHealth(maxHealth);}
 
     @Override
+    @Nullable
+    public Integer getViewDistance() {return getInfo().getViewDistance();}
+
+    @Override
+    public void setViewDistance(Integer viewDistance) {getInfo().setViewDistance(viewDistance);}
+
+    @Override
     public boolean exists() {return getInfo().exists();}
 
     @NotNull

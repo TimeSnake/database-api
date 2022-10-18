@@ -95,6 +95,13 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
         this.getInfo().setMaxHealth(maxHealth);
     }
 
+    @Nullable
+    @Override
+    public Integer getViewDistance() {return getInfo().getViewDistance();}
+
+    @Override
+    public void setViewDistance(Integer viewDistance) {getInfo().setViewDistance(viewDistance);}
+
     @Override
     public boolean exists() {return getInfo().exists();}
 
