@@ -230,6 +230,8 @@ public class Column<Value> {
                 ColumnType.integer(6));
         public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", Integer.class,
                 ColumnType.integer(10));
+        public static final Game<Integer> VIEW_DISTANCE = new Game<>("view_distance", Integer.class,
+                ColumnType.integer(10));
 
         public static final Game<Boolean> CREATION_REQUESTABLE = new Game<>("creation_requestable", Boolean.class, ColumnType.tinyint(1));
         public static final Game<Boolean> OWNABLE = new Game<>("ownable", Boolean.class, ColumnType.tinyint(1));

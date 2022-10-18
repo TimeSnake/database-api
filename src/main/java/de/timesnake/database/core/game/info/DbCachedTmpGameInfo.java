@@ -43,6 +43,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         ColumnMap map = this.getDatabase().getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.TEXT_COLOR,
                 Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.MAX_PLAYERS, Column.Game.MAPS,
                 Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
+                Column.Game.MAX_HEALTH, Column.Game.VIEW_DISTANCE,
                 Column.Game.AUTO_START_PLAYER_NUMBER, Column.Game.MIN_PLAYER_NUMBER, Column.Game.TEAM_SIZES,
                 Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE_REQUIRED, Column.Game.HIDE_TEAMS,
                 Column.Game.DISCORD_TYPE, Column.Game.DESCRIPTION));
@@ -60,6 +61,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.texturePackLink = map.get(Column.Game.TEXTURE_PACK_LINK);
         this.playerTrackingRange = map.get(Column.Game.PLAYER_TRACKING_RANGE);
         this.maxHealth = map.get(Column.Game.MAX_HEALTH);
+        this.viewDistance = map.get(Column.Game.VIEW_DISTANCE);
         this.autoStartPlayerNumber = map.get(Column.Game.AUTO_START_PLAYER_NUMBER);
         this.minPlayerNumber = map.get(Column.Game.MIN_PLAYER_NUMBER);
         this.teamSizes = map.get(Column.Game.TEAM_SIZES);

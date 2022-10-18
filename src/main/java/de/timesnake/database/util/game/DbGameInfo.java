@@ -68,6 +68,11 @@ public interface DbGameInfo extends DbGameInfoBasis {
     @NotCached
     void setMaxHealth(Integer maxHealth);
 
+    @Nullable
+    Integer getViewDistance();
+
+    void setViewDistance(Integer viewDistance);
+
     @NotNull
     @Override
     DbGameInfo toDatabase();

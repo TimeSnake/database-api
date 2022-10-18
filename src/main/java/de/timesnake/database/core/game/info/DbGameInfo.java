@@ -113,6 +113,17 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(maxHealth, Column.Game.MAX_HEALTH);
     }
 
+    @Override
+    @Nullable
+    public Integer getViewDistance() {
+        return super.getFirstWithKey(Column.Game.VIEW_DISTANCE);
+    }
+
+    @Override
+    public void setViewDistance(Integer viewDistance) {
+        super.setWithKey(viewDistance, Column.Game.VIEW_DISTANCE);
+    }
+
     @NotNull
     @Override
     public de.timesnake.database.util.game.DbGameInfo toDatabase() {

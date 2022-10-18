@@ -37,6 +37,7 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
         ColumnMap map = this.getDatabase().getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.TEXT_COLOR,
                 Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.MAX_PLAYERS, Column.Game.MAPS,
                 Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
+                Column.Game.MAX_HEALTH, Column.Game.VIEW_DISTANCE,
                 Column.Game.CREATION_REQUESTABLE, Column.Game.OWNABLE, Column.Game.ALLOW_NETHER_END));
 
         this.name = database.getName();
@@ -52,6 +53,7 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
         this.texturePackLink = map.get(Column.Game.TEXTURE_PACK_LINK);
         this.playerTrackingRange = map.get(Column.Game.PLAYER_TRACKING_RANGE);
         this.maxHealth = map.get(Column.Game.MAX_HEALTH);
+        this.viewDistance = map.get(Column.Game.VIEW_DISTANCE);
         this.creationRequestable = map.get(Column.Game.CREATION_REQUESTABLE);
         this.ownable = map.get(Column.Game.OWNABLE);
         this.allowNetherAndEnd = map.get(Column.Game.ALLOW_NETHER_END);

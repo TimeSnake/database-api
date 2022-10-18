@@ -101,6 +101,13 @@ public class DbCachedTmpGame extends DbCachedGame implements de.timesnake.databa
         getInfo().setMaxHealth(maxHealth);
     }
 
+    @Nullable
+    @Override
+    public Integer getViewDistance() {return getInfo().getViewDistance();}
+
+    @Override
+    public void setViewDistance(Integer viewDistance) {getInfo().setViewDistance(viewDistance);}
+
     @Override
     public boolean exists() {return getInfo().exists();}
 
