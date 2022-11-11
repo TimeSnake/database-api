@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * timesnake.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -395,9 +395,9 @@ public class Column<Value> {
 
     public static class Story<T> extends Column<T> {
         public static final Story<UUID> USER_UUID = new Story<>("uuid", UUID.class, User.UUID.getType());
-        public static final Story<Integer> CHAPTER_ID = new Story<>("chapter_id", Integer.class, ColumnType.integer(2));
-        public static final Story<Integer> PART_ID = new Story<>("part_id", Integer.class, ColumnType.integer(2));
-        public static final Story<Integer> SECTION_ID = new Story<>("section_id", Integer.class, ColumnType.integer(2));
+        public static final Story<Integer> BOOK_ID = new Story<>("book_id", Integer.class, ColumnType.integer(2));
+        public static final Story<String> CHAPTER_NAME = new Story<>("chapter_name", String.class, ColumnType.varchar(100));
+        public static final Story<String> QUEST_NAME = new Story<>("quest_name", String.class, ColumnType.varchar(100));
 
 
         Story(String name, Class<T> tClass, ColumnType columnType) {

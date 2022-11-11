@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * timesnake.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -28,17 +28,17 @@ public interface DbStoryUser {
     Set<Integer> getChapterIds();
 
     @Nullable
-    Set<Integer> getPartIds(Integer chapterId);
+    Set<String> getChapterIds(Integer bookId);
 
     @Nullable
-    Integer getSectionId(Integer chapterId, Integer partId);
+    String getQuestName(Integer bookId, String chapterName);
 
-    void setSectionId(Integer chapterId, Integer partId, Integer sectionId);
+    void setQuestName(Integer bookId, String chapterName, String sectionId);
 
     @Nullable
-    Set<Integer> getBoughtParts(Integer chapterId);
+    Set<String> getBoughtChapters(Integer bookId);
 
-    void addBoughtPart(Integer chapterId, Integer partId);
+    void addBoughtChapter(Integer bookId, String chapterName);
 
-    void removeBoughtChapter(Integer chapterId, Integer partId);
+    void removeBoughtChapter(Integer bookId, String chapterName);
 }

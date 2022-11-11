@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * timesnake.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -183,7 +183,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         this.databasesByName.put(DECORATIONS_NAME, decorations);
 
         story = new DatabaseStory(config.getDatabaseName(STORY_NAME), config.getDatabaseUrl(STORY_NAME), user, password,
-                "user_checkpoints", "user_bought");
+                "user_quests", "user_bought");
         this.databasesByName.put(STORY_NAME, story);
 
         network = new DatabaseNetwork(config.getDatabaseName(NETWORK_NAME), config.getDatabaseUrl(NETWORK_NAME), user
