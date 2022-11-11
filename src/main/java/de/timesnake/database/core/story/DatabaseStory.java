@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * timesnake.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -25,19 +25,19 @@ import java.util.UUID;
 
 public class DatabaseStory extends DatabaseConnector implements de.timesnake.database.util.story.DatabaseStory {
 
-    private final UserCheckpointsTable checkpointsTable;
+    private final UserQuestTable checkpointsTable;
     private final UserBoughtTable boughtTable;
 
 
     private final String checkpointsTableName;
     private final String boughtTableName;
 
-    public DatabaseStory(String name, String url, String user, String password, String checkpointsTableName,
+    public DatabaseStory(String name, String url, String user, String password, String userQuestTable,
                          String boughtTableName) {
         super(name, url, user, password);
-        this.checkpointsTableName = checkpointsTableName;
+        this.checkpointsTableName = userQuestTable;
         this.boughtTableName = boughtTableName;
-        this.checkpointsTable = new UserCheckpointsTable(this, this.checkpointsTableName);
+        this.checkpointsTable = new UserQuestTable(this, this.checkpointsTableName);
         this.boughtTable = new UserBoughtTable(this, this.boughtTableName);
     }
 

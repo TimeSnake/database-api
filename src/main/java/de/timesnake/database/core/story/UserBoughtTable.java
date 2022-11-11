@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * timesnake.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ import java.util.UUID;
 public class UserBoughtTable extends TableDDL {
 
     protected UserBoughtTable(DatabaseConnector databaseConnector, String tableName) {
-        super(databaseConnector, tableName, Column.Story.USER_UUID, Column.Story.CHAPTER_ID, Column.Story.PART_ID);
+        super(databaseConnector, tableName, Column.Story.USER_UUID, Column.Story.BOOK_ID, Column.Story.CHAPTER_NAME);
     }
 
     public void create() {
@@ -44,18 +44,18 @@ public class UserBoughtTable extends TableDDL {
     }
 
     @Nullable
-    public Set<Integer> getBoughtParts(UUID uuid, Integer chapterId) {
-        return super.get(Column.Story.PART_ID, new TableEntry<>(uuid, Column.Story.USER_UUID),
-                new TableEntry<>(chapterId, Column.Story.CHAPTER_ID));
+    public Set<String> getBoughtChapters(UUID uuid, Integer bookId) {
+        return super.get(Column.Story.CHAPTER_NAME, new TableEntry<>(uuid, Column.Story.USER_UUID),
+                new TableEntry<>(bookId, Column.Story.BOOK_ID));
     }
 
-    public void addBoughtPart(UUID uuid, Integer chapterId, Integer partId) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId,
-                Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID)));
+    public void addBoughtPart(UUID uuid, Integer bookId, String chapterName) {
+        super.addEntry(new PrimaryEntries(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(bookId,
+                Column.Story.BOOK_ID), new TableEntry<>(chapterName, Column.Story.CHAPTER_NAME)));
     }
 
-    public void removeBoughtChapter(UUID uuid, Integer chapterId, Integer partId) {
-        super.deleteEntry(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(chapterId,
-                Column.Story.CHAPTER_ID), new TableEntry<>(partId, Column.Story.PART_ID));
+    public void removeBoughtChapter(UUID uuid, Integer bookId, String chapterName) {
+        super.deleteEntry(new TableEntry<>(uuid, Column.Story.USER_UUID), new TableEntry<>(bookId,
+                Column.Story.BOOK_ID), new TableEntry<>(chapterName, Column.Story.CHAPTER_NAME));
     }
 }
