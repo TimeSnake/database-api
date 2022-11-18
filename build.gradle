@@ -3,6 +3,7 @@ repositories {
     maven {
         url = uri 'https://repo.maven.apache.org/maven2/'
     }
+    mavenCentral()
 }
 
 dependencies {
@@ -11,7 +12,7 @@ dependencies {
     compileOnly project(':library-basic')
 
     implementation 'org.apache.commons:commons-dbcp2:2.9.0'
-    implementation 'mysql:mysql-connector-java:8.0.24'
+    implementation 'mysql:mysql-connector-java:8.0.30'
 
     compileOnly project.adventure_api
 }
