@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -53,7 +53,7 @@ public class DbBuildServer extends DbTaskServer implements de.timesnake.database
     public void addWorld(String worldName) {
         this.buildWorldTable.addWorld(this.getName(), worldName,
                 () -> {
-                    NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
+                    Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
                             MessageType.Server.LOADED_WORLD, worldName));
                 });
     }
@@ -61,14 +61,14 @@ public class DbBuildServer extends DbTaskServer implements de.timesnake.database
     @Override
     public void removeWorld(String worldName) {
         this.buildWorldTable.removeWorld(worldName,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
+                () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
                         MessageType.Server.UNLOADED_WORLD, worldName)));
     }
 
     @Override
     public void clearWorlds() {
         this.buildWorldTable.removeServer(this.getName(),
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
+                () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
                         MessageType.Server.UNLOADED_ALL_WORLDS)));
     }
 
@@ -76,7 +76,7 @@ public class DbBuildServer extends DbTaskServer implements de.timesnake.database
     public void clearWorlds(SyncExecute syncExecute) {
         this.buildWorldTable.removeServer(this.getName(),
                 () -> {
-                    NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
+                    Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
                             MessageType.Server.UNLOADED_ALL_WORLDS));
                     syncExecute.run();
                 });

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -59,7 +59,7 @@ public class PunishmentsTable extends PlayersTable {
         super.set(castigator, Column.User.PUNISH_CASTIGATOR, new TableEntry<>(uuid, Column.User.UUID));
         super.set(reason, Column.User.PUNISH_REASON, new TableEntry<>(uuid, Column.User.UUID));
         super.set(server, Column.User.PUNISH_SERVER,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PUNISH)), new TableEntry<>(uuid, Column.User.UUID));
+                () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PUNISH)), new TableEntry<>(uuid, Column.User.UUID));
     }
 
     public void setPunishment(DbPunishment punishment) {

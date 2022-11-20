@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.permisson;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -60,7 +60,7 @@ public class PermissionsTable extends TableDDL {
 
     protected void addPermission(UUID uuid, String permission, Status.Permission mode, String... servers) {
         this.addPermission(uuid.toString(), permission, mode,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid,
+                () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid,
                         MessageType.User.PERMISSION)), servers);
     }
 
@@ -76,7 +76,7 @@ public class PermissionsTable extends TableDDL {
 
     protected void removePermission(UUID uuid, String permission) {
         this.removePermission(uuid.toString(), permission,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelUserMessage<>(uuid,
+                () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid,
                         MessageType.User.PERMISSION)));
     }
 

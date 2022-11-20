@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -54,7 +54,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
     @Override
     public void setMapName(String mapName) {
         super.setWithKey(mapName, Column.Server.MAP_NAME,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
+                () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
                         MessageType.Server.MAP, mapName)));
     }
 
@@ -132,7 +132,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
     @Override
     public void setDiscord(boolean discordEnabled) {
         super.setWithKey(discordEnabled, Column.Server.DISCORD,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelServerMessage<>(this.getName(),
+                () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
                         MessageType.Server.DISCORD, discordEnabled)));
     }
 }

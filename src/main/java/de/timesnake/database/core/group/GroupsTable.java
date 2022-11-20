@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.group;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelMessage;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
@@ -51,7 +51,7 @@ public class GroupsTable extends GroupBasisTable {
     protected void addGroup(String name, Integer rank, String prefix, ExTextColor color,
                             ChannelMessage<?, ?> channelMessage) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(rank, Column.Group.PRIORITY)),
-                () -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(name,
+                () -> Channel.getInstance().sendMessage(channelMessage), new TableEntry<>(name,
                         Column.Group.NAME), new TableEntry<>(prefix, Column.Group.PREFIX),
                 new TableEntry<>(color, Column.Group.PREFIX_COLOR));
     }
