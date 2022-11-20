@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelGroupMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -49,7 +49,7 @@ public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.u
     @Override
     public void removeInheritance() {
         super.setWithKey(null, Column.Group.INHERITANCE,
-                () -> NetworkChannel.getChannel().sendMessage(new ChannelGroupMessage<>(this.getName(),
+                () -> Channel.getInstance().sendMessage(new ChannelGroupMessage<>(this.getName(),
                         MessageType.Group.PERMISSION)));
     }
 

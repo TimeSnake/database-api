@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.group;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelMessage;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.PrimaryEntries;
@@ -57,7 +57,7 @@ public class GroupBasisTable extends TableDDL {
 
     protected void addGroup(String name, Integer rank, ChannelMessage<?, ?> channelMessage) {
         super.addEntry(new PrimaryEntries(new TableEntry<>(name, Column.Group.NAME)),
-                () -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(rank, Column.Group.PRIORITY));
+                () -> Channel.getInstance().sendMessage(channelMessage), new TableEntry<>(rank, Column.Group.PRIORITY));
     }
 
     protected boolean containsGroup(String name) {
@@ -70,7 +70,7 @@ public class GroupBasisTable extends TableDDL {
     }
 
     protected void removeGroup(String name, ChannelMessage<?, ?> channelMessage) {
-        this.deleteEntry(() -> NetworkChannel.getChannel().sendMessage(channelMessage), new TableEntry<>(name, Column.Group.NAME));
+        this.deleteEntry(() -> Channel.getInstance().sendMessage(channelMessage), new TableEntry<>(name, Column.Group.NAME));
     }
 
     protected Collection<String> getGroupNames() {

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 
 package de.timesnake.database.core.game.statistic;
 
-import de.timesnake.channel.core.NetworkChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -159,7 +159,7 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
         }
 
         super.setWithKey(values, () ->
-                        NetworkChannel.getChannel().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
+                        Channel.getInstance().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
                                 this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
                 new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE));
 
@@ -176,7 +176,7 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
         }
 
         super.setWithKey(values, () ->
-                        NetworkChannel.getChannel().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
+                        Channel.getInstance().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
                                 this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
                 new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE));
     }
@@ -185,7 +185,7 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
     @Deprecated
     public <Value> void addValue(StatPeriod period, StatType<Value> type, Value value) {
         super.addEntry(this.primaryEntries.with(new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE)),
-                () -> NetworkChannel.getChannel().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
+                () -> Channel.getInstance().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
                         this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
                 new TableEntry<>(type.valueToString(value), getPeriodColumn(period)));
     }
