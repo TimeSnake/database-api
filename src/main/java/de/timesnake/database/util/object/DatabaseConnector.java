@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@ package de.timesnake.database.util.object;
 
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.core.table.Table;
+import de.timesnake.database.util.Database;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -89,7 +90,7 @@ public class DatabaseConnector {
         try {
             ps = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS `" + name + "`;");
             ps.executeUpdate();
-            DatabaseManager.getInstance().broadcast("[Database][" + name + "] Database created");
+            Database.LOGGER.info("[" + name + "] Database created");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

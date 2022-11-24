@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -39,8 +39,14 @@ import de.timesnake.database.util.support.DatabaseSupport;
 import de.timesnake.database.util.user.DatabaseUsers;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
+import de.timesnake.library.basic.util.LogHelper;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public interface Database {
+
+    Logger LOGGER = LogHelper.getLogger("database", Level.WARNING);
 
     /**
      * Gets the instance of the {@link DatabaseManager} class, read description before use
@@ -54,28 +60,6 @@ public interface Database {
      */
     static Database getInstance() {
         return DatabaseManager.getInstance();
-    }
-
-    /**
-     * Is broadcasting enabled
-     * <p>
-     * <\p>
-     * Recommended for debugging.
-     * </\p>
-     *
-     * @return true if broadcasting is enabled, else false
-     */
-    static boolean isBroadcast() {
-        return DatabaseManager.getInstance().isBroadcast();
-    }
-
-    /**
-     * Set broadcast of database changes
-     *
-     * @param broadcast Enable/Disable broadcasts
-     */
-    static void setBroadcast(boolean broadcast) {
-        DatabaseManager.getInstance().setBroadcast(broadcast);
     }
 
     /**
