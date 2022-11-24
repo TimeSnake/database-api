@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.table;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.main.DatabaseManager;
+import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.sql.*;
@@ -81,7 +81,7 @@ public class TableDDL extends Table {
             ps.executeUpdate("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
                     " (" + this.primaryColumnsCreation + ");");
 
-            DatabaseManager.getInstance().broadcast("[Database][" + this.tableName + "] Table " + this.tableName + " " +
+            Database.LOGGER.info("[" + this.tableName + "] Table " + this.tableName + " " +
                     "created with primary-keys: " + primaryColumnsCreation);
 
 

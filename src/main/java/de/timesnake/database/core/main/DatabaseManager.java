@@ -1,5 +1,5 @@
 /*
- * timesnake.database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -89,11 +89,10 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     private DatabaseNetwork network;
 
     private boolean isConnected = false;
-    private boolean broadcast = false;
 
     @Override
     public void connect(DatabaseConfig config) throws DatabaseNotConfiguredException {
-        this.broadcast("Connecting to database...");
+        LOGGER.info("Connecting to database...");
 
         String user = config.getString("database.user");
         String password = config.getString("database.password");
@@ -193,7 +192,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
         isConnected = true;
 
-        this.broadcast("Connected to database");
+        LOGGER.info("Connected to database");
     }
 
     @Override
@@ -203,7 +202,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
                 database.createTables();
             }
         }
-        this.broadcast("Created tables");
+        LOGGER.info("Created tables");
     }
 
     @Override
@@ -215,7 +214,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         }
 
         this.close();
-        this.broadcast("Saved tables and closed connections");
+        LOGGER.info("Saved tables and closed connections");
     }
 
     @Override
@@ -225,15 +224,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
         }
 
         isConnected = false;
-        this.broadcast("Closed connections");
-    }
-
-    public boolean isBroadcast() {
-        return this.broadcast;
-    }
-
-    public void setBroadcast(boolean broadcast) {
-        this.broadcast = broadcast;
+        LOGGER.info("Closed connections");
     }
 
     public de.timesnake.database.util.server.DatabaseServers getServers() {
@@ -298,12 +289,6 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
     public DatabaseNetwork getNetwork() {
         return network;
-    }
-
-    public void broadcast(String message) {
-        if (getInstance().broadcast) {
-            System.out.println(message);
-        }
     }
 
 
