@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -37,9 +37,9 @@ public class DatabaseGroups extends DatabaseConnector implements de.timesnake.da
     private final String permGroupsTableName;
     private final String displayGroupsTableName;
 
-    public DatabaseGroups(String name, String url, String user, String password, String permGroupsTableName,
+    public DatabaseGroups(String name, String url, String options, String user, String password, String permGroupsTableName,
                           String displayGroupsTableName) {
-        super(name, url, user, password);
+        super(name, url, options, user, password);
         this.permGroupsTableName = permGroupsTableName;
         this.displayGroupsTableName = displayGroupsTableName;
         this.permGroupsTable = new PermGroupsTable(this, this.permGroupsTableName);

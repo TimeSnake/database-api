@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -32,9 +32,9 @@ public class DatabaseGames extends DatabaseConnector implements de.timesnake.dat
     protected final NonTmpGamesInfoTable nonTmpGamesInfoTable;
     protected final TmpGamesInfoTable tmpGamesInfoTable;
 
-    public DatabaseGames(String name, String url, String user, String password, String nonTmpGamesInfoTableName,
+    public DatabaseGames(String name, String url, String options, String user, String password, String nonTmpGamesInfoTableName,
                          String tmpGamesInfoTableName) {
-        super(name, url, user, password);
+        super(name, url, options, user, password);
         this.nonTmpGamesInfoTable = new NonTmpGamesInfoTable(this, nonTmpGamesInfoTableName);
         this.tmpGamesInfoTable = new TmpGamesInfoTable(this, tmpGamesInfoTableName);
     }

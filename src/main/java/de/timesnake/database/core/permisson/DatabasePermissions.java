@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -33,8 +33,8 @@ public class DatabasePermissions extends DatabaseConnector implements de.timesna
 
     private final String permissionsTableName;
 
-    public DatabasePermissions(String name, String url, String user, String password, String permissionsTable) {
-        super(name, url, user, password);
+    public DatabasePermissions(String name, String url, String options, String user, String password, String permissionsTable) {
+        super(name, url, options, user, password);
         this.permissionsTableName = permissionsTable;
         this.permissionsTable = new PermissionsTable(this, permissionsTableName);
     }

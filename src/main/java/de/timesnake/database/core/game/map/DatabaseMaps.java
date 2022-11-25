@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -27,9 +27,9 @@ public class DatabaseMaps extends DatabaseConnector {
     private final String spawnsTableName;
     private final String authorsTableName;
 
-    public DatabaseMaps(String name, String url, String user, String password, String infoTableName,
+    public DatabaseMaps(String name, String url, String options, String user, String password, String infoTableName,
                         String spawnsTableName, String authorsTableName) {
-        super(name, url, user, password);
+        super(name, url, options, user, password);
         this.infoTableName = infoTableName;
         this.spawnsTableName = spawnsTableName;
         this.authorsTableName = authorsTableName;

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -26,9 +26,9 @@ public class DatabaseGameStatistics extends DatabaseConnector {
     private final String userStatisticsTableName;
     private final String statisticTypesTableName;
 
-    public DatabaseGameStatistics(String name, String url, String user, String password,
+    public DatabaseGameStatistics(String name, String url, String options, String user, String password,
                                   String userStatisticsTableName, String statisticTypesTableName) {
-        super(name, url, user, password);
+        super(name, url, options, user, password);
 
         this.userStatisticsTableName = userStatisticsTableName;
         this.statisticTypesTableName = statisticTypesTableName;

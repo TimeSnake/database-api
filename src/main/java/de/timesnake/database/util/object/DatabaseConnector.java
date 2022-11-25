@@ -18,6 +18,7 @@
 
 package de.timesnake.database.util.object;
 
+import de.timesnake.channel.core.Channel;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.Database;
@@ -32,19 +33,17 @@ public class DatabaseConnector {
 
     private final String user;
     private final String password;
-    protected String name;
     protected BasicDataSource ds;
     protected String url;
 
-    public DatabaseConnector(String name, String url, String user, String password) {
-        this(name, url, user, password, DatabaseManager.DEFAULT_MAX_IDLE_CONNECTIONS);
+    public DatabaseConnector(String name, String url, String options, String user, String password) {
+        this(name, url, options, user, password, DatabaseManager.DEFAULT_MAX_IDLE_CONNECTIONS);
     }
 
-    public DatabaseConnector(String name, String url, String user, String password, int maxIdleConnections) {
-        this.url = url;
+    public DatabaseConnector(String name, String url, String options, String user, String password, int maxIdleConnections) {
+        this.url = url + name + "?" + options;
         this.user = user;
         this.password = password;
-        this.name = name;
 
 
         this.ds = new BasicDataSource();
@@ -87,6 +86,12 @@ public class DatabaseConnector {
     public void createDatabase(String name) {
         PreparedStatement ps = null;
         Connection connection = this.getConnection();
+
+        if (connection == null) {
+            Channel.LOGGER.warning("Could not create connection to database '" + name + "'");
+            return;
+        }
+
         try {
             ps = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS `" + name + "`;");
             ps.executeUpdate();
@@ -96,10 +101,6 @@ public class DatabaseConnector {
         } finally {
             Table.closeQuery(connection, ps, null);
         }
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void close() {
