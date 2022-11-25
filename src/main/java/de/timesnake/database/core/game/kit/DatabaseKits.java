@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class DatabaseKits extends DatabaseConnector {
 
-    public DatabaseKits(String name, String url, String user, String password) {
-        super(name, url, user, password);
+    public DatabaseKits(String name, String url, String options, String user, String password) {
+        super(name, url, options, user, password);
     }
 
     @NotNull

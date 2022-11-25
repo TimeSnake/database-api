@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -29,8 +29,8 @@ public class DatabaseHungerGames extends DatabaseConnector implements de.timesna
 
     private final HungerGamesItemsTable itemsTable;
 
-    public DatabaseHungerGames(String name, String url, String user, String password, String itemsTableName) {
-        super(name, url, user, password);
+    public DatabaseHungerGames(String name, String url, String options, String user, String password, String itemsTableName) {
+        super(name, url, options, user, password);
 
         this.itemsTable = new HungerGamesItemsTable(this, itemsTableName);
     }

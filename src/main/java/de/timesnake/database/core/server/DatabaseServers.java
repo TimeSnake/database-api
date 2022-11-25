@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -39,10 +39,10 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     private final BuildWorldTable buildWorldTable;
 
-    public DatabaseServers(String name, String url, String user, String password, String lobbysTableName,
+    public DatabaseServers(String name, String url, String options, String user, String password, String lobbysTableName,
                            String gamesTableName, String loungesTableName, String tempGamesTableName,
                            String buildsTableName, String buildWorldTableName) {
-        super(name, url, user, password, DatabaseManager.SERVERS_MAX_IDLE_CONNECTIONS);
+        super(name, url, options, user, password, DatabaseManager.SERVERS_MAX_IDLE_CONNECTIONS);
 
         this.buildWorldTable = new BuildWorldTable(this, buildWorldTableName);
 

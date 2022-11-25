@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -41,9 +41,9 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     private final String mailsTableName;
     private final String displayGroupsTableName;
 
-    public DatabaseUsers(String name, String url, String user, String password, String infoTable,
+    public DatabaseUsers(String name, String url, String options, String user, String password, String infoTable,
                          String punishmentTable, String mailsTable, String displayGroupsTable) {
-        super(name, url, user, password, DatabaseManager.USERS_MAX_IDLE_CONNECTIONS);
+        super(name, url, options, user, password, DatabaseManager.USERS_MAX_IDLE_CONNECTIONS);
         this.infoTableName = infoTable;
         this.punishmentTableName = punishmentTable;
         this.mailsTableName = mailsTable;

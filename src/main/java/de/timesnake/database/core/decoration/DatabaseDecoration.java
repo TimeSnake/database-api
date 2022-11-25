@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -30,8 +30,8 @@ public class DatabaseDecoration extends DatabaseConnector implements de.timesnak
     private final String headsTableName;
     private final HeadsTable headsTable;
 
-    public DatabaseDecoration(String name, String url, String user, String password, String headsTableName) {
-        super(name, url, user, password);
+    public DatabaseDecoration(String name, String url, String options, String user, String password, String headsTableName) {
+        super(name, url, options, user, password);
         this.headsTableName = headsTableName;
 
         this.headsTable = new HeadsTable(this, this.headsTableName);

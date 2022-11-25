@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -30,8 +30,8 @@ public class DatabaseNetwork extends DatabaseConnector implements de.timesnake.d
 
     private final String networkFilesTableName;
 
-    public DatabaseNetwork(String name, String url, String user, String password, String networkFilesTableName) {
-        super(name, url, user, password);
+    public DatabaseNetwork(String name, String url, String options, String user, String password, String networkFilesTableName) {
+        super(name, url, options, user, password);
         this.networkFilesTableName = networkFilesTableName;
         this.networkFilesTable = new NetworkFilesTable(this, this.networkFilesTableName);
     }

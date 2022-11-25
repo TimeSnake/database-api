@@ -1,5 +1,5 @@
 /*
- * timesnake.database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -32,9 +32,9 @@ public class DatabaseStory extends DatabaseConnector implements de.timesnake.dat
     private final String checkpointsTableName;
     private final String boughtTableName;
 
-    public DatabaseStory(String name, String url, String user, String password, String userQuestTable,
+    public DatabaseStory(String name, String url, String options, String user, String password, String userQuestTable,
                          String boughtTableName) {
-        super(name, url, user, password);
+        super(name, url, options, user, password);
         this.checkpointsTableName = userQuestTable;
         this.boughtTableName = boughtTableName;
         this.checkpointsTable = new UserQuestTable(this, this.checkpointsTableName);

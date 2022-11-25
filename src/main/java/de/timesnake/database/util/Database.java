@@ -23,7 +23,6 @@ import de.timesnake.database.core.file.DatabaseNotConfiguredException;
 import de.timesnake.database.core.game.DatabaseGames;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.decoration.DatabaseDecoration;
-import de.timesnake.database.util.endgame.DatabaseEndGame;
 import de.timesnake.database.util.game.DatabaseLounges;
 import de.timesnake.database.util.game.DbKit;
 import de.timesnake.database.util.game.DbMap;
@@ -165,19 +164,6 @@ public interface Database {
      */
     static DatabaseSupport getSupport() {
         return DatabaseManager.getInstance().getSupport();
-    }
-
-    /**
-     * Gets the endgame database
-     * <p>
-     * <\p>
-     * The endgame database contains all infos about the game endgame.
-     * </\p>
-     *
-     * @return the {@link DatabaseEndGame}
-     */
-    static DatabaseEndGame getEndGame() {
-        return DatabaseManager.getInstance().getEndGame();
     }
 
     /**
