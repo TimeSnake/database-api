@@ -122,7 +122,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
 
     @Override
     public void setPassword(String password) throws TooLongEntryException {
-        if (password.length() > 255) {
+        if (password != null && password.length() > 255) {
             throw new TooLongEntryException(password, Column.Server.PASSWORD.getType());
         }
         super.setWithKey(password, Column.Server.PASSWORD,
