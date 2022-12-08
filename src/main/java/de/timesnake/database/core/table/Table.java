@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -40,7 +40,7 @@ public class Table {
 
     public static final List<String> NOT_ALLOWED_STRINGS = List.of("\"", "'", "`");
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static final String ENTRY_ARRAY_SPLITTER = ";";
+    public static final String ENTRY_ARRAY_DELIMITER = ";";
 
     public static final String TABLE_WRAPPER = "`";
     public static final String COLUMN_WRAPPER = "`";
@@ -73,23 +73,14 @@ public class Table {
                 return replaceNotAllowedStrings(((Type) value).getDatabaseValue());
             } else if (value instanceof Object[]) {
                 if (((Object[]) value).length != 0) {
-                    StringBuilder array = new StringBuilder();
-                    for (Object element : ((Object[]) value)) {
-                        array.append(parseTypeToString(element)).append(ENTRY_ARRAY_SPLITTER);
-                    }
-                    array.delete(array.length() - ENTRY_ARRAY_SPLITTER.length() - 1, array.length());
-                    return replaceNotAllowedStrings(parseTypeToString(array));
+                    return replaceNotAllowedStrings(String.join(ENTRY_ARRAY_DELIMITER,
+                            Arrays.stream((Object[]) value).map(Table::parseTypeToString).toList()));
                 }
             } else if (value instanceof Collection) {
                 if (((Collection<?>) value).size() > 0) {
-                    StringBuilder list = new StringBuilder();
-                    for (Object element : ((Collection<?>) value)) {
-                        list.append(parseTypeToString(element)).append(ENTRY_ARRAY_SPLITTER);
-                    }
-                    list.delete(list.length() - ENTRY_ARRAY_SPLITTER.length() - 1, list.length());
-                    return replaceNotAllowedStrings(parseTypeToString(list));
+                    return replaceNotAllowedStrings(String.join(ENTRY_ARRAY_DELIMITER,
+                            ((Collection<?>) value).stream().map(Table::parseTypeToString).toList()));
                 }
-                return null;
             } else if (value instanceof Date) {
                 return replaceNotAllowedStrings(DATE_FORMAT.format(value));
             } else if (value instanceof BlockSide) {
@@ -97,8 +88,10 @@ public class Table {
             } else if (value instanceof Object) {
                 return replaceNotAllowedStrings(value.toString());
             } else if (value instanceof Color) {
-                return ((Color) value).getRed() + ENTRY_ARRAY_SPLITTER + ((Color) value).getGreen() + ENTRY_ARRAY_SPLITTER +
-                        ((Color) value).getBlue() + ENTRY_ARRAY_SPLITTER + ((Color) value).getAlpha();
+                return ((Color) value).getRed() + ENTRY_ARRAY_DELIMITER +
+                        ((Color) value).getGreen() + ENTRY_ARRAY_DELIMITER +
+                        ((Color) value).getBlue() + ENTRY_ARRAY_DELIMITER +
+                        ((Color) value).getAlpha();
             } else if (value instanceof File) {
                 return ((File) value).getAbsolutePath();
             } else if (value instanceof Path) {
@@ -148,7 +141,7 @@ public class Table {
             return (Value) Type.getByDatabaseValue(((Column<? extends Type>) column), string);
         } else if (valueClass.equals(DbIntegerArrayList.class)) {
             DbIntegerArrayList list = new DbIntegerArrayList();
-            String[] strings = string.split(ENTRY_ARRAY_SPLITTER);
+            String[] strings = string.split(ENTRY_ARRAY_DELIMITER);
             for (String s : strings) {
                 try {
                     list.add(Integer.parseInt(s));
@@ -157,11 +150,11 @@ public class Table {
             }
             return (Value) list;
         } else if (valueClass.equals(DbStringArrayList.class)) {
-            return (Value) new ArrayList<>(Arrays.asList(string.split(ENTRY_ARRAY_SPLITTER)));
+            return (Value) new ArrayList<>(Arrays.asList(string.split(ENTRY_ARRAY_DELIMITER)));
         } else if (valueClass.equals(String[].class)) {
-            return (Value) string.split(ENTRY_ARRAY_SPLITTER);
+            return (Value) string.split(ENTRY_ARRAY_DELIMITER);
         } else if (valueClass.equals(Integer[].class)) {
-            String[] strings = string.split(ENTRY_ARRAY_SPLITTER);
+            String[] strings = string.split(ENTRY_ARRAY_DELIMITER);
             Integer[] ints = new Integer[strings.length];
             for (int i = 0; i < strings.length; i++) {
                 try {
@@ -179,7 +172,7 @@ public class Table {
         } else if (valueClass.equals(BlockSide.class)) {
             return (Value) BlockSide.valueOf(string.toUpperCase());
         } else if (valueClass.equals(Color.class)) {
-            String[] rgba = string.replace(" ", "").split(ENTRY_ARRAY_SPLITTER);
+            String[] rgba = string.replace(" ", "").split(ENTRY_ARRAY_DELIMITER);
             return (Value) new Color(Integer.valueOf(rgba[0]), Integer.valueOf(rgba[1]), Integer.valueOf(rgba[2]),
                     Integer.valueOf(rgba[3]));
         } else if (valueClass.equals(File.class)) {
