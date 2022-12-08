@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -32,8 +32,9 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
     protected Integer minPlayerNumber;
     protected List<Integer> teamSizes;
     protected Type.Availability teamMerge;
-    protected Boolean equalTimeSizeRequired;
-    protected Boolean hideTeams;
+    protected boolean equalTimeSizeRequired;
+    protected boolean showSelectedKits;
+    protected boolean hideTeams;
     protected Type.Discord discordType;
     protected List<String> description;
 
@@ -44,8 +45,8 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
                 Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.MAX_PLAYERS, Column.Game.MAPS,
                 Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
                 Column.Game.MAX_HEALTH, Column.Game.VIEW_DISTANCE,
-                Column.Game.AUTO_START_PLAYER_NUMBER, Column.Game.MIN_PLAYER_NUMBER, Column.Game.TEAM_SIZES,
-                Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE_REQUIRED, Column.Game.HIDE_TEAMS,
+                Column.Game.AUTO_START_PLAYER_NUMBER, Column.Game.MIN_PLAYER_NUMBER, Column.Game.SHOW_SELECTED_KITS,
+                Column.Game.TEAM_SIZES, Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE_REQUIRED, Column.Game.HIDE_TEAMS,
                 Column.Game.DISCORD_TYPE, Column.Game.DESCRIPTION));
 
         this.name = database.getName();
@@ -67,6 +68,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
         this.teamSizes = map.get(Column.Game.TEAM_SIZES);
         this.teamMerge = map.get(Column.Game.TEAM_MERGE);
         this.equalTimeSizeRequired = map.get(Column.Game.EQUAL_TEAM_SIZE_REQUIRED);
+        this.showSelectedKits = map.get(Column.Game.SHOW_SELECTED_KITS);
         this.hideTeams = map.get(Column.Game.HIDE_TEAMS);
         this.discordType = map.get(Column.Game.DISCORD_TYPE);
         this.description = map.get(Column.Game.DESCRIPTION);
@@ -99,6 +101,17 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
     public void setMinPlayerNumber(Integer number) {
         this.minPlayerNumber = number;
         this.getDatabase().setMinPlayerNumber(number);
+    }
+
+    @Override
+    public boolean showSelectedKits() {
+        return this.showSelectedKits;
+    }
+
+    @Override
+    public void setShowSelectedKits(boolean showSelectedKits) {
+        this.showSelectedKits = showSelectedKits;
+        this.getDatabase().setShowSelectedKits(showSelectedKits);
     }
 
     @Override

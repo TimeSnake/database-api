@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -76,8 +76,8 @@ public class DbKit extends TableQuery implements de.timesnake.database.util.game
     @Override
     public void setDescription(Collection<String> description) throws UnsupportedStringException {
         for (String string : description) {
-            if (string.contains(Table.ENTRY_ARRAY_SPLITTER)) {
-                throw new UnsupportedStringException(Table.ENTRY_ARRAY_SPLITTER);
+            if (string.contains(Table.ENTRY_ARRAY_DELIMITER)) {
+                throw new UnsupportedStringException(Table.ENTRY_ARRAY_DELIMITER);
             }
         }
         super.setWithKey(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION);

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -38,6 +38,11 @@ public interface DbTmpGameInfo extends DbGameInfo {
 
     @NotCached
     void setMinPlayerNumber(Integer number);
+
+    boolean showSelectedKits();
+
+    @NotCached
+    void setShowSelectedKits(boolean showSelectedKits);
 
     @Nullable
     List<Integer> getTeamSizes();

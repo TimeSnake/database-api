@@ -1,5 +1,5 @@
 /*
- * timesnake.database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -247,6 +247,7 @@ public class Column<Value> {
                 ColumnType.varchar(50));
         public static final Game<Boolean> EQUAL_TEAM_SIZE_REQUIRED = new Game<>("equal_team_size_required", Boolean.class,
                 ColumnType.tinyint(1));
+        public static final Game<Boolean> SHOW_SELECTED_KITS = new Game<>("show_selected_kits", Boolean.class, ColumnType.tinyint(1));
         public static final Game<Boolean> HIDE_TEAMS = new Game<>("hide_teams", Boolean.class, ColumnType.tinyint(1));
         public static final Game<Type.Discord> DISCORD_TYPE = new Game<>("discord_type", Type.Discord.class, ColumnType.varchar(20));
         public static final Game<DbStringArrayList> DESCRIPTION = new Game<>("description", DbStringArrayList.class,
