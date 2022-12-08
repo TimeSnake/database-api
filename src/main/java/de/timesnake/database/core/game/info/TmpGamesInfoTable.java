@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -31,6 +31,7 @@ public class TmpGamesInfoTable extends GamesInfoTable {
         super.addColumn(Column.Game.TEAM_SIZES);
         super.addColumn(Column.Game.TEAM_MERGE);
         super.addColumn(Column.Game.EQUAL_TEAM_SIZE_REQUIRED);
+        super.addColumn(Column.Game.SHOW_SELECTED_KITS);
         super.addColumn(Column.Game.HIDE_TEAMS);
         super.addColumn(Column.Game.DISCORD_TYPE);
         super.addColumn(Column.Game.DESCRIPTION);
