@@ -24,6 +24,11 @@ All methods marked with the [NotCached] annotation (mostly set or update methods
 
 [NotCached]: /src/main/java/de/timesnake/database/util/object/NotCached.java
 
+## Code Style
+
+The code style guide can be found in the plugin root project:
+https://git.timesnake.de/timesnake/plugin-root-project
+
 ## License
 
 - The source is licensed under the GNU GPLv2 license that can be found in the [LICENSE](LICENSE) file.
