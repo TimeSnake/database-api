@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Table {
 
@@ -63,8 +64,10 @@ public class Table {
             } else if (value instanceof Integer || value instanceof Float || value instanceof Double
                     || value instanceof Long) {
                 return replaceNotAllowedStrings(String.valueOf(value));
-            } else if (value instanceof StringBuilder || value instanceof UUID) {
+            } else if (value instanceof StringBuilder) {
                 return replaceNotAllowedStrings(value.toString());
+            } else if (value instanceof UUID) {
+                return "UUID_TO_BIN('" + value + "')";
             } else if (value instanceof Boolean) {
                 return (Boolean) value ? "1" : "0";
             } else if (value instanceof Status) {
@@ -221,28 +224,16 @@ public class Table {
     }
 
     static String parseToColumnNameString(Collection<Column<?>> columns) {
-        StringBuilder sb = new StringBuilder();
-        for (Column<?> column : columns) {
-            if (sb.length() != 0) {
-                sb.append(", ");
-            }
-            sb.append(COLUMN_WRAPPER).append(column.getName()).append(COLUMN_WRAPPER);
-        }
-        return sb.toString();
+        return columns.stream()
+                .map(c -> c.getType().getSelectWrapper(c.getName()))
+                .collect(Collectors.joining(", "));
     }
 
-    static String parseToEquationString(Collection<TableEntry<?>> values, String splitter) {
-        StringBuilder sb = new StringBuilder();
-        for (TableEntry<?> entry : values) {
-            if (sb.length() != 0) {
-                sb.append(splitter);
-            }
-            sb.append(COLUMN_WRAPPER).append(entry.getColumn().getName()).append(COLUMN_WRAPPER).append("=");
-
-            sb.append(TableDDL.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
-
-        }
-        return sb.toString();
+    static String parseToEquationString(Collection<TableEntry<?>> entries, String splitter) {
+        return entries.stream()
+                .map(e -> COLUMN_WRAPPER + e.getColumn().getName() + COLUMN_WRAPPER + "=" +
+                        TableDDL.parseTypeToDatabaseString(e.getColumn(), e.getValue()))
+                .collect(Collectors.joining(splitter));
     }
 
     static Tuple<String, String> parseToColumnValueStrings(Collection<TableEntry<?>>... entries) {
@@ -512,7 +503,7 @@ public class Table {
             while (rs.next()) {
                 ColumnMap map = new ColumnMap();
                 for (Column<?> column : resultColumn) {
-                    map.put(column, parseTypeFromString(column, rs.getString(column.getName())));
+                    map.put(column, parseTypeFromString(column, column.getType().rs.getString(column.getName())));
                 }
                 result.add(map);
             }
