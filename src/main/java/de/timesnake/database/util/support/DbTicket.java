@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@ import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface DbTicket extends DbCached<DbTicket> {
 
@@ -54,9 +54,6 @@ public interface DbTicket extends DbCached<DbTicket> {
     void setStatus(Status.Ticket status);
 
     @NotNull
-    Date getDate();
-
-    @NotNull
-    String getDateString();
+    LocalDateTime getDate();
 
 }

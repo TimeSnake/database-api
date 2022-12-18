@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -23,8 +23,7 @@ import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DbStringArrayList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class DbCachedMapInfo {
@@ -36,8 +35,8 @@ public class DbCachedMapInfo {
     private Integer minPlayers;
     private Integer maxPlayers;
     private String itemName;
-    private ArrayList<String> description;
-    private ArrayList<String> info;
+    private List<String> description;
+    private List<String> info;
     private boolean enabled;
 
     public DbCachedMapInfo(DbMapInfo mapInfo) {
@@ -108,20 +107,21 @@ public class DbCachedMapInfo {
         this.mapInfo.setItemName(itemName);
     }
 
-    public ArrayList<String> getDescription() {
+    public @NotNull List<String> getDescription() {
         return this.description;
     }
 
-    public void setDescription(Collection<String> description) {
+    public void setDescription(List<String> description) {
         this.description = new DbStringArrayList(description);
         this.mapInfo.setDescription(description);
     }
 
-    public ArrayList<String> getInfo() {
+    @NotNull
+    public List<String> getInfo() {
         return this.info;
     }
 
-    public void setInfo(Collection<String> info) {
+    public void setInfo(List<String> info) {
         this.info = new DbStringArrayList(info);
         this.mapInfo.setInfo(info);
     }

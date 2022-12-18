@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -56,15 +56,15 @@ public class LocationsTable extends TableDDL {
     }
 
     public void deleteWorld(String worldName) {
-        super.deleteEntry(new TableEntry<>(worldName, Column.Location.WORLD));
+        super.deleteEntry(new Entry<>(worldName, Column.Location.WORLD));
     }
 
     public de.timesnake.database.util.object.DbLocation getLocation(Integer number, String worldName) {
         if (number == null || worldName == null) {
             return null;
         }
-        TableEntry<Integer> numberEntry = new TableEntry<>(number, Column.Location.NUMBER);
-        TableEntry<String> worldEntry = new TableEntry<>(worldName, Column.Location.WORLD);
+        Entry<Integer> numberEntry = new Entry<>(number, Column.Location.NUMBER);
+        Entry<String> worldEntry = new Entry<>(worldName, Column.Location.WORLD);
 
         return new de.timesnake.database.util.object.DbLocation(worldName, super.getFirst(Column.Location.X,
                 numberEntry, worldEntry), super.getFirst(Column.Location.Y, numberEntry, worldEntry),
@@ -77,7 +77,7 @@ public class LocationsTable extends TableDDL {
     }
 
     public Integer getFirstLocationNumber(String worldName) {
-        return super.getLowestInteger(Column.Location.NUMBER, new TableEntry<>(worldName, Column.Location.WORLD));
+        return super.getLowestInteger(Column.Location.NUMBER, new Entry<>(worldName, Column.Location.WORLD));
     }
 
     public de.timesnake.database.util.object.DbLocation getLastSpawn(String worldName) {
@@ -85,36 +85,38 @@ public class LocationsTable extends TableDDL {
     }
 
     public Integer getLastLocationNumber(String worldName) {
-        return super.getHighestInteger(Column.Location.NUMBER, new TableEntry<>(worldName, Column.Location.WORLD));
+        return super.getHighestInteger(Column.Location.NUMBER, new Entry<>(worldName, Column.Location.WORLD));
     }
 
     public HashMap<Integer, DbLocation> getLocations(String worldName) {
         HashMap<Integer, de.timesnake.database.util.object.DbLocation> spawns = new HashMap<>();
-        for (Integer number : super.get(Column.Location.NUMBER, new TableEntry<>(worldName, Column.Location.WORLD))) {
+        for (Integer number : super.get(Column.Location.NUMBER, new Entry<>(worldName, Column.Location.WORLD))) {
             spawns.put(number, this.getLocation(number, worldName));
         }
         return spawns;
     }
 
     public void addLocation(Integer number, de.timesnake.database.util.object.DbLocation location,
-                            TableEntry<?> primaryEntries) {
+                            Entry<?> primaryEntries) {
         if (number == null) {
             return;
         }
-        super.addEntry(new PrimaryEntries(new TableEntry<>(number, Column.Location.NUMBER),
-                        new TableEntry<>(location.getWorldName(), Column.Location.WORLD), primaryEntries),
-                new TableEntry<>(number, Column.Location.NUMBER), new TableEntry<>(location.getWorldName(),
-                        Column.Location.WORLD), new TableEntry<>(location.getX(), Column.Location.X),
-                new TableEntry<>(location.getY(), Column.Location.Y), new TableEntry<>(location.getZ(),
-                        Column.Location.Z), new TableEntry<>(location.getYaw(), Column.Location.YAW),
-                new TableEntry<>(location.getPitch(), Column.Location.PITCH));
+        super.addEntry(new PrimaryEntries(new Entry<>(number, Column.Location.NUMBER),
+                        new Entry<>(location.getWorldName(), Column.Location.WORLD), primaryEntries),
+                new Entry<>(number, Column.Location.NUMBER),
+                new Entry<>(location.getWorldName(), Column.Location.WORLD),
+                new Entry<>(((float) location.getX()), Column.Location.X),
+                new Entry<>(((float) location.getY()), Column.Location.Y),
+                new Entry<>(((float) location.getZ()), Column.Location.Z),
+                new Entry<>(location.getYaw(), Column.Location.YAW),
+                new Entry<>(location.getPitch(), Column.Location.PITCH));
     }
 
     public void deleteSpawn(Integer number, String worldName) {
         if (number == null || worldName == null) {
             return;
         }
-        super.deleteEntry(new TableEntry<>(number, Column.Location.NUMBER), new TableEntry<>(worldName,
+        super.deleteEntry(new Entry<>(number, Column.Location.NUMBER), new Entry<>(worldName,
                 Column.Location.WORLD));
     }
 

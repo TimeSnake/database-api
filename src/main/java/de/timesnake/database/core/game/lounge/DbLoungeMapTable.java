@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,14 +19,13 @@
 package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class DbLoungeMapTable extends TableDDL {
@@ -52,17 +51,17 @@ public class DbLoungeMapTable extends TableDDL {
     }
 
     public void addMap(String name, DbLocation spawn) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(name, Column.Game.LOUNGE_MAP_NAME)),
-                new TableEntry<>(spawn.getWorldName(), Column.Game.LOUNGE_MAP_WORLD),
-                new TableEntry<>(spawn.getX(), Column.Game.LOUNGE_MAP_LOC_X),
-                new TableEntry<>(spawn.getY(), Column.Game.LOUNGE_MAP_LOC_Y),
-                new TableEntry<>(spawn.getZ(), Column.Game.LOUNGE_MAP_LOC_Z),
-                new TableEntry<>(spawn.getYaw(), Column.Game.LOUNGE_MAP_LOC_YAW),
-                new TableEntry<>(spawn.getPitch(), Column.Game.LOUNGE_MAP_LOC_PITCH));
+        super.addEntry(new PrimaryEntries(new Entry<>(name, Column.Game.LOUNGE_MAP_NAME)),
+                new Entry<>(spawn.getWorldName(), Column.Game.LOUNGE_MAP_WORLD),
+                new Entry<>(spawn.getX(), Column.Game.LOUNGE_MAP_LOC_X),
+                new Entry<>(spawn.getY(), Column.Game.LOUNGE_MAP_LOC_Y),
+                new Entry<>(spawn.getZ(), Column.Game.LOUNGE_MAP_LOC_Z),
+                new Entry<>(spawn.getYaw(), Column.Game.LOUNGE_MAP_LOC_YAW),
+                new Entry<>(spawn.getPitch(), Column.Game.LOUNGE_MAP_LOC_PITCH));
     }
 
     public void removeMap(String name) {
-        super.deleteEntry(new TableEntry<>(name, Column.Game.LOUNGE_MAP_NAME));
+        super.deleteEntry(new Entry<>(name, Column.Game.LOUNGE_MAP_NAME));
     }
 
     public boolean containsMap(String name, DbLoungeMapDisplayTable displayTable) {
@@ -75,28 +74,12 @@ public class DbLoungeMapTable extends TableDDL {
     }
 
     public Collection<de.timesnake.database.util.game.DbLoungeMap> getMaps(DbLoungeMapDisplayTable displayTable) {
-        ArrayList<de.timesnake.database.util.game.DbLoungeMap> maps = new ArrayList<>();
-        ArrayList<String> mapNames = new ArrayList<>();
-        for (String mapName : super.get(Column.Game.LOUNGE_MAP_NAME)) {
-            de.timesnake.database.util.game.DbLoungeMap map = this.getMap(mapName, displayTable);
-            if (!mapNames.contains(mapName)) {
-                maps.add(map);
-                mapNames.add(mapName);
-            }
-        }
-        return maps;
+        return super.get(Column.Game.LOUNGE_MAP_NAME).stream()
+                .map(name -> this.getMap(name, displayTable)).toList();
     }
 
     public Collection<de.timesnake.database.util.game.DbLoungeMap> getCachedMaps(DbLoungeMapDisplayTable displayTable) {
-        ArrayList<de.timesnake.database.util.game.DbLoungeMap> maps = new ArrayList<>();
-        ArrayList<String> mapNames = new ArrayList<>();
-        for (String mapName : super.get(Column.Game.LOUNGE_MAP_NAME)) {
-            de.timesnake.database.util.game.DbLoungeMap map = this.getMap(mapName, displayTable);
-            if (!mapNames.contains(mapName)) {
-                maps.add(map);
-                mapNames.add(mapName);
-            }
-        }
-        return maps;
+        return super.get(Column.Game.LOUNGE_MAP_NAME).stream()
+                .map(name -> this.getMap(name, displayTable).toLocal()).toList();
     }
 }

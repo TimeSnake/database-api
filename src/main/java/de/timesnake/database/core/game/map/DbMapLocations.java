@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -33,7 +33,7 @@ import java.util.Set;
 public class DbMapLocations extends TableQuery {
 
     protected DbMapLocations(DatabaseConnector databaseConnector, String gameName, String mapName) {
-        super(databaseConnector, gameName, new TableEntry<>(mapName, Column.Game.MAP_NAME));
+        super(databaseConnector, gameName, new Entry<>(mapName, Column.Game.MAP_NAME));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class DbMapLocations extends TableQuery {
 
         ColumnMap columnMap = super.getFirstWithKey(Set.of(Column.Location.WORLD, Column.Location.X,
                         Column.Location.Y, Column.Location.Z, Column.Location.YAW, Column.Location.PITCH),
-                new TableEntry<>(number, Column.Location.NUMBER));
+                new Entry<>(number, Column.Location.NUMBER));
 
         return new DbLocation(columnMap.get(Column.Location.WORLD), columnMap.get(Column.Location.X),
                 columnMap.get(Column.Location.Y), columnMap.get(Column.Location.Z),
@@ -101,24 +101,24 @@ public class DbMapLocations extends TableQuery {
         if (number == null) {
             return;
         }
-        super.addEntry(super.primaryEntries.with(new TableEntry<>(number, Column.Location.NUMBER)),
-                new TableEntry<>(location.getWorldName(), Column.Location.WORLD),
-                new TableEntry<>(location.getX(), Column.Location.X),
-                new TableEntry<>(location.getY(), Column.Location.Y),
-                new TableEntry<>(location.getZ(), Column.Location.Z),
-                new TableEntry<>(location.getYaw(), Column.Location.YAW),
-                new TableEntry<>(location.getPitch(), Column.Location.PITCH));
+        super.addEntry(super.primaryEntries.with(new Entry<>(number, Column.Location.NUMBER)),
+                new Entry<>(location.getWorldName(), Column.Location.WORLD),
+                new Entry<>(((float) location.getX()), Column.Location.X),
+                new Entry<>(((float) location.getY()), Column.Location.Y),
+                new Entry<>(((float) location.getZ()), Column.Location.Z),
+                new Entry<>(location.getYaw(), Column.Location.YAW),
+                new Entry<>(location.getPitch(), Column.Location.PITCH));
     }
 
     public void deleteLocation(Integer number) {
         if (number == null) {
             return;
         }
-        super.deleteWithKey(new TableEntry<>(number, Column.Location.NUMBER));
+        super.deleteWithKey(new Entry<>(number, Column.Location.NUMBER));
     }
 
     public boolean containsLocation(Integer number) {
-        return super.getFirstWithKey(Column.Location.NUMBER, new TableEntry<>(number, Column.Location.NUMBER)) != null;
+        return super.getFirstWithKey(Column.Location.NUMBER, new Entry<>(number, Column.Location.NUMBER)) != null;
     }
 
 

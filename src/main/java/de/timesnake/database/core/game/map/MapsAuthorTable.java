@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -49,12 +49,12 @@ public class MapsAuthorTable extends TableDDL {
     }
 
     public void addMapAuthor(String mapName, UUID authorUuid) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(mapName, Column.Game.MAP_NAME),
-                new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID)));
+        super.addEntry(new PrimaryEntries(new Entry<>(mapName, Column.Game.MAP_NAME),
+                new Entry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID)));
     }
 
     public void removeMapAuthor(String mapName, UUID authorUuid) {
-        super.deleteEntry(new TableEntry<>(mapName, Column.Game.MAP_NAME), new TableEntry<>(authorUuid,
+        super.deleteEntry(new Entry<>(mapName, Column.Game.MAP_NAME), new Entry<>(authorUuid,
                 Column.Game.MAP_AUTHOR_UUID));
     }
 
@@ -64,18 +64,18 @@ public class MapsAuthorTable extends TableDDL {
     }
 
     public Collection<UUID> getAuthorUuids(String mapName) {
-        return super.get(Column.Game.MAP_AUTHOR_UUID, new TableEntry<>(mapName, Column.Game.MAP_NAME));
+        return super.get(Column.Game.MAP_AUTHOR_UUID, new Entry<>(mapName, Column.Game.MAP_NAME));
     }
 
     public Collection<DbMapAuthor> getAuthors(String mapName) {
         ArrayList<DbMapAuthor> authors = new ArrayList<>();
-        for (UUID author : super.get(Column.Game.MAP_AUTHOR_UUID, new TableEntry<>(mapName, Column.Game.MAP_NAME))) {
+        for (UUID author : super.get(Column.Game.MAP_AUTHOR_UUID, new Entry<>(mapName, Column.Game.MAP_NAME))) {
             authors.add(new DbMapAuthor(this.databaseConnector, this.tableName, mapName, author));
         }
         return authors;
     }
 
     public void removeMapAuthors(String mapName) {
-        super.deleteEntry(new TableEntry<>(mapName, Column.Game.MAP_NAME));
+        super.deleteEntry(new Entry<>(mapName, Column.Game.MAP_NAME));
     }
 }

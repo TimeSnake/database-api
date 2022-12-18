@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.group.GroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.chat.ExTextColor;
@@ -55,8 +55,8 @@ public class TeamsTable extends GroupsTable {
 
     public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName) {
         super.addGroup(name, rank, prefix, color, () -> {
-            super.set(ratio, Column.Team.RATIO, new TableEntry<>(rank, Column.Group.PRIORITY));
-            super.set(colorName, Column.Team.COLOR, new TableEntry<>(rank, Column.Group.PRIORITY));
+            super.set(ratio, Column.Team.RATIO, new Entry<>(rank, Column.Group.PRIORITY));
+            super.set(colorName, Column.Team.COLOR, new Entry<>(rank, Column.Group.PRIORITY));
         });
     }
 

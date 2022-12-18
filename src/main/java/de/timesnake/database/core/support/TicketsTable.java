@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,13 +19,13 @@
 package de.timesnake.database.core.support;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.UUID;
 
 public class TicketsTable extends TableDDL {
@@ -41,14 +41,16 @@ public class TicketsTable extends TableDDL {
     }
 
     protected Integer addTicket(String uuid, String name, String message) {
-        return super.addEntryWithAutoIdSynchronized(Column.Support.ID, new TableEntry<>(uuid, Column.Support.UUID),
-                new TableEntry<>(name, Column.Support.NAME), new TableEntry<>(message, Column.Support.MESSAGE),
-                new TableEntry<>(Status.Ticket.OPEN, Column.Support.STATUS), new TableEntry<>(new Date(),
-                        Column.Support.DATE));
+        return super.addEntryWithAutoIdSynchronized(Column.Support.ID,
+                new Entry<>(uuid, Column.Support.UUID),
+                new Entry<>(name, Column.Support.NAME),
+                new Entry<>(message, Column.Support.MESSAGE),
+                new Entry<>(Status.Ticket.OPEN, Column.Support.STATUS),
+                new Entry<>(LocalDateTime.now(), Column.Support.DATE));
     }
 
     public void removeTicket(int id) {
-        super.deleteEntry(new TableEntry<>(id, Column.Support.ID));
+        super.deleteEntry(new Entry<>(id, Column.Support.ID));
     }
 
     public void create() {
@@ -65,14 +67,14 @@ public class TicketsTable extends TableDDL {
     }
 
     public Collection<Integer> getTicketIds(Status.Ticket status) {
-        return super.get(Column.Support.ID, new TableEntry<>(status, Column.Support.STATUS));
+        return super.get(Column.Support.ID, new Entry<>(status, Column.Support.STATUS));
     }
 
     public Collection<Integer> getTickets(UUID uuid) {
-        return super.get(Column.Support.ID, new TableEntry<>(uuid.toString(), Column.Support.UUID));
+        return super.get(Column.Support.ID, new Entry<>(uuid.toString(), Column.Support.UUID));
     }
 
     public boolean containsTicket(Integer id) {
-        return super.getFirst(Column.Support.UUID, new TableEntry<>(id, Column.Support.ID)) != null;
+        return super.getFirst(Column.Support.UUID, new Entry<>(id, Column.Support.ID)) != null;
     }
 }

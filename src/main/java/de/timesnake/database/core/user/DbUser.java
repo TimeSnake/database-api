@@ -22,7 +22,7 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.group.DbPermGroup;
@@ -34,14 +34,13 @@ import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
-import de.timesnake.database.util.user.DataProtectionAgreement;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.UUID;
 
 public class DbUser extends DbPlayer implements de.timesnake.database.util.user.DbUser {
@@ -67,18 +66,10 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
         this.dbDisplayGroupUser = displayGroupsTable.getUser(this.getUniqueId());
     }
 
-    @Override
-    public void checkEntries() {
-        UUID uuid = super.getUniqueId();
-        if (!this.punishmentsTable.containsPlayer(uuid)) {
-            this.punishmentsTable.addPlayer(uuid, this.getName());
-        }
-    }
-
     //punishment
 
     @Override
-    public void setPunishment(Type.Punishment type, Date date, String castigator, String reason, String server) {
+    public void setPunishment(Type.Punishment type, LocalDateTime date, String castigator, String reason, String server) {
         this.punishmentsTable.setPunishment(super.getUniqueId(), this.getName(), type, date, castigator, reason,
                 server);
     }
@@ -382,24 +373,23 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     }
 
     @Override
-    public void agreeDataProtection(de.timesnake.database.util.user.DataProtectionAgreement agreement) {
-        super.setWithKey(agreement.toString(), Column.User.DATA_PROTECTION);
+    public void agreePrivacyPolicy(LocalDateTime dateTime) {
+        super.setWithKey(dateTime, Column.User.PRIVACY_POLICY);
     }
 
     @Override
-    public void disagreeDataProtection() {
-        super.setWithKey(null, Column.User.DATA_PROTECTION);
+    public void disagreePrivacyPolicy() {
+        super.setWithKey(null, Column.User.PRIVACY_POLICY);
     }
 
     @Override
-    public de.timesnake.database.util.user.DataProtectionAgreement getDataProtectionAgreement() {
-        return DataProtectionAgreement.fromString(super.getFirstWithKey(Column.User.DATA_PROTECTION));
+    public LocalDateTime getPrivacyPolicyDateTime() {
+        return super.getFirstWithKey(Column.User.PRIVACY_POLICY);
     }
 
     @Override
-    public boolean agreedDataProtection(String version) {
-        DataProtectionAgreement agreement = this.getDataProtectionAgreement();
-        return agreement != null && agreement.getVersion().equals(version);
+    public boolean agreedPrivacyPolicy() {
+        return this.getPrivacyPolicyDateTime() != null;
     }
 
     @Nullable
@@ -415,7 +405,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void deleteEntries() {
-        super.deleteWithKey(new TableEntry<>(super.getUniqueId(), Column.User.UUID));
+        super.deleteWithKey(new Entry<>(super.getUniqueId(), Column.User.UUID));
     }
 
     @Nullable

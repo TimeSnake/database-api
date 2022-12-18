@@ -16,23 +16,35 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.timesnake.database.util.object;
+package de.timesnake.database.core;
 
-import de.timesnake.database.core.Column;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 
-import java.util.HashMap;
+public class Entry<Value> {
 
-public class ColumnMap extends HashMap<Column<?>, Object> {
+    private final Column<Value> column;
+    private final Value value;
 
-    public <Value> void put(Column<Value> column, Value value) {
-        super.put(column, value);
+    public Entry(Value value, Column<Value> column) {
+        this.column = column;
+        this.value = value;
     }
 
-    public void put(de.timesnake.database.core.Entry<?> entry) {
-        super.put(entry.getColumn(), entry.getValue());
+    public Value getValue() {
+        return value;
     }
 
-    public <Value> Value get(Column<Value> column) {
-        return (Value) super.get(column);
+    public Column<Value> getColumn() {
+        return column;
+    }
+
+    public void applyOnStatement(PreparedStatement statement, int index) throws SQLException {
+        if (this.value != null) {
+            this.column.getType().applyOnStatement(statement, index, this.value);
+        } else {
+            statement.setNull(index, Types.NULL);
+        }
     }
 }

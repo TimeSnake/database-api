@@ -19,174 +19,22 @@
 package de.timesnake.database.core.table;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.util.object.*;
-import de.timesnake.library.basic.util.Status;
-import de.timesnake.library.basic.util.Tuple;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.database.util.object.ColumnMap;
+import de.timesnake.database.util.object.DatabaseConnector;
+import de.timesnake.database.util.object.SyncExecute;
 
-import java.awt.*;
-import java.io.File;
-import java.nio.file.Path;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Table {
 
-    public static final List<String> NOT_ALLOWED_STRINGS = List.of("\"", "'", "`");
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final String ENTRY_ARRAY_DELIMITER = ";";
 
     public static final String TABLE_WRAPPER = "`";
     public static final String COLUMN_WRAPPER = "`";
-    public static final String ENTRY_WRAPPER = "\"";
-
-    public static <Value> String parseTypeToDatabaseString(Column<?> column, Value value) {
-        String string = parseTypeToString(value);
-
-        if (!column.getType().isWrapped()) {
-            return string;
-        }
-
-        return string != null ? ENTRY_WRAPPER + string + ENTRY_WRAPPER : "NULL";
-    }
-
-    public static <Value> String parseTypeToString(Value value) {
-        if (value != null) {
-            if (value instanceof String) {
-                return replaceNotAllowedStrings(((String) value));
-            } else if (value instanceof Integer || value instanceof Float || value instanceof Double
-                    || value instanceof Long) {
-                return replaceNotAllowedStrings(String.valueOf(value));
-            } else if (value instanceof StringBuilder) {
-                return replaceNotAllowedStrings(value.toString());
-            } else if (value instanceof UUID) {
-                return "UUID_TO_BIN('" + value + "')";
-            } else if (value instanceof Boolean) {
-                return (Boolean) value ? "1" : "0";
-            } else if (value instanceof Status) {
-                return replaceNotAllowedStrings(((Status) value).getSimpleName());
-            } else if (value instanceof Type) {
-                return replaceNotAllowedStrings(((Type) value).getDatabaseValue());
-            } else if (value instanceof Object[]) {
-                if (((Object[]) value).length != 0) {
-                    return replaceNotAllowedStrings(String.join(ENTRY_ARRAY_DELIMITER,
-                            Arrays.stream((Object[]) value).map(Table::parseTypeToString).toList()));
-                }
-            } else if (value instanceof Collection) {
-                if (((Collection<?>) value).size() > 0) {
-                    return replaceNotAllowedStrings(String.join(ENTRY_ARRAY_DELIMITER,
-                            ((Collection<?>) value).stream().map(Table::parseTypeToString).toList()));
-                }
-            } else if (value instanceof Date) {
-                return replaceNotAllowedStrings(DATE_FORMAT.format(value));
-            } else if (value instanceof BlockSide) {
-                return ((BlockSide) value).name();
-            } else if (value instanceof Object) {
-                return replaceNotAllowedStrings(value.toString());
-            } else if (value instanceof Color) {
-                return ((Color) value).getRed() + ENTRY_ARRAY_DELIMITER +
-                        ((Color) value).getGreen() + ENTRY_ARRAY_DELIMITER +
-                        ((Color) value).getBlue() + ENTRY_ARRAY_DELIMITER +
-                        ((Color) value).getAlpha();
-            } else if (value instanceof File) {
-                return ((File) value).getAbsolutePath();
-            } else if (value instanceof Path) {
-                return ((Path) value).toString();
-            } else if (value instanceof ExTextColor) {
-                return value.toString();
-            }
-        }
-        return null;
-    }
-
-    public static <Value> Value parseTypeFromString(Column<Value> column, String string) {
-        Class<Value> valueClass = column.getValueClass();
-
-        if (valueClass.equals(Boolean.class)) {
-            return string != null ? (Value) Boolean.valueOf(string.equals("1")) : (Value) Boolean.valueOf(false);
-        }
-
-        if (string == null) {
-            return null;
-        }
-
-        if (valueClass.equals(String.class)) {
-            return (Value) string;
-        } else if (valueClass.equals(Integer.class)) {
-            return (Value) Integer.valueOf(string);
-        } else if (valueClass.equals(Float.class)) {
-            return (Value) Float.valueOf(string);
-        } else if (valueClass.equals(Long.class)) {
-            return (Value) Long.valueOf(string);
-        } else if (valueClass.equals(Double.class)) {
-            return (Value) Double.valueOf(string);
-        } else if (valueClass.equals(UUID.class)) {
-            return (Value) UUID.fromString(string);
-        } else if (Status.class.isAssignableFrom(valueClass)) {
-            if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.User.class)) {
-                return (Value) de.timesnake.library.basic.util.Status.User.parseValue(string);
-            } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Server.class)) {
-                return (Value) de.timesnake.library.basic.util.Status.Server.parseValue(string);
-            } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Permission.class)) {
-                return (Value) de.timesnake.library.basic.util.Status.Permission.parseValue(string);
-            } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Ticket.class)) {
-                return (Value) de.timesnake.library.basic.util.Status.Ticket.parseValue(string);
-            }
-            return null;
-        } else if (Type.class.isAssignableFrom(valueClass)) {
-            return (Value) Type.getByDatabaseValue(((Column<? extends Type>) column), string);
-        } else if (valueClass.equals(DbIntegerArrayList.class)) {
-            DbIntegerArrayList list = new DbIntegerArrayList();
-            String[] strings = string.split(ENTRY_ARRAY_DELIMITER);
-            for (String s : strings) {
-                try {
-                    list.add(Integer.parseInt(s));
-                } catch (NumberFormatException ignored) {
-                }
-            }
-            return (Value) list;
-        } else if (valueClass.equals(DbStringArrayList.class)) {
-            return (Value) new ArrayList<>(Arrays.asList(string.split(ENTRY_ARRAY_DELIMITER)));
-        } else if (valueClass.equals(String[].class)) {
-            return (Value) string.split(ENTRY_ARRAY_DELIMITER);
-        } else if (valueClass.equals(Integer[].class)) {
-            String[] strings = string.split(ENTRY_ARRAY_DELIMITER);
-            Integer[] ints = new Integer[strings.length];
-            for (int i = 0; i < strings.length; i++) {
-                try {
-                    ints[i] = Integer.parseInt(strings[i]);
-                } catch (NumberFormatException ignored) {
-                }
-            }
-            return (Value) ints;
-        } else if (valueClass.equals(Date.class)) {
-            try {
-                return (Value) DATE_FORMAT.parse(string);
-            } catch (ParseException e) {
-                return null;
-            }
-        } else if (valueClass.equals(BlockSide.class)) {
-            return (Value) BlockSide.valueOf(string.toUpperCase());
-        } else if (valueClass.equals(Color.class)) {
-            String[] rgba = string.replace(" ", "").split(ENTRY_ARRAY_DELIMITER);
-            return (Value) new Color(Integer.valueOf(rgba[0]), Integer.valueOf(rgba[1]), Integer.valueOf(rgba[2]),
-                    Integer.valueOf(rgba[3]));
-        } else if (valueClass.equals(File.class)) {
-            return (Value) new File(string);
-        } else if (valueClass.equals(Path.class)) {
-            return ((Value) Path.of(string));
-        } else if (valueClass.equals(ExTextColor.class)) {
-            return (Value) ExTextColor.NAMES.value(string);
-        }
-        return (Value) string;
-    }
 
     public static void closeQuery(Connection connection, Statement ps, ResultSet rs) {
         if (rs != null) {
@@ -212,52 +60,13 @@ public class Table {
         }
     }
 
-    public static String replaceNotAllowedStrings(String value) {
-        for (String s : NOT_ALLOWED_STRINGS) {
-            value = value.replace(s, "");
-        }
-        return value;
-    }
-
-    static String parseToWhereClause(TableEntry<?>... entries) {
-        return entries.length > 0 ? " WHERE " + parseToEquationString(Arrays.asList(entries), " AND ") : "";
-    }
-
     static String parseToColumnNameString(Collection<Column<?>> columns) {
         return columns.stream()
                 .map(c -> c.getType().getSelectWrapper(c.getName()))
                 .collect(Collectors.joining(", "));
     }
 
-    static String parseToEquationString(Collection<TableEntry<?>> entries, String splitter) {
-        return entries.stream()
-                .map(e -> COLUMN_WRAPPER + e.getColumn().getName() + COLUMN_WRAPPER + "=" +
-                        TableDDL.parseTypeToDatabaseString(e.getColumn(), e.getValue()))
-                .collect(Collectors.joining(splitter));
-    }
-
-    static Tuple<String, String> parseToColumnValueStrings(Collection<TableEntry<?>>... entries) {
-        StringBuilder columns = new StringBuilder();
-        StringBuilder columnValues = new StringBuilder();
-
-        for (Collection<TableEntry<?>> entryCollection : entries) {
-            for (TableEntry<?> entry : entryCollection) {
-                columns.append(COLUMN_WRAPPER).append(entry.getColumn().getName()).append(COLUMN_WRAPPER);
-                columns.append(", ");
-
-                columnValues.append(parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
-                columnValues.append(", ");
-            }
-        }
-
-        columns.delete(columns.length() - 2, columns.length());
-        columnValues.delete(columnValues.length() - 2, columnValues.length());
-
-        return new Tuple<>(columns.toString(), columnValues.toString());
-    }
-
     protected final DatabaseConnector databaseConnector;
-    // add entry auto id sync
     protected final String tableName;
     protected UpdatePolicy updatePolicy;
 
@@ -289,15 +98,15 @@ public class Table {
 
     // add entry auto id
 
-    protected void addEntrySynchronized(PrimaryEntries primaryValues, TableEntry<?>... values) {
+    protected void addEntrySynchronized(PrimaryEntries primaryValues, Entry<?>... values) {
         this.addEntrySynchronized(false, primaryValues, values);
     }
 
-    protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute, TableEntry<?>... values) {
+    protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute, Entry<?>... values) {
         this.addEntry(false, primaryEntries, syncExecute, values);
     }
 
-    protected final void addEntry(PrimaryEntries primaryEntries, TableEntry<?>... values) {
+    protected final void addEntry(PrimaryEntries primaryEntries, Entry<?>... values) {
         this.addEntry(primaryEntries, () -> {
         }, values);
     }
@@ -305,29 +114,30 @@ public class Table {
 
     // delete entry sync
 
-    protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, TableEntry<?>... values) {
+    protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, Entry<?>... values) {
         Integer id = this.getEntryId(idColumn);
-        this.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(id, idColumn)), values);
+        this.addEntrySynchronized(new PrimaryEntries(new Entry<>(id, idColumn)), values);
         return id;
     }
 
     // delete entry
 
     protected void addEntrySynchronized(boolean overrideExisting, PrimaryEntries primaryValues,
-                                        TableEntry<?>... values) {
+                                        Entry<?>... values) {
         if (overrideExisting) {
-            this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new TableEntry[0]));
+            this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new Entry[0]));
         }
 
         Connection connection = this.databaseConnector.getConnection();
         PreparedStatement ps = null;
 
-        Tuple<String, String> columnValues = parseToColumnValueStrings(primaryValues.getPrimaryEntries(),
+        ValuesClause valuesClause = new ValuesClause(primaryValues.getPrimaryEntries(),
                 Arrays.asList(values));
 
         try {
-            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" + " (" +
-                    columnValues.getA() + ")" + "VALUES (" + columnValues.getB() + ");");
+            ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" +
+                                             valuesClause.getText() + ";");
+            valuesClause.applyValues(ps, 1);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -337,19 +147,18 @@ public class Table {
     }
 
     protected void addEntry(boolean overrideExisting, PrimaryEntries primaryEntries, SyncExecute syncExecute,
-                            TableEntry<?>... values) {
+                            Entry<?>... values) {
         new Thread(() -> {
             addEntrySynchronized(overrideExisting, primaryEntries, values);
             syncExecute.run();
         }).start();
     }
 
-    protected final Integer addEntryWithAutoId(Column<Integer> idColumn, TableEntry<?>... values) {
-        return this.addEntryWithAutoId(idColumn, () -> {
-        }, values);
+    protected final Integer addEntryWithAutoId(Column<Integer> idColumn, Entry<?>... values) {
+        return this.addEntryWithAutoId(idColumn, () -> {}, values);
     }
 
-    private int getEntryId(Column<Integer> idColumn, TableEntry<?>... primaryValues) {
+    private int getEntryId(Column<Integer> idColumn, Entry<?>... primaryValues) {
         int id = 1;
         Collection<Integer> ids = this.get(idColumn, primaryValues);
         if (ids == null) {
@@ -361,14 +170,14 @@ public class Table {
         return id;
     }
 
-    protected void deleteEntrySynchronized(TableEntry<?>... entries) {
-        String whereClause = parseToWhereClause(entries);
-
+    protected void deleteEntrySynchronized(Entry<?>... entries) {
+        WhereClause whereClause = new WhereClause(entries);
         Connection connection = this.databaseConnector.getConnection();
         PreparedStatement ps = null;
 
         try {
-            ps = connection.prepareStatement("DELETE FROM `" + this.tableName + "_tmp`" + whereClause + ";");
+            ps = connection.prepareStatement("DELETE FROM `" + this.tableName + "_tmp`" + whereClause.getText() + ";");
+            whereClause.applyValues(ps, 1);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -377,47 +186,47 @@ public class Table {
         }
     }
 
-    protected void deleteEntry(SyncExecute syncExecute, TableEntry<?>... entries) {
+    protected void deleteEntry(SyncExecute syncExecute, Entry<?>... entries) {
         new Thread(() -> {
             this.deleteEntrySynchronized(entries);
             syncExecute.run();
         }).start();
     }
 
-    protected void deleteEntry(TableEntry<?>... entries) {
+    protected void deleteEntry(Entry<?>... entries) {
         this.deleteEntry(() -> {
         }, entries);
     }
 
     protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, PrimaryEntries primaryEntries,
-                                                           TableEntry<?>... values) {
-        List<TableEntry<?>> primaryList = primaryEntries.getPrimaryEntries();
-        TableEntry<?>[] primaryArray = new TableEntry[primaryList.size()];
+                                                           Entry<?>... values) {
+        List<Entry<?>> primaryList = primaryEntries.getPrimaryEntries();
+        Entry<?>[] primaryArray = new Entry[primaryList.size()];
         primaryArray = primaryList.toArray(primaryArray);
         Integer id = this.getEntryId(idColumn, primaryArray);
-        this.addEntrySynchronized(primaryEntries.with(new TableEntry<>(id, idColumn)), values);
+        this.addEntrySynchronized(primaryEntries.with(new Entry<>(id, idColumn)), values);
         return id;
     }
 
     // set data
 
     protected final Integer addEntryWithAutoId(Column<Integer> idColumn, SyncExecute syncExecute,
-                                               TableEntry<?>... values) {
+                                               Entry<?>... values) {
         Integer id = this.getEntryId(idColumn);
-        this.addEntry(new PrimaryEntries(new TableEntry<>(id, idColumn)), syncExecute, values);
+        this.addEntry(new PrimaryEntries(new Entry<>(id, idColumn)), syncExecute, values);
         return id;
     }
 
-    public <Value> Value getFirst(Column<Value> resultColumn, TableEntry<?>... entries) {
+    public <Value> Value getFirst(Column<Value> resultColumn, Entry<?>... entries) {
         return this.getFirst(Set.of(resultColumn), entries).get(resultColumn);
     }
 
-    public ColumnMap getFirst(Set<Column<?>> resultColumn, TableEntry<?>... entries) {
+    public ColumnMap getFirst(Set<Column<?>> resultColumn, Entry<?>... entries) {
         Set<ColumnMap> result = this.get(resultColumn, entries);
         return result.isEmpty() ? new ColumnMap() : result.iterator().next();
     }
 
-    public <Value> Set<Value> get(Column<Value> resultColumn, TableEntry<?>... entries) {
+    public <Value> Set<Value> get(Column<Value> resultColumn, Entry<?>... entries) {
         Set<ColumnMap> results = this.get(Set.of(resultColumn), entries);
         Set<Value> values = new HashSet<>();
 
@@ -428,8 +237,8 @@ public class Table {
         return values;
     }
 
-    protected final Integer getHighestInteger(Column<Integer> resultColumn, TableEntry<?>... entries) {
-        String s = Table.parseToWhereClause(entries);
+    protected final Integer getHighestInteger(Column<Integer> resultColumn, Entry<?>... entries) {
+        WhereClause whereClause = new WhereClause(entries);
 
         Connection connection = this.databaseConnector.getConnection();
         PreparedStatement ps = null;
@@ -437,7 +246,8 @@ public class Table {
 
         try {
             ps = connection.prepareStatement("SELECT MAX(`" + resultColumn.getName() + "`) FROM `" +
-                    this.tableName + "_tmp`" + s + ";");
+                                             this.tableName + "_tmp`" + whereClause.getText() + ";");
+            whereClause.applyValues(ps, 1);
             rs = ps.executeQuery();
 
             Integer value = null;
@@ -457,8 +267,8 @@ public class Table {
 
     }
 
-    protected final Integer getLowestInteger(Column<Integer> resultColumn, TableEntry<?>... entries) {
-        String s = Table.parseToWhereClause(entries);
+    protected final Integer getLowestInteger(Column<Integer> resultColumn, Entry<?>... entries) {
+        WhereClause whereClause = new WhereClause(entries);
 
         Connection connection = this.databaseConnector.getConnection();
         PreparedStatement ps = null;
@@ -466,7 +276,8 @@ public class Table {
 
         try {
             ps = connection.prepareStatement("SELECT MIN(`" + resultColumn.getName() + "`) FROM `" +
-                    this.tableName + "_tmp`" + s + ";");
+                                             this.tableName + "_tmp`" + whereClause.getText() + ";");
+            whereClause.applyValues(ps, 1);
             rs = ps.executeQuery();
 
             Integer value = null;
@@ -486,8 +297,8 @@ public class Table {
 
     }
 
-    public Set<ColumnMap> get(Set<Column<?>> resultColumn, TableEntry<?>... entries) {
-        String s = parseToWhereClause(entries);
+    public Set<ColumnMap> get(Set<Column<?>> resultColumn, Entry<?>... entries) {
+        WhereClause whereClause = new WhereClause(entries);
 
         Connection connection = this.databaseConnector.getConnection();
         PreparedStatement ps = null;
@@ -497,13 +308,15 @@ public class Table {
 
         try {
             ps = connection.prepareStatement("SELECT " + parseToColumnNameString(resultColumn) + " FROM `" +
-                    this.tableName + "_tmp`" + s + ";");
+                                             this.tableName + "_tmp`" + whereClause.getText() + ";");
+
+            whereClause.applyValues(ps, 1);
             rs = ps.executeQuery();
 
             while (rs.next()) {
                 ColumnMap map = new ColumnMap();
                 for (Column<?> column : resultColumn) {
-                    map.put(column, parseTypeFromString(column, column.getType().rs.getString(column.getName())));
+                    map.put(column, column.parseFromResultSet(rs));
                 }
                 result.add(map);
             }
@@ -516,55 +329,69 @@ public class Table {
         return result;
     }
 
-    protected final <Value> void set(Value value, Column<Value> valueColumn, TableEntry<?>... entries) {
+    protected final <Value> void set(Value value, Column<Value> valueColumn, Entry<?>... entries) {
         this.set(value, valueColumn, () -> {
         }, entries);
     }
 
     protected final <Value> void set(Value value, Column<Value> valueColumn, SyncExecute syncExecute,
-                                     TableEntry<?>... entries) {
+                                     Entry<?>... entries) {
         new Thread(() -> {
             setSynchronized(value, valueColumn, entries);
             syncExecute.run();
         }).start();
     }
 
-    protected final void set(Set<TableEntry<?>> values, TableEntry<?>... entries) {
+    protected final void set(Set<Entry<?>> values, Entry<?>... entries) {
         new Thread(() -> setSynchronized(values, entries)).start();
     }
 
-    protected final void set(Set<TableEntry<?>> values, SyncExecute syncExecute, TableEntry<?>... entries) {
+    protected final void set(Set<Entry<?>> values, SyncExecute syncExecute, Entry<?>... entries) {
         new Thread(() -> {
             setSynchronized(values, entries);
             syncExecute.run();
         }).start();
     }
 
-    protected final <Value> void setSynchronized(Value value, Column<Value> valueColumn, TableEntry<?>... entries) {
-        this.setSynchronized(Set.of(new TableEntry<>(value, valueColumn)), entries);
+    protected final <Value> void setSynchronized(Value value, Column<Value> valueColumn, Entry<?>... entries) {
+        this.setSynchronized(Set.of(new Entry<>(value, valueColumn)), entries);
     }
 
-    protected final void setSynchronized(Set<TableEntry<?>> values, Collection<TableEntry<?>> keys) {
-        this.setSynchronized(values, keys.toArray(new TableEntry[0]));
+    protected final void setSynchronized(Set<Entry<?>> values, Collection<Entry<?>> keys) {
+        this.setSynchronized(values, keys.toArray(new Entry[0]));
     }
 
-    protected final void setSynchronized(Set<TableEntry<?>> values, TableEntry<?>... keys) {
-        String whereClause = parseToWhereClause(keys);
-
+    protected final void setSynchronized(Set<Entry<?>> values, Entry<?>... keys) {
         if (values != null) {
             Connection connection = this.databaseConnector.getConnection();
             PreparedStatement ps = null;
 
+            EquationClause equationClause = new EquationClause(values);
+
             try {
                 if (this.updatePolicy == UpdatePolicy.INSERT_IF_NOT_EXISTS) {
-                    Tuple<String, String> columnValues = parseToColumnValueStrings(values, Arrays.asList(keys));
+                    ValuesClause valuesClause = new ValuesClause(values, Arrays.asList(keys));
 
-                    ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp` (" +
-                            columnValues.getA() + ") VALUES (" + columnValues.getB() + ") " +
-                            "ON DUPLICATE KEY UPDATE " + parseToEquationString(values, ", ") + ";");
+                    ps = connection.prepareStatement(
+                            "INSERT INTO `" + this.tableName + "_tmp` " +
+                            valuesClause.getText() +
+                            "ON DUPLICATE KEY UPDATE " +
+                            equationClause.getText() +
+                            ";");
+
+                    int index = valuesClause.applyValues(ps, 1);
+                    equationClause.applyValues(ps, index);
                 } else {
-                    ps = connection.prepareStatement("UPDATE `" + this.tableName + "_tmp` SET " +
-                            parseToEquationString(values, ", ") + whereClause + ";");
+                    WhereClause whereClause = new WhereClause(keys);
+
+                    ps = connection.prepareStatement(
+                            "UPDATE `" + this.tableName + "_tmp` SET " +
+                            equationClause.getText() +
+                            whereClause.getText() +
+                            ";");
+
+                    int index = equationClause.applyValues(ps, 1);
+                    whereClause.applyValues(ps, index);
                 }
                 ps.executeUpdate();
             } catch (SQLException e) {

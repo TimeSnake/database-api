@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -18,70 +18,35 @@
 
 package de.timesnake.database.core;
 
-import de.timesnake.database.core.table.TableDDL;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PrimaryEntries {
 
-    private final List<TableEntry<?>> primaryEntries;
+    private final List<Entry<?>> primaryEntries;
 
-    public PrimaryEntries(TableEntry<?>... primaryEntries) {
+    public PrimaryEntries(Entry<?>... primaryEntries) {
         this.primaryEntries = Arrays.asList(primaryEntries);
     }
 
-    public PrimaryEntries(List<TableEntry<?>> primaryEntries) {
+    public PrimaryEntries(List<Entry<?>> primaryEntries) {
         this.primaryEntries = primaryEntries;
     }
 
-    public List<TableEntry<?>> getPrimaryEntries() {
+    public List<Entry<?>> getPrimaryEntries() {
         return primaryEntries;
     }
 
-    public TableEntry<?> get(int index) {
+    public Entry<?> get(int index) {
         return this.primaryEntries.get(index);
     }
 
-    public PrimaryEntries with(TableEntry<?>... entries) {
-        List<TableEntry<?>> primaryEntries = new ArrayList<>();
+    public PrimaryEntries with(Entry<?>... entries) {
+        List<Entry<?>> primaryEntries = new ArrayList<>();
         primaryEntries.addAll(this.primaryEntries);
         primaryEntries.addAll(Arrays.asList(entries));
         return new PrimaryEntries(primaryEntries);
-    }
-
-    public String getColumnsAsEntry() {
-        StringBuilder sb = new StringBuilder();
-        for (TableEntry<?> entry : this.primaryEntries) {
-            sb.append(entry.getColumn().getName());
-            sb.append(", ");
-        }
-        sb.delete(sb.length() - 2, sb.length());
-        return sb.toString();
-    }
-
-    public String getValuesAsEntry() {
-        StringBuilder sb = new StringBuilder();
-        for (TableEntry<?> entry : this.primaryEntries) {
-            sb.append(TableDDL.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
-
-            sb.append(", ");
-        }
-        sb.delete(sb.length() - 2, sb.length());
-        return sb.toString();
-    }
-
-    public String getAsKeys() {
-        StringBuilder sb = new StringBuilder();
-        for (TableEntry<?> entry : this.primaryEntries) {
-            sb.append(entry.getColumn().getName());
-            sb.append("=");
-            sb.append(TableDDL.parseTypeToDatabaseString(entry.getColumn(), entry.getValue()));
-            sb.append(" AND ");
-        }
-        sb.delete(sb.length() - 5, sb.length());
-        return sb.toString();
     }
 
 }

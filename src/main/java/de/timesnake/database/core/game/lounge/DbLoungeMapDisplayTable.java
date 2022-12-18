@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.ColumnMap;
@@ -60,23 +60,23 @@ public class DbLoungeMapDisplayTable extends TableDDL {
     public void addDisplay(String mapName, Integer displayIndex, Integer x, Integer y, Integer z,
                            BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
                            Color firstColor, Color secondColor, Color thirdColor) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
-                        new TableEntry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX)),
-                new TableEntry<>(x, Column.Game.LOUNGE_MAP_DISPLAY_X),
-                new TableEntry<>(y, Column.Game.LOUNGE_MAP_DISPLAY_Y),
-                new TableEntry<>(z, Column.Game.LOUNGE_MAP_DISPLAY_Z),
-                new TableEntry<>(facing, Column.Game.LOUNGE_MAP_DISPLAY_FACING),
-                new TableEntry<>(orientation, Column.Game.LOUNGE_MAP_DISPLAY_ORIENTATION),
-                new TableEntry<>(titleColor, Column.Game.LOUNGE_MAP_DISPLAY_TITLE_COLOR),
-                new TableEntry<>(statNameColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_NAME_COLOR),
-                new TableEntry<>(firstColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_FIRST_COLOR),
-                new TableEntry<>(secondColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_SECOND_COLOR),
-                new TableEntry<>(thirdColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_THIRD_COLOR));
+        super.addEntry(new PrimaryEntries(new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
+                        new Entry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX)),
+                new Entry<>(x, Column.Game.LOUNGE_MAP_DISPLAY_X),
+                new Entry<>(y, Column.Game.LOUNGE_MAP_DISPLAY_Y),
+                new Entry<>(z, Column.Game.LOUNGE_MAP_DISPLAY_Z),
+                new Entry<>(facing, Column.Game.LOUNGE_MAP_DISPLAY_FACING),
+                new Entry<>(orientation, Column.Game.LOUNGE_MAP_DISPLAY_ORIENTATION),
+                new Entry<>(titleColor, Column.Game.LOUNGE_MAP_DISPLAY_TITLE_COLOR),
+                new Entry<>(statNameColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_NAME_COLOR),
+                new Entry<>(firstColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_FIRST_COLOR),
+                new Entry<>(secondColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_SECOND_COLOR),
+                new Entry<>(thirdColor, Column.Game.LOUNGE_MAP_DISPLAY_STAT_THIRD_COLOR));
     }
 
     public void removeDisplay(String mapName, Integer displayIndex) {
-        super.deleteEntry(new TableEntry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
-                new TableEntry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX));
+        super.deleteEntry(new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
+                new Entry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX));
     }
 
     public boolean containsDisplay(String mapName, Integer displayIndex) {
@@ -90,7 +90,7 @@ public class DbLoungeMapDisplayTable extends TableDDL {
 
     public Collection<de.timesnake.database.util.game.DbLoungeMapDisplay> getDisplays(String mapName) {
         ArrayList<de.timesnake.database.util.game.DbLoungeMapDisplay> displays = new ArrayList<>();
-        for (Integer displayIndex : super.get(Column.Game.LOUNGE_MAP_DISPLAY_INDEX, new TableEntry<>(mapName,
+        for (Integer displayIndex : super.get(Column.Game.LOUNGE_MAP_DISPLAY_INDEX, new Entry<>(mapName,
                 Column.Game.LOUNGE_MAP_NAME))) {
             displays.add(this.getDisplay(mapName, displayIndex));
         }
@@ -109,7 +109,7 @@ public class DbLoungeMapDisplayTable extends TableDDL {
                         Column.Game.LOUNGE_MAP_DISPLAY_STAT_SECOND_COLOR,
                         Column.Game.LOUNGE_MAP_DISPLAY_STAT_THIRD_COLOR
                 ),
-                new TableEntry<>(mapName, Column.Game.LOUNGE_MAP_NAME));
+                new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME));
 
         for (ColumnMap entry : entries) {
             displays.add(new DbCachedLoungeMapDisplay(this.getDisplay(mapName,

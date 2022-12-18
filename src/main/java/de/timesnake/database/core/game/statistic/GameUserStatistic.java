@@ -22,7 +22,7 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -52,7 +52,7 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
     }
 
     protected GameUserStatistic(DatabaseConnector databaseConnector, String nameTable, UUID uuid) {
-        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.Game.STAT_USER_UUID));
+        super(databaseConnector, nameTable, new Entry<>(uuid, Column.Game.STAT_USER_UUID));
 
         super.setUpdatePolicy(UpdatePolicy.INSERT_IF_NOT_EXISTS);
     }
@@ -126,7 +126,7 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
     @Override
     public <Value> Map<StatPeriod, Value> getValues(Collection<StatPeriod> periods, StatType<Value> stat) {
         ColumnMap map = super.getFirstWithKey(getPeriodColumns(periods),
-                new TableEntry<>(stat.getName(), Column.Game.STAT_USER_TYPE));
+                new Entry<>(stat.getName(), Column.Game.STAT_USER_TYPE));
 
         HashMap<StatPeriod, Value> result = new HashMap<>();
 
@@ -151,43 +151,43 @@ public class GameUserStatistic extends TableQuery implements de.timesnake.databa
 
     @Override
     public <Value> void setValues(Map<StatPeriod, Value> valuesByPeriod, StatType<Value> type) {
-        Set<TableEntry<?>> values = new HashSet<>();
+        Set<Entry<?>> values = new HashSet<>();
 
         for (Map.Entry<StatPeriod, Value> entry : valuesByPeriod.entrySet()) {
-            values.add(new TableEntry<>(type.valueToString(entry.getValue()),
+            values.add(new Entry<>(type.valueToString(entry.getValue()),
                     getPeriodColumn(entry.getKey())));
         }
 
         super.setWithKey(values, () ->
                         Channel.getInstance().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
                                 this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
-                new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE));
+                new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE));
 
         // TODO safe set
     }
 
     @Override
     public <Value> void setValues(StatType<Value> type, Value value) {
-        Set<TableEntry<?>> values = new HashSet<>();
+        Set<Entry<?>> values = new HashSet<>();
 
         for (StatPeriod period : StatPeriod.values()) {
-            values.add(new TableEntry<>(type.valueToString(value),
+            values.add(new Entry<>(type.valueToString(value),
                     getPeriodColumn(period)));
         }
 
         super.setWithKey(values, () ->
                         Channel.getInstance().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
                                 this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
-                new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE));
+                new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE));
     }
 
     @Override
     @Deprecated
     public <Value> void addValue(StatPeriod period, StatType<Value> type, Value value) {
-        super.addEntry(this.primaryEntries.with(new TableEntry<>(type.getName(), Column.Game.STAT_USER_TYPE)),
+        super.addEntry(this.primaryEntries.with(new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE)),
                 () -> Channel.getInstance().sendMessageSynchronized(new ChannelUserMessage<>(((UUID)
                         this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
-                new TableEntry<>(type.valueToString(value), getPeriodColumn(period)));
+                new Entry<>(type.valueToString(value), getPeriodColumn(period)));
     }
 
 }

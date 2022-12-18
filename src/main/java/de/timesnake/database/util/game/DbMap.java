@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -25,7 +25,9 @@ import de.timesnake.database.util.object.NotCached;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public interface DbMap extends DbCached<DbMap> {
 
@@ -93,13 +95,13 @@ public interface DbMap extends DbCached<DbMap> {
     String getItemName();
 
     @NotNull
-    ArrayList<String> getDescription();
+    List<String> getDescription();
 
     @NotNull
-    ArrayList<String> getInfo();
+    List<String> getInfo();
 
     @NotCached
-    void setInfo(Collection<String> info);
+    void setInfo(List<String> info);
 
     boolean isEnabled();
 
@@ -111,7 +113,7 @@ public interface DbMap extends DbCached<DbMap> {
     List<UUID> getAuthors();
 
     @NotCached
-    void setAuthors(Collection<UUID> authors);
+    void setAuthors(List<UUID> authors);
 
     @NotCached
     void addAuthor(UUID author);
@@ -124,5 +126,5 @@ public interface DbMap extends DbCached<DbMap> {
     List<String> getAuthorNames();
 
     @NotCached
-    void setAuthorNames(Collection<String> authors);
+    void setAuthorNames(List<String> authors);
 }

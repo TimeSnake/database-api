@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -23,10 +23,7 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class DbPunishment extends DbPlayer implements de.timesnake.database.util.user.DbPunishment {
@@ -47,37 +44,23 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
     @Nullable
     @Override
     public Type.Punishment getType() {
-        String type = super.getFirstWithKey(Column.User.PUNISH_TYPE);
-        if (type != null) {
-            return Type.Punishment.getByDatabaseValue(type);
-        }
-        return null;
+        return super.getFirstWithKey(Column.User.PUNISH_TYPE);
     }
 
     @Override
     public void setType(Type.Punishment type) {
-        super.setWithKey(type.getDatabaseValue(), Column.User.PUNISH_TYPE);
+        super.setWithKey(type, Column.User.PUNISH_TYPE);
     }
 
     @Nullable
     @Override
-    public Date getDate() {
-        String date = super.getFirstWithKey(Column.User.PUNISH_DATE);
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        if (date != null) {
-            try {
-                return df.parse(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    public LocalDateTime getDate() {
+        return super.getFirstWithKey(Column.User.PUNISH_DATE);
     }
 
     @Override
-    public void setDate(Date date) {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        super.setWithKey(df.format(date), Column.User.PUNISH_DATE);
+    public void setDate(LocalDateTime date) {
+        super.setWithKey(date, Column.User.PUNISH_DATE);
     }
 
     @Nullable

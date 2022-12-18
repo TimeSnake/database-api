@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -28,8 +28,8 @@ import java.util.UUID;
 
 public class DbNonTmpGameServer extends DbPvPServer implements de.timesnake.database.util.server.DbNonTmpGameServer {
 
-    public DbNonTmpGameServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
-        super(databaseConnector, port, nameTable);
+    public DbNonTmpGameServer(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, name, nameTable);
     }
 
     @Nullable

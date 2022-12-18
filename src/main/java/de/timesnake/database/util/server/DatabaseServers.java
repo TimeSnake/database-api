@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -44,9 +44,7 @@ public interface DatabaseServers {
 
     @Nullable <Server extends DbServer> Server getServer(Type.Server<Server> type, String name);
 
-    void removeServer(Type.Server<?> type, int port);
-
-    boolean containsServer(Type.Server<?> type, int port);
+    void removeServer(Type.Server<?> type, String name);
 
     boolean containsServer(Type.Server<?> type, String name);
 
@@ -62,15 +60,15 @@ public interface DatabaseServers {
     @NotNull
     Collection<Integer> getServerPorts(Type.Server<?> type);
 
-    void addLobby(int port, String name, Status.Server status, Path folderPath);
+    void addLobby(String name, int port, Status.Server status, Path folderPath);
 
-    void addGame(int port, String name, String task, Status.Server status, Path folderPath);
+    void addGame(String name, int port, String task, Status.Server status, Path folderPath);
 
-    void addLounge(int port, String name, Status.Server status, Path folderPath);
+    void addLounge(String name, int port, Status.Server status, Path folderPath);
 
-    void addTempGame(int port, String name, String task, Status.Server status, Path folderPath);
+    void addTempGame(String name, int port, String task, Status.Server status, Path folderPath);
 
-    void addBuild(int port, String name, String task, Status.Server status, Path folderPath);
+    void addBuild(String name, int port, String task, Status.Server status, Path folderPath);
 
     @NotNull
     Set<String> getBuildWorlds();

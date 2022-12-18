@@ -22,7 +22,7 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.TooLongEntryException;
@@ -34,14 +34,14 @@ import java.nio.file.Path;
 
 public abstract class DbServer extends TableQuery implements de.timesnake.database.util.server.DbServer {
 
-    public DbServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(port, Column.Server.PORT));
+    public DbServer(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, nameTable, new Entry<>(name, Column.Server.NAME));
     }
 
     @NotNull
     @Override
     public String getName() {
-        return super.getFirstWithKey(Column.Server.NAME);
+        return (String) super.primaryEntries.get(0).getValue();
     }
 
     @Override
@@ -57,7 +57,7 @@ public abstract class DbServer extends TableQuery implements de.timesnake.databa
     @NotNull
     @Override
     public Integer getPort() {
-        return (Integer) super.primaryEntries.get(0).getValue();
+        return super.getFirstWithKey(Column.Server.PORT);
     }
 
     @NotNull

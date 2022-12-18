@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -22,7 +22,6 @@ import de.timesnake.database.core.main.DatabaseManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class MapsTable {
@@ -59,7 +58,7 @@ public class MapsTable {
     }
 
     public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
-                       Collection<String> description, Collection<String> info, Collection<String> authors) {
+                       List<String> description, List<String> info, List<String> authors) {
         this.infoTable.addMapInfo(name, displayName, minPlayers, maxPlayers, itemName, description, info);
         this.getMap(name).setAuthorNames(authors);
     }
@@ -74,7 +73,7 @@ public class MapsTable {
         return new DbMap(gameName, mapName);
     }
 
-    public Collection<de.timesnake.database.util.game.DbMap> getMaps() {
+    public List<de.timesnake.database.util.game.DbMap> getMaps() {
         List<de.timesnake.database.util.game.DbMap> maps = new ArrayList<>();
         for (DbMapInfo info : this.infoTable.getMaps()) {
             maps.add(this.getMap(info.getName()));
@@ -82,7 +81,7 @@ public class MapsTable {
         return maps;
     }
 
-    public Collection<de.timesnake.database.util.game.DbMap> getMaps(Integer players) {
+    public List<de.timesnake.database.util.game.DbMap> getMaps(Integer players) {
         List<de.timesnake.database.util.game.DbMap> maps = new ArrayList<>();
         for (DbMapInfo info : this.infoTable.getMaps(players)) {
             maps.add(this.getMap(info.getName()));

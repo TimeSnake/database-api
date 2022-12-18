@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
@@ -57,16 +57,16 @@ public class MapsInfoTable extends TableDDL {
 
     public void addMapInfo(String name, String displayName, Integer minPlayers, Integer maxPlayer, String itemName,
                            Collection<String> description, Collection<String> info) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(name, Column.Game.MAP_NAME)), new TableEntry<>(displayName
-                        , Column.Game.MAP_DISPLAY_NAME), new TableEntry<>(minPlayers, Column.Game.MAP_MIN_PLAYERS),
-                new TableEntry<>(maxPlayer, Column.Game.MAP_MAX_PLAYERS), new TableEntry<>(itemName,
-                        Column.Game.MAP_ITEM), new TableEntry<>(new DbStringArrayList(description),
-                        Column.Game.MAP_DESCRIPTION), new TableEntry<>(new DbStringArrayList(info),
-                        Column.Game.MAP_INFO), new TableEntry<>(true, Column.Game.MAP_ENABLE));
+        super.addEntry(new PrimaryEntries(new Entry<>(name, Column.Game.MAP_NAME)), new Entry<>(displayName
+                        , Column.Game.MAP_DISPLAY_NAME), new Entry<>(minPlayers, Column.Game.MAP_MIN_PLAYERS),
+                new Entry<>(maxPlayer, Column.Game.MAP_MAX_PLAYERS), new Entry<>(itemName,
+                        Column.Game.MAP_ITEM), new Entry<>(new DbStringArrayList(description),
+                        Column.Game.MAP_DESCRIPTION), new Entry<>(new DbStringArrayList(info),
+                        Column.Game.MAP_INFO), new Entry<>(true, Column.Game.MAP_ENABLE));
     }
 
     public void removeMapInfo(String name) {
-        super.deleteEntry(new TableEntry<>(name, Column.Game.MAP_NAME));
+        super.deleteEntry(new Entry<>(name, Column.Game.MAP_NAME));
     }
 
     @NotNull

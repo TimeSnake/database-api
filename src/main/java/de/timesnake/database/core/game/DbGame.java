@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -42,14 +42,15 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     protected final DatabaseConnector databaseConnector;
     protected final String gameName;
     protected final DbGameInfo info;
-    protected Optional<KitsTable> kitsTable;
-    protected Optional<MapsTable> mapsTable;
-    protected Optional<StatisticsTable> statisticsTable;
+    protected KitsTable kitsTable;
+    protected MapsTable mapsTable;
+    protected StatisticsTable statisticsTable;
 
     protected DbGame(DatabaseConnector databaseConnector, String gameName, DbGameInfo info) {
         this.databaseConnector = databaseConnector;
         this.gameName = gameName;
         this.info = info;
+        this.initTables();
     }
 
     protected DbGame(DbGame game) {
@@ -67,107 +68,63 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         return this.info;
     }
 
-    private boolean loadStatisticsTable() {
-        if (this.statisticsTable != null) {
-            if (this.statisticsTable.isEmpty()) {
-                return false;
-            }
-
-            if (this.statisticsTable.get() != null) {
-                return true;
-            }
-        }
-
+    private void initTables() {
         if (this.info.hasStatistics()) {
-            this.statisticsTable = Optional.of(DatabaseManager.getInstance().getGameStatistics().getGameUserStatistics(gameName));
-            return true;
-        } else {
-            this.statisticsTable = Optional.empty();
-            return false;
-        }
-    }
-
-    private boolean loadKitsTable() {
-        if (this.kitsTable != null) {
-            if (this.kitsTable.isEmpty()) {
-                return false;
-            }
-
-            if (this.kitsTable.get() != null) {
-                return true;
-            }
+            this.statisticsTable = DatabaseManager.getInstance().getGameStatistics().getGameUserStatistics(gameName);
         }
 
         Type.Availability kitsAvailability = this.info.getKitAvailability();
         if (kitsAvailability.equals(Type.Availability.ALLOWED) || kitsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.kitsTable = Optional.of(DatabaseManager.getInstance().getGameKits().getGameKits(gameName));
-            return true;
-        } else {
-            this.kitsTable = Optional.empty();
-            return false;
-        }
-    }
-
-    private boolean loadMapsTable() {
-        if (this.mapsTable != null) {
-            if (this.mapsTable.isEmpty()) {
-                return false;
-            }
-
-            if (this.mapsTable.get() != null) {
-                return true;
-            }
+            this.kitsTable = DatabaseManager.getInstance().getGameKits().getGameKits(gameName);
         }
 
         Type.Availability mapsAvailability = this.info.getMapAvailability();
         if (mapsAvailability.equals(Type.Availability.ALLOWED) || mapsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.mapsTable = Optional.of(new de.timesnake.database.core.game.map.MapsTable(gameName));
-            return true;
-        } else {
-            this.mapsTable = Optional.empty();
-            return false;
+            this.mapsTable = new de.timesnake.database.core.game.map.MapsTable(gameName);
         }
     }
 
     public void createTables() {
-        if (this.loadStatisticsTable()) {
-            this.statisticsTable.get().create();
+        if (this.info.hasStatistics()) {
+            this.statisticsTable.create();
         }
 
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().create();
+        Type.Availability kitsAvailability = this.info.getKitAvailability();
+        if (kitsAvailability.equals(Type.Availability.ALLOWED) || kitsAvailability.equals(Type.Availability.REQUIRED)) {
+            this.kitsTable.create();
         }
 
-        if (this.loadMapsTable()) {
-            this.mapsTable.get().create();
+        Type.Availability mapsAvailability = this.info.getMapAvailability();
+        if (mapsAvailability.equals(Type.Availability.ALLOWED) || mapsAvailability.equals(Type.Availability.REQUIRED)) {
+            this.mapsTable.create();
         }
     }
 
     public void backup() {
-        if (this.loadStatisticsTable()) {
-            this.statisticsTable.get().backup();
+        if (this.statisticsTable != null) {
+            this.statisticsTable.backup();
         }
 
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().backup();
+        if (this.kitsTable != null) {
+            this.kitsTable.backup();
         }
 
-        if (this.loadMapsTable()) {
-            this.mapsTable.get().backup();
+        if (this.mapsTable != null) {
+            this.mapsTable.backup();
         }
     }
 
     public void delete() {
-        if (this.loadStatisticsTable()) {
-            this.statisticsTable.get().delete();
+        if (this.statisticsTable != null) {
+            this.statisticsTable.delete();
         }
 
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().delete();
+        if (this.kitsTable != null) {
+            this.kitsTable.delete();
         }
 
-        if (this.loadMapsTable()) {
-            this.mapsTable.get().delete();
+        if (this.mapsTable != null) {
+            this.mapsTable.delete();
         }
     }
 
@@ -178,9 +135,9 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
 
     @NotNull
     @Override
-    public Collection<Integer> getKitIds() {
-        if (this.loadKitsTable()) {
-            return this.kitsTable.get().getKitsId();
+    public List<Integer> getKitIds() {
+        if (this.kitsTable != null) {
+            return this.kitsTable.getKitsId();
         }
         return new ArrayList<>();
     }
@@ -188,8 +145,8 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     @Nullable
     @Override
     public DbKit getKit(int id) {
-        if (this.loadKitsTable()) {
-            return this.kitsTable.get().getKit(id);
+        if (this.kitsTable != null) {
+            return this.kitsTable.getKit(id);
         }
         return null;
     }
@@ -197,37 +154,37 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     @Nullable
     @Override
     public DbKit getKit(String name) {
-        if (this.loadKitsTable()) {
-            return this.kitsTable.get().getKit(name);
+        if (this.kitsTable != null) {
+            return this.kitsTable.getKit(name);
         }
         return null;
     }
 
     @Override
     public void removeKit(Integer id) {
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().removeKit(id);
+        if (this.kitsTable != null) {
+            this.kitsTable.removeKit(id);
         }
     }
 
     @Override
     public void removeKitSynchronized(Integer id) {
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().removeKitSynchronized(id);
+        if (this.kitsTable != null) {
+            this.kitsTable.removeKitSynchronized(id);
         }
     }
 
     @Override
     public void addKit(Integer id, String name, String itemType, Collection<String> description) throws UnsupportedStringException {
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().addKit(id, name, itemType, description);
+        if (this.kitsTable != null) {
+            this.kitsTable.addKit(id, name, itemType, description);
         }
     }
 
     @Override
     public void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException {
-        if (this.loadKitsTable()) {
-            this.kitsTable.get().addKit(name, itemType, description);
+        if (this.kitsTable != null) {
+            this.kitsTable.addKit(name, itemType, description);
         }
     }
 
@@ -246,33 +203,33 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
 
     @Override
     public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
-                       Collection<String> description, Collection<String> info, Collection<String> authors) {
-        if (this.loadMapsTable()) {
-            this.mapsTable.get().addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
+                       List<String> description, List<String> info, List<String> authors) {
+        if (this.mapsTable != null) {
+            this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
         }
     }
 
     @Override
     public void removeMap(String name) {
-        if (this.loadMapsTable()) {
-            this.mapsTable.get().removeMap(name);
+        if (this.mapsTable != null) {
+            this.mapsTable.removeMap(name);
         }
     }
 
     @NotNull
     @Override
     public DbMap getMap(String mapName) {
-        if (this.loadMapsTable()) {
-            return this.mapsTable.get().getMap(mapName);
+        if (this.mapsTable != null) {
+            return this.mapsTable.getMap(mapName);
         }
         return null;
     }
 
 
     @NotNull
-    public Collection<DbMap> getMaps(Integer players) {
-        if (this.loadMapsTable()) {
-            return this.mapsTable.get().getMaps(players);
+    public List<DbMap> getMaps(Integer players) {
+        if (this.mapsTable != null) {
+            return this.mapsTable.getMaps(players);
         }
         return new ArrayList<>();
     }
@@ -280,17 +237,17 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
 
     @NotNull
     @Override
-    public Collection<DbMap> getMaps() {
-        if (this.loadMapsTable()) {
-            return this.mapsTable.get().getMaps();
+    public List<DbMap> getMaps() {
+        if (this.mapsTable != null) {
+            return this.mapsTable.getMaps();
         }
         return new ArrayList<>();
     }
 
     @Override
     public boolean containsMap(String mapName) {
-        if (this.loadMapsTable()) {
-            return this.mapsTable.get().containsMap(mapName);
+        if (this.mapsTable != null) {
+            return this.mapsTable.containsMap(mapName);
         }
         return false;
     }
@@ -298,8 +255,8 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     @NotNull
     @Override
     public Set<StatType<?>> getStats() {
-        if (this.loadStatisticsTable()) {
-            return this.statisticsTable.get().getStats();
+        if (this.statisticsTable != null) {
+            return this.statisticsTable.getStats();
         }
         return new HashSet<>();
     }
@@ -307,40 +264,40 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     @Nullable
     @Override
     public StatType<?> getStat(String name) {
-        if (this.loadStatisticsTable()) {
-            return this.statisticsTable.get().getStat(name);
+        if (this.statisticsTable != null) {
+            return this.statisticsTable.getStat(name);
         }
         return null;
     }
 
     @Override
     public void addStat(StatType<?> stat) {
-        if (this.loadStatisticsTable()) {
-            this.statisticsTable.get().addStat(stat);
+        if (this.statisticsTable != null) {
+            this.statisticsTable.addStat(stat);
         }
     }
 
     @Override
     public void removeStat(StatType<?> stat) {
-        if (this.loadStatisticsTable()) {
-            this.statisticsTable.get().removeStat(stat);
+        if (this.statisticsTable != null) {
+            this.statisticsTable.removeStat(stat);
         }
     }
 
     @Nullable
     @Override
     public GameUserStatistic getUserStatistic(UUID uuid) {
-        if (this.loadStatisticsTable()) {
-            return this.statisticsTable.get().getUserStatistic(uuid);
+        if (this.statisticsTable != null) {
+            return this.statisticsTable.getUserStatistic(uuid);
         }
         return null;
     }
 
     @NotNull
     @Override
-    public Collection<GameUserStatistic> getUserStatistics() {
-        if (this.loadStatisticsTable()) {
-            return this.statisticsTable.get().getUserStatistics();
+    public List<GameUserStatistic> getUserStatistics() {
+        if (this.statisticsTable != null) {
+            return this.statisticsTable.getUserStatistics();
         }
         return new ArrayList<>();
     }
@@ -348,8 +305,8 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     @NotNull
     @Override
     public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
-        if (this.loadStatisticsTable()) {
-            return this.statisticsTable.get().getStatOfUsers(period, type);
+        if (this.statisticsTable != null) {
+            return this.statisticsTable.getStatOfUsers(period, type);
         }
         return new HashMap<>();
     }

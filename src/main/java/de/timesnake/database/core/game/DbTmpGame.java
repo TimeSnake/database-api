@@ -58,8 +58,8 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
             }
         }
 
-        List<Integer> teamSizes = this.getInfo().getTeamSizes();
-        if (teamSizes.size() > 0 && !(teamSizes.size() == 1 && teamSizes.get(0).equals(0))) {
+        Collection<Integer> teamSizes = this.getInfo().getTeamSizes();
+        if (teamSizes.size() > 0 && !(teamSizes.size() == 1 && teamSizes.contains(0))) {
             this.teamsTable = Optional.of(DatabaseManager.getInstance().getGameTeams().getGameTeams(gameName));
             return true;
         } else {

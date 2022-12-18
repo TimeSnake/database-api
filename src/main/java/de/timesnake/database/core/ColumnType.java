@@ -23,13 +23,13 @@ import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.chat.ExTextColor;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.File;
 import java.nio.file.Path;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,257 +37,227 @@ import static de.timesnake.database.core.table.Table.ENTRY_ARRAY_DELIMITER;
 
 public abstract class ColumnType<Value> {
 
-    public static ColumnType<Integer> integer() {
-        return new ColumnType<>("INT", 1, false) {
-            @Override
-            public String getName() {
-                return "INT";
-            }
+    public static final ColumnType<Integer> INTEGER = new ColumnType<>("INT", 10) {
+        @Override
+        public String getName() {
+            return "INT";
+        }
 
-            @Override
-            public Integer parseValueFromSQL(ResultSet rs, Column<Integer> column) throws SQLException {
-                return rs.getInt(column.getName());
+        @Override
+        public Integer parseValueFromResultSet(ResultSet rs, Column<Integer> column) throws SQLException {
+            int value = rs.getInt(column.getName());
+            if (rs.wasNull()) {
+                return null;
             }
+            return value;
+        }
 
-            @Override
-            public String parseValueToSQL(@NotNull Integer integer) {
-                return String.valueOf(integer);
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Integer integer) throws SQLException {
+            statement.setInt(index, integer);
+        }
+    };
+
+    public static final ColumnType<Long> LONG = new ColumnType<>("BIGINT", 19) {
+        @Override
+        public String getName() {
+            return "BIGINT(" + this.length + ")";
+        }
+
+        @Override
+        public Long parseValueFromResultSet(ResultSet rs, Column<Long> column) throws SQLException {
+            long value = rs.getLong(column.getName());
+            if (rs.wasNull()) {
+                return null;
             }
-        };
-    }
+            return value;
+        }
 
-    public static ColumnType<Integer> integer(int length) {
-        return new ColumnType<>("INT", length, false) {
-            @Override
-            public String getName() {
-                return "INT(" + this.length + ")";
-            }
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Long aLong) throws SQLException {
+            statement.setLong(index, aLong);
+        }
+    };
 
-            @Override
-            public Integer parseValueFromSQL(ResultSet rs, Column<Integer> column) throws SQLException {
-                return rs.getInt(column.getName());
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull Integer integer) {
-                return String.valueOf(integer);
-            }
-        };
-    }
-
-    public static ColumnType<Long> Long() {
-        return new ColumnType<>("UNSIGNED BIGINT", 19, false) {
-            @Override
-            public String getName() {
-                return "UNSIGNED BIGINT(" + this.length + ")";
-            }
-
-            @Override
-            public Long parseValueFromSQL(ResultSet rs, Column<Long> column) throws SQLException {
-                return rs.getLong(column.getName());
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull Long integer) {
-                return String.valueOf(integer);
-            }
-        };
-    }
-
-    public static ColumnType<Integer> integer(boolean autoIncrement) {
-        return new ColumnType<>("INT", 1, false) {
+    public static ColumnType<Integer> INTEGER(boolean autoIncrement) {
+        return new ColumnType<>("INT", 1) {
             @Override
             public String getName() {
                 return autoIncrement ? "INT AUTO_INCREMENT" : "INT";
             }
 
             @Override
-            public Integer parseValueFromSQL(ResultSet rs, Column<Integer> column) throws SQLException {
-                return rs.getInt(column.getName());
+            public Integer parseValueFromResultSet(ResultSet rs, Column<Integer> column) throws SQLException {
+                int value = rs.getInt(column.getName());
+                if (rs.wasNull()) {
+                    return null;
+                }
+                return value;
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Integer integer) {
-                return String.valueOf(integer);
+            public void applyOnStatement(PreparedStatement statement, int index, Integer integer) throws SQLException {
+                statement.setInt(index, integer);
             }
         };
     }
 
-    public static ColumnType<Integer> integer(int length, boolean autoIncrement) {
-        return new ColumnType<>("INT", length, false) {
-            @Override
-            public String getName() {
-                return autoIncrement ? "INT(" + this.length + ") AUTO_INCREMENT" : "INT(" + this.length + ")";
-            }
-
-            @Override
-            public Integer parseValueFromSQL(ResultSet rs, Column<Integer> column) throws SQLException {
-                return rs.getInt(column.getName());
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull Integer integer) {
-                return String.valueOf(integer);
-            }
-        };
-    }
-
-    public static ColumnType<String> varchar(int length) {
-        return new ColumnType<>("varchar", length, true) {
+    public static ColumnType<String> VARCHAR(int length) {
+        return new ColumnType<>("varchar", length) {
             @Override
             public String getName() {
                 return "varchar(" + this.length + ")";
             }
 
             @Override
-            public String parseValueFromSQL(ResultSet rs, Column<String> column) throws SQLException {
+            public String parseValueFromResultSet(ResultSet rs, Column<String> column) throws SQLException {
                 return rs.getString(column.getName());
             }
 
             @Override
-            public String parseValueToSQL(@NotNull String s) {
-                return s;
+            public void applyOnStatement(PreparedStatement statement, int index, String s) throws SQLException {
+                statement.setString(index, s);
             }
         };
     }
 
-    public static ColumnType<Float> Float(int length) {
-        return new ColumnType<>("float", length, false) {
-            @Override
-            public String getName() {
-                return "float(" + this.length + ")";
-            }
+    public static final ColumnType<Float> FLOAT = new ColumnType<>("float", 12) {
+        @Override
+        public String getName() {
+            return "float(" + this.length + ")";
+        }
 
-            @Override
-            public Float parseValueFromSQL(ResultSet rs, Column<Float> column) throws SQLException {
-                return rs.getFloat(column.getName());
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull Float f) {
-                return String.valueOf(f);
-            }
-        };
-    }
-
-    public static ColumnType<UUID> uuid() {
-        return new ColumnType<>("binary", 16, false) {
-            @Override
-            public String getName() {
-                return "binary(" + this.length + ")";
-            }
-
-            @Override
-            public UUID parseValueFromSQL(ResultSet rs, Column<UUID> column) throws SQLException {
-                return UUID.fromString(rs.getString(column.getName()));
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull UUID uuid) {
-                return "UUID_TO_BIN('" + uuid.toString() + "')";
-            }
-
-            @Override
-            public String getSelectWrapper(String columnName) {
-                return "BIN_TO_UUID(" + columnName + ")";
-            }
-        };
-    }
-
-    public static ColumnType<Integer> tinyint(int length) {
-        return new ColumnType<>("tinyint", length, false) {
-            @Override
-            public String getName() {
-                return "tinyint(" + this.length + ")";
-            }
-
-            @Override
-            public Integer parseValueFromSQL(ResultSet rs, Column<Integer> column) throws SQLException {
-                return rs.getInt(column.getName());
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull Integer integer) {
-                return String.valueOf(integer);
-            }
-        };
-    }
-
-    public static ColumnType<Boolean> Boolean() {
-        return new ColumnType<>("boolean", 1, false) {
-            @Override
-            public String getName() {
-                return "boolean";
-            }
-
-            @Override
-            public Boolean parseValueFromSQL(ResultSet rs, Column<Boolean> column) throws SQLException {
-                return rs.getBoolean(column.getName());
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull Boolean b) {
-                return String.valueOf(b);
-            }
-        };
-    }
-
-    public static ColumnType<? extends Status> status() {
-        return new ColumnType<>("varchar", 16, true) {
-            @Override
-            public String getName() {
-                return "varchar(" + this.length + ")";
-            }
-
-            @Override
-            public Status parseValueFromSQL(ResultSet rs, Column<Status> column) throws SQLException {
-                if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.User.class)) {
-                    return de.timesnake.library.basic.util.Status.User.parseValue(rs.getString(column.getName()));
-                } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Server.class)) {
-                    return de.timesnake.library.basic.util.Status.Server.parseValue(rs.getString(column.getName()));
-                } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Permission.class)) {
-                    return de.timesnake.library.basic.util.Status.Permission.parseValue(rs.getString(column.getName()));
-                } else if (column.getValueClass().equals(de.timesnake.library.basic.util.Status.Ticket.class)) {
-                    return de.timesnake.library.basic.util.Status.Ticket.parseValue(rs.getString(column.getName()));
-                }
+        @Override
+        public Float parseValueFromResultSet(ResultSet rs, Column<Float> column) throws SQLException {
+            final float value = rs.getFloat(column.getName());
+            if (rs.wasNull()) {
                 return null;
             }
+            return value;
+        }
 
-            @Override
-            public String parseValueToSQL(@NotNull Status status) {
-                return status.getSimpleName();
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Float aFloat) throws SQLException {
+            statement.setFloat(index, aFloat);
+        }
+    };
+
+    public static final ColumnType<UUID> UUID = new ColumnType<>("binary", 16) {
+        @Override
+        public String getName() {
+            return "binary(" + this.length + ")";
+        }
+
+        @Override
+        public UUID parseValueFromResultSet(ResultSet rs, Column<UUID> column) throws SQLException {
+            String uuid = rs.getString(column.getName());
+            if (uuid != null) {
+                return java.util.UUID.fromString(uuid);
             }
-        };
-    }
+            return null;
+        }
 
-    public static ColumnType<? extends Type> type() {
-        return new ColumnType<>("varchar", 16, true) {
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, UUID uuid) throws SQLException {
+            statement.setString(index, uuid.toString());
+        }
+
+        @Override
+        public String getSelectWrapper(String columnName) {
+            return "BIN_TO_UUID(" + columnName + ") AS " + columnName;
+        }
+
+        @Override
+        public String getValueWrapper() {
+            return "UUID_TO_BIN(?)";
+        }
+    };
+
+    public static final ColumnType<Boolean> BOOLEAN = new ColumnType<>("bit", 1) {
+        @Override
+        public String getName() {
+            return "boolean";
+        }
+
+        @Override
+        public Boolean parseValueFromResultSet(ResultSet rs, Column<Boolean> column) throws SQLException {
+            return rs.getBoolean(column.getName());
+        }
+
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Boolean aBoolean) throws SQLException {
+            statement.setBoolean(index, aBoolean);
+        }
+    };
+
+    public static <T extends Status> ColumnType<T> STATUS() {
+        return new ColumnType<>("varchar", 24) {
             @Override
             public String getName() {
                 return "varchar(" + this.length + ")";
             }
 
             @Override
-            public Type parseValueFromSQL(ResultSet rs, Column<Type> column) throws SQLException {
-                return Type.getByDatabaseValue(((Column<? extends Type>) column), rs.getString(column.getName()));
+            public T parseValueFromResultSet(ResultSet rs, Column<T> column) throws SQLException {
+                return Status.valueOf(rs.getString(column.getName()));
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Type type) {
-                return type.getDatabaseValue();
+            public void applyOnStatement(PreparedStatement statement, int index, Status status) throws SQLException {
+                statement.setString(index, status.getName());
             }
         };
     }
 
-    public static ColumnType<Collection<String>> stringCollection(int length) {
-        return new ColumnType<>("varchar", length, true) {
+    public static <T extends Type> ColumnType<T> TYPE() {
+        return new ColumnType<>("varchar", 24) {
             @Override
             public String getName() {
                 return "varchar(" + this.length + ")";
             }
 
             @Override
-            public Collection<String> parseValueFromSQL(ResultSet rs, Column<Collection<String>> column) throws SQLException {
+            public T parseValueFromResultSet(ResultSet rs, Column<T> column) throws SQLException {
+                return Type.valueOf(rs.getString(column.getName()));
+            }
+
+            @Override
+            public void applyOnStatement(PreparedStatement statement, int index, Type type) throws SQLException {
+                statement.setString(index, type.getShortName());
+            }
+        };
+    }
+
+    public static final ColumnType<LocalDateTime> LOCAL_DATE_TIME = new ColumnType<>("TIMESTAMP", 19) {
+        @Override
+        public String getName() {
+            return "TIMESTAMP";
+        }
+
+        @Override
+        public LocalDateTime parseValueFromResultSet(ResultSet rs, Column<LocalDateTime> column) throws SQLException {
+            Timestamp timestamp = rs.getTimestamp(column.getName());
+            if (timestamp != null) {
+                return timestamp.toLocalDateTime();
+            }
+            return null;
+        }
+
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, LocalDateTime dateTime) throws SQLException {
+            statement.setTimestamp(index, Timestamp.valueOf(dateTime));
+        }
+    };
+
+    public static ColumnType<List<String>> STRING_LIST(int length) {
+        return new ColumnType<>("varchar", length) {
+            @Override
+            public String getName() {
+                return "varchar(" + this.length + ")";
+            }
+
+            @Override
+            public List<String> parseValueFromResultSet(ResultSet rs, Column<List<String>> column) throws SQLException {
                 String value = rs.getString(column.getName());
                 if (value == null) {
                     return Collections.emptyList();
@@ -296,24 +266,25 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Collection<String> collection) {
-                if (collection.size() > 0) {
-                    return String.join(ENTRY_ARRAY_DELIMITER, collection);
+            public void applyOnStatement(PreparedStatement statement, int index, List<String> strings) throws SQLException {
+                if (strings.size() > 0) {
+                    statement.setString(index, String.join(ENTRY_ARRAY_DELIMITER, strings));
+                } else {
+                    statement.setNull(index, Types.NULL);
                 }
-                return null;
             }
         };
     }
 
-    public static ColumnType<Collection<Integer>> integerCollection(int length) {
-        return new ColumnType<>("varchar", length, true) {
+    public static ColumnType<List<Integer>> integerList(int length) {
+        return new ColumnType<>("varchar", length) {
             @Override
             public String getName() {
                 return "varchar(" + this.length + ")";
             }
 
             @Override
-            public Collection<Integer> parseValueFromSQL(ResultSet rs, Column<Collection<Integer>> column) throws SQLException {
+            public List<Integer> parseValueFromResultSet(ResultSet rs, Column<List<Integer>> column) throws SQLException {
                 String value = rs.getString(column.getName());
                 if (value == null) {
                     return Collections.emptyList();
@@ -331,155 +302,155 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Collection<Integer> collection) {
-                if (collection.size() > 0) {
-                    return collection.stream().map(String::valueOf).collect(Collectors.joining(ENTRY_ARRAY_DELIMITER));
+            public void applyOnStatement(PreparedStatement statement, int index, List<Integer> integers) throws SQLException {
+                if (integers.size() > 0) {
+                    statement.setString(index, integers.stream()
+                            .map(String::valueOf).collect(Collectors.joining(ENTRY_ARRAY_DELIMITER)));
+                } else {
+                    statement.setNull(index, Types.NULL);
                 }
+            }
+        };
+    }
+
+    public static final ColumnType<BlockSide> BLOCK_SIDE = new ColumnType<>("varchar", 5) {
+        @Override
+        public String getName() {
+            return "varchar(" + this.length + ")";
+        }
+
+        @Override
+        public BlockSide parseValueFromResultSet(ResultSet rs, Column<BlockSide> column) throws SQLException {
+            String value = rs.getString(column.getName());
+            if (value == null) {
                 return null;
             }
-        };
-    }
+            return BlockSide.valueOf(value.toUpperCase());
+        }
 
-    public static ColumnType<BlockSide> blockSide() {
-        return new ColumnType<>("varchar", 5, true) {
-            @Override
-            public String getName() {
-                return "varchar(" + this.length + ")";
-            }
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, BlockSide blockSide) throws SQLException {
+            statement.setString(index, blockSide.name().toLowerCase());
+        }
+    };
 
-            @Override
-            public BlockSide parseValueFromSQL(ResultSet rs, Column<BlockSide> column) throws SQLException {
-                String value = rs.getString(column.getName());
-                if (value == null) {
-                    return null;
-                }
-                return BlockSide.valueOf(value.toUpperCase());
-            }
+    public static final ColumnType<Color> COLOR = new ColumnType<>("varchar", 15) {
+        @Override
+        public String getName() {
+            return "varchar(" + this.length + ")";
+        }
 
-            @Override
-            public String parseValueToSQL(@NotNull BlockSide blockSide) {
-                return blockSide.name().toLowerCase();
+        @Override
+        public Color parseValueFromResultSet(ResultSet rs, Column<Color> column) throws SQLException {
+            String value = rs.getString(column.getName());
+            if (value == null) {
+                return null;
             }
-        };
-    }
+            String[] rgba = value.split(ENTRY_ARRAY_DELIMITER);
+            if (rgba.length < 4) {
+                return null;
+            }
+            return new Color(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]), Integer.parseInt(rgba[2]),
+                    Integer.parseInt(rgba[3]));
+        }
 
-    public static ColumnType<Color> color() {
-        return new ColumnType<>("varchar", 5, true) {
-            @Override
-            public String getName() {
-                return "varchar(" + this.length + ")";
-            }
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Color color) throws SQLException {
+            statement.setString(index,
+                    color.getRed() + ENTRY_ARRAY_DELIMITER +
+                    color.getGreen() + ENTRY_ARRAY_DELIMITER +
+                    color.getBlue() + ENTRY_ARRAY_DELIMITER +
+                    color.getAlpha());
+        }
+    };
 
-            @Override
-            public Color parseValueFromSQL(ResultSet rs, Column<Color> column) throws SQLException {
-                String value = rs.getString(column.getName());
-                if (value == null) {
-                    return null;
-                }
-                String[] rgba = value.split(ENTRY_ARRAY_DELIMITER);
-                if (rgba.length < 4) {
-                    return null;
-                }
-                return new Color(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]), Integer.parseInt(rgba[2]),
-                        Integer.parseInt(rgba[3]));
-            }
+    public static final ColumnType<File> FILE = new ColumnType<>("varchar", 500) {
+        @Override
+        public String getName() {
+            return "varchar(" + this.length + ")";
+        }
 
-            @Override
-            public String parseValueToSQL(@NotNull Color color) {
-                return color.getRed() + ENTRY_ARRAY_DELIMITER +
-                        color.getGreen() + ENTRY_ARRAY_DELIMITER +
-                        color.getBlue() + ENTRY_ARRAY_DELIMITER +
-                        color.getAlpha();
+        @Override
+        public File parseValueFromResultSet(ResultSet rs, Column<File> column) throws SQLException {
+            String value = rs.getString(column.getName());
+            if (value == null) {
+                return null;
             }
-        };
-    }
+            return new File(value);
+        }
 
-    public static ColumnType<File> file() {
-        return new ColumnType<>("varchar", 500, true) {
-            @Override
-            public String getName() {
-                return "varchar(" + this.length + ")";
-            }
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, File file) throws SQLException {
+            statement.setString(index, file.getAbsolutePath());
+        }
+    };
 
-            @Override
-            public File parseValueFromSQL(ResultSet rs, Column<File> column) throws SQLException {
-                String value = rs.getString(column.getName());
-                if (value == null) {
-                    return null;
-                }
-                return new File(value);
-            }
+    public static final ColumnType<Path> PATH = new ColumnType<>("varchar", 500) {
+        @Override
+        public String getName() {
+            return "varchar(" + this.length + ")";
+        }
 
-            @Override
-            public String parseValueToSQL(@NotNull File file) {
-                return file.getAbsolutePath();
+        @Override
+        public Path parseValueFromResultSet(ResultSet rs, Column<Path> column) throws SQLException {
+            String value = rs.getString(column.getName());
+            if (value == null) {
+                return null;
             }
-        };
-    }
+            return new File(value).toPath();
+        }
 
-    public static ColumnType<Path> path() {
-        return new ColumnType<>("varchar", 500, true) {
-            @Override
-            public String getName() {
-                return "varchar(" + this.length + ")";
-            }
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Path path) throws SQLException {
+            statement.setString(index, path.toFile().getAbsolutePath());
+        }
+    };
 
-            @Override
-            public Path parseValueFromSQL(ResultSet rs, Column<Path> column) throws SQLException {
-                String value = rs.getString(column.getName());
-                if (value == null) {
-                    return null;
-                }
-                return new File(value).toPath();
-            }
+    public static final ColumnType<ExTextColor> TEXT_COLOR = new ColumnType<>("varchar", 16) {
+        @Override
+        public String getName() {
+            return "varchar(" + this.length + ")";
+        }
 
-            @Override
-            public String parseValueToSQL(@NotNull Path path) {
-                return path.toFile().getAbsolutePath();
+        @Override
+        public ExTextColor parseValueFromResultSet(ResultSet rs, Column<ExTextColor> column) throws SQLException {
+            String value = rs.getString(column.getName());
+            if (value == null) {
+                return null;
             }
-        };
-    }
+            return ExTextColor.NAMES.value(value);
+        }
 
-    public static ColumnType<ExTextColor> textColor() {
-        return new ColumnType<>("varchar", 500, true) {
-            @Override
-            public String getName() {
-                return "varchar(" + this.length + ")";
-            }
-
-            @Override
-            public ExTextColor parseValueFromSQL(ResultSet rs, Column<ExTextColor> column) throws SQLException {
-                String value = rs.getString(column.getName());
-                if (value == null) {
-                    return null;
-                }
-                return ExTextColor.NAMES.value(value);
-            }
-
-            @Override
-            public String parseValueToSQL(@NotNull ExTextColor textColor) {
-                return textColor.toString();
-            }
-        };
-    }
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, ExTextColor exTextColor) throws SQLException {
+            statement.setString(index, exTextColor.getName());
+        }
+    };
 
     protected final String simpleName;
     protected final int length;
-    protected final boolean wrapped;
     protected final boolean unique;
+    protected final boolean nullable;
 
-    ColumnType(String simpleName, int length, boolean wrapped) {
+    ColumnType(String simpleName, int length) {
         this.simpleName = simpleName;
         this.length = length;
-        this.wrapped = wrapped;
         this.unique = false;
+        this.nullable = true;
     }
 
-    ColumnType(String simpleName, int length, boolean wrapped, boolean unique) {
+    ColumnType(String simpleName, int length, boolean unique) {
         this.simpleName = simpleName;
         this.length = length;
-        this.wrapped = wrapped;
         this.unique = unique;
+        this.nullable = true;
+    }
+
+    ColumnType(String simpleName, int length, boolean unique, boolean nullable) {
+        this.simpleName = simpleName;
+        this.length = length;
+        this.unique = unique;
+        this.nullable = nullable;
     }
 
     public String getSimpleName() {
@@ -494,74 +465,105 @@ public abstract class ColumnType<Value> {
         return length;
     }
 
-    public boolean isWrapped() {
-        return wrapped;
-    }
-
     public boolean isUnique() {
         return unique;
     }
 
+    public boolean isNullable() {
+        return nullable;
+    }
+
     public abstract String getName();
 
-    public abstract Value parseValueFromSQL(ResultSet rs, Column<Value> column) throws SQLException;
+    public String getEnhancedName() {
+        return this.getName() +
+               (this.isNullable() ? "" : " NOT NULL") +
+               (this.isUnique() ? " UNIQUE" : "");
+    }
 
-    public abstract String parseValueToSQL(@NotNull Value value);
+    public String getValueWrapper() {
+        return "?";
+    }
+
+    public abstract Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException;
+
+    public abstract void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException;
 
     public ColumnType<Value> unique() {
-        return new ColumnType<>(this.getSimpleName(), this.getLength(), this.isWrapped(), true) {
+        return new ColumnType<>(this.getSimpleName(), this.getLength(), true, this.isNullable()) {
             @Override
             public String getName() {
                 return ColumnType.this.getName();
             }
 
             @Override
-            public Value parseValueFromSQL(ResultSet rs, Column<Value> column) throws SQLException {
-                return ColumnType.this.parseValueFromSQL(rs, column);
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+                return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Value v) {
-                return ColumnType.this.parseValueToSQL(v);
+            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+                ColumnType.this.applyOnStatement(statement, index, value);
             }
         };
     }
 
-    public ColumnType<Value> nonUnique() {
-        return new ColumnType<>(this.getSimpleName(), this.getLength(), this.isWrapped(), false) {
+    public ColumnType<Value> notUnique() {
+        return new ColumnType<>(this.getSimpleName(), this.getLength(), false, this.isNullable()) {
             @Override
             public String getName() {
                 return ColumnType.this.getName();
             }
 
             @Override
-            public Value parseValueFromSQL(ResultSet rs, Column<Value> column) throws SQLException {
-                return ColumnType.this.parseValueFromSQL(rs, column);
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+                return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Value v) {
-                return ColumnType.this.parseValueToSQL(v);
+            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+                ColumnType.this.applyOnStatement(statement, index, value);
             }
         };
     }
 
-    public ColumnType<Value> notNull() {
-        return new ColumnType<>(this.getSimpleName(), this.getLength(), this.isWrapped()) {
+    public ColumnType<Value> notNullable() {
+        return new ColumnType<>(this.getSimpleName(), this.getLength(), this.isUnique(), false) {
             @Override
             public String getName() {
-                return ColumnType.this.getName() + " NOT NULL";
+                return ColumnType.this.getName();
             }
 
             @Override
-            public Value parseValueFromSQL(ResultSet rs, Column<Value> column) throws SQLException {
-                return ColumnType.this.parseValueFromSQL(rs, column);
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+                return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public String parseValueToSQL(@NotNull Value v) {
-                return ColumnType.this.parseValueToSQL(v);
+            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+                ColumnType.this.applyOnStatement(statement, index, value);
             }
+
+        };
+    }
+
+    public ColumnType<Value> nullable() {
+        return new ColumnType<>(this.getSimpleName(), this.getLength(), this.isUnique(), true) {
+            @Override
+            public String getName() {
+                return ColumnType.this.getName();
+            }
+
+            @Override
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+                return ColumnType.this.parseValueFromResultSet(rs, column);
+            }
+
+            @Override
+            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+                ColumnType.this.applyOnStatement(statement, index, value);
+            }
+
         };
     }
 }

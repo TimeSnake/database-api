@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbDisplayGroup;
@@ -34,7 +34,7 @@ import java.util.UUID;
 public class DbDisplayGroupUser extends TableQuery {
 
     protected DbDisplayGroupUser(DatabaseConnector databaseConnector, String nameTable, UUID uuid) {
-        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.User.UUID));
+        super(databaseConnector, nameTable, new Entry<>(uuid, Column.User.UUID));
     }
 
     @Override
@@ -61,12 +61,12 @@ public class DbDisplayGroupUser extends TableQuery {
     }
 
     public void addDisplayGroup(String name) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(this.getUuid(), Column.User.UUID),
-                new TableEntry<>(name, Column.User.DISPLAY_GROUP)));
+        super.addEntry(new PrimaryEntries(new Entry<>(this.getUuid(), Column.User.UUID),
+                new Entry<>(name, Column.User.DISPLAY_GROUP)));
     }
 
     public void removeDisplayGroup(String name) {
-        super.deleteWithKey(new TableEntry<>(name, Column.User.DISPLAY_GROUP));
+        super.deleteWithKey(new Entry<>(name, Column.User.DISPLAY_GROUP));
     }
 
     public void clearDisplayGroups() {

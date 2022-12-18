@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.statistic;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -59,7 +59,7 @@ public class UserStatisticsTable extends TableDDL {
         return new GameUserStatistic(this.databaseConnector, this.tableName, uuid);
     }
 
-    public Collection<GameUserStatistic> getStatistics() {
+    public List<GameUserStatistic> getStatistics() {
         return super.get(Column.Game.STAT_USER_UUID).stream().map(this::getStatistic).collect(Collectors.toList());
     }
 
@@ -68,7 +68,7 @@ public class UserStatisticsTable extends TableDDL {
         Column<String> valueColumn = GameUserStatistic.getPeriodColumn(period);
 
         Set<ColumnMap> maps = super.get(Set.of(Column.Game.STAT_USER_UUID, valueColumn),
-                new TableEntry<>(stat.getName(), Column.Game.STAT_USER_TYPE));
+                new Entry<>(stat.getName(), Column.Game.STAT_USER_TYPE));
 
 
         for (ColumnMap map : maps) {

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbServer;
@@ -35,8 +35,8 @@ import java.util.List;
 public abstract class ServerTable<Server extends DbServer> extends TableDDL {
 
     public ServerTable(DatabaseConnector databaseConnector, String nameTable) {
-        super(databaseConnector, nameTable, Column.Server.PORT);
-        super.addColumn(Column.Server.NAME);
+        super(databaseConnector, nameTable, Column.Server.NAME);
+        super.addColumn(Column.Server.PORT);
         super.addColumn(Column.Server.STATUS);
         super.addColumn(Column.Server.ONLINE_PLAYERS);
         super.addColumn(Column.Server.MAX_PLAYERS);
@@ -50,17 +50,14 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
 
     @Override
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS,
+        Column<?>[] columns = {Column.Server.NAME, Column.Server.PORT, Column.Server.MAX_PLAYERS,
                 Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
         super.backup(columns);
     }
 
     @Nullable
-    public Integer getPortFromName(String name) {
-        if (name != null) {
-            return super.getFirst(Column.Server.PORT, new TableEntry<>(name, Column.Server.NAME));
-        }
-        return null;
+    public String getNameFromPort(int port) {
+        return super.getFirst(Column.Server.NAME, new Entry<>(port, Column.Server.PORT));
     }
 
     public Collection<String> getServerNames() {
@@ -71,48 +68,28 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
         return super.get(Column.Server.PORT);
     }
 
-    public void addServer(int port, String name, Status.Server status, Path folderPath) {
-        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)),
-                new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME),
-                new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath,
+    public void addServer(String name, int port, Status.Server status, Path folderPath) {
+        super.addEntrySynchronized(true, new PrimaryEntries(new Entry<>(name, Column.Server.NAME)),
+                new Entry<>(status, Column.Server.STATUS), new Entry<>(port, Column.Server.PORT),
+                new Entry<>(0, Column.Server.ONLINE_PLAYERS), new Entry<>(folderPath,
                         Column.Server.FOLDER_PATH));
     }
 
-    public void addServer(int port, String name, Status.Server status, Path folderPath, String password) {
-        super.addEntrySynchronized(true, new PrimaryEntries(new TableEntry<>(port, Column.Server.PORT)),
-                new TableEntry<>(status, Column.Server.STATUS), new TableEntry<>(name, Column.Server.NAME),
-                new TableEntry<>(0, Column.Server.ONLINE_PLAYERS), new TableEntry<>(folderPath,
-                        Column.Server.FOLDER_PATH), new TableEntry<>(password, Column.Server.PASSWORD));
-    }
-
     @Nullable
-    public abstract Server getServer(int port);
-
-    @Nullable
-    public Server getServer(String name) {
-        Integer port = this.getPortFromName(name);
-        if (port == null) {
-            return null;
-        }
-        return this.getServer(port);
-    }
-
-    public boolean containsServer(int port) {
-        return super.getFirst(Column.Server.NAME, new TableEntry<>(port, Column.Server.PORT)) != null;
-    }
+    public abstract Server getServer(String name);
 
     public boolean containsServer(String name) {
-        return super.getFirst(Column.Server.PORT, new TableEntry<>(name, Column.Server.NAME)) != null;
+        return super.getFirst(Column.Server.PORT, new Entry<>(name, Column.Server.NAME)) != null;
     }
 
-    public void removeServer(int port) {
-        super.deleteEntry(new TableEntry<>(port, Column.Server.PORT));
+    public void removeServer(String name) {
+        super.deleteEntry(new Entry<>(name, Column.Server.NAME));
     }
 
     public Collection<Server> getServers(Status.Server status) {
         List<Server> servers = new ArrayList<>();
-        Collection<Integer> ports = super.get(Column.Server.PORT, new TableEntry<>(status, Column.Server.STATUS));
-        for (Integer port : ports) {
+        Collection<String> names = super.get(Column.Server.NAME, new Entry<>(status, Column.Server.STATUS));
+        for (String port : names) {
             if (port == null) {
                 continue;
             }
@@ -126,12 +103,12 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
 
     public Collection<Server> getServers() {
         List<Server> servers = new ArrayList<>();
-        Collection<Integer> ports = super.get(Column.Server.PORT);
-        for (Integer port : ports) {
-            if (port == null) {
+        Collection<String> names = super.get(Column.Server.NAME);
+        for (String name : names) {
+            if (name == null) {
                 continue;
             }
-            Server server = this.getServer(port);
+            Server server = this.getServer(name);
             if (server != null) {
                 servers.add(server);
             }

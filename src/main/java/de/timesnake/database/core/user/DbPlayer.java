@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ import java.util.UUID;
 public abstract class DbPlayer extends TableQuery implements de.timesnake.database.util.user.DbPlayer {
 
     protected DbPlayer(DatabaseConnector databaseConnector, UUID uuid, String nameTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.User.UUID));
+        super(databaseConnector, nameTable, new Entry<>(uuid, Column.User.UUID));
     }
 
     @Override

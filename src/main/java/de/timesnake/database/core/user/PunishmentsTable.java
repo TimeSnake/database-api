@@ -22,14 +22,13 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.user.DbPunishment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 public class PunishmentsTable extends PlayersTable {
@@ -41,6 +40,8 @@ public class PunishmentsTable extends PlayersTable {
         super.addColumn(Column.User.PUNISH_CASTIGATOR);
         super.addColumn(Column.User.PUNISH_REASON);
         super.addColumn(Column.User.PUNISH_SERVER);
+
+        super.setUpdatePolicy(UpdatePolicy.INSERT_IF_NOT_EXISTS);
     }
 
     @Override
@@ -48,18 +49,16 @@ public class PunishmentsTable extends PlayersTable {
         super.backup();
     }
 
-    public void setPunishment(UUID uuid, String name, Type.Punishment type, Date date, String castigator,
+    public void setPunishment(UUID uuid, String name, Type.Punishment type, LocalDateTime date, String castigator,
                               String reason, String server) {
-        if (super.getFirst(Column.Support.NAME, new TableEntry<>(uuid, Column.User.UUID)) == null) {
-            super.addPlayer(uuid, name);
-        }
-        super.set(type.getDatabaseValue(), Column.User.PUNISH_TYPE, new TableEntry<>(uuid, Column.User.UUID));
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        super.set(df.format(date), Column.User.PUNISH_DATE, new TableEntry<>(uuid, Column.User.UUID));
-        super.set(castigator, Column.User.PUNISH_CASTIGATOR, new TableEntry<>(uuid, Column.User.UUID));
-        super.set(reason, Column.User.PUNISH_REASON, new TableEntry<>(uuid, Column.User.UUID));
-        super.set(server, Column.User.PUNISH_SERVER,
-                () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PUNISH)), new TableEntry<>(uuid, Column.User.UUID));
+        super.set(Set.of(new Entry<>(name, Column.User.NAME),
+                        new Entry<>(type, Column.User.PUNISH_TYPE),
+                        new Entry<>(date, Column.User.PUNISH_DATE),
+                        new Entry<>(castigator, Column.User.PUNISH_CASTIGATOR),
+                        new Entry<>(reason, Column.User.PUNISH_REASON),
+                        new Entry<>(server, Column.User.PUNISH_SERVER)),
+                () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PUNISH)),
+                new Entry<>(uuid, Column.User.UUID));
     }
 
     public void setPunishment(DbPunishment punishment) {
@@ -68,7 +67,7 @@ public class PunishmentsTable extends PlayersTable {
     }
 
     public boolean contains(UUID uuid) {
-        return super.getFirst(Column.User.PUNISH_TYPE, new TableEntry<>(uuid, Column.User.UUID)) != null;
+        return super.getFirst(Column.User.PUNISH_TYPE, new Entry<>(uuid, Column.User.UUID)) != null;
     }
 
 }

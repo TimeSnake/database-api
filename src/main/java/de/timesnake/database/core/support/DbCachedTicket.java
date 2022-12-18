@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,14 +19,13 @@
 package de.timesnake.database.core.support;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class DbCachedTicket implements DbTicket {
@@ -36,7 +35,7 @@ public class DbCachedTicket implements DbTicket {
     private final Integer id;
     private final String uuid;
     private final String name;
-    private final Date date;
+    private final LocalDateTime date;
     private String message;
     private String answer;
     private Status.Ticket status;
@@ -117,14 +116,8 @@ public class DbCachedTicket implements DbTicket {
 
     @NotNull
     @Override
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
-    }
-
-    @NotNull
-    @Override
-    public String getDateString() {
-        return TableDDL.DATE_FORMAT.format(this.getDate());
     }
 
     @NotNull

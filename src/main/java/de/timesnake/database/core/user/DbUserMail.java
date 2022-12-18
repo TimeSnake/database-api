@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ import java.util.UUID;
 public class DbUserMail extends TableQuery implements de.timesnake.database.util.user.DbUserMail {
 
     public DbUserMail(DatabaseConnector databaseConnector, String nameTable, UUID uuid, Integer id) {
-        super(databaseConnector, nameTable, new TableEntry<>(uuid, Column.User.UUID), new TableEntry<>(id,
+        super(databaseConnector, nameTable, new Entry<>(uuid, Column.User.UUID), new Entry<>(id,
                 Column.User.MAIL_ID));
     }
 

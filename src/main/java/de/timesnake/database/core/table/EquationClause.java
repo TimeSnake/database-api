@@ -16,21 +16,30 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.timesnake.database.core.server;
+package de.timesnake.database.core.table;
 
-import de.timesnake.database.util.object.DatabaseConnector;
-import org.jetbrains.annotations.Nullable;
+import de.timesnake.database.core.Entry;
 
-public class LobbyTable extends ServerTable<DbLobbyServer> {
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-    public LobbyTable(DatabaseConnector databaseConnector, String nameTable) {
-        super(databaseConnector, nameTable);
+import static de.timesnake.database.core.table.Table.COLUMN_WRAPPER;
+
+public class EquationClause extends StatementClause {
+
+    public EquationClause(Collection<Entry<?>> entries) {
+        super(entries);
     }
 
-    @Nullable
+    public EquationClause(Entry<?>... entries) {
+        super(entries);
+    }
+
     @Override
-    public DbLobbyServer getServer(String name) {
-        DbLobbyServer server = new DbLobbyServer(this.databaseConnector, name, this.tableName);
-        return server.exists() ? server : null;
+    public String getText() {
+        return entries.stream()
+                .map(e -> COLUMN_WRAPPER + e.getColumn().getName() + COLUMN_WRAPPER + " = " +
+                          e.getColumn().getType().getValueWrapper())
+                .collect(Collectors.joining(", "));
     }
 }

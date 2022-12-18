@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -32,8 +32,8 @@ public class BuildTable extends TaskTable<DbBuildServer> {
 
     @Nullable
     @Override
-    public DbBuildServer getServer(int port) {
-        DbBuildServer server = new DbBuildServer(this.databaseConnector, port, this.tableName, this.buildWorldTable);
+    public DbBuildServer getServer(String name) {
+        DbBuildServer server = new DbBuildServer(this.databaseConnector, name, this.tableName, this.buildWorldTable);
         return server.exists() ? server : null;
     }
 

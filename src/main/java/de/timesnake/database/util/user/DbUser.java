@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -29,30 +29,24 @@ import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public interface DbUser extends DbPlayer, DbCached<DbUser> {
 
     /**
-     * Checks if all tables contains the user
-     */
-    @NotCached
-    void checkEntries();
-
-    /**
      * Sets the user punishment
      *
      * @param type       The {@link Type.Punishment} to set
-     * @param date       The {@link Date} to set
+     * @param date       The {@link LocalDateTime} to set
      * @param castigator The castigator to set
      * @param reason     The reason to set
      * @param server     The server to set
      */
     @NotCached
-    void setPunishment(Type.Punishment type, Date date, String castigator, String reason, String server);
+    void setPunishment(Type.Punishment type, LocalDateTime date, String castigator, String reason, String server);
 
     /**
      * Checks if the user has a punishment
@@ -408,42 +402,16 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
     @NotCached
     void setPermGroup(String permGroup, SyncExecute syncExecute);
 
-    /**
-     * Sets that the user agreed the data-protection
-     * <p>
-     * Sets the string of the data-protection-agreement.
-     * For more details check out the {@link DataProtectionAgreement}
-     *
-     * @param agreement The {@link DataProtectionAgreement} to agree
-     */
     @NotCached
-    void agreeDataProtection(DataProtectionAgreement agreement);
+    void agreePrivacyPolicy(LocalDateTime dateTime);
 
-    /**
-     * Sets that the user disagreed the data-protection
-     * <p>
-     * Sets the data-protection to null
-     */
     @NotCached
-    void disagreeDataProtection();
+    void disagreePrivacyPolicy();
 
-    /**
-     * Gets the data-protection-agreement of the user
-     *
-     * @return the {@link DataProtectionAgreement}
-     */
     @Nullable
-    DataProtectionAgreement getDataProtectionAgreement();
+    LocalDateTime getPrivacyPolicyDateTime();
 
-    /**
-     * Checks if the user agreed the data-protection
-     * <p>
-     * Checks if data-protection is null and checks the version
-     *
-     * @param version The version to check
-     * @return true of the user agreed the data-protection
-     */
-    boolean agreedDataProtection(String version);
+    boolean agreedPrivacyPolicy();
 
     @Nullable
     Long getDiscordId();

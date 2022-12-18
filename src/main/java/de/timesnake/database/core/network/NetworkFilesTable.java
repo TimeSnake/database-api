@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.network;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +49,7 @@ public class NetworkFilesTable extends TableDDL {
     }
 
     public void addNetworkFile(String name, File filePath) {
-        super.set(filePath, Column.Network.FILE_PATH, new TableEntry<>(name, Column.Network.FILE_NAME));
+        super.set(filePath, Column.Network.FILE_PATH, new Entry<>(name, Column.Network.FILE_NAME));
     }
 
     @NotNull

@@ -19,6 +19,7 @@
 package de.timesnake.database.core.table;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.ColumnType;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 
@@ -43,13 +44,13 @@ public class TableDDL extends Table {
         if (this.primaryColumns.size() == 1) {
             this.primaryColumnsCreation =
                     " `" + this.primaryColumns.get(0).getName() + "` " +
-                            this.primaryColumns.get(0).getType().getName() + " PRIMARY KEY";
+                    this.primaryColumns.get(0).getType().getEnhancedName() + " PRIMARY KEY";
         } else {
             StringBuilder primaryList = new StringBuilder();
             StringBuilder sb = new StringBuilder();
             for (Column<?> column : this.primaryColumns) {
                 sb.append(column.getName());
-                sb.append(" ").append(column.getType().getName());
+                sb.append(" ").append(column.getType().getEnhancedName());
                 sb.append(", ");
                 primaryList.append(column.getName());
                 primaryList.append(", ");
@@ -79,10 +80,9 @@ public class TableDDL extends Table {
             ps = connection.createStatement();
 
             ps.executeUpdate("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                    " (" + this.primaryColumnsCreation + ");");
+                             " (" + this.primaryColumnsCreation + ");");
 
-            Database.LOGGER.info("[" + this.tableName + "] Table " + this.tableName + " " +
-                    "created with primary-keys: " + primaryColumnsCreation);
+            Database.LOGGER.info("Table " + this.tableName + " created with primary-keys: '" + primaryColumnsCreation + "'");
 
 
             Set<String> primaryColumnNames = this.primaryColumns.stream().map(Column::getName).collect(Collectors.toSet());
@@ -107,12 +107,13 @@ public class TableDDL extends Table {
                 if (column != null) {
                     // check column type
                     if (!column.getType().getSimpleName().equalsIgnoreCase(type) || column.getType().getLength() != size) {
-                        ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                                " MODIFY " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " " + column.getType().getName() + ";");
+                        Database.LOGGER.warning("Type of column '" + column.getName() + "' in table '" + this.tableName +
+                                                "' differs from configured type");
                     }
                 } else {
                     ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                            " DROP COLUMN " + COLUMN_WRAPPER + name + COLUMN_WRAPPER + ";");
+                                     " DROP COLUMN " + COLUMN_WRAPPER + name + COLUMN_WRAPPER + ";");
+                    Database.LOGGER.info("Dropped column '" + name + "' in table '" + this.tableName + "'");
                 }
             }
 
@@ -122,27 +123,47 @@ public class TableDDL extends Table {
                 // add new column
                 if (columnByName.remove(column.getName()) != null) {
                     ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                            " ADD COLUMN " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " " + column.getType().getName() +
-                            " AFTER " + COLUMN_WRAPPER + columnBefore.getName() + COLUMN_WRAPPER + ";");
-                }
-
-                // update unique column
-                if (column.getType().isUnique()) {
-                    /*
-                    try {
-                        ps.executeUpdate("DROP INDEX " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " ON " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
-                    } catch (SQLSyntaxErrorException ignored) {
-                    }
-
-
-                    System.out.println(this.tableName + " " + column.getName());
-                    ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                            " ADD CONSTRAINT " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " UNIQUE(" + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + ");");
-
-                     */
+                                     " ADD COLUMN " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " " + column.getType().getEnhancedName() +
+                                     " AFTER " + COLUMN_WRAPPER + columnBefore.getName() + COLUMN_WRAPPER + ";");
+                    Database.LOGGER.info("Added column '" + column.getName() + "' in table '" + this.tableName + "'");
                 }
 
                 columnBefore = column;
+            }
+
+            if (this.primaryColumns.stream().anyMatch(c -> c.getType().equals(ColumnType.UUID))
+                || this.columns.stream().anyMatch(c -> c.getType().equals(ColumnType.UUID))) {
+                try {
+                    ps.executeUpdate(
+                            """
+                                    CREATE FUNCTION IF NOT EXISTS BIN_TO_UUID(bin BINARY(16))
+                                    RETURNS CHAR(36) DETERMINISTIC
+                                    BEGIN
+                                      DECLARE hex CHAR(32);
+                                      SET hex = HEX(bin);
+                                      RETURN LOWER(CONCAT(LEFT(hex, 8), '-', MID(hex, 9, 4), '-', MID(hex, 13, 4), '-', MID(hex, 17, 4), '-', RIGHT(hex, 12)));
+                                    END;
+                                    """);
+                    Database.LOGGER.info("Added 'BIN_TO_UUID' function in table '" + this.tableName + "'");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    Database.LOGGER.warning("Could not load bin to uuid function in table " + this.tableName);
+                }
+
+                try {
+                    ps.executeUpdate(
+                            """
+                                    CREATE FUNCTION IF NOT EXISTS UUID_TO_BIN(uuid CHAR(36))
+                                    RETURNS BINARY(16) DETERMINISTIC
+                                    BEGIN
+                                      RETURN UNHEX(CONCAT(REPLACE(uuid, '-', '')));
+                                    END;
+                                    """);
+                    Database.LOGGER.info("Added 'UUID_TO_BIN' function in table '" + this.tableName + "'");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    Database.LOGGER.warning("Could not load uuid to bin function in table" + this.tableName);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -163,9 +184,10 @@ public class TableDDL extends Table {
             ps = connection.createStatement();
             ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
             ps.addBatch("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER +
-                    " LIKE " + this.tableName + "");
+                        " LIKE " + this.tableName + "");
             ps.addBatch("ALTER TABLE " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + " ENGINE=memory");
             ps.executeBatch();
+            Database.LOGGER.info("Created temporary table '" + this.tableName + "'");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -183,6 +205,7 @@ public class TableDDL extends Table {
             ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER);
             ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
             ps.executeBatch();
+            Database.LOGGER.info("Deleted tables '" + this.tableName + "' and '" + this.tableName + "_tmp'");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -197,8 +220,9 @@ public class TableDDL extends Table {
 
         try {
             ps = connection.prepareStatement("INSERT INTO " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER +
-                    " SELECT * FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
+                                             " SELECT * FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
             ps.executeUpdate();
+            Database.LOGGER.info("Inserted data into temporary for table '" + this.tableName + "'");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -215,7 +239,7 @@ public class TableDDL extends Table {
             ps = connection.createStatement();
             ps.addBatch("DELETE FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER);
             ps.addBatch("INSERT INTO " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                    " SELECT * FROM " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
+                        " SELECT * FROM " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
             ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
 
             ps.executeBatch();
@@ -235,8 +259,8 @@ public class TableDDL extends Table {
             ps = connection.createStatement();
             ps.addBatch("DELETE FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
             ps.addBatch("INSERT INTO " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER +
-                    " (" + this.getColumnsAsString(columns) + ") SELECT " + this.getColumnsAsString(columns) +
-                    " FROM " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + ";");
+                        " (" + this.getColumnsAsString(columns) + ") SELECT " + this.getColumnsAsString(columns) +
+                        " FROM " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + ";");
             ps.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -253,7 +277,7 @@ public class TableDDL extends Table {
 
         try {
             ps = connection.prepareStatement("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" +
-                    TABLE_WRAPPER + ";");
+                                             TABLE_WRAPPER + ";");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

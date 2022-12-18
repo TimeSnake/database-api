@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@ import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -70,7 +70,7 @@ public class StatisticsTable {
         typesTable.removeStat(stat);
     }
 
-    public Collection<GameUserStatistic> getUserStatistics() {
+    public List<GameUserStatistic> getUserStatistics() {
         return this.userTable.getStatistics();
     }
 
