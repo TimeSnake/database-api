@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.permisson;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
@@ -32,7 +32,7 @@ import java.util.Collection;
 public class DbPermission extends TableQuery implements de.timesnake.database.util.permission.DbPermission {
 
     public DbPermission(DatabaseConnector databaseConnector, int id, String nameTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(id, Column.Permission.ID));
+        super(databaseConnector, nameTable, new Entry<>(id, Column.Permission.ID));
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.Nullable;
@@ -50,8 +50,8 @@ public abstract class PlayersTable extends TableDDL {
     }
 
     public void addPlayer(UUID uuid, String name) {
-        super.addEntrySynchronized(new PrimaryEntries(new TableEntry<>(uuid, Column.User.UUID)),
-                new TableEntry<>(name, Column.User.NAME));
+        super.addEntrySynchronized(new PrimaryEntries(new Entry<>(uuid, Column.User.UUID)),
+                new Entry<>(name, Column.User.NAME));
     }
 
     public void create() {
@@ -59,16 +59,16 @@ public abstract class PlayersTable extends TableDDL {
     }
 
     public boolean containsPlayer(UUID uuid) {
-        return super.getFirst(Column.User.NAME, new TableEntry<>(uuid, Column.User.UUID)) != null;
+        return super.getFirst(Column.User.NAME, new Entry<>(uuid, Column.User.UUID)) != null;
     }
 
     public boolean containsPlayer(String name) {
-        return super.getFirst(Column.User.UUID, new TableEntry<>(name, Column.User.NAME)) != null;
+        return super.getFirst(Column.User.UUID, new Entry<>(name, Column.User.NAME)) != null;
     }
 
     @Nullable
     public UUID getUniqueIdFromName(String name) {
-        return super.getFirst(Column.User.UUID, new TableEntry<>(name, Column.User.NAME));
+        return super.getFirst(Column.User.UUID, new Entry<>(name, Column.User.NAME));
     }
 
 }

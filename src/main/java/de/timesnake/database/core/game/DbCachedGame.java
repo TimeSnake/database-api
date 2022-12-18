@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -28,10 +28,7 @@ import de.timesnake.library.basic.util.statistics.StatType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
@@ -60,7 +57,7 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
     @NotNull
     @Override
-    public Collection<Integer> getKitIds() {
+    public List<Integer> getKitIds() {
         return this.database.getKitIds();
     }
 
@@ -104,7 +101,7 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
     @Override
     public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
-                       Collection<String> description, Collection<String> info, Collection<String> authors) {
+                       List<String> description, List<String> info, List<String> authors) {
         this.database.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
     }
 
@@ -121,13 +118,13 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
     @NotNull
     @Override
-    public Collection<DbMap> getMaps() {
+    public List<DbMap> getMaps() {
         return this.database.getMaps();
     }
 
     @NotNull
     @Override
-    public Collection<DbMap> getMaps(Integer players) {
+    public List<DbMap> getMaps(Integer players) {
         return this.database.getMaps(players);
     }
 
@@ -166,7 +163,7 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
     @NotNull
     @Override
-    public Collection<GameUserStatistic> getUserStatistics() {
+    public List<GameUserStatistic> getUserStatistics() {
         return this.database.getUserStatistics();
     }
 

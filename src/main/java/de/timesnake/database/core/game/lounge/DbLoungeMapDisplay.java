@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -31,8 +31,8 @@ public class DbLoungeMapDisplay extends TableQuery implements de.timesnake.datab
 
     protected DbLoungeMapDisplay(DatabaseConnector databaseConnector, String nameTable, String mapName,
                                  Integer displayIndex) {
-        super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
-                new TableEntry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX));
+        super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
+                new Entry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX));
     }
 
     @Override

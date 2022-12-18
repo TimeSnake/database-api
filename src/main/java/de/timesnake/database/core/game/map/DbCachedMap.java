@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -24,7 +24,6 @@ import de.timesnake.database.util.object.DbLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -113,7 +112,7 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
     }
 
     @Override
-    public void setAuthors(Collection<UUID> authors) {
+    public void setAuthors(List<UUID> authors) {
         this.map.setAuthors(authors);
     }
 
@@ -129,7 +128,7 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
     }
 
     @Override
-    public void setAuthorNames(Collection<String> authors) {
+    public void setAuthorNames(List<String> authors) {
         this.map.setAuthorNames(authors);
     }
 

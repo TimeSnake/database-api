@@ -22,7 +22,7 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelGroupMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.group.DbGroupBasis;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -77,7 +77,7 @@ public class DbPermGroup extends DbGroupBasis implements de.timesnake.database.u
     @Override
     public Collection<de.timesnake.database.util.group.DbPermGroup> getGroupsInherit() {
         Collection<de.timesnake.database.util.group.DbPermGroup> groups = new ArrayList<>();
-        for (String name : super.get(Column.Group.NAME, new TableEntry<>(this.getName(),
+        for (String name : super.get(Column.Group.NAME, new Entry<>(this.getName(),
                 Column.Group.INHERITANCE))) {
             de.timesnake.database.util.group.DbPermGroup group = Database.getGroups().getPermGroup(name);
             if (group.exists()) {

@@ -22,7 +22,7 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
@@ -44,17 +44,17 @@ public class PermissionsTable extends TableDDL {
     }
 
     protected void addPermission(String name, String permission, Status.Permission mode, String... servers) {
-        super.addEntryWithAutoIdSynchronized(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME),
-                new TableEntry<>(permission, Column.Permission.PERMISSION),
-                new TableEntry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new TableEntry<>(mode,
+        super.addEntryWithAutoIdSynchronized(Column.Permission.ID, new Entry<>(name, Column.Permission.NAME),
+                new Entry<>(permission, Column.Permission.PERMISSION),
+                new Entry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new Entry<>(mode,
                         Column.Permission.MODE));
     }
 
     protected void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute,
                                  String... servers) {
-        super.addEntryWithAutoId(Column.Permission.ID, syncExecute, new TableEntry<>(name, Column.Permission.NAME),
-                new TableEntry<>(permission, Column.Permission.PERMISSION),
-                new TableEntry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new TableEntry<>(mode,
+        super.addEntryWithAutoId(Column.Permission.ID, syncExecute, new Entry<>(name, Column.Permission.NAME),
+                new Entry<>(permission, Column.Permission.PERMISSION),
+                new Entry<>(new DbStringArrayList(servers), Column.Permission.SERVER), new Entry<>(mode,
                         Column.Permission.MODE));
     }
 
@@ -65,13 +65,13 @@ public class PermissionsTable extends TableDDL {
     }
 
     protected void removePermission(String name, String permission) {
-        super.deleteEntry(new TableEntry<>(permission, Column.Permission.PERMISSION), new TableEntry<>(name,
+        super.deleteEntry(new Entry<>(permission, Column.Permission.PERMISSION), new Entry<>(name,
                 Column.Permission.NAME));
     }
 
     protected void removePermission(String name, String permission, SyncExecute syncExecute) {
-        super.deleteEntry(syncExecute, new TableEntry<>(permission, Column.Permission.PERMISSION),
-                new TableEntry<>(name, Column.Permission.NAME));
+        super.deleteEntry(syncExecute, new Entry<>(permission, Column.Permission.PERMISSION),
+                new Entry<>(name, Column.Permission.NAME));
     }
 
     protected void removePermission(UUID uuid, String permission) {
@@ -90,17 +90,17 @@ public class PermissionsTable extends TableDDL {
     }
 
     public boolean containsPermission(String name, String permission) {
-        return super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME),
-                new TableEntry<>(permission, Column.Permission.PERMISSION)) != null && super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME), new TableEntry<>(permission, Column.Permission.PERMISSION)) != 0;
+        return super.getFirst(Column.Permission.ID, new Entry<>(name, Column.Permission.NAME),
+                new Entry<>(permission, Column.Permission.PERMISSION)) != null && super.getFirst(Column.Permission.ID, new Entry<>(name, Column.Permission.NAME), new Entry<>(permission, Column.Permission.PERMISSION)) != 0;
     }
 
     public Integer getIdFromName(String name, String permission) {
-        return super.getFirst(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME),
-                new TableEntry<>(permission, Column.Permission.PERMISSION));
+        return super.getFirst(Column.Permission.ID, new Entry<>(name, Column.Permission.NAME),
+                new Entry<>(permission, Column.Permission.PERMISSION));
     }
 
     @Nullable
     public Collection<Integer> getIdsFromName(String name) {
-        return super.get(Column.Permission.ID, new TableEntry<>(name, Column.Permission.NAME));
+        return super.get(Column.Permission.ID, new Entry<>(name, Column.Permission.NAME));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -16,23 +16,25 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.timesnake.database.core;
+package de.timesnake.database.core.table;
 
-public class TableEntry<Value> {
+import de.timesnake.database.core.Entry;
 
-    private final Value value;
-    private final Column<Value> column;
+import java.util.Collection;
 
-    public TableEntry(Value value, Column<Value> column) {
-        this.column = column;
-        this.value = value;
+public class WhereClause extends StatementClause {
+
+    public WhereClause(Collection<Entry<?>> entries) {
+        super(entries);
     }
 
-    public Value getValue() {
-        return value;
+    public WhereClause(Entry<?>... entries) {
+        super(entries);
     }
 
-    public Column<Value> getColumn() {
-        return column;
+    @Override
+    public String getText() {
+        return entries.size() > 0 ? " WHERE " + parseToEquation(entries, " AND ") : "";
     }
+
 }

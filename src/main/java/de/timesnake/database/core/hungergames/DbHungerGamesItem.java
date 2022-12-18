@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.hungergames;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class DbHungerGamesItem extends TableQuery implements de.timesnake.database.util.hungergames.DbHungerGamesItem {
 
     public DbHungerGamesItem(DatabaseConnector databaseConnector, String nameTable, Integer itemId) {
-        super(databaseConnector, nameTable, new TableEntry<>(itemId, Column.HungerGames.ITEM_ID));
+        super(databaseConnector, nameTable, new Entry<>(itemId, Column.HungerGames.ITEM_ID));
     }
 
     @Override

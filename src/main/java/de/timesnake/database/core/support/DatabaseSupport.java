@@ -23,9 +23,9 @@ import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.UUID;
 
 public class DatabaseSupport extends DatabaseConnector implements de.timesnake.database.util.support.DatabaseSupport {
@@ -80,13 +80,13 @@ public class DatabaseSupport extends DatabaseConnector implements de.timesnake.d
     @Override
     public de.timesnake.database.util.support.DbTicket getOldestTicket(Status.Ticket... statuss) {
         de.timesnake.database.util.support.DbTicket oldestTicket = null;
-        Date oldestDate = new Date();
+        LocalDateTime oldestDate = LocalDateTime.now();
         for (de.timesnake.database.util.support.DbTicket ticket : this.getTickets()) {
             Status.Ticket ticketStatus = ticket.getStatus();
             for (Status.Ticket status : statuss) {
                 if (ticketStatus.equals(status)) {
-                    Date date = ticket.getDate();
-                    if (date.before(oldestDate)) {
+                    LocalDateTime date = ticket.getDate();
+                    if (date.isBefore(oldestDate)) {
                         oldestDate = date;
                         oldestTicket = ticket;
                     }

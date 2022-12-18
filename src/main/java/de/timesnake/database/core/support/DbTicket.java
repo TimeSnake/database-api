@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,20 +19,19 @@
 package de.timesnake.database.core.support;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class DbTicket extends TableQuery implements de.timesnake.database.util.support.DbTicket {
 
     public DbTicket(DatabaseConnector databaseConnector, Integer id, String nameTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(id, Column.Support.ID));
+        super(databaseConnector, nameTable, new Entry<>(id, Column.Support.ID));
     }
 
     @Override
@@ -93,14 +92,8 @@ public class DbTicket extends TableQuery implements de.timesnake.database.util.s
 
     @NotNull
     @Override
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return this.getFirstWithKey(Column.Support.DATE);
-    }
-
-    @NotNull
-    @Override
-    public String getDateString() {
-        return TableDDL.DATE_FORMAT.format(this.getDate());
     }
 
     @NotNull

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -34,9 +34,9 @@ public interface DbTmpGameServer extends DbPvPServer {
     void setMapName(String mapName);
 
     @Nullable
-    Integer getTwinServerPort();
+    String getTwinServerName();
 
-    void setTwinServerPort(Integer port);
+    void setTwinServerName(String name);
 
     @Nullable
     DbLoungeServer getTwinServer();

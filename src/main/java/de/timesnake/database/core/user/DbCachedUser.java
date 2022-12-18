@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -30,7 +30,6 @@ import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
-import de.timesnake.database.util.user.DataProtectionAgreement;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.database.util.user.DbUserMail;
@@ -38,8 +37,8 @@ import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -64,7 +63,7 @@ public class DbCachedUser implements DbUser {
     private String server;
     private String serverLast;
     private String serverLobby;
-    private String dataProtection;
+    private LocalDateTime dataProtection;
     private Long discordId;
 
     public DbCachedUser(de.timesnake.database.core.user.DbUser user) {
@@ -72,7 +71,7 @@ public class DbCachedUser implements DbUser {
                 Column.User.NICK, Column.User.TIME_COINS, Column.User.STATUS, Column.User.SERVICE,
                 Column.User.ANTI_CHEAT_MESSAGES, Column.User.AIR_MODE, Column.User.TASK, Column.User.TEAM,
                 Column.User.KIT, Column.User.PERM_GROUP, Column.User.SERVER, Column.User.SERVER_LAST,
-                Column.User.SERVER_LOBBY, Column.User.DATA_PROTECTION, Column.User.DISCORD_ID));
+                Column.User.SERVER_LOBBY, Column.User.PRIVACY_POLICY, Column.User.DISCORD_ID));
 
         this.user = user;
 
@@ -94,7 +93,7 @@ public class DbCachedUser implements DbUser {
         this.server = columnMap.get(Column.User.SERVER);
         this.serverLast = columnMap.get(Column.User.SERVER_LAST);
         this.serverLobby = columnMap.get(Column.User.SERVER_LOBBY);
-        this.dataProtection = columnMap.get(Column.User.DATA_PROTECTION);
+        this.dataProtection = columnMap.get(Column.User.PRIVACY_POLICY);
         this.discordId = columnMap.get(Column.User.DISCORD_ID);
     }
 
@@ -123,12 +122,7 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void checkEntries() {
-        this.user.checkEntries();
-    }
-
-    @Override
-    public void setPunishment(Type.Punishment type, Date date, String castigator, String reason, String server) {
+    public void setPunishment(Type.Punishment type, LocalDateTime date, String castigator, String reason, String server) {
         this.user.setPunishment(type, date, castigator, reason, server);
     }
 
@@ -392,27 +386,26 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void agreeDataProtection(DataProtectionAgreement agreement) {
-        this.dataProtection = agreement.toString();
-        this.user.agreeDataProtection(agreement);
+    public void agreePrivacyPolicy(LocalDateTime dateTime) {
+        this.dataProtection = dateTime;
+        this.user.agreePrivacyPolicy(dateTime);
     }
 
     @Override
-    public void disagreeDataProtection() {
+    public void disagreePrivacyPolicy() {
         this.dataProtection = null;
-        this.user.disagreeDataProtection();
+        this.user.disagreePrivacyPolicy();
     }
 
     @Nullable
     @Override
-    public DataProtectionAgreement getDataProtectionAgreement() {
-        return DataProtectionAgreement.fromString(this.dataProtection);
+    public LocalDateTime getPrivacyPolicyDateTime() {
+        return this.dataProtection;
     }
 
     @Override
-    public boolean agreedDataProtection(String version) {
-        DataProtectionAgreement agreement = this.getDataProtectionAgreement();
-        return agreement != null && agreement.getVersion().equals(version);
+    public boolean agreedPrivacyPolicy() {
+        return this.dataProtection != null;
     }
 
     @Nullable

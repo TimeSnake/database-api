@@ -56,7 +56,6 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     private static final String GAMES_NAME = "game_info";
     private static final String SUPPORT_NAME = "support";
     private static final String HUNGER_GAMES_NAME = "hungergames";
-    private static final String END_GAME_NAME = "endgame";
     private static final String TEAMS_NAME = "game_teams";
     private static final String MAPS_NAME = "game_maps";
     private static final String KITS_NAME = "game_kits";

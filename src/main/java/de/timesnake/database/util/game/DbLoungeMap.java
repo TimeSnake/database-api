@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -38,13 +38,13 @@ public interface DbLoungeMap extends DbCached<DbLoungeMap> {
     String getWorldName();
 
     @NotNull
-    Double getX();
+    Float getX();
 
     @NotNull
-    Double getY();
+    Float getY();
 
     @NotNull
-    Double getZ();
+    Float getZ();
 
     @NotNull
     Float getYaw();

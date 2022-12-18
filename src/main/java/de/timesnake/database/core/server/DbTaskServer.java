@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class DbTaskServer extends DbServer implements de.timesnake.database.util.server.DbTaskServer {
 
-    public DbTaskServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
-        super(databaseConnector, port, nameTable);
+    public DbTaskServer(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, name, nameTable);
     }
 
     @Nullable

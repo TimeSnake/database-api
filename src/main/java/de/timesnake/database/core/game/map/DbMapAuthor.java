@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -30,8 +30,8 @@ import java.util.UUID;
 public class DbMapAuthor extends TableQuery {
 
     protected DbMapAuthor(DatabaseConnector databaseConnector, String nameTable, String mapName, UUID authorUuid) {
-        super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.MAP_NAME),
-                new TableEntry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID));
+        super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.MAP_NAME),
+                new Entry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID));
     }
 
     @Override

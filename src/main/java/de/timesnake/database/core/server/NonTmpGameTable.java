@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -38,8 +38,8 @@ public class NonTmpGameTable extends PvPTable<DbNonTmpGameServer> {
 
     @Nullable
     @Override
-    public DbNonTmpGameServer getServer(int port) {
-        DbNonTmpGameServer server = new DbNonTmpGameServer(this.databaseConnector, port, this.tableName);
+    public DbNonTmpGameServer getServer(String name) {
+        DbNonTmpGameServer server = new DbNonTmpGameServer(this.databaseConnector, name, this.tableName);
         return server.exists() ? server : null;
     }
 }

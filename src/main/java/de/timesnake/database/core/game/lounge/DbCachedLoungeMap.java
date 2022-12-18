@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -39,7 +39,7 @@ public class DbCachedLoungeMap implements DbLoungeMap {
     private final DbLocation location;
 
     public DbCachedLoungeMap(de.timesnake.database.core.game.lounge.DbLoungeMap map) {
-        this(map, map.getFirst(Set.of(Column.Game.LOUNGE_MAP_NAME, Column.Game.LOUNGE_MAP_WORLD,
+        this(map, map.getFirstWithKey(Set.of(Column.Game.LOUNGE_MAP_NAME, Column.Game.LOUNGE_MAP_WORLD,
                 Column.Game.LOUNGE_MAP_LOC_X, Column.Game.LOUNGE_MAP_LOC_Y, Column.Game.LOUNGE_MAP_LOC_Z,
                 Column.Game.LOUNGE_MAP_LOC_YAW, Column.Game.LOUNGE_MAP_LOC_PITCH)));
     }
@@ -74,19 +74,19 @@ public class DbCachedLoungeMap implements DbLoungeMap {
 
     @NotNull
     @Override
-    public Double getX() {
+    public Float getX() {
         return this.location.getX();
     }
 
     @NotNull
     @Override
-    public Double getY() {
+    public Float getY() {
         return this.location.getY();
     }
 
     @NotNull
     @Override
-    public Double getZ() {
+    public Float getZ() {
         return this.location.getZ();
     }
 

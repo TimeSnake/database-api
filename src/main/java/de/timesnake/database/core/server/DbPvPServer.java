@@ -26,8 +26,8 @@ import de.timesnake.database.util.object.DatabaseConnector;
 
 public abstract class DbPvPServer extends DbTaskServer implements de.timesnake.database.util.server.DbPvPServer {
 
-    public DbPvPServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
-        super(databaseConnector, port, nameTable);
+    public DbPvPServer(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, name, nameTable);
     }
 
     @Override

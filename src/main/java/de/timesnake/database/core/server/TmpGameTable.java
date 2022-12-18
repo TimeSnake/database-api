@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,8 +44,18 @@ public class TmpGameTable extends PvPTable<DbTmpGameServer> {
 
     @Nullable
     @Override
-    public DbTmpGameServer getServer(int port) {
-        DbTmpGameServer server = new DbTmpGameServer(this.databaseConnector, port, this.tableName);
+    public DbTmpGameServer getServer(String name) {
+        DbTmpGameServer server = new DbTmpGameServer(this.databaseConnector, name, this.tableName);
+        return server.exists() ? server : null;
+    }
+
+    @Nullable
+    public DbTmpGameServer getServerByTwinServerName(String twinServerName) {
+        String name = this.getFirst(Column.Server.NAME, new Entry<>(twinServerName, Column.Server.TWIN_SERVER));
+        if (name == null) {
+            return null;
+        }
+        DbTmpGameServer server = new DbTmpGameServer(this.databaseConnector, name, this.tableName);
         return server.exists() ? server : null;
     }
 

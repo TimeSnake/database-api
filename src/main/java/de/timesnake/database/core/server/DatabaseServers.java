@@ -69,12 +69,12 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         this.buildWorldTable.backup();
     }
 
-    @Nullable
     @Override
-    public <S extends DbServer> Type.Server<S> getServerType(int port) {
+    public <S extends DbServer> Type.@Nullable Server<S> getServerType(int port) {
         for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
                 this.serverTables.entrySet()) {
-            if (entry.getValue().getServer(port) != null && entry.getValue().getServer(port).exists()) {
+            String name = entry.getValue().getNameFromPort(port);
+            if (name != null && entry.getValue().getServer(name) != null && entry.getValue().getServer(name).exists()) {
                 return (Type.Server<S>) entry.getKey();
             }
         }
@@ -95,21 +95,21 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     @Nullable
     @Override
-    public <Server extends DbServer> Server getServer(int port) {
-        return this.getServer(this.getServerType(port), port);
+    public <Server extends DbServer> Server getServer(String name) {
+        return this.getServer(this.getServerType(name), name);
     }
 
     @Nullable
     @Override
-    public <Server extends DbServer> Server getServer(String name) {
-        return this.getServer(this.getServerType(name), name);
+    public <Server extends DbServer> Server getServer(int port) {
+        return this.getServer(this.getServerType(port), port);
     }
 
     @NotNull
     @Override
     public Collection<Integer> getPorts() {
         ArrayList<Integer> ports = new ArrayList<>();
-        for (Type.Server<?> type : Type.Server.TYPES_BY_STRING.values()) {
+        for (Type.Server<?> type : Type.Server.values()) {
             ports.addAll(this.getServerPorts(type));
         }
         return ports;
@@ -120,7 +120,7 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     public <Server extends DbServer> Server getServer(Type.Server<Server> type, int port) {
         ServerTable<Server> table = this.serverTables.get(type);
         if (table != null) {
-            return table.getServer(port);
+            return table.getServer(table.getNameFromPort(port));
         }
         return null;
     }
@@ -135,21 +135,13 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         return null;
     }
 
+    @Deprecated
     @Override
-    public void removeServer(Type.Server<?> type, int port) {
+    public void removeServer(Type.Server<?> type, String name) {
         ServerTable<? extends DbServer> table = this.serverTables.get(type);
         if (table != null) {
-            table.removeServer(port);
+            table.removeServer(name);
         }
-    }
-
-    @Override
-    public boolean containsServer(Type.Server<?> type, int port) {
-        ServerTable<? extends DbServer> table = this.serverTables.get(type);
-        if (table != null) {
-            return table.containsServer(port);
-        }
-        return false;
     }
 
     @Override
@@ -212,43 +204,43 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addLobby(int port, String name, Status.Server status, Path folderPath) {
+    public void addLobby(String name, int port, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOBBY);
         if (table != null) {
-            table.addServer(port, name, status, folderPath);
+            table.addServer(name, port, status, folderPath);
         }
 
     }
 
     @Override
-    public void addGame(int port, String name, String task, Status.Server status, Path folderPath) {
+    public void addGame(String name, int port, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.GAME);
         if (table != null) {
-            ((NonTmpGameTable) table).addServer(port, name, task, status, folderPath);
+            ((NonTmpGameTable) table).addServer(name, port, task, status, folderPath);
         }
     }
 
     @Override
-    public void addLounge(int port, String name, Status.Server status, Path folderPath) {
+    public void addLounge(String name, int port, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOUNGE);
         if (table != null) {
-            table.addServer(port, name, status, folderPath);
+            table.addServer(name, port, status, folderPath);
         }
     }
 
     @Override
-    public void addTempGame(int port, String name, String task, Status.Server status, Path folderPath) {
+    public void addTempGame(String name, int port, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.TEMP_GAME);
         if (table != null) {
-            ((TmpGameTable) table).addServer(port, name, task, status, folderPath);
+            ((TmpGameTable) table).addServer(name, port, task, status, folderPath);
         }
     }
 
     @Override
-    public void addBuild(int port, String name, String task, Status.Server status, Path folderPath) {
+    public void addBuild(String name, int port, String task, Status.Server status, Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.BUILD);
         if (table != null) {
-            ((BuildTable) table).addServer(port, name, task, status, folderPath);
+            ((BuildTable) table).addServer(name, port, task, status, folderPath);
         }
     }
 
@@ -262,5 +254,9 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     @Override
     public String getBuildServerByWorld(String worldName) {
         return this.buildWorldTable.getBuildServer(worldName);
+    }
+
+    public ServerMap getServerTables() {
+        return serverTables;
     }
 }

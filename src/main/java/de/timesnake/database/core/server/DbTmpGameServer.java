@@ -31,8 +31,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class DbTmpGameServer extends DbPvPServer implements de.timesnake.database.util.server.DbTmpGameServer {
 
-    public DbTmpGameServer(DatabaseConnector databaseConnector, Integer port, String nameTable) {
-        super(databaseConnector, port, nameTable);
+    public DbTmpGameServer(DatabaseConnector databaseConnector, String name, String nameTable) {
+        super(databaseConnector, name, nameTable);
     }
 
     @Override
@@ -60,20 +60,20 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
 
     @Nullable
     @Override
-    public Integer getTwinServerPort() {
+    public String getTwinServerName() {
         return super.getFirstWithKey(Column.Server.TWIN_SERVER);
     }
 
     @Override
-    public void setTwinServerPort(Integer port) {
-        super.setWithKeySynchronized(port, Column.Server.TWIN_SERVER);
+    public void setTwinServerName(String name) {
+        super.setWithKeySynchronized(name, Column.Server.TWIN_SERVER);
     }
 
     @Nullable
     @Override
     public DbLoungeServer getTwinServer() {
-        Integer port = this.getTwinServerPort();
-        return port == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, port);
+        String name = this.getTwinServerName();
+        return name == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, name);
     }
 
     @NotNull

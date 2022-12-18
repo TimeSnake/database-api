@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -25,13 +25,11 @@ import java.util.HashMap;
 
 public class ServerMap extends HashMap<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> {
 
-    private final HashMap<Type.Server<?>, ServerTable<? extends DbServer>> serverTables = new HashMap<>();
-
-    public <S extends DbServer> ServerTable<S> put(Type.Server<S> key, ServerTable<S> value) {
-        return (ServerTable<S>) super.put(key, value);
+    public <Table extends ServerTable<S>, S extends DbServer> Table put(Type.Server<S> key, Table value) {
+        return (Table) super.put(key, value);
     }
 
-    public <S extends DbServer, T extends Type.Server<S>> ServerTable<S> get(T type) {
-        return (ServerTable<S>) super.get(type);
+    public <Table extends ServerTable<S>, S extends DbServer, T extends Type.Server<S>> Table get(T type) {
+        return (Table) super.get(type);
     }
 }

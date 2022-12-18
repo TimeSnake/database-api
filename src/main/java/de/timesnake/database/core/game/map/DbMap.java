@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -25,7 +25,9 @@ import de.timesnake.database.util.object.DbLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DbMap implements de.timesnake.database.util.game.DbMap {
@@ -175,18 +177,18 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
 
     @NotNull
     @Override
-    public ArrayList<String> getDescription() {
+    public List<String> getDescription() {
         return this.info.getDescription();
     }
 
     @NotNull
     @Override
-    public ArrayList<String> getInfo() {
+    public List<String> getInfo() {
         return this.info.getInfo();
     }
 
     @Override
-    public void setInfo(Collection<String> info) {
+    public void setInfo(List<String> info) {
         this.info.setInfo(info);
     }
 
@@ -197,7 +199,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     }
 
     @Override
-    public void setAuthors(Collection<UUID> authors) {
+    public void setAuthors(List<UUID> authors) {
         authors.forEach(this::addAuthor);
     }
 
@@ -218,7 +220,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     }
 
     @Override
-    public void setAuthorNames(Collection<String> authors) {
+    public void setAuthorNames(List<String> authors) {
         for (String name : authors) {
             UUID uuid = Database.getUsers().getUser(name).getUniqueId();
             if (uuid == null) {

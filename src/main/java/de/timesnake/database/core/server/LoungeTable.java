@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -34,8 +34,8 @@ public class LoungeTable extends TaskTable<DbLoungeServer> {
 
     @Nullable
     @Override
-    public DbLoungeServer getServer(int port) {
-        DbLoungeServer server = new DbLoungeServer(this.databaseConnector, port, this.tableName);
+    public DbLoungeServer getServer(String name) {
+        DbLoungeServer server = new DbLoungeServer(this.databaseConnector, name, this.tableName);
         return server.exists() ? server : null;
     }
 }

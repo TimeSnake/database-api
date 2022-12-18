@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package de.timesnake.database.util.user;
 import de.timesnake.database.util.object.Type;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public interface DbPunishment extends DbPlayer {
@@ -51,14 +52,14 @@ public interface DbPunishment extends DbPlayer {
      * @return the {@link Date} of deletion
      */
     @Nullable
-    Date getDate();
+    LocalDateTime getDate();
 
     /**
      * Sets tbe date of the punishment
      *
      * @param date The date to set
      */
-    void setDate(Date date);
+    void setDate(LocalDateTime date);
 
     /**
      * Gets the castigator of the punishment

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.LocationsTable;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,6 +75,6 @@ public class MapLocationsTable extends LocationsTable {
     }
 
     public void deleteMap(String mapName) {
-        super.deleteEntry(new TableEntry<>(mapName, Column.Game.MAP_NAME));
+        super.deleteEntry(new Entry<>(mapName, Column.Game.MAP_NAME));
     }
 }

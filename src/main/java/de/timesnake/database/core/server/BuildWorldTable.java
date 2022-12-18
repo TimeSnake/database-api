@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
@@ -49,36 +49,36 @@ public class BuildWorldTable extends TableDDL {
     }
 
     public Set<String> getWorldNames(String serverName) {
-        return super.get(Column.Server.BUILD_WORLD, new TableEntry<>(serverName, Column.Server.NAME));
+        return super.get(Column.Server.BUILD_WORLD, new Entry<>(serverName, Column.Server.NAME));
     }
 
     @Nullable
     public String getBuildServer(String worldName) {
-        return super.getFirst(Column.Server.NAME, new TableEntry<>(worldName, Column.Server.BUILD_WORLD));
+        return super.getFirst(Column.Server.NAME, new Entry<>(worldName, Column.Server.BUILD_WORLD));
     }
 
     public void addWorld(String serverName, String worldName) {
-        super.set(worldName, Column.Server.BUILD_WORLD, new TableEntry<>(serverName, Column.Server.NAME));
+        super.set(worldName, Column.Server.BUILD_WORLD, new Entry<>(serverName, Column.Server.NAME));
     }
 
     public void addWorld(String serverName, String worldName, SyncExecute syncExecute) {
-        super.set(worldName, Column.Server.BUILD_WORLD, syncExecute, new TableEntry<>(serverName, Column.Server.NAME));
+        super.set(worldName, Column.Server.BUILD_WORLD, syncExecute, new Entry<>(serverName, Column.Server.NAME));
     }
 
     public void removeWorld(String worldName) {
-        super.deleteEntry(new TableEntry<>(worldName, Column.Server.BUILD_WORLD));
+        super.deleteEntry(new Entry<>(worldName, Column.Server.BUILD_WORLD));
     }
 
     public void removeWorld(String worldName, SyncExecute syncExecute) {
-        super.deleteEntry(syncExecute, new TableEntry<>(worldName, Column.Server.BUILD_WORLD));
+        super.deleteEntry(syncExecute, new Entry<>(worldName, Column.Server.BUILD_WORLD));
     }
 
     public void removeServer(String serverName) {
-        super.deleteEntry(new TableEntry<>(serverName, Column.Server.NAME));
+        super.deleteEntry(new Entry<>(serverName, Column.Server.NAME));
     }
 
     public void removeServer(String serverName, SyncExecute syncExecute) {
-        super.deleteEntry(syncExecute, new TableEntry<>(serverName, Column.Server.NAME));
+        super.deleteEntry(syncExecute, new Entry<>(serverName, Column.Server.NAME));
     }
 
 }

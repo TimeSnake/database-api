@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.kit;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -32,7 +32,7 @@ import java.util.Collection;
 public class DbKit extends TableQuery implements de.timesnake.database.util.game.DbKit {
 
     public DbKit(DatabaseConnector databaseConnector, Integer id, String nameTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(id, Column.Game.KIT_ID));
+        super(databaseConnector, nameTable, new Entry<>(id, Column.Game.KIT_ID));
     }
 
     @Override

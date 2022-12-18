@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -53,11 +53,11 @@ public class GamesInfoBasisTable extends TableDDL {
     }
 
     public boolean containsGame(String name) {
-        return super.getFirst(Column.Game.NAME, new TableEntry<>(name, Column.Game.NAME)) != null;
+        return super.getFirst(Column.Game.NAME, new Entry<>(name, Column.Game.NAME)) != null;
     }
 
     protected void removeGame(String name) {
-        super.deleteEntry(new TableEntry<>(name, Column.Game.NAME));
+        super.deleteEntry(new Entry<>(name, Column.Game.NAME));
     }
 
     public Collection<String> getGamesName() {

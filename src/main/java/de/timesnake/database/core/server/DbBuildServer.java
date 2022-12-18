@@ -32,8 +32,8 @@ public class DbBuildServer extends DbTaskServer implements de.timesnake.database
 
     private final BuildWorldTable buildWorldTable;
 
-    public DbBuildServer(DatabaseConnector databaseConnector, Integer port, String nameTable, BuildWorldTable buildWorldTable) {
-        super(databaseConnector, port, nameTable);
+    public DbBuildServer(DatabaseConnector databaseConnector, String name, String nameTable, BuildWorldTable buildWorldTable) {
+        super(databaseConnector, name, nameTable);
         this.buildWorldTable = buildWorldTable;
     }
 

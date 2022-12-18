@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,20 +19,18 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.DbStringArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class DbMapInfo extends TableQuery {
 
     protected DbMapInfo(DatabaseConnector databaseConnector, String nameTable, String mapName) {
-        super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.MAP_NAME));
+        super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.MAP_NAME));
     }
 
     @NotNull
@@ -80,20 +78,20 @@ public class DbMapInfo extends TableQuery {
         this.setWithKey(itemName, Column.Game.MAP_ITEM);
     }
 
-    public ArrayList<String> getDescription() {
+    public List<String> getDescription() {
         return super.getFirstWithKey(Column.Game.MAP_DESCRIPTION);
     }
 
-    public void setDescription(Collection<String> description) {
-        this.setWithKey(new DbStringArrayList(description), Column.Game.MAP_DESCRIPTION);
+    public void setDescription(List<String> description) {
+        this.setWithKey(description, Column.Game.MAP_DESCRIPTION);
     }
 
-    public ArrayList<String> getInfo() {
+    public List<String> getInfo() {
         return super.getFirstWithKey(Column.Game.MAP_INFO);
     }
 
-    public void setInfo(Collection<String> info) {
-        this.setWithKey(new DbStringArrayList(info), Column.Game.MAP_INFO);
+    public void setInfo(List<String> info) {
+        this.setWithKey(info, Column.Game.MAP_INFO);
     }
 
     public boolean isEnabled() {

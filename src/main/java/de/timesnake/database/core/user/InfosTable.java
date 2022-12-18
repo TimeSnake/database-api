@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
 
@@ -45,25 +45,25 @@ public class InfosTable extends PlayersTable {
         super.addColumn(Column.User.SERVER);
         super.addColumn(Column.User.SERVER_LAST);
         super.addColumn(Column.User.SERVER_LOBBY);
-        super.addColumn(Column.User.DATA_PROTECTION);
+        super.addColumn(Column.User.PRIVACY_POLICY);
         super.addColumn(Column.User.DISCORD_ID);
     }
 
     @Override
     public void backup() {
         Column<?>[] columns = {Column.User.UUID, Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
-                Column.User.NICK, Column.User.TIME_COINS, Column.User.PERM_GROUP, Column.User.DATA_PROTECTION,
+                Column.User.NICK, Column.User.TIME_COINS, Column.User.PERM_GROUP, Column.User.PRIVACY_POLICY,
                 Column.User.DISCORD_ID};
         super.backup(columns);
     }
 
     public void addPlayer(UUID uuid, String name, String permGroup, String server) {
         super.addPlayer(uuid, name);
-        super.setSynchronized(Set.of(new TableEntry<>(Status.User.ONLINE, Column.User.STATUS), new TableEntry<>(false
-                , Column.User.AIR_MODE), new TableEntry<>(null, Column.User.TEAM), new TableEntry<>(permGroup,
-                Column.User.PERM_GROUP), new TableEntry<>(server, Column.User.SERVER), new TableEntry<>(server,
-                Column.User.SERVER_LAST), new TableEntry<>(server, Column.User.SERVER_LOBBY), new TableEntry<>(false,
-                Column.User.SERVICE)), new TableEntry<>(uuid, Column.User.UUID));
+        super.setSynchronized(Set.of(new Entry<>(Status.User.ONLINE, Column.User.STATUS), new Entry<>(false
+                , Column.User.AIR_MODE), new Entry<>(null, Column.User.TEAM), new Entry<>(permGroup,
+                Column.User.PERM_GROUP), new Entry<>(server, Column.User.SERVER), new Entry<>(server,
+                Column.User.SERVER_LAST), new Entry<>(server, Column.User.SERVER_LOBBY), new Entry<>(false,
+                Column.User.SERVICE)), new Entry<>(uuid, Column.User.UUID));
     }
 
 }

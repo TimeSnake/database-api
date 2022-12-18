@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@
 package de.timesnake.database.core.game.statistic;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -92,7 +92,7 @@ public class StatisticTypesTable extends TableDDL {
         ColumnMap map = super.getFirst(Set.of(Column.Game.STAT_TYPE_NAME, Column.Game.STAT_TYPE_TYPE,
                         Column.Game.STAT_TYPE_DISPLAY_NAME, Column.Game.STAT_TYPE_DEFAULT_VALUE,
                         Column.Game.STAT_TYPE_DISPLAY_INDEX, Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX),
-                new TableEntry<>(name, Column.Game.STAT_TYPE_NAME));
+                new Entry<>(name, Column.Game.STAT_TYPE_NAME));
 
         String typeString = map.get(Column.Game.STAT_TYPE_TYPE);
 
@@ -109,19 +109,19 @@ public class StatisticTypesTable extends TableDDL {
     }
 
     public void addStat(StatType<?> stat) {
-        super.addEntry(new PrimaryEntries(new TableEntry<>(stat.getName(), Column.Game.STAT_TYPE_NAME)),
-                new TableEntry<>(stat.getDisplayName(), Column.Game.STAT_TYPE_DISPLAY_NAME),
-                new TableEntry<>(stat.getType(), Column.Game.STAT_TYPE_TYPE),
-                new TableEntry<>(stat.getDefaultValueAsString(), Column.Game.STAT_TYPE_DEFAULT_VALUE),
-                new TableEntry<>(stat.getDisplayIndex(), Column.Game.STAT_TYPE_DISPLAY_INDEX),
-                new TableEntry<>(stat.getDisplayLineIndex(), Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX),
-                new TableEntry<>(stat.getGlobalDisplay(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY),
-                new TableEntry<>(stat.getGlobalDisplayIndex(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY_INDEX),
-                new TableEntry<>(stat.getGlobalDisplayLineIndex(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX));
+        super.addEntry(new PrimaryEntries(new Entry<>(stat.getName(), Column.Game.STAT_TYPE_NAME)),
+                new Entry<>(stat.getDisplayName(), Column.Game.STAT_TYPE_DISPLAY_NAME),
+                new Entry<>(stat.getType(), Column.Game.STAT_TYPE_TYPE),
+                new Entry<>(stat.getDefaultValueAsString(), Column.Game.STAT_TYPE_DEFAULT_VALUE),
+                new Entry<>(stat.getDisplayIndex(), Column.Game.STAT_TYPE_DISPLAY_INDEX),
+                new Entry<>(stat.getDisplayLineIndex(), Column.Game.STAT_TYPE_DISPLAY_LINE_INDEX),
+                new Entry<>(stat.getGlobalDisplay(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY),
+                new Entry<>(stat.getGlobalDisplayIndex(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY_INDEX),
+                new Entry<>(stat.getGlobalDisplayLineIndex(), Column.Game.STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX));
     }
 
     public void removeStat(StatType<?> stat) {
-        super.deleteEntrySynchronized(new TableEntry<>(stat.getName(), Column.Game.STAT_TYPE_NAME));
+        super.deleteEntrySynchronized(new Entry<>(stat.getName(), Column.Game.STAT_TYPE_NAME));
     }
 
 }

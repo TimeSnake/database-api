@@ -19,8 +19,8 @@
 package de.timesnake.database.core.game.kit;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.TableEntry;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
@@ -28,7 +28,9 @@ import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class KitsTable extends TableDDL {
 
@@ -54,8 +56,8 @@ public class KitsTable extends TableDDL {
         super.delete();
     }
 
-    public Collection<Integer> getKitsId() {
-        return super.get(Column.Game.KIT_ID);
+    public List<Integer> getKitsId() {
+        return new ArrayList<>(super.get(Column.Game.KIT_ID));
     }
 
     public de.timesnake.database.util.game.DbKit getKit(int id) {
@@ -64,7 +66,7 @@ public class KitsTable extends TableDDL {
 
     @Nullable
     public de.timesnake.database.util.game.DbKit getKit(String name) {
-        Integer id = super.getFirst(Column.Game.KIT_ID, new TableEntry<>(name, Column.Game.KIT_NAME));
+        Integer id = super.getFirst(Column.Game.KIT_ID, new Entry<>(name, Column.Game.KIT_NAME));
         if (id != null) {
             return this.getKit(id);
         }
@@ -72,12 +74,12 @@ public class KitsTable extends TableDDL {
     }
 
     public void removeKit(Integer id) {
-        super.deleteEntry(new TableEntry<>(id, Column.Game.KIT_ID));
+        super.deleteEntry(new Entry<>(id, Column.Game.KIT_ID));
     }
 
 
     public void removeKitSynchronized(Integer id) {
-        super.deleteEntrySynchronized(new TableEntry<>(id, Column.Game.KIT_ID));
+        super.deleteEntrySynchronized(new Entry<>(id, Column.Game.KIT_ID));
     }
 
     public void addKit(Integer id, String name, String itemType, Collection<String> description) throws UnsupportedStringException {
@@ -86,9 +88,9 @@ public class KitsTable extends TableDDL {
                 throw new UnsupportedStringException(Table.ENTRY_ARRAY_DELIMITER);
             }
         }
-        super.addEntry(new PrimaryEntries(new TableEntry<>(id, Column.Game.KIT_ID)), new TableEntry<>(name,
-                        Column.Game.KIT_NAME), new TableEntry<>(itemType, Column.Game.KIT_ITEM),
-                new TableEntry<>(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION));
+        super.addEntry(new PrimaryEntries(new Entry<>(id, Column.Game.KIT_ID)), new Entry<>(name,
+                        Column.Game.KIT_NAME), new Entry<>(itemType, Column.Game.KIT_ITEM),
+                new Entry<>(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION));
     }
 
     public void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException {
@@ -97,8 +99,8 @@ public class KitsTable extends TableDDL {
                 throw new UnsupportedStringException(Table.ENTRY_ARRAY_DELIMITER);
             }
         }
-        super.addEntryWithAutoIdSynchronized(Column.Game.KIT_ID, new TableEntry<>(name, Column.Game.KIT_NAME),
-                new TableEntry<>(itemType, Column.Game.KIT_ITEM), new TableEntry<>(new DbStringArrayList(description)
+        super.addEntryWithAutoIdSynchronized(Column.Game.KIT_ID, new Entry<>(name, Column.Game.KIT_NAME),
+                new Entry<>(itemType, Column.Game.KIT_ITEM), new Entry<>(new DbStringArrayList(description)
                         , Column.Game.KIT_DESCRIPTION));
     }
 }

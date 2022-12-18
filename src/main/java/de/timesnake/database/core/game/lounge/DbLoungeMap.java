@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.game.DbLoungeMapDisplay;
 import de.timesnake.database.util.object.BlockSide;
@@ -36,7 +36,7 @@ public class DbLoungeMap extends TableQuery implements de.timesnake.database.uti
 
     public DbLoungeMap(DatabaseConnector databaseConnector, String nameTable, String mapName,
                        DbLoungeMapDisplayTable displayTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(mapName, Column.Game.LOUNGE_MAP_NAME));
+        super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME));
         this.displayTable = displayTable;
     }
 
@@ -59,19 +59,19 @@ public class DbLoungeMap extends TableQuery implements de.timesnake.database.uti
 
     @NotNull
     @Override
-    public Double getX() {
+    public Float getX() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_LOC_X);
     }
 
     @NotNull
     @Override
-    public Double getY() {
+    public Float getY() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_LOC_Y);
     }
 
     @NotNull
     @Override
-    public Double getZ() {
+    public Float getZ() {
         return super.getFirstWithKey(Column.Game.LOUNGE_MAP_LOC_Z);
     }
 

@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.chat.ExTextColor;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 public class DbGameInfoBasis extends TableQuery implements de.timesnake.database.util.game.DbGameInfoBasis {
 
     public DbGameInfoBasis(DatabaseConnector databaseConnector, String nameTable, String gameName) {
-        super(databaseConnector, nameTable, new TableEntry<>(gameName, Column.Game.NAME));
+        super(databaseConnector, nameTable, new Entry<>(gameName, Column.Game.NAME));
     }
 
     @Override

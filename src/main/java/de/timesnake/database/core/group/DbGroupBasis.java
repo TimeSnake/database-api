@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.group;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class DbGroupBasis extends TableQuery implements de.timesnake.database.util.group.DbGroupBasis {
 
     protected DbGroupBasis(DatabaseConnector databaseConnector, String name, String nameTable) {
-        super(databaseConnector, nameTable, new TableEntry<>(name, Column.Group.NAME));
+        super(databaseConnector, nameTable, new Entry<>(name, Column.Group.NAME));
     }
 
     @Override

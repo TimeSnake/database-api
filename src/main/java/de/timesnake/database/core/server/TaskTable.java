@@ -1,5 +1,5 @@
 /*
- * database-api.main
+ * workspace.database-api.main
  * Copyright (C) 2022 timesnake
  *
  * This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.TableEntry;
+import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbTaskServer;
 import de.timesnake.library.basic.util.Status;
@@ -36,26 +36,26 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
         super.addColumn(Column.Server.TASK);
     }
 
-    public void addServer(int port, String name, String task, Status.Server status, Path folderPath) {
-        super.addServer(port, name, status, folderPath);
-        super.setSynchronized(task, Column.Server.TASK, new TableEntry<>(port, Column.Server.PORT));
+    public void addServer(String name, int port, String task, Status.Server status, Path folderPath) {
+        super.addServer(name, port, status, folderPath);
+        super.setSynchronized(task, Column.Server.TASK, new Entry<>(name, Column.Server.NAME));
     }
 
     @Override
     public void backup() {
-        Column<?>[] columns = {Column.Server.PORT, Column.Server.NAME, Column.Server.MAX_PLAYERS, Column.Server.TASK,
+        Column<?>[] columns = {Column.Server.NAME, Column.Server.PORT, Column.Server.MAX_PLAYERS, Column.Server.TASK,
                 Column.Server.PASSWORD};
         super.backup(columns);
     }
 
     public List<Server> getServers(String task) {
         List<Server> servers = new ArrayList<>();
-        Collection<Integer> ports = super.get(Column.Server.PORT, new TableEntry<>(task, Column.Server.TASK));
-        for (Integer port : ports) {
-            if (port == null) {
+        Collection<String> names = super.get(Column.Server.NAME, new Entry<>(task, Column.Server.TASK));
+        for (String name : names) {
+            if (name == null) {
                 continue;
             }
-            Server server = this.getServer(port);
+            Server server = this.getServer(name);
             if (server != null && server.exists()) {
                 servers.add(server);
             }
