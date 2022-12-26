@@ -2,8 +2,7 @@
 
 This module is part of the plugin-project and won't run without
 the [root module](https://git.timesnake.de/timesnake/plugin-root-project) [1].
-
----
+[root module](https://git.timesnake.de/timesnake/plugin-root-project)
 
 # Usage
 
@@ -36,8 +35,7 @@ query.
 [DbCached]: /src/main/java/de/timesnake/database/util/object/DbCached.java
 
 [NotCached]: /src/main/java/de/timesnake/database/util/object/NotCached.java
-
----
+[root module](https://git.timesnake.de/timesnake/plugin-root-project)
 
 ## Code Style
 
