@@ -4,22 +4,29 @@
 
 package de.timesnake.database.core;
 
+import static de.timesnake.database.core.table.Table.ENTRY_ARRAY_DELIMITER;
+
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.chat.ExTextColor;
-
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.nio.file.Path;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static de.timesnake.database.core.table.Table.ENTRY_ARRAY_DELIMITER;
 
 public abstract class ColumnType<Value> {
 
@@ -30,7 +37,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public Integer parseValueFromResultSet(ResultSet rs, Column<Integer> column) throws SQLException {
+        public Integer parseValueFromResultSet(ResultSet rs, Column<Integer> column)
+                throws SQLException {
             int value = rs.getInt(column.getName());
             if (rs.wasNull()) {
                 return null;
@@ -39,7 +47,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, Integer integer) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, Integer integer)
+                throws SQLException {
             statement.setInt(index, integer);
         }
     };
@@ -60,7 +69,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, Long aLong) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, Long aLong)
+                throws SQLException {
             statement.setLong(index, aLong);
         }
     };
@@ -73,7 +83,8 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public Integer parseValueFromResultSet(ResultSet rs, Column<Integer> column) throws SQLException {
+            public Integer parseValueFromResultSet(ResultSet rs, Column<Integer> column)
+                    throws SQLException {
                 int value = rs.getInt(column.getName());
                 if (rs.wasNull()) {
                     return null;
@@ -82,7 +93,8 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Integer integer) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, Integer integer)
+                    throws SQLException {
                 statement.setInt(index, integer);
             }
         };
@@ -96,12 +108,14 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public String parseValueFromResultSet(ResultSet rs, Column<String> column) throws SQLException {
+            public String parseValueFromResultSet(ResultSet rs, Column<String> column)
+                    throws SQLException {
                 return rs.getString(column.getName());
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, String s) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, String s)
+                    throws SQLException {
                 statement.setString(index, s);
             }
         };
@@ -114,7 +128,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public Float parseValueFromResultSet(ResultSet rs, Column<Float> column) throws SQLException {
+        public Float parseValueFromResultSet(ResultSet rs, Column<Float> column)
+                throws SQLException {
             final float value = rs.getFloat(column.getName());
             if (rs.wasNull()) {
                 return null;
@@ -123,7 +138,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, Float aFloat) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, Float aFloat)
+                throws SQLException {
             statement.setFloat(index, aFloat);
         }
     };
@@ -144,7 +160,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, UUID uuid) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, UUID uuid)
+                throws SQLException {
             statement.setString(index, uuid.toString());
         }
 
@@ -166,12 +183,14 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public Boolean parseValueFromResultSet(ResultSet rs, Column<Boolean> column) throws SQLException {
+        public Boolean parseValueFromResultSet(ResultSet rs, Column<Boolean> column)
+                throws SQLException {
             return rs.getBoolean(column.getName());
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, Boolean aBoolean) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, Boolean aBoolean)
+                throws SQLException {
             statement.setBoolean(index, aBoolean);
         }
     };
@@ -189,7 +208,8 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Status status) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, Status status)
+                    throws SQLException {
                 statement.setString(index, status.getName());
             }
         };
@@ -208,20 +228,23 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Type type) throws SQLException {
-                statement.setString(index, type.getShortName());
+            public void applyOnStatement(PreparedStatement statement, int index, Type type)
+                    throws SQLException {
+                statement.setString(index, type.getName());
             }
         };
     }
 
-    public static final ColumnType<LocalDateTime> LOCAL_DATE_TIME = new ColumnType<>("TIMESTAMP", 19) {
+    public static final ColumnType<LocalDateTime> LOCAL_DATE_TIME = new ColumnType<>("TIMESTAMP",
+            19) {
         @Override
         public String getName() {
             return "TIMESTAMP";
         }
 
         @Override
-        public LocalDateTime parseValueFromResultSet(ResultSet rs, Column<LocalDateTime> column) throws SQLException {
+        public LocalDateTime parseValueFromResultSet(ResultSet rs, Column<LocalDateTime> column)
+                throws SQLException {
             Timestamp timestamp = rs.getTimestamp(column.getName());
             if (timestamp != null) {
                 return timestamp.toLocalDateTime();
@@ -230,7 +253,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, LocalDateTime dateTime) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, LocalDateTime dateTime)
+                throws SQLException {
             statement.setTimestamp(index, Timestamp.valueOf(dateTime));
         }
     };
@@ -243,7 +267,8 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public List<String> parseValueFromResultSet(ResultSet rs, Column<List<String>> column) throws SQLException {
+            public List<String> parseValueFromResultSet(ResultSet rs, Column<List<String>> column)
+                    throws SQLException {
                 String value = rs.getString(column.getName());
                 if (value == null) {
                     return Collections.emptyList();
@@ -252,7 +277,8 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, List<String> strings) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index,
+                    List<String> strings) throws SQLException {
                 if (strings.size() > 0) {
                     statement.setString(index, String.join(ENTRY_ARRAY_DELIMITER, strings));
                 } else {
@@ -270,7 +296,8 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public List<Integer> parseValueFromResultSet(ResultSet rs, Column<List<Integer>> column) throws SQLException {
+            public List<Integer> parseValueFromResultSet(ResultSet rs, Column<List<Integer>> column)
+                    throws SQLException {
                 String value = rs.getString(column.getName());
                 if (value == null) {
                     return Collections.emptyList();
@@ -288,10 +315,12 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, List<Integer> integers) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index,
+                    List<Integer> integers) throws SQLException {
                 if (integers.size() > 0) {
                     statement.setString(index, integers.stream()
-                            .map(String::valueOf).collect(Collectors.joining(ENTRY_ARRAY_DELIMITER)));
+                            .map(String::valueOf)
+                            .collect(Collectors.joining(ENTRY_ARRAY_DELIMITER)));
                 } else {
                     statement.setNull(index, Types.NULL);
                 }
@@ -306,7 +335,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public BlockSide parseValueFromResultSet(ResultSet rs, Column<BlockSide> column) throws SQLException {
+        public BlockSide parseValueFromResultSet(ResultSet rs, Column<BlockSide> column)
+                throws SQLException {
             String value = rs.getString(column.getName());
             if (value == null) {
                 return null;
@@ -315,7 +345,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, BlockSide blockSide) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, BlockSide blockSide)
+                throws SQLException {
             statement.setString(index, blockSide.name().toLowerCase());
         }
     };
@@ -327,7 +358,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public Color parseValueFromResultSet(ResultSet rs, Column<Color> column) throws SQLException {
+        public Color parseValueFromResultSet(ResultSet rs, Column<Color> column)
+                throws SQLException {
             String value = rs.getString(column.getName());
             if (value == null) {
                 return null;
@@ -336,17 +368,19 @@ public abstract class ColumnType<Value> {
             if (rgba.length < 4) {
                 return null;
             }
-            return new Color(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]), Integer.parseInt(rgba[2]),
+            return new Color(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]),
+                    Integer.parseInt(rgba[2]),
                     Integer.parseInt(rgba[3]));
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, Color color) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, Color color)
+                throws SQLException {
             statement.setString(index,
                     color.getRed() + ENTRY_ARRAY_DELIMITER +
-                    color.getGreen() + ENTRY_ARRAY_DELIMITER +
-                    color.getBlue() + ENTRY_ARRAY_DELIMITER +
-                    color.getAlpha());
+                            color.getGreen() + ENTRY_ARRAY_DELIMITER +
+                            color.getBlue() + ENTRY_ARRAY_DELIMITER +
+                            color.getAlpha());
         }
     };
 
@@ -366,7 +400,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, File file) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, File file)
+                throws SQLException {
             statement.setString(index, file.getAbsolutePath());
         }
     };
@@ -387,7 +422,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, Path path) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index, Path path)
+                throws SQLException {
             statement.setString(index, path.toFile().getAbsolutePath());
         }
     };
@@ -399,7 +435,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public ExTextColor parseValueFromResultSet(ResultSet rs, Column<ExTextColor> column) throws SQLException {
+        public ExTextColor parseValueFromResultSet(ResultSet rs, Column<ExTextColor> column)
+                throws SQLException {
             String value = rs.getString(column.getName());
             if (value == null) {
                 return null;
@@ -408,7 +445,8 @@ public abstract class ColumnType<Value> {
         }
 
         @Override
-        public void applyOnStatement(PreparedStatement statement, int index, ExTextColor exTextColor) throws SQLException {
+        public void applyOnStatement(PreparedStatement statement, int index,
+                ExTextColor exTextColor) throws SQLException {
             statement.setString(index, exTextColor.getName());
         }
     };
@@ -463,17 +501,19 @@ public abstract class ColumnType<Value> {
 
     public String getEnhancedName() {
         return this.getName() +
-               (this.isNullable() ? "" : " NOT NULL") +
-               (this.isUnique() ? " UNIQUE" : "");
+                (this.isNullable() ? "" : " NOT NULL") +
+                (this.isUnique() ? " UNIQUE" : "");
     }
 
     public String getValueWrapper() {
         return "?";
     }
 
-    public abstract Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException;
+    public abstract Value parseValueFromResultSet(ResultSet rs, Column<Value> column)
+            throws SQLException;
 
-    public abstract void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException;
+    public abstract void applyOnStatement(PreparedStatement statement, int index, Value value)
+            throws SQLException;
 
     public ColumnType<Value> unique() {
         return new ColumnType<>(this.getSimpleName(), this.getLength(), true, this.isNullable()) {
@@ -483,12 +523,14 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column)
+                    throws SQLException {
                 return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, Value value)
+                    throws SQLException {
                 ColumnType.this.applyOnStatement(statement, index, value);
             }
         };
@@ -502,12 +544,14 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column)
+                    throws SQLException {
                 return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, Value value)
+                    throws SQLException {
                 ColumnType.this.applyOnStatement(statement, index, value);
             }
         };
@@ -521,12 +565,14 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column)
+                    throws SQLException {
                 return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, Value value)
+                    throws SQLException {
                 ColumnType.this.applyOnStatement(statement, index, value);
             }
 
@@ -541,12 +587,14 @@ public abstract class ColumnType<Value> {
             }
 
             @Override
-            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column) throws SQLException {
+            public Value parseValueFromResultSet(ResultSet rs, Column<Value> column)
+                    throws SQLException {
                 return ColumnType.this.parseValueFromResultSet(rs, column);
             }
 
             @Override
-            public void applyOnStatement(PreparedStatement statement, int index, Value value) throws SQLException {
+            public void applyOnStatement(PreparedStatement statement, int index, Value value)
+                    throws SQLException {
                 ColumnType.this.applyOnStatement(statement, index, value);
             }
 
