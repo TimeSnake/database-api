@@ -9,9 +9,10 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
-import org.jetbrains.annotations.NotNull;
-
+import de.timesnake.database.util.user.DbUser;
+import java.util.Optional;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 public class DbMapAuthor extends TableQuery {
 
@@ -35,8 +36,8 @@ public class DbMapAuthor extends TableQuery {
         return ((UUID) super.primaryEntries.get(1).getValue());
     }
 
-    @NotNull
-    public String getAuthorName() {
-        return Database.getUsers().getUser(this.getAuthorUuid()).getName();
+    public Optional<String> getAuthorName() {
+        DbUser user = Database.getUsers().getUser(this.getAuthorUuid());
+        return user != null ? Optional.ofNullable(user.getName()) : Optional.empty();
     }
 }

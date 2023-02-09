@@ -8,6 +8,8 @@ import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DbLocation;
+import de.timesnake.library.basic.util.server.Server;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -202,7 +204,12 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     @NotNull
     @Override
     public List<String> getAuthorNames() {
-        return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorName)).collect(Collectors.toList());
+        List<String> authorNames = this.authorTable.getAuthors(this.name).stream()
+                .map((DbMapAuthor::getAuthorName))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();;
+        return !authorNames.isEmpty() ? authorNames : List.of(Server.NETWORK_NAME + " Community");
     }
 
     @Override
