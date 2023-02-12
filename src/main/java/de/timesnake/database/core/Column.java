@@ -7,7 +7,7 @@ package de.timesnake.database.core;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

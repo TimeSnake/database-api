@@ -10,6 +10,7 @@ dependencies {
     compileOnly project(':channel-api')
 
     compileOnly project(':library-basic')
+    compileOnly project(':library-chat')
 
     implementation 'org.apache.commons:commons-dbcp2:2.9.0'
     implementation 'mysql:mysql-connector-java:8.0.30'

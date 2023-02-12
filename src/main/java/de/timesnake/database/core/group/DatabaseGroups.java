@@ -9,7 +9,7 @@ import de.timesnake.database.core.group.display.DisplayGroupsTable;
 import de.timesnake.database.core.group.perm.DbPermGroup;
 import de.timesnake.database.core.group.perm.PermGroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

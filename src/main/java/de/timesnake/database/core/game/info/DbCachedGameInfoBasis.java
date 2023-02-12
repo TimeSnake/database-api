@@ -5,7 +5,7 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.util.game.DbGameInfoBasis;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 
 public class DbCachedGameInfoBasis implements DbGameInfoBasis {
