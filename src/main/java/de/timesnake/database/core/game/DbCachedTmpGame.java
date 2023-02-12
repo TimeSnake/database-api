@@ -8,7 +8,7 @@ import de.timesnake.database.core.game.info.DbCachedTmpGameInfo;
 import de.timesnake.database.core.game.team.DbTeam;
 import de.timesnake.database.util.game.DbTmpGame;
 import de.timesnake.database.util.object.Type;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

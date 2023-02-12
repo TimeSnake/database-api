@@ -11,7 +11,7 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 
 public class GroupsTable extends GroupBasisTable {
 
