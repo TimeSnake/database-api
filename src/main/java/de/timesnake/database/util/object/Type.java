@@ -4,7 +4,11 @@
 
 package de.timesnake.database.util.object;
 
-import de.timesnake.database.util.server.*;
+import de.timesnake.database.util.server.DbBuildServer;
+import de.timesnake.database.util.server.DbLobbyServer;
+import de.timesnake.database.util.server.DbLoungeServer;
+import de.timesnake.database.util.server.DbNonTmpGameServer;
+import de.timesnake.database.util.server.DbTmpGameServer;
 import net.kyori.adventure.util.Index;
 
 public abstract class Type {
@@ -70,7 +74,8 @@ public abstract class Type {
         }
 
         private static final Server<?>[] VALUES = {LOBBY, GAME, TEMP_GAME, BUILD, LOUNGE};
-        private static final Index<String, Server<?>> TYPES_BY_STRING = Index.create(Type::getShortName, VALUES);
+        private static final Index<String, Server<?>> TYPES_BY_STRING = Index.create(
+                Type::getShortName, VALUES);
 
         private static final String PREFIX = "server";
 
@@ -85,8 +90,9 @@ public abstract class Type {
     }
 
     public static class Punishment extends Type {
+
         public static final Punishment BAN = new Punishment("ban");
-        public static final Punishment TEMP_BAN = new Punishment("temp_ban");
+        public static final Punishment TEMP_BAN = new Punishment("tempban");
         public static final Punishment MUTE = new Punishment("mute");
 
         public static Punishment valueOf(String name) {
@@ -98,7 +104,8 @@ public abstract class Type {
         }
 
         private static final Punishment[] VALUES = {BAN, TEMP_BAN, MUTE};
-        private static final Index<String, Punishment> TYPES_BY_STRING = Index.create(Type::getShortName, VALUES);
+        private static final Index<String, Punishment> TYPES_BY_STRING = Index.create(
+                Type::getShortName, VALUES);
 
         private static final String PREFIX = "punish";
 
@@ -127,7 +134,8 @@ public abstract class Type {
         }
 
         private static final Availability[] VALUES = {FORBIDDEN, ALLOWED, REQUIRED};
-        private static final Index<String, Availability> TYPES_BY_STRING = Index.create(Type::getShortName, VALUES);
+        private static final Index<String, Availability> TYPES_BY_STRING = Index.create(
+                Type::getShortName, VALUES);
 
         private static final String PREFIX = "avail";
 
@@ -156,7 +164,8 @@ public abstract class Type {
         }
 
         private static final Discord[] VALUES = {FORBIDDEN, TEAMS, DISTANCE};
-        private static final Index<String, Discord> TYPES_BY_STRING = Index.create(Type::getShortName, VALUES);
+        private static final Index<String, Discord> TYPES_BY_STRING = Index.create(
+                Type::getShortName, VALUES);
 
         private static final String PREFIX = "discord";
 
