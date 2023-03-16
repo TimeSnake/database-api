@@ -9,11 +9,10 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.group.GroupsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.chat.ExTextColor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class TeamsTable extends GroupsTable {
 
@@ -22,6 +21,7 @@ public class TeamsTable extends GroupsTable {
         super.addColumn(Column.Team.RATIO);
         super.addColumn(Column.Team.COLOR);
         super.addColumn(Column.Team.PRIVATE_CHAT);
+        super.addColumn(Column.Team.MIN_SIZE);
     }
 
     @Override
@@ -39,7 +39,8 @@ public class TeamsTable extends GroupsTable {
         super.delete();
     }
 
-    public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName) {
+    public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio,
+            String colorName) {
         super.addGroup(name, rank, prefix, color, () -> {
             super.set(ratio, Column.Team.RATIO, new Entry<>(rank, Column.Group.PRIORITY));
             super.set(colorName, Column.Team.COLOR, new Entry<>(rank, Column.Group.PRIORITY));

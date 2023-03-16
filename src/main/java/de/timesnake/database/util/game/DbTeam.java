@@ -27,6 +27,11 @@ public interface DbTeam extends DbGroup {
     @NotCached
     void setPrivateChat(Boolean privateChat);
 
+    Integer getMinSize();
+
+    @NotCached
+    void setMinSize(Integer size);
+
     @NotNull
     @Override
     DbTeam toLocal();

@@ -5,6 +5,7 @@
 package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.Team;
 import de.timesnake.database.core.group.DbGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,16 @@ public class DbTeam extends DbGroup implements de.timesnake.database.util.game.D
     @Override
     public void setPrivateChat(Boolean privateChat) {
         this.setWithKey(privateChat, Column.Team.PRIVATE_CHAT);
+    }
+
+    @Override
+    public Integer getMinSize() {
+        return this.getFirstWithKey(Team.MIN_SIZE);
+    }
+
+    @Override
+    public void setMinSize(Integer size) {
+        this.setWithKey(size, Team.MIN_SIZE);
     }
 
     @NotNull
