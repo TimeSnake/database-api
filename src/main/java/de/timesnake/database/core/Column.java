@@ -237,6 +237,7 @@ public class Column<Value> {
                 ColumnType.VARCHAR(255));
         public static final Game<String> ITEM = new Game<>("item", ColumnType.VARCHAR(128));
         public static final Game<Integer> SLOT = new Game<>("slot", ColumnType.INTEGER.unique());
+        public static final Game<Boolean> ENABLED = new Game<>("enabled", ColumnType.BOOLEAN);
 
         public static final Game<Integer> MAX_PLAYERS = new Game<>("max_players",
                 Server.MAX_PLAYERS.getType());

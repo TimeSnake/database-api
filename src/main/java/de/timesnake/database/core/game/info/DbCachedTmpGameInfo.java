@@ -4,15 +4,15 @@
 
 package de.timesnake.database.core.game.info;
 
-import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.Type;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
-public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnake.database.util.game.DbTmpGameInfo {
+public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
+        de.timesnake.database.util.game.DbTmpGameInfo {
 
     protected Integer autoStartPlayerNumber;
     protected Integer minPlayerNumber;
@@ -27,37 +27,39 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements de.timesnak
     public DbCachedTmpGameInfo(DbTmpGameInfo database) {
         super(database);
 
-        ColumnMap map = this.getDatabase().getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.TEXT_COLOR,
-                Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.MAX_PLAYERS, Column.Game.MAPS,
-                Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
-                Column.Game.MAX_HEALTH, Column.Game.VIEW_DISTANCE,
-                Column.Game.AUTO_START_PLAYER_NUMBER, Column.Game.MIN_PLAYER_NUMBER, Column.Game.SHOW_SELECTED_KITS,
-                Column.Game.TEAM_SIZES, Column.Game.TEAM_MERGE, Column.Game.EQUAL_TEAM_SIZE_REQUIRED, Column.Game.HIDE_TEAMS,
-                Column.Game.DISCORD_TYPE, Column.Game.DESCRIPTION));
+        ColumnMap map = this.getDatabase().getFirstWithKey(
+                Set.of(Game.DISPLAY_NAME, Game.TEXT_COLOR, Game.HEAD_LINE, Game.ITEM, Game.SLOT,
+                        Game.ENABLED, Game.MAX_PLAYERS, Game.MAPS, Game.KITS, Game.STATISTICS,
+                        Game.TEXTURE_PACK_LINK, Game.PLAYER_TRACKING_RANGE, Game.MAX_HEALTH,
+                        Game.VIEW_DISTANCE, Game.AUTO_START_PLAYER_NUMBER, Game.MIN_PLAYER_NUMBER,
+                        Game.SHOW_SELECTED_KITS, Game.TEAM_SIZES, Game.TEAM_MERGE,
+                        Game.EQUAL_TEAM_SIZE_REQUIRED, Game.HIDE_TEAMS, Game.DISCORD_TYPE,
+                        Game.DESCRIPTION));
 
         this.name = database.getName();
-        this.displayName = map.get(Column.Game.DISPLAY_NAME);
-        this.textColor = map.get(Column.Game.TEXT_COLOR);
-        this.headLine = map.get(Column.Game.HEAD_LINE);
-        this.itemName = map.get(Column.Game.ITEM);
-        this.slot = map.get(Column.Game.SLOT);
-        this.maxPlayers = map.get(Column.Game.MAX_PLAYERS);
-        this.mapAvailability = map.get(Column.Game.MAPS);
-        this.kitAvailability = map.get(Column.Game.KITS);
-        this.statistics = map.get(Column.Game.STATISTICS);
-        this.texturePackLink = map.get(Column.Game.TEXTURE_PACK_LINK);
-        this.playerTrackingRange = map.get(Column.Game.PLAYER_TRACKING_RANGE);
-        this.maxHealth = map.get(Column.Game.MAX_HEALTH);
-        this.viewDistance = map.get(Column.Game.VIEW_DISTANCE);
-        this.autoStartPlayerNumber = map.get(Column.Game.AUTO_START_PLAYER_NUMBER);
-        this.minPlayerNumber = map.get(Column.Game.MIN_PLAYER_NUMBER);
-        this.teamSizes = map.get(Column.Game.TEAM_SIZES);
-        this.teamMerge = map.get(Column.Game.TEAM_MERGE);
-        this.equalTimeSizeRequired = map.get(Column.Game.EQUAL_TEAM_SIZE_REQUIRED);
-        this.showSelectedKits = map.get(Column.Game.SHOW_SELECTED_KITS);
-        this.hideTeams = map.get(Column.Game.HIDE_TEAMS);
-        this.discordType = map.get(Column.Game.DISCORD_TYPE);
-        this.description = map.get(Column.Game.DESCRIPTION);
+        this.displayName = map.get(Game.DISPLAY_NAME);
+        this.textColor = map.get(Game.TEXT_COLOR);
+        this.headLine = map.get(Game.HEAD_LINE);
+        this.itemName = map.get(Game.ITEM);
+        this.slot = map.get(Game.SLOT);
+        this.enabled = map.get(Game.ENABLED);
+        this.maxPlayers = map.get(Game.MAX_PLAYERS);
+        this.mapAvailability = map.get(Game.MAPS);
+        this.kitAvailability = map.get(Game.KITS);
+        this.statistics = map.get(Game.STATISTICS);
+        this.texturePackLink = map.get(Game.TEXTURE_PACK_LINK);
+        this.playerTrackingRange = map.get(Game.PLAYER_TRACKING_RANGE);
+        this.maxHealth = map.get(Game.MAX_HEALTH);
+        this.viewDistance = map.get(Game.VIEW_DISTANCE);
+        this.autoStartPlayerNumber = map.get(Game.AUTO_START_PLAYER_NUMBER);
+        this.minPlayerNumber = map.get(Game.MIN_PLAYER_NUMBER);
+        this.teamSizes = map.get(Game.TEAM_SIZES);
+        this.teamMerge = map.get(Game.TEAM_MERGE);
+        this.equalTimeSizeRequired = map.get(Game.EQUAL_TEAM_SIZE_REQUIRED);
+        this.showSelectedKits = map.get(Game.SHOW_SELECTED_KITS);
+        this.hideTeams = map.get(Game.HIDE_TEAMS);
+        this.discordType = map.get(Game.DISCORD_TYPE);
+        this.description = map.get(Game.DESCRIPTION);
     }
 
     @Override

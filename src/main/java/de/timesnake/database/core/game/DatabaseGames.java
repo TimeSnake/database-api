@@ -7,19 +7,19 @@ package de.timesnake.database.core.game;
 import de.timesnake.database.core.game.info.NonTmpGamesInfoTable;
 import de.timesnake.database.core.game.info.TmpGamesInfoTable;
 import de.timesnake.database.util.object.DatabaseConnector;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DatabaseGames extends DatabaseConnector implements de.timesnake.database.util.game.DatabaseGames {
+public class DatabaseGames extends DatabaseConnector implements
+        de.timesnake.database.util.game.DatabaseGames {
 
     protected final NonTmpGamesInfoTable nonTmpGamesInfoTable;
     protected final TmpGamesInfoTable tmpGamesInfoTable;
 
-    public DatabaseGames(String name, String url, String options, String user, String password, String nonTmpGamesInfoTableName,
-                         String tmpGamesInfoTableName) {
+    public DatabaseGames(String name, String url, String options, String user, String password,
+            String nonTmpGamesInfoTableName, String tmpGamesInfoTableName) {
         super(name, url, options, user, password);
         this.nonTmpGamesInfoTable = new NonTmpGamesInfoTable(this, nonTmpGamesInfoTableName);
         this.tmpGamesInfoTable = new TmpGamesInfoTable(this, tmpGamesInfoTableName);

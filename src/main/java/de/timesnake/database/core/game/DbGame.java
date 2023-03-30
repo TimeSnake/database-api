@@ -18,10 +18,16 @@ import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
 
 public class DbGame implements de.timesnake.database.util.game.DbGame {
 
@@ -56,16 +62,19 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
 
     private void initTables() {
         if (this.info.hasStatistics()) {
-            this.statisticsTable = DatabaseManager.getInstance().getGameStatistics().getGameUserStatistics(gameName);
+            this.statisticsTable = DatabaseManager.getInstance().getGameStatistics()
+                    .getGameUserStatistics(gameName);
         }
 
         Type.Availability kitsAvailability = this.info.getKitAvailability();
-        if (kitsAvailability.equals(Type.Availability.ALLOWED) || kitsAvailability.equals(Type.Availability.REQUIRED)) {
+        if (kitsAvailability.equals(Type.Availability.ALLOWED)
+                || kitsAvailability.equals(Type.Availability.REQUIRED)) {
             this.kitsTable = DatabaseManager.getInstance().getGameKits().getGameKits(gameName);
         }
 
         Type.Availability mapsAvailability = this.info.getMapAvailability();
-        if (mapsAvailability.equals(Type.Availability.ALLOWED) || mapsAvailability.equals(Type.Availability.REQUIRED)) {
+        if (mapsAvailability.equals(Type.Availability.ALLOWED)
+                || mapsAvailability.equals(Type.Availability.REQUIRED)) {
             this.mapsTable = new de.timesnake.database.core.game.map.MapsTable(gameName);
         }
     }
@@ -76,12 +85,14 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
         }
 
         Type.Availability kitsAvailability = this.info.getKitAvailability();
-        if (kitsAvailability.equals(Type.Availability.ALLOWED) || kitsAvailability.equals(Type.Availability.REQUIRED)) {
+        if (kitsAvailability.equals(Type.Availability.ALLOWED)
+                || kitsAvailability.equals(Type.Availability.REQUIRED)) {
             this.kitsTable.create();
         }
 
         Type.Availability mapsAvailability = this.info.getMapAvailability();
-        if (mapsAvailability.equals(Type.Availability.ALLOWED) || mapsAvailability.equals(Type.Availability.REQUIRED)) {
+        if (mapsAvailability.equals(Type.Availability.ALLOWED)
+                || mapsAvailability.equals(Type.Availability.REQUIRED)) {
             this.mapsTable.create();
         }
     }
@@ -161,14 +172,16 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     }
 
     @Override
-    public void addKit(Integer id, String name, String itemType, Collection<String> description) throws UnsupportedStringException {
+    public void addKit(Integer id, String name, String itemType, Collection<String> description)
+            throws UnsupportedStringException {
         if (this.kitsTable != null) {
             this.kitsTable.addKit(id, name, itemType, description);
         }
     }
 
     @Override
-    public void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException {
+    public void addKit(String name, String itemType, Collection<String> description)
+            throws UnsupportedStringException {
         if (this.kitsTable != null) {
             this.kitsTable.addKit(name, itemType, description);
         }
@@ -188,10 +201,11 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     }
 
     @Override
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
-                       List<String> description, List<String> info, List<String> authors) {
+    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
+            String itemName, List<String> description, List<String> info, List<String> authors) {
         if (this.mapsTable != null) {
-            this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
+            this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description,
+                    info, authors);
         }
     }
 
