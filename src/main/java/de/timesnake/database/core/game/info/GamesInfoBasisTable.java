@@ -8,9 +8,8 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
 
 public class GamesInfoBasisTable extends TableDDL {
 
@@ -21,6 +20,7 @@ public class GamesInfoBasisTable extends TableDDL {
         super.addColumn(Column.Game.HEAD_LINE);
         super.addColumn(Column.Game.ITEM);
         super.addColumn(Column.Game.SLOT);
+        super.addColumn(Column.Game.ENABLED);
     }
 
     @Override

@@ -11,10 +11,13 @@ import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
 
 public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
@@ -70,12 +73,14 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
     }
 
     @Override
-    public void addKit(Integer id, String name, String itemType, Collection<String> description) throws UnsupportedStringException {
+    public void addKit(Integer id, String name, String itemType, Collection<String> description)
+            throws UnsupportedStringException {
         this.database.addKit(id, name, itemType, description);
     }
 
     @Override
-    public void addKit(String name, String itemType, Collection<String> description) throws UnsupportedStringException {
+    public void addKit(String name, String itemType, Collection<String> description)
+            throws UnsupportedStringException {
         this.database.addKit(name, itemType, description);
     }
 
@@ -86,9 +91,10 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
     }
 
     @Override
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
-                       List<String> description, List<String> info, List<String> authors) {
-        this.database.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info, authors);
+    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
+            String itemName, List<String> description, List<String> info, List<String> authors) {
+        this.database.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info,
+                authors);
     }
 
     @Override

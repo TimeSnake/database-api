@@ -4,12 +4,11 @@
 
 package de.timesnake.database.core.game.info;
 
-import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.util.game.DbNonTmpGameInfo;
 import de.timesnake.database.util.object.ColumnMap;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmpGameInfo {
 
@@ -20,29 +19,31 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
     public DbCachedNonTmpGameInfo(de.timesnake.database.core.game.info.DbNonTmpGameInfo database) {
         super(database);
 
-        ColumnMap map = this.getDatabase().getFirstWithKey(Set.of(Column.Game.DISPLAY_NAME, Column.Game.TEXT_COLOR,
-                Column.Game.HEAD_LINE, Column.Game.ITEM, Column.Game.SLOT, Column.Game.MAX_PLAYERS, Column.Game.MAPS,
-                Column.Game.KITS, Column.Game.STATISTICS, Column.Game.TEXTURE_PACK_LINK, Column.Game.PLAYER_TRACKING_RANGE,
-                Column.Game.MAX_HEALTH, Column.Game.VIEW_DISTANCE,
-                Column.Game.CREATION_REQUESTABLE, Column.Game.OWNABLE, Column.Game.ALLOW_NETHER_END));
+        ColumnMap map = this.getDatabase().getFirstWithKey(
+                Set.of(Game.DISPLAY_NAME, Game.TEXT_COLOR, Game.HEAD_LINE, Game.ITEM, Game.SLOT,
+                        Game.ENABLED, Game.MAX_PLAYERS, Game.MAPS, Game.KITS, Game.STATISTICS,
+                        Game.TEXTURE_PACK_LINK, Game.PLAYER_TRACKING_RANGE, Game.MAX_HEALTH,
+                        Game.VIEW_DISTANCE, Game.CREATION_REQUESTABLE, Game.OWNABLE,
+                        Game.ALLOW_NETHER_END));
 
         this.name = database.getName();
-        this.displayName = map.get(Column.Game.DISPLAY_NAME);
-        this.textColor = map.get(Column.Game.TEXT_COLOR);
-        this.headLine = map.get(Column.Game.HEAD_LINE);
-        this.itemName = map.get(Column.Game.ITEM);
-        this.slot = map.get(Column.Game.SLOT);
-        this.maxPlayers = map.get(Column.Game.MAX_PLAYERS);
-        this.mapAvailability = map.get(Column.Game.MAPS);
-        this.kitAvailability = map.get(Column.Game.KITS);
-        this.statistics = map.get(Column.Game.STATISTICS);
-        this.texturePackLink = map.get(Column.Game.TEXTURE_PACK_LINK);
-        this.playerTrackingRange = map.get(Column.Game.PLAYER_TRACKING_RANGE);
-        this.maxHealth = map.get(Column.Game.MAX_HEALTH);
-        this.viewDistance = map.get(Column.Game.VIEW_DISTANCE);
-        this.creationRequestable = map.get(Column.Game.CREATION_REQUESTABLE);
-        this.ownable = map.get(Column.Game.OWNABLE);
-        this.allowNetherAndEnd = map.get(Column.Game.ALLOW_NETHER_END);
+        this.displayName = map.get(Game.DISPLAY_NAME);
+        this.textColor = map.get(Game.TEXT_COLOR);
+        this.headLine = map.get(Game.HEAD_LINE);
+        this.itemName = map.get(Game.ITEM);
+        this.slot = map.get(Game.SLOT);
+        this.enabled = map.get(Game.ENABLED);
+        this.maxPlayers = map.get(Game.MAX_PLAYERS);
+        this.mapAvailability = map.get(Game.MAPS);
+        this.kitAvailability = map.get(Game.KITS);
+        this.statistics = map.get(Game.STATISTICS);
+        this.texturePackLink = map.get(Game.TEXTURE_PACK_LINK);
+        this.playerTrackingRange = map.get(Game.PLAYER_TRACKING_RANGE);
+        this.maxHealth = map.get(Game.MAX_HEALTH);
+        this.viewDistance = map.get(Game.VIEW_DISTANCE);
+        this.creationRequestable = map.get(Game.CREATION_REQUESTABLE);
+        this.ownable = map.get(Game.OWNABLE);
+        this.allowNetherAndEnd = map.get(Game.ALLOW_NETHER_END);
     }
 
     @Override

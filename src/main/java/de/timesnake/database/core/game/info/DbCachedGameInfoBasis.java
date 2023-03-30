@@ -18,6 +18,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
     protected String itemName;
     protected String headLine;
     protected Integer slot;
+    protected Boolean enabled;
 
     public DbCachedGameInfoBasis(de.timesnake.database.core.game.info.DbGameInfoBasis database) {
         this.database = database;
@@ -110,6 +111,17 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
     public void setSlot(int slot) {
         this.slot = slot;
         this.database.setSlot(slot);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        this.database.setEnabled(enabled);
     }
 
     @NotNull

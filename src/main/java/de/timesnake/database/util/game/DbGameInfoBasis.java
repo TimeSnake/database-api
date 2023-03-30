@@ -53,6 +53,11 @@ public interface DbGameInfoBasis {
     @NotCached
     void setSlot(int slot);
 
+    boolean isEnabled();
+
+    @NotCached
+    void setEnabled(boolean enabled);
+
     @NotNull
     DbGameInfoBasis toDatabase();
 

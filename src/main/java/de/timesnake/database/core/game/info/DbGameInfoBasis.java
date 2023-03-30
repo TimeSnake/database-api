@@ -5,13 +5,15 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 
-public class DbGameInfoBasis extends TableQuery implements de.timesnake.database.util.game.DbGameInfoBasis {
+public class DbGameInfoBasis extends TableQuery implements
+        de.timesnake.database.util.game.DbGameInfoBasis {
 
     public DbGameInfoBasis(DatabaseConnector databaseConnector, String nameTable, String gameName) {
         super(databaseConnector, nameTable, new Entry<>(gameName, Column.Game.NAME));
@@ -94,6 +96,16 @@ public class DbGameInfoBasis extends TableQuery implements de.timesnake.database
     @Override
     public void setSlot(int slot) {
         super.setWithKey(slot, Column.Game.SLOT);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return super.getFirstWithKey(Game.ENABLED);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setWithKey(enabled, Game.ENABLED);
     }
 
     @NotNull
