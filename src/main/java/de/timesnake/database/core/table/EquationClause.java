@@ -4,12 +4,11 @@
 
 package de.timesnake.database.core.table;
 
-import de.timesnake.database.core.Entry;
+import static de.timesnake.database.core.table.Table.COLUMN_WRAPPER;
 
+import de.timesnake.database.core.Entry;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-import static de.timesnake.database.core.table.Table.COLUMN_WRAPPER;
 
 public class EquationClause extends StatementClause {
 
@@ -25,7 +24,7 @@ public class EquationClause extends StatementClause {
     public String getText() {
         return entries.stream()
                 .map(e -> COLUMN_WRAPPER + e.getColumn().getName() + COLUMN_WRAPPER + " = " +
-                          e.getColumn().getType().getValueWrapper())
+                        e.getColumn().getType().getValueWrapper())
                 .collect(Collectors.joining(", "));
     }
 }
