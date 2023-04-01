@@ -251,6 +251,8 @@ public class Column<Value> {
         public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", ColumnType.INTEGER);
         public static final Game<Integer> VIEW_DISTANCE = new Game<>("view_distance",
                 ColumnType.INTEGER);
+        public static final Game<Type.Availability> OLD_PVP = new Game<>("old_pvp",
+                ColumnType.TYPE());
 
         public static final Game<Boolean> CREATION_REQUESTABLE = new Game<>("creation_requestable",
                 ColumnType.BOOLEAN);

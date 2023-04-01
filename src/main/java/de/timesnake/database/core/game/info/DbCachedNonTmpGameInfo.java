@@ -23,7 +23,7 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
                 Set.of(Game.DISPLAY_NAME, Game.TEXT_COLOR, Game.HEAD_LINE, Game.ITEM, Game.SLOT,
                         Game.ENABLED, Game.MAX_PLAYERS, Game.MAPS, Game.KITS, Game.STATISTICS,
                         Game.TEXTURE_PACK_LINK, Game.PLAYER_TRACKING_RANGE, Game.MAX_HEALTH,
-                        Game.VIEW_DISTANCE, Game.CREATION_REQUESTABLE, Game.OWNABLE,
+                        Game.VIEW_DISTANCE, Game.OLD_PVP, Game.CREATION_REQUESTABLE, Game.OWNABLE,
                         Game.ALLOW_NETHER_END));
 
         this.name = database.getName();
@@ -41,6 +41,7 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
         this.playerTrackingRange = map.get(Game.PLAYER_TRACKING_RANGE);
         this.maxHealth = map.get(Game.MAX_HEALTH);
         this.viewDistance = map.get(Game.VIEW_DISTANCE);
+        this.oldPvPAvailability = map.get(Game.OLD_PVP);
         this.creationRequestable = map.get(Game.CREATION_REQUESTABLE);
         this.ownable = map.get(Game.OWNABLE);
         this.allowNetherAndEnd = map.get(Game.ALLOW_NETHER_END);

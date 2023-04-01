@@ -6,6 +6,7 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.util.game.DbGameInfo;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.database.util.object.Type.Availability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +20,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
     protected Integer playerTrackingRange;
     protected Integer maxHealth;
     protected Integer viewDistance;
+    protected Type.Availability oldPvPAvailability;
 
     public DbCachedGameInfo(de.timesnake.database.core.game.info.DbGameInfo database) {
         super(database);
@@ -127,6 +129,18 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
     public void setViewDistance(Integer viewDistance) {
         this.viewDistance = viewDistance;
         this.getDatabase().setViewDistance(viewDistance);
+    }
+
+    @NotNull
+    @Override
+    public Type.Availability getOldPvPAvailability() {
+        return oldPvPAvailability;
+    }
+
+    @Override
+    public void setOldPvPAvailability(Availability availability) {
+        this.oldPvPAvailability = availability;
+        this.getDatabase().setOldPvPAvailability(availability);
     }
 
     @NotNull

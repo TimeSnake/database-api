@@ -57,7 +57,14 @@ public interface DbGameInfo extends DbGameInfoBasis {
     @Nullable
     Integer getViewDistance();
 
+    @NotCached
     void setViewDistance(Integer viewDistance);
+
+    @NotNull
+    Type.Availability getOldPvPAvailability();
+
+    @NotCached
+    void setOldPvPAvailability(Type.Availability availability);
 
     @NotNull
     @Override
