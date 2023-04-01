@@ -7,6 +7,7 @@ package de.timesnake.database.core.game;
 import de.timesnake.database.core.game.info.DbCachedNonTmpGameInfo;
 import de.timesnake.database.util.game.DbNonTmpGame;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.database.util.object.Type.Availability;
 import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -118,6 +119,17 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     @Override
     public void setViewDistance(Integer viewDistance) {
         getInfo().setViewDistance(viewDistance);
+    }
+
+    @NotNull
+    @Override
+    public Type.Availability getOldPvPAvailability() {
+        return getInfo().getOldPvPAvailability();
+    }
+
+    @Override
+    public void setOldPvPAvailability(Availability availability) {
+        getInfo().setOldPvPAvailability(availability);
     }
 
     @Override

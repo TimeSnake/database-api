@@ -10,6 +10,7 @@ import de.timesnake.database.core.game.team.TeamsTable;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import de.timesnake.database.util.object.Type.Availability;
 import de.timesnake.library.chat.ExTextColor;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -236,6 +237,17 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     @Override
     public void setViewDistance(Integer viewDistance) {
         getInfo().setViewDistance(viewDistance);
+    }
+
+    @Override
+    @NotNull
+    public Type.Availability getOldPvPAvailability() {
+        return getInfo().getOldPvPAvailability();
+    }
+
+    @Override
+    public void setOldPvPAvailability(Availability availability) {
+        getInfo().setOldPvPAvailability(availability);
     }
 
     @Override

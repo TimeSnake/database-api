@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.game.info;
 
-import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,14 +12,15 @@ public class GamesInfoTable extends GamesInfoBasisTable {
 
     protected GamesInfoTable(DatabaseConnector databaseConnector, String nameTable) {
         super(databaseConnector, nameTable);
-        super.addColumn(Column.Game.MAX_PLAYERS);
-        super.addColumn(Column.Game.KITS);
-        super.addColumn(Column.Game.MAPS);
-        super.addColumn(Column.Game.STATISTICS);
-        super.addColumn(Column.Game.TEXTURE_PACK_LINK);
-        super.addColumn(Column.Game.PLAYER_TRACKING_RANGE);
-        super.addColumn(Column.Game.MAX_HEALTH);
-        super.addColumn(Column.Game.VIEW_DISTANCE);
+        super.addColumn(Game.MAX_PLAYERS);
+        super.addColumn(Game.KITS);
+        super.addColumn(Game.MAPS);
+        super.addColumn(Game.STATISTICS);
+        super.addColumn(Game.TEXTURE_PACK_LINK);
+        super.addColumn(Game.PLAYER_TRACKING_RANGE);
+        super.addColumn(Game.MAX_HEALTH);
+        super.addColumn(Game.VIEW_DISTANCE);
+        super.addColumn(Game.OLD_PVP);
     }
 
     @Override

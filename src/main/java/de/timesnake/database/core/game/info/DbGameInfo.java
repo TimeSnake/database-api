@@ -5,12 +5,14 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database.util.game.DbGameInfo {
+public class DbGameInfo extends DbGameInfoBasis implements
+        de.timesnake.database.util.game.DbGameInfo {
 
     public DbGameInfo(DatabaseConnector databaseConnector, String nameTable, String gameName) {
         super(databaseConnector, nameTable, gameName);
@@ -99,8 +101,8 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
         super.setWithKey(maxHealth, Column.Game.MAX_HEALTH);
     }
 
-    @Override
     @Nullable
+    @Override
     public Integer getViewDistance() {
         return super.getFirstWithKey(Column.Game.VIEW_DISTANCE);
     }
@@ -108,6 +110,17 @@ public class DbGameInfo extends DbGameInfoBasis implements de.timesnake.database
     @Override
     public void setViewDistance(Integer viewDistance) {
         super.setWithKey(viewDistance, Column.Game.VIEW_DISTANCE);
+    }
+
+    @NotNull
+    @Override
+    public Type.Availability getOldPvPAvailability() {
+        return super.getFirstWithKey(Game.OLD_PVP);
+    }
+
+    @Override
+    public void setOldPvPAvailability(Type.Availability availability) {
+        super.setWithKey(availability, Game.OLD_PVP);
     }
 
     @NotNull
