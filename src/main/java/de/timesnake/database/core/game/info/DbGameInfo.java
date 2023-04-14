@@ -115,7 +115,8 @@ public class DbGameInfo extends DbGameInfoBasis implements
     @NotNull
     @Override
     public Type.Availability getOldPvPAvailability() {
-        return super.getFirstWithKey(Game.OLD_PVP);
+        Type.Availability availability = super.getFirstWithKey(Game.OLD_PVP);
+        return availability != null ? availability : Type.Availability.FORBIDDEN;
     }
 
     @Override

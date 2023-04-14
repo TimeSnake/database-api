@@ -15,7 +15,8 @@ import de.timesnake.database.util.server.DbLoungeServer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbTmpGameServer extends DbPvPServer implements de.timesnake.database.util.server.DbTmpGameServer {
+public class DbTmpGameServer extends DbPvPServer implements
+        de.timesnake.database.util.server.DbTmpGameServer {
 
     public DbTmpGameServer(DatabaseConnector databaseConnector, String name, String nameTable) {
         super(databaseConnector, name, nameTable);
@@ -41,7 +42,7 @@ public class DbTmpGameServer extends DbPvPServer implements de.timesnake.databas
     public void setMapName(String mapName) {
         super.setWithKey(mapName, Column.Server.MAP_NAME,
                 () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
-                        MessageType.Server.MAP, mapName)));
+                        MessageType.Server.GAME_MAP, mapName)));
     }
 
     @Nullable
