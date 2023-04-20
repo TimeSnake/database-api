@@ -9,11 +9,10 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import org.jetbrains.annotations.Nullable;
 
 public class HeadsTable extends TableDDL {
 
@@ -34,20 +33,23 @@ public class HeadsTable extends TableDDL {
     }
 
     public boolean containsHead(String tag) {
-        return super.getFirst(Column.Decoration.HEAD_TAG, new Entry<>(tag, Column.Decoration.HEAD_TAG)) != null;
+        return super.getFirst(Column.Decoration.HEAD_TAG,
+                new Entry<>(tag, Column.Decoration.HEAD_TAG)) != null;
     }
 
     @Nullable
     public de.timesnake.database.util.decoration.DbHead getHead(String tag) {
-        return this.containsHead(tag) ? new DbHead(this.databaseConnector, this.tableName, tag) : null;
+        return this.containsHead(tag) ? new DbHead(this.databaseConnector, this.tableName, tag)
+                : null;
     }
 
     public boolean addHead(String tag, String name, String section) {
         if (tag == null) {
             return false;
         }
-        super.addEntry(new PrimaryEntries(new Entry<>(tag, Column.Decoration.HEAD_TAG)), new Entry<>(name,
-                Column.Decoration.HEAD_NAME), new Entry<>(section, Column.Decoration.HEAD_SECTION));
+        super.addEntrySynchronized(new PrimaryEntries(new Entry<>(tag, Column.Decoration.HEAD_TAG)),
+                new Entry<>(name, Column.Decoration.HEAD_NAME),
+                new Entry<>(section, Column.Decoration.HEAD_SECTION));
         return true;
 
     }
@@ -65,7 +67,8 @@ public class HeadsTable extends TableDDL {
     }
 
     public Collection<String> getHeadTags(String section) {
-        return super.get(Column.Decoration.HEAD_TAG, new Entry<>(section, Column.Decoration.HEAD_SECTION));
+        return super.get(Column.Decoration.HEAD_TAG,
+                new Entry<>(section, Column.Decoration.HEAD_SECTION));
     }
 
     public Collection<de.timesnake.database.util.decoration.DbHead> getHeads() {
