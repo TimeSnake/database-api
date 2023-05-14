@@ -22,12 +22,12 @@ import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.Status;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbUser extends DbPlayer implements de.timesnake.database.util.user.DbUser {
 
@@ -38,9 +38,10 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     private final String punishmentTableName;
     private final String mailsTableName;
 
-    public DbUser(DatabaseConnector databaseConnector, UUID uuid, String infoTable, String punishmentsTableName,
-                  String mailsTableName, PunishmentsTable punishmentsTable, MailsTable mailsTable,
-                  DisplayGroupsTable displayGroupsTable) {
+    public DbUser(DatabaseConnector databaseConnector, UUID uuid, String infoTable,
+            String punishmentsTableName,
+            String mailsTableName, PunishmentsTable punishmentsTable, MailsTable mailsTable,
+            DisplayGroupsTable displayGroupsTable) {
         super(databaseConnector, uuid, infoTable);
 
         this.punishmentsTable = punishmentsTable;
@@ -55,9 +56,10 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     //punishment
 
     @Override
-    public void setPunishment(Type.Punishment type, LocalDateTime date, String castigator, String reason, String server) {
-        this.punishmentsTable.setPunishment(super.getUniqueId(), this.getName(), type, date, castigator, reason,
-                server);
+    public void setPunishment(Type.Punishment type, LocalDateTime date, Duration duration,
+            String castigator, String reason) {
+        this.punishmentsTable.setPunishment(super.getUniqueId(), this.getName(), type, date,
+                duration, castigator, reason);
     }
 
     @Override
@@ -68,7 +70,8 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     @NotNull
     @Override
     public de.timesnake.database.util.user.DbPunishment getPunishment() {
-        return new DbPunishment(this.databaseConnector, super.getUniqueId(), this.punishmentTableName);
+        return new DbPunishment(this.databaseConnector, super.getUniqueId(),
+                this.punishmentTableName);
     }
 
     @Override
@@ -119,24 +122,31 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public boolean hasAliases() {
-        return super.getFirstWithKey(Column.User.PREFIX) != null || super.getFirstWithKey(Column.User.SUFFIX) != null || super.getFirstWithKey(Column.User.NICK) != null;
+        return super.getFirstWithKey(Column.User.PREFIX) != null
+                || super.getFirstWithKey(Column.User.SUFFIX) != null
+                || super.getFirstWithKey(Column.User.NICK) != null;
     }
 
     //permissions
 
     @Override
     public void addPermission(String permission, Status.Permission mode, String... servers) {
-        Database.getPermissions().addPermission(this.getUniqueId().toString(), permission, mode, servers);
+        Database.getPermissions()
+                .addPermission(this.getUniqueId().toString(), permission, mode, servers);
     }
 
     @Override
-    public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers) {
-        Database.getPermissions().addPermission(this.getUniqueId().toString(), permission, mode, syncExecute, servers);
+    public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
+            String... servers) {
+        Database.getPermissions()
+                .addPermission(this.getUniqueId().toString(), permission, mode, syncExecute,
+                        servers);
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return Database.getPermissions().containsPermission(super.getUniqueId().toString(), permission);
+        return Database.getPermissions()
+                .containsPermission(super.getUniqueId().toString(), permission);
     }
 
     @Nullable
@@ -158,7 +168,8 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public void removePermission(String permission, SyncExecute syncExecute) {
-        Database.getPermissions().deletePermission(this.getUniqueId().toString(), permission, syncExecute);
+        Database.getPermissions()
+                .deletePermission(this.getUniqueId().toString(), permission, syncExecute);
     }
 
     // display group
@@ -253,7 +264,8 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
     @Override
     public boolean hasPermGroup() {
-        return Database.getGroups().containsPermGroup(super.getFirstWithKey(Column.User.PERM_GROUP));
+        return Database.getGroups()
+                .containsPermGroup(super.getFirstWithKey(Column.User.PERM_GROUP));
     }
 
     @Nullable
@@ -329,7 +341,9 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     public void setStatus(Status.User status, boolean sendChannelMessage) {
         if (sendChannelMessage) {
             super.setWithKey(status, Column.User.STATUS,
-                    () -> Channel.getInstance().sendMessage(new de.timesnake.channel.util.message.ChannelUserMessage<>(this.getUniqueId(), MessageType.User.STATUS, status)));
+                    () -> Channel.getInstance().sendMessage(
+                            new de.timesnake.channel.util.message.ChannelUserMessage<>(
+                                    this.getUniqueId(), MessageType.User.STATUS, status)));
         } else {
             super.setWithKey(status, Column.User.STATUS);
         }
@@ -339,8 +353,9 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     public void setTask(String task, boolean sendChannelMessage) {
         if (sendChannelMessage) {
             super.setWithKey(task, Column.User.TASK,
-                    () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
-                            MessageType.User.TASK, task)));
+                    () -> Channel.getInstance()
+                            .sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+                                    MessageType.User.TASK, task)));
         } else {
             super.setWithKey(task, Column.User.TASK);
         }
@@ -459,8 +474,10 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
     }
 
     @Override
-    public Integer addMail(UUID senderUuid, String senderName, String message) throws TooLongEntryException {
-        return this.mailsTable.addMessage(this.getUniqueId(), this.getName(), senderUuid, senderName, message);
+    public Integer addMail(UUID senderUuid, String senderName, String message)
+            throws TooLongEntryException {
+        return this.mailsTable.addMessage(this.getUniqueId(), this.getName(), senderUuid,
+                senderName, message);
     }
 
     @NotNull

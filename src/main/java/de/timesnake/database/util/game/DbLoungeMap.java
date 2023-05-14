@@ -8,10 +8,9 @@ import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.database.util.object.NotCached;
-import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
+import java.awt.Color;
 import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
 
 public interface DbLoungeMap extends DbCached<DbLoungeMap> {
 
@@ -43,8 +42,8 @@ public interface DbLoungeMap extends DbCached<DbLoungeMap> {
 
     @NotCached
     void addMapDisplay(Integer displayIndex, Integer x, Integer y, Integer z,
-                       BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
-                       Color firstColor, Color secondColor, Color thirdColor);
+            BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
+            Color firstColor, Color secondColor, Color thirdColor);
 
     @NotCached
     void removeMapDisplay(Integer displayIndex);

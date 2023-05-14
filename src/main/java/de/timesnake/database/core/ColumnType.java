@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -256,6 +257,25 @@ public abstract class ColumnType<Value> {
         public void applyOnStatement(PreparedStatement statement, int index, LocalDateTime dateTime)
                 throws SQLException {
             statement.setTimestamp(index, Timestamp.valueOf(dateTime));
+        }
+    };
+
+    public static final ColumnType<Duration> DURATION = new ColumnType<>("BIGINT", 19) {
+        @Override
+        public String getName() {
+            return "BIGINT(" + this.length + ")";
+        }
+
+        @Override
+        public Duration parseValueFromResultSet(ResultSet rs, Column<Duration> column)
+                throws SQLException {
+            return Duration.ofSeconds(rs.getLong(column.getName()));
+        }
+
+        @Override
+        public void applyOnStatement(PreparedStatement statement, int index, Duration dateTime)
+                throws SQLException {
+            statement.setLong(index, dateTime.toSeconds());
         }
     };
 

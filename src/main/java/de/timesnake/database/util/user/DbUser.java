@@ -6,33 +6,29 @@ package de.timesnake.database.util.user;
 
 import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.group.DbPermGroup;
-import de.timesnake.database.util.object.*;
+import de.timesnake.database.util.object.DbCached;
+import de.timesnake.database.util.object.NotCached;
+import de.timesnake.database.util.object.SyncExecute;
+import de.timesnake.database.util.object.TooLongEntryException;
+import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.library.basic.util.Status;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DbUser extends DbPlayer, DbCached<DbUser> {
 
-    /**
-     * Sets the user punishment
-     *
-     * @param type       The {@link Type.Punishment} to set
-     * @param date       The {@link LocalDateTime} to set
-     * @param castigator The castigator to set
-     * @param reason     The reason to set
-     * @param server     The server to set
-     */
     @NotCached
-    void setPunishment(Type.Punishment type, LocalDateTime date, String castigator, String reason, String server);
+    void setPunishment(Type.Punishment type, LocalDateTime date, Duration duration,
+            String castigator, String reason);
 
     /**
      * Checks if the user has a punishment
@@ -134,7 +130,8 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param syncExecute
      */
     @NotCached
-    void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers);
+    void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
+            String... servers);
 
 
     /**
@@ -519,10 +516,10 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
      * @param senderName The name of the sender of the mail
      * @param message    The message of the mail
      * @return the id of the mail
-     *
      * @throws TooLongEntryException The max message length is 255
      */
     @NotCached
-    Integer addMail(UUID senderUuid, String senderName, String message) throws TooLongEntryException;
+    Integer addMail(UUID senderUuid, String senderName, String message)
+            throws TooLongEntryException;
 
 }

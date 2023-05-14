@@ -8,10 +8,13 @@ import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.Column.User;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DbPunishment extends DbPlayer implements de.timesnake.database.util.user.DbPunishment {
@@ -48,6 +51,16 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
         super.setWithKey(date, Column.User.PUNISH_DATE);
     }
 
+    @Override
+    public @NotNull Duration getDuration() {
+        return super.getFirstWithKey(User.PUNISH_DURATION);
+    }
+
+    @Override
+    public void setDuration(Duration duration) {
+        super.setWithKey(duration, User.PUNISH_DURATION);
+    }
+
     @Nullable
     @Override
     public String getCastigator() {
@@ -68,17 +81,6 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
     @Override
     public void setReason(String reason) {
         super.setWithKey(reason, Column.User.PUNISH_REASON);
-    }
-
-    @Nullable
-    @Override
-    public String getServer() {
-        return super.getFirstWithKey(Column.User.PUNISH_SERVER);
-    }
-
-    @Override
-    public void setServer(String server) {
-        super.setWithKey(server, Column.User.PUNISH_SERVER);
     }
 
 }

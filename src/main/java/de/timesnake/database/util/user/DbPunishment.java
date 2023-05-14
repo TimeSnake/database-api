@@ -4,11 +4,13 @@
 
 package de.timesnake.database.util.user;
 
+import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.Type;
-import org.jetbrains.annotations.Nullable;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DbPunishment extends DbPlayer {
 
@@ -47,6 +49,12 @@ public interface DbPunishment extends DbPlayer {
      */
     void setDate(LocalDateTime date);
 
+    @NotNull
+    Duration getDuration();
+
+    @NotCached
+    void setDuration(Duration duration);
+
     /**
      * Gets the castigator of the punishment
      *
@@ -76,19 +84,4 @@ public interface DbPunishment extends DbPlayer {
      * @param reason The reason to set
      */
     void setReason(String reason);
-
-    /**
-     * Gets the punished-server of the punishment
-     *
-     * @return the server name
-     */
-    @Nullable
-    String getServer();
-
-    /**
-     * Sets the punished-server of the punishment
-     *
-     * @param server The name of the server to set
-     */
-    void setServer(String server);
 }

@@ -13,6 +13,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -120,6 +121,8 @@ public class Column<Value> {
                 ColumnType.TYPE());
         public static final User<LocalDateTime> PUNISH_DATE = new User<>("date",
                 ColumnType.LOCAL_DATE_TIME);
+        public static final User<Duration> PUNISH_DURATION = new User<>("duration",
+                ColumnType.DURATION);
         public static final User<String> PUNISH_CASTIGATOR = new User<>("castigator",
                 User.NAME.getType().nullable());
         public static final User<String> PUNISH_REASON = new User<>("reason",
