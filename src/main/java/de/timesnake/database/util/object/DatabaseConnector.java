@@ -4,15 +4,14 @@
 
 package de.timesnake.database.util.object;
 
-import de.timesnake.channel.core.Channel;
 import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.Database;
-import org.apache.commons.dbcp2.BasicDataSource;
-
+import de.timesnake.library.basic.util.Loggers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DatabaseConnector {
 
@@ -22,15 +21,16 @@ public class DatabaseConnector {
     protected BasicDataSource ds;
     protected String url;
 
-    public DatabaseConnector(String name, String url, String options, String user, String password) {
+    public DatabaseConnector(String name, String url, String options, String user,
+            String password) {
         this(name, url, options, user, password, DatabaseManager.DEFAULT_MAX_IDLE_CONNECTIONS);
     }
 
-    public DatabaseConnector(String name, String url, String options, String user, String password, int maxIdleConnections) {
+    public DatabaseConnector(String name, String url, String options, String user, String password,
+            int maxIdleConnections) {
         this.url = url + name + "?" + options;
         this.user = user;
         this.password = password;
-
 
         this.ds = new BasicDataSource();
 
@@ -74,7 +74,7 @@ public class DatabaseConnector {
         Connection connection = this.getConnection();
 
         if (connection == null) {
-            Channel.LOGGER.warning("Could not create connection to database '" + name + "'");
+            Loggers.CHANNEL.warning("Could not create connection to database '" + name + "'");
             return;
         }
 

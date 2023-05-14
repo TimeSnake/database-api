@@ -20,13 +20,13 @@ import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.Status;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbCachedUser implements DbUser {
 
@@ -53,11 +53,16 @@ public class DbCachedUser implements DbUser {
     private Long discordId;
 
     public DbCachedUser(de.timesnake.database.core.user.DbUser user) {
-        ColumnMap columnMap = user.getFirstWithKey(Set.of(Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
-                Column.User.NICK, Column.User.TIME_COINS, Column.User.STATUS, Column.User.SERVICE,
-                Column.User.ANTI_CHEAT_MESSAGES, Column.User.AIR_MODE, Column.User.TASK, Column.User.TEAM,
-                Column.User.KIT, Column.User.PERM_GROUP, Column.User.SERVER, Column.User.SERVER_LAST,
-                Column.User.SERVER_LOBBY, Column.User.PRIVACY_POLICY, Column.User.DISCORD_ID));
+        ColumnMap columnMap = user.getFirstWithKey(
+                Set.of(Column.User.NAME, Column.User.PREFIX, Column.User.SUFFIX,
+                        Column.User.NICK, Column.User.TIME_COINS, Column.User.STATUS,
+                        Column.User.SERVICE,
+                        Column.User.ANTI_CHEAT_MESSAGES, Column.User.AIR_MODE, Column.User.TASK,
+                        Column.User.TEAM,
+                        Column.User.KIT, Column.User.PERM_GROUP, Column.User.SERVER,
+                        Column.User.SERVER_LAST,
+                        Column.User.SERVER_LOBBY, Column.User.PRIVACY_POLICY,
+                        Column.User.DISCORD_ID));
 
         this.user = user;
 
@@ -67,7 +72,9 @@ public class DbCachedUser implements DbUser {
         this.suffix = columnMap.get(Column.User.SUFFIX);
         this.nick = columnMap.get(Column.User.NICK);
         this.coins = columnMap.get(Column.User.TIME_COINS);
-        if (this.coins == null) this.coins = 0F;
+        if (this.coins == null) {
+            this.coins = 0F;
+        }
         this.status = columnMap.get(Column.User.STATUS);
         this.service = columnMap.get(Column.User.SERVICE);
         this.antiCheatMessages = columnMap.get(Column.User.ANTI_CHEAT_MESSAGES);
@@ -108,8 +115,9 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void setPunishment(Type.Punishment type, LocalDateTime date, String castigator, String reason, String server) {
-        this.user.setPunishment(type, date, castigator, reason, server);
+    public void setPunishment(Type.Punishment type, LocalDateTime date, Duration duration,
+            String castigator, String reason) {
+        this.user.setPunishment(type, date, duration, castigator, reason);
     }
 
     @Override
@@ -175,7 +183,8 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute, String... servers) {
+    public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
+            String... servers) {
         this.user.addPermission(permission, mode, syncExecute, servers);
     }
 
@@ -208,20 +217,30 @@ public class DbCachedUser implements DbUser {
 
     @NotNull
     @Override
-    public Collection<String> getDisplayGroupNames() {return user.getDisplayGroupNames();}
+    public Collection<String> getDisplayGroupNames() {
+        return user.getDisplayGroupNames();
+    }
 
     @NotNull
     @Override
-    public Collection<DbDisplayGroup> getDisplayGroups() {return user.getDisplayGroups();}
+    public Collection<DbDisplayGroup> getDisplayGroups() {
+        return user.getDisplayGroups();
+    }
 
     @Override
-    public void addDisplayGroup(String name) {user.addDisplayGroup(name);}
+    public void addDisplayGroup(String name) {
+        user.addDisplayGroup(name);
+    }
 
     @Override
-    public void removeDisplayGroup(String name) {user.removeDisplayGroup(name);}
+    public void removeDisplayGroup(String name) {
+        user.removeDisplayGroup(name);
+    }
 
     @Override
-    public void clearDisplayGroups() {user.clearDisplayGroups();}
+    public void clearDisplayGroups() {
+        user.clearDisplayGroups();
+    }
 
     @NotNull
     @Override
@@ -475,7 +494,8 @@ public class DbCachedUser implements DbUser {
     }
 
     @Override
-    public Integer addMail(UUID senderUuid, String senderName, String message) throws TooLongEntryException {
+    public Integer addMail(UUID senderUuid, String senderName, String message)
+            throws TooLongEntryException {
         return this.user.addMail(senderUuid, senderName, message);
     }
 

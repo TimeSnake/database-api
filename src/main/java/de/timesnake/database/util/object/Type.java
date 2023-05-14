@@ -93,6 +93,7 @@ public abstract class Type {
 
         public static final Punishment BAN = new Punishment("ban");
         public static final Punishment TEMP_BAN = new Punishment("tempban");
+        public static final Punishment JAIL = new Punishment("jail");
         public static final Punishment MUTE = new Punishment("mute");
 
         public static Punishment valueOf(String name) {
@@ -103,7 +104,7 @@ public abstract class Type {
             return VALUES;
         }
 
-        private static final Punishment[] VALUES = {BAN, TEMP_BAN, MUTE};
+        private static final Punishment[] VALUES = {BAN, TEMP_BAN, JAIL, MUTE};
         private static final Index<String, Punishment> TYPES_BY_STRING = Index.create(
                 Type::getShortName, VALUES);
 
