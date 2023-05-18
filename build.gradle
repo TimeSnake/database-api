@@ -1,21 +1,21 @@
 repositories {
-    mavenLocal()
-    maven {
-        url = uri 'https://repo.maven.apache.org/maven2/'
-    }
-    mavenCentral()
+  mavenLocal()
+  maven {
+    url = uri 'https://repo.maven.apache.org/maven2/'
+  }
+  mavenCentral()
 }
 
 dependencies {
-    compileOnly project(':channel-api')
+  compileOnly project(':channel-api')
 
-    compileOnly project(':library-basic')
-    compileOnly project(':library-chat')
+  compileOnly project(':library-basic')
+  compileOnly project(':library-chat')
 
-    implementation 'org.apache.commons:commons-dbcp2:2.9.0'
-    implementation 'mysql:mysql-connector-java:8.0.30'
+  implementation 'org.apache.commons:commons-dbcp2:2.9.0'
+  implementation 'mysql:mysql-connector-java:8.0.30'
 
-    compileOnly project.adventure_api
+  compileOnly project.adventure_api
 }
 
 group = project.group
@@ -23,25 +23,25 @@ version = '2.1.1-SNAPSHOT'
 archivesBaseName = 'database-api'
 
 publishing {
-    publications {
-        mavenJavaAll(MavenPublication) {
-            version version + '-all'
-            artifact {
-                file "build/libs/" + archivesBaseName + "-" + version + ".jar"
-            }
-        }
+  publications {
+    mavenJavaAll(MavenPublication) {
+      version version + '-all'
+      artifact {
+        file "build/libs/" + archivesBaseName + "-" + version + ".jar"
+      }
     }
+  }
 }
 
 task buildFatJar(type: Jar) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    classifier = "all"
-    from {
-        configurations.runtimeClasspath.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  classifier = "all"
+  from {
+    configurations.runtimeClasspath.collect {
+      it.isDirectory() ? it : zipTree(it)
     }
-    with jar
+  }
+  with jar
 }
 
 jar.finalizedBy(buildFatJar)
