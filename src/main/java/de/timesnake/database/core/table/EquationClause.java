@@ -12,19 +12,19 @@ import java.util.stream.Collectors;
 
 public class EquationClause extends StatementClause {
 
-    public EquationClause(Collection<Entry<?>> entries) {
-        super(entries);
-    }
+  public EquationClause(Collection<Entry<?>> entries) {
+    super(entries);
+  }
 
-    public EquationClause(Entry<?>... entries) {
-        super(entries);
-    }
+  public EquationClause(Entry<?>... entries) {
+    super(entries);
+  }
 
-    @Override
-    public String getText() {
-        return entries.stream()
-                .map(e -> COLUMN_WRAPPER + e.getColumn().getName() + COLUMN_WRAPPER + " = " +
-                        e.getColumn().getType().getValueWrapper())
-                .collect(Collectors.joining(", "));
-    }
+  @Override
+  public String getText() {
+    return entries.stream()
+        .map(e -> COLUMN_WRAPPER + e.getColumn().getName() + COLUMN_WRAPPER + " = " +
+            e.getColumn().getType().getValueWrapper())
+        .collect(Collectors.joining(", "));
+  }
 }

@@ -7,118 +7,117 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DbStringArrayList;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 public class DbCachedMapInfo {
 
-    protected final DbMapInfo mapInfo;
+  protected final DbMapInfo mapInfo;
 
-    private final String name;
-    private String displayName;
-    private Integer minPlayers;
-    private Integer maxPlayers;
-    private String itemName;
-    private List<String> description;
-    private List<String> info;
-    private boolean enabled;
+  private final String name;
+  private String displayName;
+  private Integer minPlayers;
+  private Integer maxPlayers;
+  private String itemName;
+  private List<String> description;
+  private List<String> info;
+  private boolean enabled;
 
-    public DbCachedMapInfo(DbMapInfo mapInfo) {
-        this.mapInfo = mapInfo;
+  public DbCachedMapInfo(DbMapInfo mapInfo) {
+    this.mapInfo = mapInfo;
 
-        this.name = mapInfo.getName();
+    this.name = mapInfo.getName();
 
-        ColumnMap columnMap = mapInfo.getFirstWithKey(Set.of(Column.Game.MAP_DISPLAY_NAME,
-                Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_ITEM,
-                Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
+    ColumnMap columnMap = mapInfo.getFirstWithKey(Set.of(Column.Game.MAP_DISPLAY_NAME,
+        Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_ITEM,
+        Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
 
-        this.displayName = columnMap.get(Column.Game.MAP_DISPLAY_NAME);
-        this.minPlayers = columnMap.get(Column.Game.MAP_MIN_PLAYERS);
-        this.maxPlayers = columnMap.get(Column.Game.MAP_MAX_PLAYERS);
-        this.itemName = columnMap.get(Column.Game.MAP_ITEM);
-        this.description = columnMap.get(Column.Game.MAP_DESCRIPTION);
-        this.info = columnMap.get(Column.Game.MAP_INFO);
-        this.enabled = columnMap.get(Column.Game.MAP_ENABLE);
+    this.displayName = columnMap.get(Column.Game.MAP_DISPLAY_NAME);
+    this.minPlayers = columnMap.get(Column.Game.MAP_MIN_PLAYERS);
+    this.maxPlayers = columnMap.get(Column.Game.MAP_MAX_PLAYERS);
+    this.itemName = columnMap.get(Column.Game.MAP_ITEM);
+    this.description = columnMap.get(Column.Game.MAP_DESCRIPTION);
+    this.info = columnMap.get(Column.Game.MAP_INFO);
+    this.enabled = columnMap.get(Column.Game.MAP_ENABLE);
 
-    }
+  }
 
-    @NotNull
-    public String getName() {
-        return this.name;
-    }
+  @NotNull
+  public String getName() {
+    return this.name;
+  }
 
-    public boolean exists() {
-        return this.mapInfo.exists();
-    }
+  public boolean exists() {
+    return this.mapInfo.exists();
+  }
 
-    @NotNull
-    public String getDisplayName() {
-        return this.displayName;
-    }
+  @NotNull
+  public String getDisplayName() {
+    return this.displayName;
+  }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-        this.mapInfo.setDisplayName(displayName);
-    }
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+    this.mapInfo.setDisplayName(displayName);
+  }
 
-    @NotNull
-    public Integer getMinPlayers() {
-        return this.minPlayers;
-    }
+  @NotNull
+  public Integer getMinPlayers() {
+    return this.minPlayers;
+  }
 
-    public void setMinPlayers(Integer minPlayers) {
-        this.minPlayers = minPlayers;
-        this.mapInfo.setMinPlayers(minPlayers);
-    }
+  public void setMinPlayers(Integer minPlayers) {
+    this.minPlayers = minPlayers;
+    this.mapInfo.setMinPlayers(minPlayers);
+  }
 
-    @NotNull
-    public Integer getMaxPlayers() {
-        return this.maxPlayers;
-    }
+  @NotNull
+  public Integer getMaxPlayers() {
+    return this.maxPlayers;
+  }
 
-    public void setMaxPlayers(Integer maxPlayers) {
-        this.maxPlayers = maxPlayers;
-        this.mapInfo.setMaxPlayers(maxPlayers);
-    }
+  public void setMaxPlayers(Integer maxPlayers) {
+    this.maxPlayers = maxPlayers;
+    this.mapInfo.setMaxPlayers(maxPlayers);
+  }
 
-    @NotNull
-    public String getItemName() {
-        return this.itemName;
-    }
+  @NotNull
+  public String getItemName() {
+    return this.itemName;
+  }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-        this.mapInfo.setItemName(itemName);
-    }
+  public void setItemName(String itemName) {
+    this.itemName = itemName;
+    this.mapInfo.setItemName(itemName);
+  }
 
-    public @NotNull List<String> getDescription() {
-        return this.description;
-    }
+  public @NotNull List<String> getDescription() {
+    return this.description;
+  }
 
-    public void setDescription(List<String> description) {
-        this.description = new DbStringArrayList(description);
-        this.mapInfo.setDescription(description);
-    }
+  public void setDescription(List<String> description) {
+    this.description = new DbStringArrayList(description);
+    this.mapInfo.setDescription(description);
+  }
 
-    @NotNull
-    public List<String> getInfo() {
-        return this.info;
-    }
+  @NotNull
+  public List<String> getInfo() {
+    return this.info;
+  }
 
-    public void setInfo(List<String> info) {
-        this.info = new DbStringArrayList(info);
-        this.mapInfo.setInfo(info);
-    }
+  public void setInfo(List<String> info) {
+    this.info = new DbStringArrayList(info);
+    this.mapInfo.setInfo(info);
+  }
 
-    public boolean isEnabled() {
-        return this.enabled;
-    }
+  public boolean isEnabled() {
+    return this.enabled;
+  }
 
-    public void setEnabled(boolean enable) {
-        this.enabled = enable;
-        this.mapInfo.setEnabled(enabled);
-    }
+  public void setEnabled(boolean enable) {
+    this.enabled = enable;
+    this.mapInfo.setEnabled(enabled);
+  }
 
 }

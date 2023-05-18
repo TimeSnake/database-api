@@ -8,109 +8,108 @@ import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.database.util.object.NotCached;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DbMap extends DbCached<DbMap> {
 
-    boolean exists();
+  boolean exists();
 
-    @NotCached
-    void delete();
+  @NotCached
+  void delete();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    @NotNull
-    String getDisplayName();
+  @NotNull
+  String getDisplayName();
 
-    @NotCached
-    void setDisplayName(String displayName);
+  @NotCached
+  void setDisplayName(String displayName);
 
-    @Nullable
-    Integer getMinPlayers();
+  @Nullable
+  Integer getMinPlayers();
 
-    @Nullable
-    Integer getMaxPlayers();
+  @Nullable
+  Integer getMaxPlayers();
 
-    @NotNull
-    String getWorldName();
+  @NotNull
+  String getWorldName();
 
-    @NotCached
-    @NotNull
-    DbGame getGame();
+  @NotCached
+  @NotNull
+  DbGame getGame();
 
-    @Nullable
-    @NotCached
-    DbLocation getLocation(Integer number);
+  @Nullable
+  @NotCached
+  DbLocation getLocation(Integer number);
 
-    @Nullable
-    @NotCached
-    DbLocation getFirstLocation();
+  @Nullable
+  @NotCached
+  DbLocation getFirstLocation();
 
-    @Nullable
-    @NotCached
-    Integer getFirstLocationNumber();
+  @Nullable
+  @NotCached
+  Integer getFirstLocationNumber();
 
-    @Nullable
-    @NotCached
-    DbLocation getLastLocation();
+  @Nullable
+  @NotCached
+  DbLocation getLastLocation();
 
-    @Nullable
-    @NotCached
-    Integer getLastLocationNumber();
+  @Nullable
+  @NotCached
+  Integer getLastLocationNumber();
 
-    @NotCached
-    @NotNull
-    HashMap<Integer, DbLocation> getMapLocations();
+  @NotCached
+  @NotNull
+  HashMap<Integer, DbLocation> getMapLocations();
 
-    @NotCached
-    void addLocation(Integer number, DbLocation location);
+  @NotCached
+  void addLocation(Integer number, DbLocation location);
 
-    @NotCached
-    void deleteLocation(Integer number);
+  @NotCached
+  void deleteLocation(Integer number);
 
-    @NotCached
-    boolean containsLocation(Integer number);
+  @NotCached
+  boolean containsLocation(Integer number);
 
-    @Nullable
-    String getItemName();
+  @Nullable
+  String getItemName();
 
-    @NotNull
-    List<String> getDescription();
+  @NotNull
+  List<String> getDescription();
 
-    @NotNull
-    List<String> getInfo();
+  @NotNull
+  List<String> getInfo();
 
-    @NotCached
-    void setInfo(List<String> info);
+  @NotCached
+  void setInfo(List<String> info);
 
-    boolean isEnabled();
+  boolean isEnabled();
 
-    @NotCached
-    void setEnabled(boolean enable);
+  @NotCached
+  void setEnabled(boolean enable);
 
-    @NotCached
-    @NotNull
-    List<UUID> getAuthors();
+  @NotCached
+  @NotNull
+  List<UUID> getAuthors();
 
-    @NotCached
-    void setAuthors(List<UUID> authors);
+  @NotCached
+  void setAuthors(List<UUID> authors);
 
-    @NotCached
-    void addAuthor(UUID author);
+  @NotCached
+  void addAuthor(UUID author);
 
-    @NotCached
-    void removeAuthor(UUID author);
+  @NotCached
+  void removeAuthor(UUID author);
 
-    @NotCached
-    @NotNull
-    List<String> getAuthorNames();
+  @NotCached
+  @NotNull
+  List<String> getAuthorNames();
 
-    @NotCached
-    void setAuthorNames(List<String> authors);
+  @NotCached
+  void setAuthorNames(List<String> authors);
 }

@@ -16,69 +16,69 @@ import org.jetbrains.annotations.Nullable;
 
 public class TeamsTable extends GroupsTable {
 
-    public TeamsTable(DatabaseConnector databaseConnector, String tableName) {
-        super(databaseConnector, tableName);
-        super.addColumn(Column.Team.RATIO);
-        super.addColumn(Column.Team.COLOR);
-        super.addColumn(Column.Team.PRIVATE_CHAT);
-        super.addColumn(Column.Team.MIN_SIZE);
-    }
+  public TeamsTable(DatabaseConnector databaseConnector, String tableName) {
+    super(databaseConnector, tableName);
+    super.addColumn(Column.Team.RATIO);
+    super.addColumn(Column.Team.COLOR);
+    super.addColumn(Column.Team.PRIVATE_CHAT);
+    super.addColumn(Column.Team.MIN_SIZE);
+  }
 
-    @Override
-    public void create() {
-        super.create();
-    }
+  @Override
+  public void create() {
+    super.create();
+  }
 
-    @Override
-    public void backup() {
-        super.backup();
-    }
+  @Override
+  public void backup() {
+    super.backup();
+  }
 
-    @Override
-    public void delete() {
-        super.delete();
-    }
+  @Override
+  public void delete() {
+    super.delete();
+  }
 
-    public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio,
-            String colorName) {
-        super.addGroup(name, rank, prefix, color, () -> {
-            super.set(ratio, Column.Team.RATIO, new Entry<>(rank, Column.Group.PRIORITY));
-            super.set(colorName, Column.Team.COLOR, new Entry<>(rank, Column.Group.PRIORITY));
-        });
-    }
+  public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio,
+      String colorName) {
+    super.addGroup(name, rank, prefix, color, () -> {
+      super.set(ratio, Column.Team.RATIO, new Entry<>(rank, Column.Group.PRIORITY));
+      super.set(colorName, Column.Team.COLOR, new Entry<>(rank, Column.Group.PRIORITY));
+    });
+  }
 
-    public void removeTeam(String name) {
-        super.removeGroup(name);
-    }
+  public void removeTeam(String name) {
+    super.removeGroup(name);
+  }
 
-    @Nullable
-    public Integer getHighestRank() {
-        return super.getHighestInteger(Column.Group.PRIORITY);
-    }
+  @Nullable
+  public Integer getHighestRank() {
+    return super.getHighestInteger(Column.Group.PRIORITY);
+  }
 
-    public boolean containsTeam(String name) {
-        return super.containsGroup(name);
-    }
+  public boolean containsTeam(String name) {
+    return super.containsGroup(name);
+  }
 
-    @NotNull
-    public DbTeam getTeam(String name) {
-        return new DbTeam(this.databaseConnector, name, this.tableName);
-    }
+  @NotNull
+  public DbTeam getTeam(String name) {
+    return new DbTeam(this.databaseConnector, name, this.tableName);
+  }
 
-    public Collection<String> getTeamNames() {
-        return super.getGroupNames();
-    }
+  public Collection<String> getTeamNames() {
+    return super.getGroupNames();
+  }
 
-    public Collection<Integer> getTeamRanks() {
-        return super.getGroupRanks();
-    }
+  public Collection<Integer> getTeamRanks() {
+    return super.getGroupRanks();
+  }
 
-    public Collection<de.timesnake.database.util.game.DbTeam> getTeams() {
-        Collection<de.timesnake.database.util.game.DbTeam> teams = new ArrayList<>();
-        for (String name : this.getTeamNames()) {
-            teams.add(this.getTeam(name));
-        }
-        return teams;
+  public Collection<de.timesnake.database.util.game.DbTeam> getTeams() {
+    Collection<de.timesnake.database.util.game.DbTeam> teams = new ArrayList<>();
+    for (String name : this.getTeamNames()) {
+      teams.add(this.getTeam(name));
     }
+    return teams;
+  }
 
 }

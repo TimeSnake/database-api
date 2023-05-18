@@ -5,30 +5,29 @@
 package de.timesnake.database.util.permission;
 
 import de.timesnake.library.basic.util.Status;
+import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-
 public interface DbPermission {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    Integer getId();
+  @NotNull
+  Integer getId();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    void setName(String name);
+  void setName(String name);
 
-    @NotNull
-    Status.Permission getMode();
+  @NotNull
+  Status.Permission getMode();
 
-    void setMode(Status.Permission mode);
+  void setMode(Status.Permission mode);
 
-    @Nullable
-    Collection<String> getServers();
+  @Nullable
+  Collection<String> getServers();
 
-    void setServers(Collection<String> servers);
+  void setServers(Collection<String> servers);
 }

@@ -10,17 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class DatabaseKits extends DatabaseConnector {
 
-    public DatabaseKits(String name, String url, String options, String user, String password) {
-        super(name, url, options, user, password);
-    }
+  public DatabaseKits(String name, String url, String options, String user, String password) {
+    super(name, url, options, user, password);
+  }
 
-    @NotNull
-    public KitsTable getGameKits(String gameName) {
-        return new KitsTable(this, gameName);
-    }
+  @NotNull
+  public KitsTable getGameKits(String gameName) {
+    return new KitsTable(this, gameName);
+  }
 
-    public void deleteGameKits(DbGame game) {
-        KitsTable teamsTable = new KitsTable(this, game.getInfo().getName());
-        teamsTable.delete();
-    }
+  public void deleteGameKits(DbGame game) {
+    KitsTable teamsTable = new KitsTable(this, game.getInfo().getName());
+    teamsTable.delete();
+  }
 }

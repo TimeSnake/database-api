@@ -8,10 +8,10 @@ import org.jetbrains.annotations.Nullable;
 
 public interface DbTaskServer extends DbServer {
 
-    @Nullable
-    String getTask();
+  @Nullable
+  String getTask();
 
-    void setTask(String task);
+  void setTask(String task);
 
-    void setTaskSynchronized(String task);
+  void setTaskSynchronized(String task);
 }

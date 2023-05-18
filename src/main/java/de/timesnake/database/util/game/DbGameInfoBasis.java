@@ -10,57 +10,57 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbGameInfoBasis {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    @NotNull
-    String getDisplayName();
+  @NotNull
+  String getDisplayName();
 
-    @NotCached
-    void setDisplayName(String displayName);
+  @NotCached
+  void setDisplayName(String displayName);
 
-    @Deprecated
-    @NotNull
-    String getChatColorName();
+  @Deprecated
+  @NotNull
+  String getChatColorName();
 
-    @NotCached
-    @Deprecated
-    void setChatColorName(String chatColorName);
+  @NotCached
+  @Deprecated
+  void setChatColorName(String chatColorName);
 
-    @NotNull
-    ExTextColor getTextColor();
+  @NotNull
+  ExTextColor getTextColor();
 
-    @NotCached
-    void setTextColor(ExTextColor color);
+  @NotCached
+  void setTextColor(ExTextColor color);
 
-    @NotNull
-    String getItemName();
+  @NotNull
+  String getItemName();
 
-    @NotCached
-    void setItem(String itemName);
+  @NotCached
+  void setItem(String itemName);
 
-    @NotNull
-    String getHeadLine();
+  @NotNull
+  String getHeadLine();
 
-    @NotCached
-    void setHeadLine(String headLine);
+  @NotCached
+  void setHeadLine(String headLine);
 
-    @NotNull
-    Integer getSlot();
+  @NotNull
+  Integer getSlot();
 
-    @NotCached
-    void setSlot(int slot);
+  @NotCached
+  void setSlot(int slot);
 
-    boolean isEnabled();
+  boolean isEnabled();
 
-    @NotCached
-    void setEnabled(boolean enabled);
+  @NotCached
+  void setEnabled(boolean enabled);
 
-    @NotNull
-    DbGameInfoBasis toDatabase();
+  @NotNull
+  DbGameInfoBasis toDatabase();
 
-    @NotNull
-    DbGameInfoBasis toLocal();
+  @NotNull
+  DbGameInfoBasis toLocal();
 }

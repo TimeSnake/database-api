@@ -9,21 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class DatabaseGameStatistics extends DatabaseConnector {
 
-    private final String userStatisticsTableName;
-    private final String statisticTypesTableName;
+  private final String userStatisticsTableName;
+  private final String statisticTypesTableName;
 
-    public DatabaseGameStatistics(String name, String url, String options, String user, String password,
-                                  String userStatisticsTableName, String statisticTypesTableName) {
-        super(name, url, options, user, password);
+  public DatabaseGameStatistics(String name, String url, String options, String user,
+      String password,
+      String userStatisticsTableName, String statisticTypesTableName) {
+    super(name, url, options, user, password);
 
-        this.userStatisticsTableName = userStatisticsTableName;
-        this.statisticTypesTableName = statisticTypesTableName;
-    }
+    this.userStatisticsTableName = userStatisticsTableName;
+    this.statisticTypesTableName = statisticTypesTableName;
+  }
 
-    @NotNull
-    public StatisticsTable getGameUserStatistics(String gameName) {
-        return new StatisticsTable(this, gameName + "_" + this.statisticTypesTableName,
-                gameName + "_" + this.userStatisticsTableName);
-    }
+  @NotNull
+  public StatisticsTable getGameUserStatistics(String gameName) {
+    return new StatisticsTable(this, gameName + "_" + this.statisticTypesTableName,
+        gameName + "_" + this.userStatisticsTableName);
+  }
 
 }

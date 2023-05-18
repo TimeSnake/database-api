@@ -8,20 +8,20 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbHead {
 
-    boolean exists();
+  boolean exists();
 
-    void delete();
+  void delete();
 
-    @NotNull
-    String getTag();
+  @NotNull
+  String getTag();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    void setName(String name);
+  void setName(String name);
 
-    @NotNull
-    String getSection();
+  @NotNull
+  String getSection();
 
-    void setSection(String section);
+  void setSection(String section);
 }

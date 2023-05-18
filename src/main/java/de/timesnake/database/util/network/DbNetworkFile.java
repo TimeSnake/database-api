@@ -4,14 +4,13 @@
 
 package de.timesnake.database.util.network;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
+import org.jetbrains.annotations.NotNull;
 
 public interface DbNetworkFile {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    File getFile();
+  @NotNull
+  File getFile();
 }

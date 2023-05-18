@@ -7,44 +7,44 @@ package de.timesnake.database.util.game;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.library.chat.ExTextColor;
+import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-
 public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
 
-    @NotNull
-    @Override
-    DbTmpGameInfo getInfo();
+  @NotNull
+  @Override
+  DbTmpGameInfo getInfo();
 
-    @NotCached
-    void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio, String colorName);
+  @NotCached
+  void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio,
+      String colorName);
 
-    @NotCached
-    void removeTeam(String name);
+  @NotCached
+  void removeTeam(String name);
 
-    @Nullable
-    @NotCached
-    Integer getHighestRank();
+  @Nullable
+  @NotCached
+  Integer getHighestRank();
 
-    @NotCached
-    boolean containsTeam(String name);
+  @NotCached
+  boolean containsTeam(String name);
 
-    @NotCached
-    @NotNull
-    de.timesnake.database.core.game.team.DbTeam getTeam(String name);
+  @NotCached
+  @NotNull
+  de.timesnake.database.core.game.team.DbTeam getTeam(String name);
 
-    @NotCached
-    @NotNull
-    Collection<String> getTeamNames();
+  @NotCached
+  @NotNull
+  Collection<String> getTeamNames();
 
-    @NotCached
-    @NotNull
-    Collection<Integer> getTeamRanks();
+  @NotCached
+  @NotNull
+  Collection<Integer> getTeamRanks();
 
-    @NotCached
-    @NotNull
-    Collection<de.timesnake.database.util.game.DbTeam> getTeams();
+  @NotCached
+  @NotNull
+  Collection<de.timesnake.database.util.game.DbTeam> getTeams();
 
 }

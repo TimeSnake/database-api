@@ -8,51 +8,52 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 
-public class DbNonTmpGameInfo extends DbGameInfo implements de.timesnake.database.util.game.DbNonTmpGameInfo {
+public class DbNonTmpGameInfo extends DbGameInfo implements
+    de.timesnake.database.util.game.DbNonTmpGameInfo {
 
-    public DbNonTmpGameInfo(DatabaseConnector databaseConnector, String nameTable, String gameName) {
-        super(databaseConnector, nameTable, gameName);
-    }
+  public DbNonTmpGameInfo(DatabaseConnector databaseConnector, String nameTable, String gameName) {
+    super(databaseConnector, nameTable, gameName);
+  }
 
-    @Override
-    public boolean isCreationRequestable() {
-        return super.getFirstWithKey(Column.Game.CREATION_REQUESTABLE);
-    }
+  @Override
+  public boolean isCreationRequestable() {
+    return super.getFirstWithKey(Column.Game.CREATION_REQUESTABLE);
+  }
 
-    @Override
-    public void setCreationRequestable(Boolean creationRequestable) {
-        super.setWithKey(creationRequestable, Column.Game.CREATION_REQUESTABLE);
-    }
+  @Override
+  public void setCreationRequestable(Boolean creationRequestable) {
+    super.setWithKey(creationRequestable, Column.Game.CREATION_REQUESTABLE);
+  }
 
-    @Override
-    public boolean isOwnable() {
-        return super.getFirstWithKey(Column.Game.OWNABLE);
-    }
+  @Override
+  public boolean isOwnable() {
+    return super.getFirstWithKey(Column.Game.OWNABLE);
+  }
 
-    @Override
-    public void setOwnable(Boolean ownable) {
-        super.setWithKey(ownable, Column.Game.OWNABLE);
-    }
+  @Override
+  public void setOwnable(Boolean ownable) {
+    super.setWithKey(ownable, Column.Game.OWNABLE);
+  }
 
-    @Override
-    public boolean isNetherAndEndAllowed() {
-        return super.getFirstWithKey(Column.Game.ALLOW_NETHER_END);
-    }
+  @Override
+  public boolean isNetherAndEndAllowed() {
+    return super.getFirstWithKey(Column.Game.ALLOW_NETHER_END);
+  }
 
-    @Override
-    public void allowNetherAndEnd(Boolean allow) {
-        super.setWithKey(allow, Column.Game.ALLOW_NETHER_END);
-    }
+  @Override
+  public void allowNetherAndEnd(Boolean allow) {
+    super.setWithKey(allow, Column.Game.ALLOW_NETHER_END);
+  }
 
-    @NotNull
-    @Override
-    public de.timesnake.database.util.game.DbNonTmpGameInfo toDatabase() {
-        return this;
-    }
+  @NotNull
+  @Override
+  public de.timesnake.database.util.game.DbNonTmpGameInfo toDatabase() {
+    return this;
+  }
 
-    @NotNull
-    @Override
-    public de.timesnake.database.util.game.DbNonTmpGameInfo toLocal() {
-        return new DbCachedNonTmpGameInfo(this);
-    }
+  @NotNull
+  @Override
+  public de.timesnake.database.util.game.DbNonTmpGameInfo toLocal() {
+    return new DbCachedNonTmpGameInfo(this);
+  }
 }

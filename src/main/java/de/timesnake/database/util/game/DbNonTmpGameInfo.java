@@ -9,25 +9,25 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbNonTmpGameInfo extends DbGameInfo {
 
-    boolean isCreationRequestable();
+  boolean isCreationRequestable();
 
-    @NotCached
-    void setCreationRequestable(Boolean creationRequestable);
+  @NotCached
+  void setCreationRequestable(Boolean creationRequestable);
 
-    boolean isOwnable();
+  boolean isOwnable();
 
-    @NotCached
-    void setOwnable(Boolean ownable);
+  @NotCached
+  void setOwnable(Boolean ownable);
 
-    boolean isNetherAndEndAllowed();
+  boolean isNetherAndEndAllowed();
 
-    void allowNetherAndEnd(Boolean allow);
+  void allowNetherAndEnd(Boolean allow);
 
-    @NotNull
-    @Override
-    DbNonTmpGameInfo toDatabase();
+  @NotNull
+  @Override
+  DbNonTmpGameInfo toDatabase();
 
-    @NotNull
-    @Override
-    DbNonTmpGameInfo toLocal();
+  @NotNull
+  @Override
+  DbNonTmpGameInfo toLocal();
 }

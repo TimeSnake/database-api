@@ -10,46 +10,46 @@ import org.jetbrains.annotations.Nullable;
 
 public interface DbTmpGameServer extends DbPvPServer {
 
-    boolean areKitsEnabled();
+  boolean areKitsEnabled();
 
-    void setKitsEnabled(boolean kitsEnabled);
+  void setKitsEnabled(boolean kitsEnabled);
 
-    @Nullable
-    String getMapName();
+  @Nullable
+  String getMapName();
 
-    void setMapName(String mapName);
+  void setMapName(String mapName);
 
-    @Nullable
-    String getTwinServerName();
+  @Nullable
+  String getTwinServerName();
 
-    void setTwinServerName(String name);
+  void setTwinServerName(String name);
 
-    @Nullable
-    DbLoungeServer getTwinServer();
+  @Nullable
+  DbLoungeServer getTwinServer();
 
-    @NotNull
-    @Override
-    Type.Server<DbTmpGameServer> getType();
+  @NotNull
+  @Override
+  Type.Server<DbTmpGameServer> getType();
 
-    boolean areMapsEnabled();
+  boolean areMapsEnabled();
 
-    void setMapsEnabled(boolean mapsEnabled);
+  void setMapsEnabled(boolean mapsEnabled);
 
-    @Nullable
-    Integer getTeamAmount();
+  @Nullable
+  Integer getTeamAmount();
 
-    void setTeamAmount(Integer integer);
+  void setTeamAmount(Integer integer);
 
-    @Nullable
-    Integer getMaxPlayersPerTeam();
+  @Nullable
+  Integer getMaxPlayersPerTeam();
 
-    void setMaxPlayersPerTeam(Integer maxPlayersPerTeam);
+  void setMaxPlayersPerTeam(Integer maxPlayersPerTeam);
 
-    boolean isTeamMerging();
+  boolean isTeamMerging();
 
-    void setTeamMerging(boolean teamMerging);
+  void setTeamMerging(boolean teamMerging);
 
-    boolean isDiscordEnabled();
+  boolean isDiscordEnabled();
 
-    void setDiscord(boolean discordEnabled);
+  void setDiscord(boolean discordEnabled);
 }

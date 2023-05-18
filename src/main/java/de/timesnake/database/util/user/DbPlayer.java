@@ -4,27 +4,26 @@
 
 package de.timesnake.database.util.user;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 public interface DbPlayer {
 
-    boolean exists();
+  boolean exists();
 
-    /**
-     * Gets the {@link DbPlayer}-name
-     *
-     * @return the name
-     */
-    @NotNull
-    String getName();
+  /**
+   * Gets the {@link DbPlayer}-name
+   *
+   * @return the name
+   */
+  @NotNull
+  String getName();
 
-    /**
-     * Gets the {@link UUID} of the {@link DbPlayer}
-     *
-     * @return the {@link UUID}
-     */
-    @NotNull
-    UUID getUniqueId();
+  /**
+   * Gets the {@link UUID} of the {@link DbPlayer}
+   *
+   * @return the {@link UUID}
+   */
+  @NotNull
+  UUID getUniqueId();
 }
