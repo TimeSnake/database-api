@@ -4,13 +4,13 @@
 
 package de.timesnake.database.core.game;
 
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.game.info.DbCachedGameInfo;
 import de.timesnake.database.core.game.info.DbGameInfo;
 import de.timesnake.database.core.game.kit.KitsTable;
 import de.timesnake.database.core.game.map.MapsTable;
 import de.timesnake.database.core.game.statistic.GameUserStatistic;
 import de.timesnake.database.core.game.statistic.StatisticsTable;
-import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.game.DbKit;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.DatabaseConnector;

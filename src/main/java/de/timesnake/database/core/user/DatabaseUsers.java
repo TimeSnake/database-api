@@ -5,17 +5,17 @@
 package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DatabaseUsers extends DatabaseConnector implements de.timesnake.database.util.user.DatabaseUsers {
+public class DatabaseUsers extends DatabaseConnector implements
+        de.timesnake.database.util.user.DatabaseUsers {
 
     private final InfosTable infosTable;
     private final PunishmentsTable punishmentsTable;
@@ -27,8 +27,9 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     private final String mailsTableName;
     private final String displayGroupsTableName;
 
-    public DatabaseUsers(String name, String url, String options, String user, String password, String infoTable,
-                         String punishmentTable, String mailsTable, String displayGroupsTable) {
+    public DatabaseUsers(String name, String url, String options, String user, String password,
+            String infoTable,
+            String punishmentTable, String mailsTable, String displayGroupsTable) {
         super(name, url, options, user, password, DatabaseManager.USERS_MAX_IDLE_CONNECTIONS);
         this.infoTableName = infoTable;
         this.punishmentTableName = punishmentTable;
@@ -67,7 +68,8 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     @Nullable
     @Override
     public DbUser getUserByDiscordId(Long discordId) {
-        return this.getUser(this.infosTable.getFirst(Column.User.UUID, new Entry<>(discordId, Column.User.DISCORD_ID)));
+        return this.getUser(this.infosTable.getFirst(Column.User.UUID,
+                new Entry<>(discordId, Column.User.DISCORD_ID)));
     }
 
     @NotNull
@@ -84,7 +86,8 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     @Override
     public DbUser getUser(UUID uuid) {
         if (uuid != null) {
-            return new DbUser(this, uuid, this.infoTableName, this.punishmentTableName, this.mailsTableName,
+            return new DbUser(this, uuid, this.infoTableName, this.punishmentTableName,
+                    this.mailsTableName,
                     this.punishmentsTable, this.mailsTable, this.displayGroupsTable);
         }
         return null;
@@ -94,7 +97,8 @@ public class DatabaseUsers extends DatabaseConnector implements de.timesnake.dat
     @Override
     public DbUser getUser(String name) {
         return new DbUser(this, this.infosTable.getUniqueIdFromName(name), this.infoTableName,
-                this.punishmentTableName, this.mailsTableName, this.punishmentsTable, this.mailsTable,
+                this.punishmentTableName, this.mailsTableName, this.punishmentsTable,
+                this.mailsTable,
                 this.displayGroupsTable);
     }
 

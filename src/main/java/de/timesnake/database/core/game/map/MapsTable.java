@@ -4,11 +4,10 @@
 
 package de.timesnake.database.core.game.map;
 
-import de.timesnake.database.core.main.DatabaseManager;
-import org.jetbrains.annotations.NotNull;
-
+import de.timesnake.database.core.DatabaseManager;
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class MapsTable {
 
@@ -43,9 +42,11 @@ public class MapsTable {
         this.authorTable.delete();
     }
 
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers, String itemName,
-                       List<String> description, List<String> info, List<String> authors) {
-        this.infoTable.addMapInfo(name, displayName, minPlayers, maxPlayers, itemName, description, info);
+    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
+            String itemName,
+            List<String> description, List<String> info, List<String> authors) {
+        this.infoTable.addMapInfo(name, displayName, minPlayers, maxPlayers, itemName, description,
+                info);
         this.getMap(name).setAuthorNames(authors);
     }
 

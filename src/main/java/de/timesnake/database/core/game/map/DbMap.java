@@ -4,19 +4,18 @@
 
 package de.timesnake.database.core.game.map;
 
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.game.DbGame;
-import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.library.basic.util.server.Server;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbMap implements de.timesnake.database.util.game.DbMap {
 
@@ -33,9 +32,11 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         this.gameName = gameName;
         this.name = mapName;
 
-        this.info = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName).getMapInfo(mapName);
+        this.info = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName)
+                .getMapInfo(mapName);
         this.mapLocations =
-                DatabaseManager.getInstance().getGameMaps().getMapsSpawnsTable(gameName).getMapLocations(mapName);
+                DatabaseManager.getInstance().getGameMaps().getMapsSpawnsTable(gameName)
+                        .getMapLocations(mapName);
         this.authorTable = DatabaseManager.getInstance().getGameMaps().getMapsAuthorTable(gameName);
     }
 
@@ -183,7 +184,8 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     @NotNull
     @Override
     public List<UUID> getAuthors() {
-        return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorUuid)).collect(Collectors.toList());
+        return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorUuid))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -208,7 +210,8 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
                 .map((DbMapAuthor::getAuthorName))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .toList();;
+                .toList();
+        ;
         return !authorNames.isEmpty() ? authorNames : List.of(Server.NETWORK_NAME + " Community");
     }
 

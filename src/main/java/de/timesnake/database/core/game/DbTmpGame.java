@@ -4,10 +4,10 @@
 
 package de.timesnake.database.core.game;
 
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.game.info.DbTmpGameInfo;
 import de.timesnake.database.core.game.team.DbTeam;
 import de.timesnake.database.core.game.team.TeamsTable;
-import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.object.Type.Availability;
