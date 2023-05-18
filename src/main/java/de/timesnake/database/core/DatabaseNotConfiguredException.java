@@ -2,7 +2,7 @@
  * Copyright (C) 2023 timesnake
  */
 
-package de.timesnake.database.core.file;
+package de.timesnake.database.core;
 
 public class DatabaseNotConfiguredException extends Throwable {
 
@@ -23,7 +23,8 @@ public class DatabaseNotConfiguredException extends Throwable {
     }
 
     public String getMessage() {
-        return "[Database] WARNING Database " + this.databaseType + ": Value " + this.missingValueType + "is not " +
+        return "[Database] WARNING Database " + this.databaseType + ": Value "
+                + this.missingValueType + "is not " +
                 "configured";
     }
 }

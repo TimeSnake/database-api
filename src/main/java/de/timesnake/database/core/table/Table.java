@@ -5,6 +5,7 @@
 package de.timesnake.database.core.table;
 
 import de.timesnake.database.core.Column;
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.util.object.ColumnMap;
@@ -34,22 +35,22 @@ public class Table {
         if (rs != null) {
             try {
                 rs.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                DatabaseManager.getInstance().handleSQLException(e);
             }
         }
         if (ps != null) {
             try {
                 ps.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                DatabaseManager.getInstance().handleSQLException(e);
             }
         }
         if (connection != null) {
             try {
                 connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                DatabaseManager.getInstance().handleSQLException(e);
             }
         }
     }
@@ -123,19 +124,21 @@ public class Table {
             this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new Entry[0]));
         }
 
-        Connection connection = this.databaseConnector.getConnection();
+        Connection connection = null;
         PreparedStatement ps = null;
 
-        ValuesClause valuesClause = new ValuesClause(primaryValues.getPrimaryEntries(),
-                Arrays.asList(values));
-
         try {
+            connection = this.databaseConnector.getConnection();
+
+            ValuesClause valuesClause = new ValuesClause(primaryValues.getPrimaryEntries(),
+                    Arrays.asList(values));
+
             ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" +
                     valuesClause.getText() + ";");
             valuesClause.applyValues(ps, 1);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            DatabaseManager.getInstance().handleSQLException(e);
         } finally {
             closeQuery(connection, ps, null);
         }
@@ -169,16 +172,17 @@ public class Table {
 
     protected void deleteEntrySynchronized(Entry<?>... entries) {
         WhereClause whereClause = new WhereClause(entries);
-        Connection connection = this.databaseConnector.getConnection();
+        Connection connection = null;
         PreparedStatement ps = null;
 
         try {
+            connection = this.databaseConnector.getConnection();
             ps = connection.prepareStatement(
                     "DELETE FROM `" + this.tableName + "_tmp`" + whereClause.getText() + ";");
             whereClause.applyValues(ps, 1);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            DatabaseManager.getInstance().handleSQLException(e);
         } finally {
             closeQuery(connection, ps, null);
         }
@@ -239,11 +243,12 @@ public class Table {
     protected final Integer getHighestInteger(Column<Integer> resultColumn, Entry<?>... entries) {
         WhereClause whereClause = new WhereClause(entries);
 
-        Connection connection = this.databaseConnector.getConnection();
+        Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
+            connection = this.databaseConnector.getConnection();
             ps = connection.prepareStatement("SELECT MAX(`" + resultColumn.getName() + "`) FROM `" +
                     this.tableName + "_tmp`" + whereClause.getText() + ";");
             whereClause.applyValues(ps, 1);
@@ -258,7 +263,7 @@ public class Table {
             }
             return value;
         } catch (SQLException e) {
-            e.printStackTrace();
+            DatabaseManager.getInstance().handleSQLException(e);
         } finally {
             Table.closeQuery(connection, ps, rs);
         }
@@ -269,11 +274,12 @@ public class Table {
     protected final Integer getLowestInteger(Column<Integer> resultColumn, Entry<?>... entries) {
         WhereClause whereClause = new WhereClause(entries);
 
-        Connection connection = this.databaseConnector.getConnection();
+        Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
+            connection = this.databaseConnector.getConnection();
             ps = connection.prepareStatement("SELECT MIN(`" + resultColumn.getName() + "`) FROM `" +
                     this.tableName + "_tmp`" + whereClause.getText() + ";");
             whereClause.applyValues(ps, 1);
@@ -288,7 +294,7 @@ public class Table {
             }
             return value;
         } catch (SQLException e) {
-            e.printStackTrace();
+            DatabaseManager.getInstance().handleSQLException(e);
         } finally {
             Table.closeQuery(connection, ps, rs);
         }
@@ -299,13 +305,14 @@ public class Table {
     public Set<ColumnMap> get(Set<Column<?>> resultColumn, Entry<?>... entries) {
         WhereClause whereClause = new WhereClause(entries);
 
-        Connection connection = this.databaseConnector.getConnection();
+        Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Set<ColumnMap> result = new HashSet<>();
 
         try {
+            connection = this.databaseConnector.getConnection();
             ps = connection.prepareStatement(
                     "SELECT " + parseToColumnNameString(resultColumn) + " FROM `" +
                             this.tableName + "_tmp`" + whereClause.getText() + ";");
@@ -321,7 +328,7 @@ public class Table {
                 result.add(map);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            DatabaseManager.getInstance().handleSQLException(e);
         } finally {
             Table.closeQuery(connection, ps, rs);
         }
@@ -365,12 +372,13 @@ public class Table {
 
     protected final void setSynchronized(Set<Entry<?>> values, Entry<?>... keys) {
         if (values != null) {
-            Connection connection = this.databaseConnector.getConnection();
+            Connection connection = null;
             PreparedStatement ps = null;
 
             EquationClause equationClause = new EquationClause(values);
 
             try {
+                connection = this.databaseConnector.getConnection();
                 if (this.updatePolicy == UpdatePolicy.INSERT_IF_NOT_EXISTS) {
                     ValuesClause valuesClause = new ValuesClause(values, Arrays.asList(keys));
 
@@ -397,7 +405,7 @@ public class Table {
                 }
                 ps.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                DatabaseManager.getInstance().handleSQLException(e);
             } finally {
                 closeQuery(connection, ps, null);
             }

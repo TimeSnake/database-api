@@ -4,10 +4,10 @@
 
 package de.timesnake.database.util;
 
-import de.timesnake.database.core.file.DatabaseConfig;
-import de.timesnake.database.core.file.DatabaseNotConfiguredException;
+import de.timesnake.database.core.DatabaseConfig;
+import de.timesnake.database.core.DatabaseManager;
+import de.timesnake.database.core.DatabaseNotConfiguredException;
 import de.timesnake.database.core.game.DatabaseGames;
-import de.timesnake.database.core.main.DatabaseManager;
 import de.timesnake.database.util.decoration.DatabaseDecoration;
 import de.timesnake.database.util.game.DatabaseLounges;
 import de.timesnake.database.util.game.DbKit;
@@ -25,7 +25,6 @@ import de.timesnake.database.util.user.DatabaseUsers;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.library.basic.util.LogHelper;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,10 +35,8 @@ public interface Database {
     /**
      * Gets the instance of the {@link DatabaseManager} class, read description before use
      * <p>
-     * <\p>
-     * Recommended only for initial (for the plugin, which starts and stops the database).
-     * Recommended only for database-, table-creations
-     * </\p>
+     * <\p> Recommended only for initial (for the plugin, which starts and stops the database).
+     * Recommended only for database-, table-creations </\p>
      *
      * @return the instance of the {@link DatabaseManager} class
      */
@@ -50,10 +47,8 @@ public interface Database {
     /**
      * Gets the server database
      * <p>
-     * <\p>
-     * The server database contains all infos about the bukkit-servers.
-     * Infos of the servers can be edited here, like online players, max players, task, status, ...
-     * </\p>
+     * <\p> The server database contains all infos about the bukkit-servers. Infos of the servers
+     * can be edited here, like online players, max players, task, status, ... </\p>
      *
      * @return the {@link DatabaseServers}
      */
@@ -64,10 +59,8 @@ public interface Database {
     /**
      * Gets the group database
      * <p>
-     * <\p>
-     * The group database contains all infos about the groups.
-     * The permission-groups can be found here.
-     * </\p>
+     * <\p> The group database contains all infos about the groups. The permission-groups can be
+     * found here. </\p>
      *
      * @return the {@link DatabaseGroups}
      */
@@ -78,12 +71,9 @@ public interface Database {
     /**
      * Gets the permission database
      * <p>
-     * <\p>
-     * The permission database contains all permissions.
-     * The user and group permissions can be found here.
-     * The {@link DbPermGroup}s have a direct link to their permissions.
-     * The {@link DbUser}s have a direct link to their permissions.
-     * </\p>
+     * <\p> The permission database contains all permissions. The user and group permissions can be
+     * found here. The {@link DbPermGroup}s have a direct link to their permissions. The
+     * {@link DbUser}s have a direct link to their permissions. </\p>
      *
      * @return the {@link DatabasePermissions}
      */
@@ -95,13 +85,9 @@ public interface Database {
     /**
      * Gets the user database
      * <p>
-     * <\p>
-     * The user database contains all infos about the users.
-     * Infos of the users can be edited here, like status, task, perm-group, kit, team, ...
-     * The {@link DbUser} contains direct links to the permissions, perm-groups,
-     * teams, ...
-     * {@link DbPunishment}s,
-     * </\p>
+     * <\p> The user database contains all infos about the users. Infos of the users can be edited
+     * here, like status, task, perm-group, kit, team, ... The {@link DbUser} contains direct links
+     * to the permissions, perm-groups, teams, ... {@link DbPunishment}s, </\p>
      *
      * @return the {@link DatabaseUsers}
      */
@@ -112,12 +98,9 @@ public interface Database {
     /**
      * Gets the game database
      * <p>
-     * <\p>
-     * The game database contains all infos about the games.
-     * Infos of the games can be changed here, like description, max players, ...
-     * The {@link DbMap}s, {@link DbKit}s,
-     * {@link DbTeam}s can be edited here
-     * </\p>
+     * <\p> The game database contains all infos about the games. Infos of the games can be changed
+     * here, like description, max players, ... The {@link DbMap}s, {@link DbKit}s, {@link DbTeam}s
+     * can be edited here </\p>
      *
      * @return the {@link DatabaseGames}
      */
@@ -128,10 +111,8 @@ public interface Database {
     /**
      * Gets the game-lounges database
      * <p>
-     * <\p>
-     * The lounge database contains the lounge maps.
-     * Infos of the maps can be changed here, like world, spawn, ...
-     * </\p>
+     * <\p> The lounge database contains the lounge maps. Infos of the maps can be changed here,
+     * like world, spawn, ... </\p>
      *
      * @return the {@link DatabaseLounges}
      */
@@ -142,9 +123,7 @@ public interface Database {
     /**
      * Gets the support database
      * <p>
-     * <\p>
-     * The support database contains all infos about the tickets.
-     * </\p>
+     * <\p> The support database contains all infos about the tickets. </\p>
      *
      * @return the {@link DatabaseSupport}
      */
@@ -155,10 +134,8 @@ public interface Database {
     /**
      * Gets the hungergames database
      * <p>
-     * <\p>
-     * The hungergames database contains the items.
-     * The maps are managed over the {@link DatabaseGames}
-     * </\p>
+     * <\p> The hungergames database contains the items. The maps are managed over the
+     * {@link DatabaseGames} </\p>
      *
      * @return the {@link DatabaseHungerGames}
      */
@@ -169,9 +146,7 @@ public interface Database {
     /**
      * Gets the decoration database
      * <p>
-     * <\p>
-     * The decoration database contains various decorations like custom heads.
-     * </\p>
+     * <\p> The decoration database contains various decorations like custom heads. </\p>
      *
      * @return the {@link DatabaseDecoration}
      */
@@ -182,9 +157,7 @@ public interface Database {
     /**
      * Gets the story database
      * <p>
-     * <\p>
-     * The story database contains the progress of a user in a story chapter
-     * </\p>
+     * <\p> The story database contains the progress of a user in a story chapter </\p>
      *
      * @return the {@link DatabaseStory}
      */
@@ -204,7 +177,7 @@ public interface Database {
         return DatabaseManager.getInstance().getNetwork();
     }
 
-    void connect(DatabaseConfig config) throws DatabaseNotConfiguredException;
+    boolean connect(DatabaseConfig config) throws DatabaseNotConfiguredException;
 
     void createTables();
 

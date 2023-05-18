@@ -4,30 +4,31 @@
 
 package de.timesnake.database.core.server;
 
-import de.timesnake.database.core.main.DatabaseManager;
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.server.DbTaskServer;
 import de.timesnake.library.basic.util.Status;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DatabaseServers extends DatabaseConnector implements de.timesnake.database.util.server.DatabaseServers {
+public class DatabaseServers extends DatabaseConnector implements
+        de.timesnake.database.util.server.DatabaseServers {
 
     private final ServerMap serverTables = new ServerMap();
 
     private final BuildWorldTable buildWorldTable;
 
-    public DatabaseServers(String name, String url, String options, String user, String password, String lobbysTableName,
-                           String gamesTableName, String loungesTableName, String tempGamesTableName,
-                           String buildsTableName, String buildWorldTableName) {
+    public DatabaseServers(String name, String url, String options, String user, String password,
+            String lobbysTableName,
+            String gamesTableName, String loungesTableName, String tempGamesTableName,
+            String buildsTableName, String buildWorldTableName) {
         super(name, url, options, user, password, DatabaseManager.SERVERS_MAX_IDLE_CONNECTIONS);
 
         this.buildWorldTable = new BuildWorldTable(this, buildWorldTableName);
@@ -36,7 +37,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         this.serverTables.put(Type.Server.GAME, new NonTmpGameTable(this, gamesTableName));
         this.serverTables.put(Type.Server.LOUNGE, new LoungeTable(this, loungesTableName));
         this.serverTables.put(Type.Server.TEMP_GAME, new TmpGameTable(this, tempGamesTableName));
-        this.serverTables.put(Type.Server.BUILD, new BuildTable(this, buildsTableName, this.buildWorldTable));
+        this.serverTables.put(Type.Server.BUILD,
+                new BuildTable(this, buildsTableName, this.buildWorldTable));
     }
 
     @Override
@@ -60,7 +62,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
         for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
                 this.serverTables.entrySet()) {
             String name = entry.getValue().getNameFromPort(port);
-            if (name != null && entry.getValue().getServer(name) != null && entry.getValue().getServer(name).exists()) {
+            if (name != null && entry.getValue().getServer(name) != null && entry.getValue()
+                    .getServer(name).exists()) {
                 return (Type.Server<S>) entry.getKey();
             }
         }
@@ -72,7 +75,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     public <S extends DbServer> Type.Server<S> getServerType(String name) {
         for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
                 this.serverTables.entrySet()) {
-            if (entry.getValue().getServer(name) != null && entry.getValue().getServer(name).exists()) {
+            if (entry.getValue().getServer(name) != null && entry.getValue().getServer(name)
+                    .exists()) {
                 return (Type.Server<S>) entry.getKey();
             }
         }
@@ -141,7 +145,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     @NotNull
     @Override
-    public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type, Status.Server status) {
+    public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type,
+            Status.Server status) {
         ServerTable<Server> table = this.serverTables.get(type);
         if (table != null) {
             return table.getServers(status);
@@ -161,7 +166,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
 
     @NotNull
     @Override
-    public <Server extends DbTaskServer> Collection<Server> getServers(Type.Server<Server> type, String task) {
+    public <Server extends DbTaskServer> Collection<Server> getServers(Type.Server<Server> type,
+            String task) {
         ServerTable<Server> table = this.serverTables.get(type);
         if (table instanceof TaskTable) {
             return ((TaskTable<Server>) table).getServers(task);
@@ -215,7 +221,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addTempGame(String name, int port, String task, Status.Server status, Path folderPath) {
+    public void addTempGame(String name, int port, String task, Status.Server status,
+            Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.TEMP_GAME);
         if (table != null) {
             ((TmpGameTable) table).addServer(name, port, task, status, folderPath);
@@ -223,7 +230,8 @@ public class DatabaseServers extends DatabaseConnector implements de.timesnake.d
     }
 
     @Override
-    public void addBuild(String name, int port, String task, Status.Server status, Path folderPath) {
+    public void addBuild(String name, int port, String task, Status.Server status,
+            Path folderPath) {
         ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.BUILD);
         if (table != null) {
             ((BuildTable) table).addServer(name, port, task, status, folderPath);

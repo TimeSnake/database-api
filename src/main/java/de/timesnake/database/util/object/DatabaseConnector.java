@@ -4,7 +4,7 @@
 
 package de.timesnake.database.util.object;
 
-import de.timesnake.database.core.main.DatabaseManager;
+import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.Database;
 import de.timesnake.library.basic.util.Loggers;
@@ -40,12 +40,10 @@ public class DatabaseConnector {
         this.ds.setMinIdle(0);
         this.ds.setMaxIdle(maxIdleConnections);
         this.ds.setMaxOpenPreparedStatements(50);
+    }
 
-        try {
-            this.ds.start();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    public void connect() throws SQLException {
+        this.ds.start();
     }
 
     public String getUrl() {
@@ -60,30 +58,26 @@ public class DatabaseConnector {
         return password;
     }
 
-    public Connection getConnection() {
-        try {
-            return this.ds.getConnection();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
+    public Connection getConnection() throws SQLException {
+        return this.ds.getConnection();
     }
 
     public void createDatabase(String name) {
+        Connection connection = null;
         PreparedStatement ps = null;
-        Connection connection = this.getConnection();
-
-        if (connection == null) {
-            Loggers.CHANNEL.warning("Could not create connection to database '" + name + "'");
-            return;
-        }
 
         try {
+            connection = this.getConnection();
+            if (connection == null) {
+                Loggers.CHANNEL.warning("Could not create connection to database '" + name + "'");
+                return;
+            }
+
             ps = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS `" + name + "`;");
             ps.executeUpdate();
-            Database.LOGGER.info("[" + name + "] Database created");
+            Database.LOGGER.info("Created database '" + name + "'");
         } catch (SQLException e) {
-            e.printStackTrace();
+            DatabaseManager.getInstance().handleSQLException(e);
         } finally {
             Table.closeQuery(connection, ps, null);
         }
@@ -92,8 +86,8 @@ public class DatabaseConnector {
     public void close() {
         try {
             this.ds.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            DatabaseManager.getInstance().handleSQLException(e);
         }
     }
 
