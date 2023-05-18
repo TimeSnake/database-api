@@ -1,5 +1,11 @@
+group = project.group
+version = '2.1.1-SNAPSHOT'
+archivesBaseName = 'database-api'
+var projectId = 45
+
 repositories {
   mavenLocal()
+  mavenCentral()
   maven {
     url = uri 'https://repo.maven.apache.org/maven2/'
   }
@@ -17,10 +23,6 @@ dependencies {
 
   compileOnly project.adventure_api
 }
-
-group = project.group
-version = '2.1.1-SNAPSHOT'
-archivesBaseName = 'database-api'
 
 publishing {
   publications {
@@ -46,3 +48,15 @@ task buildFatJar(type: Jar) {
 
 jar.finalizedBy(buildFatJar)
 publishMavenJavaAllPublicationToMavenLocal.dependsOn(buildFatJar)
+
+publishing {
+  repositories {
+    maven {
+      url getDeployUrl(projectId)
+      credentials {
+        username = deploy_token_name
+        password = deploy_token_key
+      }
+    }
+  }
+}
