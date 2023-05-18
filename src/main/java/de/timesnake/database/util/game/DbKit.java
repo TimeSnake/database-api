@@ -5,30 +5,29 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.UnsupportedStringException;
+import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-
 public interface DbKit {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    Integer getId();
+  @NotNull
+  Integer getId();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    void setName(String name);
+  void setName(String name);
 
-    @NotNull
-    String getItemType();
+  @NotNull
+  String getItemType();
 
-    void setItemType(String itemType);
+  void setItemType(String itemType);
 
-    @Nullable
-    Collection<String> getDescription();
+  @Nullable
+  Collection<String> getDescription();
 
-    void setDescription(Collection<String> description) throws UnsupportedStringException;
+  void setDescription(Collection<String> description) throws UnsupportedStringException;
 }

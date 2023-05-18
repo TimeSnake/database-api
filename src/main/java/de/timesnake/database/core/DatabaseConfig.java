@@ -6,10 +6,10 @@ package de.timesnake.database.core;
 
 public interface DatabaseConfig {
 
-    String getString(String path);
+  String getString(String path);
 
-    String getDatabaseName(String name) throws DatabaseNotConfiguredException;
+  String getDatabaseName(String name) throws DatabaseNotConfiguredException;
 
-    String getDatabaseUrl(String name) throws DatabaseNotConfiguredException;
+  String getDatabaseUrl(String name) throws DatabaseNotConfiguredException;
 
 }

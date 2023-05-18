@@ -8,17 +8,17 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbHungerGamesItem {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    String getType();
+  @NotNull
+  String getType();
 
-    @NotNull
-    Integer getAmount();
+  @NotNull
+  Integer getAmount();
 
-    @NotNull
-    Float getChance();
+  @NotNull
+  Float getChance();
 
-    @NotNull
-    Integer getLevel();
+  @NotNull
+  Integer getLevel();
 }

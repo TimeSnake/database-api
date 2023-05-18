@@ -6,40 +6,39 @@ package de.timesnake.database.util.support;
 
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.library.basic.util.Status;
+import java.time.LocalDateTime;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.LocalDateTime;
-
 public interface DbTicket extends DbCached<DbTicket> {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    Integer getId();
+  @NotNull
+  Integer getId();
 
-    @NotNull
-    String getUuid();
+  @NotNull
+  String getUuid();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    @NotNull
-    String getMessage();
+  @NotNull
+  String getMessage();
 
-    void setMessage(String message);
+  void setMessage(String message);
 
-    @Nullable
-    String getAnswer();
+  @Nullable
+  String getAnswer();
 
-    void setAnswer(String answer);
+  void setAnswer(String answer);
 
-    @NotNull
-    Status.Ticket getStatus();
+  @NotNull
+  Status.Ticket getStatus();
 
-    void setStatus(Status.Ticket status);
+  void setStatus(Status.Ticket status);
 
-    @NotNull
-    LocalDateTime getDate();
+  @NotNull
+  LocalDateTime getDate();
 
 }

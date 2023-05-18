@@ -8,15 +8,15 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbDisplayGroup extends DbGroup {
 
-    @NotNull
-    @Override
-    DbDisplayGroup toDatabase();
+  @NotNull
+  @Override
+  DbDisplayGroup toDatabase();
 
-    boolean showAlways();
+  boolean showAlways();
 
-    void setShowAlways(boolean showAlways);
+  void setShowAlways(boolean showAlways);
 
-    @NotNull
-    @Override
-    DbDisplayGroup toLocal();
+  @NotNull
+  @Override
+  DbDisplayGroup toLocal();
 }

@@ -14,51 +14,51 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbLoungeMap extends DbCached<DbLoungeMap> {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    @NotNull
-    String getWorldName();
+  @NotNull
+  String getWorldName();
 
-    @NotNull
-    Float getX();
+  @NotNull
+  Float getX();
 
-    @NotNull
-    Float getY();
+  @NotNull
+  Float getY();
 
-    @NotNull
-    Float getZ();
+  @NotNull
+  Float getZ();
 
-    @NotNull
-    Float getYaw();
+  @NotNull
+  Float getYaw();
 
-    @NotNull
-    Float getPitch();
+  @NotNull
+  Float getPitch();
 
-    @NotNull
-    DbLocation getLocation();
+  @NotNull
+  DbLocation getLocation();
 
-    @NotCached
-    void addMapDisplay(Integer displayIndex, Integer x, Integer y, Integer z,
-            BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
-            Color firstColor, Color secondColor, Color thirdColor);
+  @NotCached
+  void addMapDisplay(Integer displayIndex, Integer x, Integer y, Integer z,
+      BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
+      Color firstColor, Color secondColor, Color thirdColor);
 
-    @NotCached
-    void removeMapDisplay(Integer displayIndex);
+  @NotCached
+  void removeMapDisplay(Integer displayIndex);
 
-    @NotCached
-    boolean containsMapDisplay(Integer displayIndex);
+  @NotCached
+  boolean containsMapDisplay(Integer displayIndex);
 
-    @NotNull
-    DbLoungeMapDisplay getMapDisplay(Integer displayIndex);
+  @NotNull
+  DbLoungeMapDisplay getMapDisplay(Integer displayIndex);
 
-    @NotCached
-    @NotNull
-    Collection<DbLoungeMapDisplay> getMapDisplays();
+  @NotCached
+  @NotNull
+  Collection<DbLoungeMapDisplay> getMapDisplays();
 
-    @NotCached
-    @NotNull
-    Collection<DbLoungeMapDisplay> getCachedMapDisplays();
+  @NotCached
+  @NotNull
+  Collection<DbLoungeMapDisplay> getCachedMapDisplays();
 }

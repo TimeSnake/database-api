@@ -5,39 +5,38 @@
 package de.timesnake.database.util.group;
 
 import de.timesnake.library.chat.ExTextColor;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
 
 public interface DatabaseGroups {
 
-    void addPermGroup(String name, int rank);
+  void addPermGroup(String name, int rank);
 
-    boolean containsPermGroup(String name);
+  boolean containsPermGroup(String name);
 
-    @NotNull
-    DbPermGroup getPermGroup(String name);
+  @NotNull
+  DbPermGroup getPermGroup(String name);
 
-    void removePermGroup(String name);
+  void removePermGroup(String name);
 
-    Collection<String> getPermGroupNames();
+  Collection<String> getPermGroupNames();
 
-    Collection<Integer> getPermGroupRanks();
+  Collection<Integer> getPermGroupRanks();
 
-    Collection<? extends DbPermGroup> getPermGroups();
+  Collection<? extends DbPermGroup> getPermGroups();
 
-    void addDisplayGroup(String name, int rank, String prefix, ExTextColor color);
+  void addDisplayGroup(String name, int rank, String prefix, ExTextColor color);
 
-    boolean containsDisplayGroup(String name);
+  boolean containsDisplayGroup(String name);
 
-    @NotNull
-    DbDisplayGroup getDisplayGroup(String name);
+  @NotNull
+  DbDisplayGroup getDisplayGroup(String name);
 
-    void removeDisplayGroup(String name);
+  void removeDisplayGroup(String name);
 
-    Collection<String> getDisplayGroupNames();
+  Collection<String> getDisplayGroupNames();
 
-    Collection<Integer> getDisplayGroupRanks();
+  Collection<Integer> getDisplayGroupRanks();
 
-    Collection<? extends DbDisplayGroup> getDisplayGroups();
+  Collection<? extends DbDisplayGroup> getDisplayGroups();
 }

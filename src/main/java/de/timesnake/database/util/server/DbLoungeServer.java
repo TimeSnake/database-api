@@ -10,10 +10,10 @@ import org.jetbrains.annotations.Nullable;
 
 public interface DbLoungeServer extends DbTaskServer {
 
-    @Nullable
-    DbTmpGameServer getTwinServer();
+  @Nullable
+  DbTmpGameServer getTwinServer();
 
-    @NotNull
-    @Override
-    Type.Server<DbLoungeServer> getType();
+  @NotNull
+  @Override
+  Type.Server<DbLoungeServer> getType();
 }

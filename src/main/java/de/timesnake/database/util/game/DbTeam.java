@@ -10,74 +10,74 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbTeam extends DbGroup {
 
-    @NotNull
-    Float getRatio();
+  @NotNull
+  Float getRatio();
 
-    @NotCached
-    void setRatio(float ratio);
+  @NotCached
+  void setRatio(float ratio);
 
-    @NotCached
-    void setColor(String colorName);
+  @NotCached
+  void setColor(String colorName);
 
-    @NotNull
-    String getColorName();
+  @NotNull
+  String getColorName();
 
-    boolean hasPrivateChat();
+  boolean hasPrivateChat();
 
-    @NotCached
-    void setPrivateChat(Boolean privateChat);
+  @NotCached
+  void setPrivateChat(Boolean privateChat);
 
-    Integer getMinSize();
+  Integer getMinSize();
 
-    @NotCached
-    void setMinSize(Integer size);
+  @NotCached
+  void setMinSize(Integer size);
 
-    @NotNull
-    @Override
-    DbTeam toLocal();
+  @NotNull
+  @Override
+  DbTeam toLocal();
 
-    @NotNull
-    @Override
-    DbTeam toDatabase();
+  @NotNull
+  @Override
+  DbTeam toDatabase();
 
-    default String parseColor(String colorName) {
-        switch (colorName.toUpperCase()) {
-            case "AQUA":
-                return "AQUA";
-            case "BLACK":
-                return "BLACK";
-            case "BLUE":
-                return "BLUE";
-            case "FUCHSIA":
-                return "FUCHSIA";
-            case "GRAY":
-                return "GRAY";
-            case "GREEN":
-                return "GREEN";
-            case "LIME":
-                return "LIME";
-            case "MAROON":
-                return "MAROON";
-            case "NAVY":
-                return "NAVY";
-            case "OLIVE":
-                return "OLIVE";
-            case "ORANGE":
-                return "ORANGE";
-            case "PURBLE":
-                return "PURPLE";
-            case "RED":
-                return "RED";
-            case "SILVER":
-                return "SILVER";
-            case "TEAL":
-                return "TEAL";
-            case "WHITE":
-                return "WHITE";
-            case "YELLOW":
-                return "YELLOW";
-            default:
-        }
+  default String parseColor(String colorName) {
+    switch (colorName.toUpperCase()) {
+      case "AQUA":
+        return "AQUA";
+      case "BLACK":
+        return "BLACK";
+      case "BLUE":
+        return "BLUE";
+      case "FUCHSIA":
+        return "FUCHSIA";
+      case "GRAY":
+        return "GRAY";
+      case "GREEN":
+        return "GREEN";
+      case "LIME":
+        return "LIME";
+      case "MAROON":
+        return "MAROON";
+      case "NAVY":
+        return "NAVY";
+      case "OLIVE":
+        return "OLIVE";
+      case "ORANGE":
+        return "ORANGE";
+      case "PURBLE":
+        return "PURPLE";
+      case "RED":
+        return "RED";
+      case "SILVER":
+        return "SILVER";
+      case "TEAL":
+        return "TEAL";
+      case "WHITE":
         return "WHITE";
+      case "YELLOW":
+        return "YELLOW";
+      default:
     }
+    return "WHITE";
+  }
 }

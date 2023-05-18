@@ -10,21 +10,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class DatabaseTeams extends DatabaseConnector {
 
-    public DatabaseTeams(String name, String url, String options, String user, String password) {
-        super(name, url, options, user, password);
-    }
+  public DatabaseTeams(String name, String url, String options, String user, String password) {
+    super(name, url, options, user, password);
+  }
 
-    public void addGame(DbGame game) {
-        new TeamsTable(this, game.getInfo().getName()).create();
-    }
+  public void addGame(DbGame game) {
+    new TeamsTable(this, game.getInfo().getName()).create();
+  }
 
-    @NotNull
-    public TeamsTable getGameTeams(String gameName) {
-        return new TeamsTable(this, gameName);
-    }
+  @NotNull
+  public TeamsTable getGameTeams(String gameName) {
+    return new TeamsTable(this, gameName);
+  }
 
-    public void deleteGameTeams(DbGame game) {
-        TeamsTable teamsTable = new TeamsTable(this, game.getInfo().getName());
-        teamsTable.delete();
-    }
+  public void deleteGameTeams(DbGame game) {
+    TeamsTable teamsTable = new TeamsTable(this, game.getInfo().getName());
+    teamsTable.delete();
+  }
 }

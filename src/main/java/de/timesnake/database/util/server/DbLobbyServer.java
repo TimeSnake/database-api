@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbLobbyServer extends DbServer {
 
-    @NotNull
-    @Override
-    Type.Server<DbLobbyServer> getType();
+  @NotNull
+  @Override
+  Type.Server<DbLobbyServer> getType();
 }

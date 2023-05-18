@@ -6,68 +6,67 @@ package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.Type;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public interface DbTmpGameInfo extends DbGameInfo {
 
-    @NotNull
-    Integer getAutoStartPlayerNumber();
+  @NotNull
+  Integer getAutoStartPlayerNumber();
 
-    @NotCached
-    void setAutoStartPlayerNumber(Integer number);
+  @NotCached
+  void setAutoStartPlayerNumber(Integer number);
 
-    @NotNull
-    Integer getMinPlayerNumber();
+  @NotNull
+  Integer getMinPlayerNumber();
 
-    @NotCached
-    void setMinPlayerNumber(Integer number);
+  @NotCached
+  void setMinPlayerNumber(Integer number);
 
-    boolean showSelectedKits();
+  boolean showSelectedKits();
 
-    @NotCached
-    void setShowSelectedKits(boolean showSelectedKits);
+  @NotCached
+  void setShowSelectedKits(boolean showSelectedKits);
 
-    @Nullable
-    List<Integer> getTeamSizes();
+  @Nullable
+  List<Integer> getTeamSizes();
 
-    @NotCached
-    void setTeamSizes(List<Integer> sizes);
+  @NotCached
+  void setTeamSizes(List<Integer> sizes);
 
-    @NotNull
-    Type.Availability getTeamMergeAvailability();
+  @NotNull
+  Type.Availability getTeamMergeAvailability();
 
-    @NotCached
-    void setTeamMergeAvailability(Type.Availability availability);
+  @NotCached
+  void setTeamMergeAvailability(Type.Availability availability);
 
-    boolean isEqualTeamSizeRequired();
+  boolean isEqualTeamSizeRequired();
 
-    @NotCached
-    void requireEqualTeamSize(boolean require);
+  @NotCached
+  void requireEqualTeamSize(boolean require);
 
-    boolean hideTeams();
+  boolean hideTeams();
 
-    @NotCached
-    void setHideTeams(boolean hide);
+  @NotCached
+  void setHideTeams(boolean hide);
 
-    @NotNull
-    Type.Discord getDiscordType();
+  @NotNull
+  Type.Discord getDiscordType();
 
-    void setDiscordType(Type.Discord type);
+  void setDiscordType(Type.Discord type);
 
-    @Nullable
-    List<String> getDescription();
+  @Nullable
+  List<String> getDescription();
 
-    @NotCached
-    void setDescription(List<String> description);
+  @NotCached
+  void setDescription(List<String> description);
 
-    @NotNull
-    @Override
-    DbTmpGameInfo toDatabase();
+  @NotNull
+  @Override
+  DbTmpGameInfo toDatabase();
 
-    @NotNull
-    @Override
-    DbTmpGameInfo toLocal();
+  @NotNull
+  @Override
+  DbTmpGameInfo toLocal();
 }

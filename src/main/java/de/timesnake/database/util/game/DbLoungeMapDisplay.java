@@ -6,67 +6,66 @@ package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DbCached;
+import java.awt.Color;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 
 public interface DbLoungeMapDisplay extends DbCached<DbLoungeMapDisplay> {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    String getMapName();
+  @NotNull
+  String getMapName();
 
-    @NotNull
-    Integer getIndex();
+  @NotNull
+  Integer getIndex();
 
-    @NotNull
-    Integer getX();
+  @NotNull
+  Integer getX();
 
-    void setX(Integer x);
+  void setX(Integer x);
 
-    @NotNull
-    Integer getY();
+  @NotNull
+  Integer getY();
 
-    void setY(Integer y);
+  void setY(Integer y);
 
-    @NotNull
-    Integer getZ();
+  @NotNull
+  Integer getZ();
 
-    void setZ(Integer z);
+  void setZ(Integer z);
 
-    @NotNull
-    BlockSide getFacing();
+  @NotNull
+  BlockSide getFacing();
 
-    void setFacing(BlockSide facing);
+  void setFacing(BlockSide facing);
 
-    @NotNull
-    BlockSide getOrientation();
+  @NotNull
+  BlockSide getOrientation();
 
-    void setOrientation(BlockSide orientation);
+  void setOrientation(BlockSide orientation);
 
-    @NotNull
-    Color getTitleColor();
+  @NotNull
+  Color getTitleColor();
 
-    void setTitleColor(Color color);
+  void setTitleColor(Color color);
 
-    @NotNull
-    Color getStatNameColor();
+  @NotNull
+  Color getStatNameColor();
 
-    void setStatNameColor(Color color);
+  void setStatNameColor(Color color);
 
-    @NotNull
-    Color getStatFirstColor();
+  @NotNull
+  Color getStatFirstColor();
 
-    void setStatFirstColor(Color color);
+  void setStatFirstColor(Color color);
 
-    @NotNull
-    Color getStatSecondColor();
+  @NotNull
+  Color getStatSecondColor();
 
-    void setStatSecondColor(Color color);
+  void setStatSecondColor(Color color);
 
-    @NotNull
-    Color getStatThirdColor();
+  @NotNull
+  Color getStatThirdColor();
 
-    void setStatThirdColor(Color color);
+  void setStatThirdColor(Color color);
 }

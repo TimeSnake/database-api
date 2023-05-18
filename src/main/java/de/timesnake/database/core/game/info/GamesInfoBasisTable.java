@@ -13,40 +13,40 @@ import org.jetbrains.annotations.NotNull;
 
 public class GamesInfoBasisTable extends TableDDL {
 
-    protected GamesInfoBasisTable(DatabaseConnector databaseConnector, String tableName) {
-        super(databaseConnector, tableName, Column.Game.NAME);
-        super.addColumn(Column.Game.DISPLAY_NAME);
-        super.addColumn(Column.Game.TEXT_COLOR);
-        super.addColumn(Column.Game.HEAD_LINE);
-        super.addColumn(Column.Game.ITEM);
-        super.addColumn(Column.Game.SLOT);
-        super.addColumn(Column.Game.ENABLED);
-    }
+  protected GamesInfoBasisTable(DatabaseConnector databaseConnector, String tableName) {
+    super(databaseConnector, tableName, Column.Game.NAME);
+    super.addColumn(Column.Game.DISPLAY_NAME);
+    super.addColumn(Column.Game.TEXT_COLOR);
+    super.addColumn(Column.Game.HEAD_LINE);
+    super.addColumn(Column.Game.ITEM);
+    super.addColumn(Column.Game.SLOT);
+    super.addColumn(Column.Game.ENABLED);
+  }
 
-    @Override
-    public void create() {
-        super.create();
-    }
+  @Override
+  public void create() {
+    super.create();
+  }
 
-    @Override
-    public void backup() {
-        super.backup();
-    }
+  @Override
+  public void backup() {
+    super.backup();
+  }
 
-    @NotNull
-    public DbGameInfoBasis getGame(String name) {
-        return new DbGameInfoBasis(this.databaseConnector, this.tableName, name);
-    }
+  @NotNull
+  public DbGameInfoBasis getGame(String name) {
+    return new DbGameInfoBasis(this.databaseConnector, this.tableName, name);
+  }
 
-    public boolean containsGame(String name) {
-        return super.getFirst(Column.Game.NAME, new Entry<>(name, Column.Game.NAME)) != null;
-    }
+  public boolean containsGame(String name) {
+    return super.getFirst(Column.Game.NAME, new Entry<>(name, Column.Game.NAME)) != null;
+  }
 
-    protected void removeGame(String name) {
-        super.deleteEntry(new Entry<>(name, Column.Game.NAME));
-    }
+  protected void removeGame(String name) {
+    super.deleteEntry(new Entry<>(name, Column.Game.NAME));
+  }
 
-    public Collection<String> getGamesName() {
-        return super.get(Column.Game.NAME);
-    }
+  public Collection<String> getGamesName() {
+    return super.get(Column.Game.NAME);
+  }
 }

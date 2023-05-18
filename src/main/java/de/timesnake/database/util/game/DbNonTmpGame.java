@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbNonTmpGame extends DbGame, DbNonTmpGameInfo, DbCached<DbNonTmpGame> {
 
-    @NotNull
-    @Override
-    DbNonTmpGameInfo getInfo();
+  @NotNull
+  @Override
+  DbNonTmpGameInfo getInfo();
 }

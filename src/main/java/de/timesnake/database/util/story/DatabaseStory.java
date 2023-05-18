@@ -5,12 +5,11 @@
 package de.timesnake.database.util.story;
 
 import de.timesnake.database.core.story.DbStoryUser;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 public interface DatabaseStory {
 
-    @NotNull
-    DbStoryUser getUser(UUID uuid);
+  @NotNull
+  DbStoryUser getUser(UUID uuid);
 }

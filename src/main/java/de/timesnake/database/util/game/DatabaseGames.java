@@ -5,18 +5,17 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.core.game.DbGame;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
+import org.jetbrains.annotations.Nullable;
 
 public interface DatabaseGames {
 
-    @Nullable
-    DbGame getGame(String gameName);
+  @Nullable
+  DbGame getGame(String gameName);
 
-    boolean containsGame(String gameName);
+  boolean containsGame(String gameName);
 
-    Collection<String> getGamesName();
+  Collection<String> getGamesName();
 
-    Collection<DbGame> getGames();
+  Collection<DbGame> getGames();
 }

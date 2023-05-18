@@ -11,66 +11,66 @@ import org.jetbrains.annotations.Nullable;
 
 public interface DbGameInfo extends DbGameInfoBasis {
 
-    @Nullable
-    Integer getMaxPlayers();
+  @Nullable
+  Integer getMaxPlayers();
 
-    @NotCached
-    void setMaxPlayers(int maxPlayers);
+  @NotCached
+  void setMaxPlayers(int maxPlayers);
 
-    @NotNull
-    Type.Availability getMapAvailability();
+  @NotNull
+  Type.Availability getMapAvailability();
 
-    @NotCached
-    void setMapsAvailability(Type.Availability maps);
+  @NotCached
+  void setMapsAvailability(Type.Availability maps);
 
-    @NotNull
-    Type.Availability getKitAvailability();
+  @NotNull
+  Type.Availability getKitAvailability();
 
-    @NotCached
-    void setKitsAvailability(Type.Availability kits);
+  @NotCached
+  void setKitsAvailability(Type.Availability kits);
 
-    boolean hasStatistics();
+  boolean hasStatistics();
 
-    @NotCached
-    void setStatistics(boolean statistics);
+  @NotCached
+  void setStatistics(boolean statistics);
 
-    @Nullable
-    String getTexturePackLink();
+  @Nullable
+  String getTexturePackLink();
 
-    @NotCached
-    void setTexturePackLink(String texturePack);
+  @NotCached
+  void setTexturePackLink(String texturePack);
 
-    Boolean hasTexturePack();
+  Boolean hasTexturePack();
 
-    @Nullable
-    Integer getPlayerTrackingRange();
+  @Nullable
+  Integer getPlayerTrackingRange();
 
-    @NotCached
-    void setPlayerTrackingRange(Integer playerTrackingRange);
+  @NotCached
+  void setPlayerTrackingRange(Integer playerTrackingRange);
 
-    @Nullable
-    Integer getMaxHealth();
+  @Nullable
+  Integer getMaxHealth();
 
-    @NotCached
-    void setMaxHealth(Integer maxHealth);
+  @NotCached
+  void setMaxHealth(Integer maxHealth);
 
-    @Nullable
-    Integer getViewDistance();
+  @Nullable
+  Integer getViewDistance();
 
-    @NotCached
-    void setViewDistance(Integer viewDistance);
+  @NotCached
+  void setViewDistance(Integer viewDistance);
 
-    @NotNull
-    Type.Availability getOldPvPAvailability();
+  @NotNull
+  Type.Availability getOldPvPAvailability();
 
-    @NotCached
-    void setOldPvPAvailability(Type.Availability availability);
+  @NotCached
+  void setOldPvPAvailability(Type.Availability availability);
 
-    @NotNull
-    @Override
-    DbGameInfo toDatabase();
+  @NotNull
+  @Override
+  DbGameInfo toDatabase();
 
-    @NotNull
-    @Override
-    DbGameInfo toLocal();
+  @NotNull
+  @Override
+  DbGameInfo toLocal();
 }

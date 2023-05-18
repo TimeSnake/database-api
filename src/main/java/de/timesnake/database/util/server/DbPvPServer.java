@@ -6,7 +6,7 @@ package de.timesnake.database.util.server;
 
 public interface DbPvPServer extends DbTaskServer {
 
-    boolean isOldPvP();
+  boolean isOldPvP();
 
-    void setPvP(boolean oldPvP);
+  void setPvP(boolean oldPvP);
 }

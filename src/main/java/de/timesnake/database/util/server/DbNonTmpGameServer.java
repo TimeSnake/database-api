@@ -4,21 +4,20 @@
 
 package de.timesnake.database.util.server;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.UUID;
+import org.jetbrains.annotations.Nullable;
 
 public interface DbNonTmpGameServer extends DbTaskServer {
 
-    @Nullable
-    String getGameInfo();
+  @Nullable
+  String getGameInfo();
 
-    void setGameInfo(String info);
+  void setGameInfo(String info);
 
-    @Nullable
-    UUID getOwnerUuid();
+  @Nullable
+  UUID getOwnerUuid();
 
-    void setOwnerUuid(UUID uuid);
+  void setOwnerUuid(UUID uuid);
 
-    boolean hasOwner();
+  boolean hasOwner();
 }

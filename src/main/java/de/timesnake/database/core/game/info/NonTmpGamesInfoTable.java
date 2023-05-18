@@ -10,26 +10,26 @@ import org.jetbrains.annotations.NotNull;
 
 public class NonTmpGamesInfoTable extends GamesInfoTable {
 
-    public NonTmpGamesInfoTable(DatabaseConnector databaseConnector, String nameTable) {
-        super(databaseConnector, nameTable);
-        super.addColumn(Column.Game.CREATION_REQUESTABLE);
-        super.addColumn(Column.Game.OWNABLE);
-        super.addColumn(Column.Game.ALLOW_NETHER_END);
-    }
+  public NonTmpGamesInfoTable(DatabaseConnector databaseConnector, String nameTable) {
+    super(databaseConnector, nameTable);
+    super.addColumn(Column.Game.CREATION_REQUESTABLE);
+    super.addColumn(Column.Game.OWNABLE);
+    super.addColumn(Column.Game.ALLOW_NETHER_END);
+  }
 
-    @Override
-    public void create() {
-        super.create();
-    }
+  @Override
+  public void create() {
+    super.create();
+  }
 
-    @Override
-    public void backup() {
-        super.backup();
-    }
+  @Override
+  public void backup() {
+    super.backup();
+  }
 
-    @NotNull
-    @Override
-    public DbNonTmpGameInfo getGame(String name) {
-        return new DbNonTmpGameInfo(this.databaseConnector, this.tableName, name);
-    }
+  @NotNull
+  @Override
+  public DbNonTmpGameInfo getGame(String name) {
+    return new DbNonTmpGameInfo(this.databaseConnector, this.tableName, name);
+  }
 }

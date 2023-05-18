@@ -31,295 +31,295 @@ import org.jetbrains.annotations.Nullable;
 
 public class DbGame implements de.timesnake.database.util.game.DbGame {
 
-    protected final DatabaseConnector databaseConnector;
-    protected final String gameName;
-    protected final DbGameInfo info;
-    protected KitsTable kitsTable;
-    protected MapsTable mapsTable;
-    protected StatisticsTable statisticsTable;
+  protected final DatabaseConnector databaseConnector;
+  protected final String gameName;
+  protected final DbGameInfo info;
+  protected KitsTable kitsTable;
+  protected MapsTable mapsTable;
+  protected StatisticsTable statisticsTable;
 
-    protected DbGame(DatabaseConnector databaseConnector, String gameName, DbGameInfo info) {
-        this.databaseConnector = databaseConnector;
-        this.gameName = gameName;
-        this.info = info;
-        this.initTables();
+  protected DbGame(DatabaseConnector databaseConnector, String gameName, DbGameInfo info) {
+    this.databaseConnector = databaseConnector;
+    this.gameName = gameName;
+    this.info = info;
+    this.initTables();
+  }
+
+  protected DbGame(DbGame game) {
+    this.databaseConnector = game.databaseConnector;
+    this.gameName = game.gameName;
+    this.info = game.info;
+    this.kitsTable = game.kitsTable;
+    this.mapsTable = game.mapsTable;
+    this.statisticsTable = game.statisticsTable;
+  }
+
+  @NotNull
+  @Override
+  public DbGameInfo getInfo() {
+    return this.info;
+  }
+
+  private void initTables() {
+    if (this.info.hasStatistics()) {
+      this.statisticsTable = DatabaseManager.getInstance().getGameStatistics()
+          .getGameUserStatistics(gameName);
     }
 
-    protected DbGame(DbGame game) {
-        this.databaseConnector = game.databaseConnector;
-        this.gameName = game.gameName;
-        this.info = game.info;
-        this.kitsTable = game.kitsTable;
-        this.mapsTable = game.mapsTable;
-        this.statisticsTable = game.statisticsTable;
+    Type.Availability kitsAvailability = this.info.getKitAvailability();
+    if (kitsAvailability.equals(Type.Availability.ALLOWED)
+        || kitsAvailability.equals(Type.Availability.REQUIRED)) {
+      this.kitsTable = DatabaseManager.getInstance().getGameKits().getGameKits(gameName);
     }
 
-    @NotNull
-    @Override
-    public DbGameInfo getInfo() {
-        return this.info;
+    Type.Availability mapsAvailability = this.info.getMapAvailability();
+    if (mapsAvailability.equals(Type.Availability.ALLOWED)
+        || mapsAvailability.equals(Type.Availability.REQUIRED)) {
+      this.mapsTable = new de.timesnake.database.core.game.map.MapsTable(gameName);
+    }
+  }
+
+  public void createTables() {
+    if (this.info.hasStatistics()) {
+      this.statisticsTable.create();
     }
 
-    private void initTables() {
-        if (this.info.hasStatistics()) {
-            this.statisticsTable = DatabaseManager.getInstance().getGameStatistics()
-                    .getGameUserStatistics(gameName);
-        }
-
-        Type.Availability kitsAvailability = this.info.getKitAvailability();
-        if (kitsAvailability.equals(Type.Availability.ALLOWED)
-                || kitsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.kitsTable = DatabaseManager.getInstance().getGameKits().getGameKits(gameName);
-        }
-
-        Type.Availability mapsAvailability = this.info.getMapAvailability();
-        if (mapsAvailability.equals(Type.Availability.ALLOWED)
-                || mapsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.mapsTable = new de.timesnake.database.core.game.map.MapsTable(gameName);
-        }
+    Type.Availability kitsAvailability = this.info.getKitAvailability();
+    if (kitsAvailability.equals(Type.Availability.ALLOWED)
+        || kitsAvailability.equals(Type.Availability.REQUIRED)) {
+      this.kitsTable.create();
     }
 
-    public void createTables() {
-        if (this.info.hasStatistics()) {
-            this.statisticsTable.create();
-        }
+    Type.Availability mapsAvailability = this.info.getMapAvailability();
+    if (mapsAvailability.equals(Type.Availability.ALLOWED)
+        || mapsAvailability.equals(Type.Availability.REQUIRED)) {
+      this.mapsTable.create();
+    }
+  }
 
-        Type.Availability kitsAvailability = this.info.getKitAvailability();
-        if (kitsAvailability.equals(Type.Availability.ALLOWED)
-                || kitsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.kitsTable.create();
-        }
-
-        Type.Availability mapsAvailability = this.info.getMapAvailability();
-        if (mapsAvailability.equals(Type.Availability.ALLOWED)
-                || mapsAvailability.equals(Type.Availability.REQUIRED)) {
-            this.mapsTable.create();
-        }
+  public void backup() {
+    if (this.statisticsTable != null) {
+      this.statisticsTable.backup();
     }
 
-    public void backup() {
-        if (this.statisticsTable != null) {
-            this.statisticsTable.backup();
-        }
-
-        if (this.kitsTable != null) {
-            this.kitsTable.backup();
-        }
-
-        if (this.mapsTable != null) {
-            this.mapsTable.backup();
-        }
+    if (this.kitsTable != null) {
+      this.kitsTable.backup();
     }
 
-    public void delete() {
-        if (this.statisticsTable != null) {
-            this.statisticsTable.delete();
-        }
+    if (this.mapsTable != null) {
+      this.mapsTable.backup();
+    }
+  }
 
-        if (this.kitsTable != null) {
-            this.kitsTable.delete();
-        }
-
-        if (this.mapsTable != null) {
-            this.mapsTable.delete();
-        }
+  public void delete() {
+    if (this.statisticsTable != null) {
+      this.statisticsTable.delete();
     }
 
-    @Override
-    public boolean exists() {
-        return this.getInfo().exists();
+    if (this.kitsTable != null) {
+      this.kitsTable.delete();
     }
 
-    @NotNull
-    @Override
-    public List<Integer> getKitIds() {
-        if (this.kitsTable != null) {
-            return this.kitsTable.getKitsId();
-        }
-        return new ArrayList<>();
+    if (this.mapsTable != null) {
+      this.mapsTable.delete();
     }
+  }
 
-    @Nullable
-    @Override
-    public DbKit getKit(int id) {
-        if (this.kitsTable != null) {
-            return this.kitsTable.getKit(id);
-        }
-        return null;
+  @Override
+  public boolean exists() {
+    return this.getInfo().exists();
+  }
+
+  @NotNull
+  @Override
+  public List<Integer> getKitIds() {
+    if (this.kitsTable != null) {
+      return this.kitsTable.getKitsId();
     }
+    return new ArrayList<>();
+  }
 
-    @Nullable
-    @Override
-    public DbKit getKit(String name) {
-        if (this.kitsTable != null) {
-            return this.kitsTable.getKit(name);
-        }
-        return null;
+  @Nullable
+  @Override
+  public DbKit getKit(int id) {
+    if (this.kitsTable != null) {
+      return this.kitsTable.getKit(id);
     }
+    return null;
+  }
 
-    @Override
-    public void removeKit(Integer id) {
-        if (this.kitsTable != null) {
-            this.kitsTable.removeKit(id);
-        }
+  @Nullable
+  @Override
+  public DbKit getKit(String name) {
+    if (this.kitsTable != null) {
+      return this.kitsTable.getKit(name);
     }
+    return null;
+  }
 
-    @Override
-    public void removeKitSynchronized(Integer id) {
-        if (this.kitsTable != null) {
-            this.kitsTable.removeKitSynchronized(id);
-        }
+  @Override
+  public void removeKit(Integer id) {
+    if (this.kitsTable != null) {
+      this.kitsTable.removeKit(id);
     }
+  }
 
-    @Override
-    public void addKit(Integer id, String name, String itemType, Collection<String> description)
-            throws UnsupportedStringException {
-        if (this.kitsTable != null) {
-            this.kitsTable.addKit(id, name, itemType, description);
-        }
+  @Override
+  public void removeKitSynchronized(Integer id) {
+    if (this.kitsTable != null) {
+      this.kitsTable.removeKitSynchronized(id);
     }
+  }
 
-    @Override
-    public void addKit(String name, String itemType, Collection<String> description)
-            throws UnsupportedStringException {
-        if (this.kitsTable != null) {
-            this.kitsTable.addKit(name, itemType, description);
-        }
+  @Override
+  public void addKit(Integer id, String name, String itemType, Collection<String> description)
+      throws UnsupportedStringException {
+    if (this.kitsTable != null) {
+      this.kitsTable.addKit(id, name, itemType, description);
     }
+  }
 
-    @NotNull
-    @Override
-    public Collection<DbKit> getKits() {
-        Collection<DbKit> kits = new ArrayList<>();
-        for (Integer id : this.getKitIds()) {
-            DbKit kit = this.getKit(id);
-            if (kit != null && kit.exists()) {
-                kits.add(kit);
-            }
-        }
-        return kits;
+  @Override
+  public void addKit(String name, String itemType, Collection<String> description)
+      throws UnsupportedStringException {
+    if (this.kitsTable != null) {
+      this.kitsTable.addKit(name, itemType, description);
     }
+  }
 
-    @Override
-    public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
-            String itemName, List<String> description, List<String> info, List<String> authors) {
-        if (this.mapsTable != null) {
-            this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description,
-                    info, authors);
-        }
+  @NotNull
+  @Override
+  public Collection<DbKit> getKits() {
+    Collection<DbKit> kits = new ArrayList<>();
+    for (Integer id : this.getKitIds()) {
+      DbKit kit = this.getKit(id);
+      if (kit != null && kit.exists()) {
+        kits.add(kit);
+      }
     }
+    return kits;
+  }
 
-    @Override
-    public void removeMap(String name) {
-        if (this.mapsTable != null) {
-            this.mapsTable.removeMap(name);
-        }
+  @Override
+  public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
+      String itemName, List<String> description, List<String> info, List<String> authors) {
+    if (this.mapsTable != null) {
+      this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description,
+          info, authors);
     }
+  }
 
-    @NotNull
-    @Override
-    public DbMap getMap(String mapName) {
-        if (this.mapsTable != null) {
-            return this.mapsTable.getMap(mapName);
-        }
-        return null;
+  @Override
+  public void removeMap(String name) {
+    if (this.mapsTable != null) {
+      this.mapsTable.removeMap(name);
     }
+  }
 
-
-    @NotNull
-    public List<DbMap> getMaps(Integer players) {
-        if (this.mapsTable != null) {
-            return this.mapsTable.getMaps(players);
-        }
-        return new ArrayList<>();
+  @NotNull
+  @Override
+  public DbMap getMap(String mapName) {
+    if (this.mapsTable != null) {
+      return this.mapsTable.getMap(mapName);
     }
+    return null;
+  }
 
 
-    @NotNull
-    @Override
-    public List<DbMap> getMaps() {
-        if (this.mapsTable != null) {
-            return this.mapsTable.getMaps();
-        }
-        return new ArrayList<>();
+  @NotNull
+  public List<DbMap> getMaps(Integer players) {
+    if (this.mapsTable != null) {
+      return this.mapsTable.getMaps(players);
     }
+    return new ArrayList<>();
+  }
 
-    @Override
-    public boolean containsMap(String mapName) {
-        if (this.mapsTable != null) {
-            return this.mapsTable.containsMap(mapName);
-        }
-        return false;
-    }
 
-    @NotNull
-    @Override
-    public Set<StatType<?>> getStats() {
-        if (this.statisticsTable != null) {
-            return this.statisticsTable.getStats();
-        }
-        return new HashSet<>();
+  @NotNull
+  @Override
+  public List<DbMap> getMaps() {
+    if (this.mapsTable != null) {
+      return this.mapsTable.getMaps();
     }
+    return new ArrayList<>();
+  }
 
-    @Nullable
-    @Override
-    public StatType<?> getStat(String name) {
-        if (this.statisticsTable != null) {
-            return this.statisticsTable.getStat(name);
-        }
-        return null;
+  @Override
+  public boolean containsMap(String mapName) {
+    if (this.mapsTable != null) {
+      return this.mapsTable.containsMap(mapName);
     }
+    return false;
+  }
 
-    @Override
-    public void addStat(StatType<?> stat) {
-        if (this.statisticsTable != null) {
-            this.statisticsTable.addStat(stat);
-        }
+  @NotNull
+  @Override
+  public Set<StatType<?>> getStats() {
+    if (this.statisticsTable != null) {
+      return this.statisticsTable.getStats();
     }
+    return new HashSet<>();
+  }
 
-    @Override
-    public void removeStat(StatType<?> stat) {
-        if (this.statisticsTable != null) {
-            this.statisticsTable.removeStat(stat);
-        }
+  @Nullable
+  @Override
+  public StatType<?> getStat(String name) {
+    if (this.statisticsTable != null) {
+      return this.statisticsTable.getStat(name);
     }
+    return null;
+  }
 
-    @Nullable
-    @Override
-    public GameUserStatistic getUserStatistic(UUID uuid) {
-        if (this.statisticsTable != null) {
-            return this.statisticsTable.getUserStatistic(uuid);
-        }
-        return null;
+  @Override
+  public void addStat(StatType<?> stat) {
+    if (this.statisticsTable != null) {
+      this.statisticsTable.addStat(stat);
     }
+  }
 
-    @NotNull
-    @Override
-    public List<GameUserStatistic> getUserStatistics() {
-        if (this.statisticsTable != null) {
-            return this.statisticsTable.getUserStatistics();
-        }
-        return new ArrayList<>();
+  @Override
+  public void removeStat(StatType<?> stat) {
+    if (this.statisticsTable != null) {
+      this.statisticsTable.removeStat(stat);
     }
+  }
 
-    @NotNull
-    @Override
-    public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
-        if (this.statisticsTable != null) {
-            return this.statisticsTable.getStatOfUsers(period, type);
-        }
-        return new HashMap<>();
+  @Nullable
+  @Override
+  public GameUserStatistic getUserStatistic(UUID uuid) {
+    if (this.statisticsTable != null) {
+      return this.statisticsTable.getUserStatistic(uuid);
     }
+    return null;
+  }
 
-    @NotNull
-    @Override
-    public de.timesnake.database.util.game.DbGame toDatabase() {
-        return this;
+  @NotNull
+  @Override
+  public List<GameUserStatistic> getUserStatistics() {
+    if (this.statisticsTable != null) {
+      return this.statisticsTable.getUserStatistics();
     }
+    return new ArrayList<>();
+  }
 
-    @NotNull
-    @Override
-    public de.timesnake.database.util.game.DbGame toLocal() {
-        return new DbCachedGame(this, new DbCachedGameInfo(this.getInfo()));
+  @NotNull
+  @Override
+  public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
+    if (this.statisticsTable != null) {
+      return this.statisticsTable.getStatOfUsers(period, type);
     }
+    return new HashMap<>();
+  }
+
+  @NotNull
+  @Override
+  public de.timesnake.database.util.game.DbGame toDatabase() {
+    return this;
+  }
+
+  @NotNull
+  @Override
+  public de.timesnake.database.util.game.DbGame toLocal() {
+    return new DbCachedGame(this, new DbCachedGameInfo(this.getInfo()));
+  }
 }

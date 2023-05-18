@@ -11,33 +11,33 @@ import org.jetbrains.annotations.Nullable;
 
 public interface DbGroup extends DbGroupBasis {
 
-    boolean exists();
+  boolean exists();
 
-    @NotNull
-    String getName();
+  @NotNull
+  String getName();
 
-    @NotCached
-    void setName(String name);
+  @NotCached
+  void setName(String name);
 
-    @NotNull
-    Integer getRank();
+  @NotNull
+  Integer getRank();
 
-    @Nullable
-    String getPrefix();
+  @Nullable
+  String getPrefix();
 
-    @NotCached
-    void setPrefix(String prefix);
+  @NotCached
+  void setPrefix(String prefix);
 
-    @Deprecated
-    @Nullable
-    String getChatColorName();
+  @Deprecated
+  @Nullable
+  String getChatColorName();
 
-    @NotCached
-    @Deprecated
-    void setChatColorName(String chatColorName);
+  @NotCached
+  @Deprecated
+  void setChatColorName(String chatColorName);
 
-    @Nullable
-    ExTextColor getChatColor();
+  @Nullable
+  ExTextColor getChatColor();
 
-    void setChatColor(ExTextColor color);
+  void setChatColor(ExTextColor color);
 }
