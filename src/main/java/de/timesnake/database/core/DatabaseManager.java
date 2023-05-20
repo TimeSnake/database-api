@@ -87,6 +87,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     String user = config.getString("database.user");
     String password = config.getString("database.password");
     String options = config.getString("database.options");
+    String url = config.getString("database.url");
 
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
@@ -96,7 +97,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
     try {
       DatabaseConnector connection = new DatabaseConnector("mysql",
-          config.getString("database.url"),
+          url,
           options, user, password);
       connection.connect();
 
@@ -116,93 +117,80 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       connection.createDatabase(config.getDatabaseName(GAME_STATISTICS_NAME));
       connection.createDatabase(config.getDatabaseName(NETWORK_NAME));
 
-      servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME),
-          config.getDatabaseUrl(SERVERS_NAME),
+      servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), url,
           options, user, password, "lobbys", "non_tmp_games", "lounges",
           "tmp_games", "builds", "build_worlds");
       servers.connect();
       this.databasesByName.put(SERVERS_NAME, servers);
 
-      users = new DatabaseUsers(config.getDatabaseName(USERS_NAME),
-          config.getDatabaseUrl(USERS_NAME), options, user, password,
+      users = new DatabaseUsers(config.getDatabaseName(USERS_NAME), url, options, user, password,
           "info", "punishments", "mails", "display_groups");
       users.connect();
       this.databasesByName.put(USERS_NAME, users);
 
-      groups = new DatabaseGroups(config.getDatabaseName(GROUPS_NAME),
-          config.getDatabaseUrl(GROUPS_NAME),
+      groups = new DatabaseGroups(config.getDatabaseName(GROUPS_NAME), url,
           options, user, password,
           "perm_groups", "display_groups");
       groups.connect();
       this.databasesByName.put(GROUPS_NAME, groups);
 
-      permissions = new DatabasePermissions(config.getDatabaseName(PERMISSIONS_NAME),
-          config.getDatabaseUrl(PERMISSIONS_NAME),
+      permissions = new DatabasePermissions(config.getDatabaseName(PERMISSIONS_NAME), url,
           options, user, password, "permissions");
       permissions.connect();
       this.databasesByName.put(PERMISSIONS_NAME, permissions);
 
-      games = new DatabaseGames(config.getDatabaseName(GAMES_NAME),
-          config.getDatabaseUrl(GAMES_NAME),
+      games = new DatabaseGames(config.getDatabaseName(GAMES_NAME), url,
           options, user, password, "non_tmp_infos", "tmp_infos");
       games.connect();
       this.databasesByName.put(GAMES_NAME, games);
 
-      gameTeams = new DatabaseTeams(config.getDatabaseName(TEAMS_NAME),
-          config.getDatabaseUrl(TEAMS_NAME),
+      gameTeams = new DatabaseTeams(config.getDatabaseName(TEAMS_NAME), url,
           options, user, password);
       gameTeams.connect();
       this.databasesByName.put(TEAMS_NAME, gameTeams);
 
-      gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME),
-          config.getDatabaseUrl(MAPS_NAME),
+      gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME), url,
           options, user, password, "info", "locations", "authors");
       gameMaps.connect();
       this.databasesByName.put(MAPS_NAME, gameMaps);
 
-      gameKits = new DatabaseKits(config.getDatabaseName(KITS_NAME),
-          config.getDatabaseUrl(KITS_NAME),
+      gameKits = new DatabaseKits(config.getDatabaseName(KITS_NAME), url,
           options, user, password);
       gameKits.connect();
       this.databasesByName.put(KITS_NAME, gameKits);
 
       gameStatistics = new DatabaseGameStatistics(
-          config.getDatabaseName(GAME_STATISTICS_NAME),
-          config.getDatabaseUrl(GAME_STATISTICS_NAME), options, user, password,
+          config.getDatabaseName(GAME_STATISTICS_NAME), url, options, user, password,
           "user_statistics", "statistic_types");
       gameStatistics.connect();
       this.databasesByName.put(GAME_STATISTICS_NAME, gameStatistics);
 
-      lounges = new DatabaseLounges(config.getDatabaseName(LOUNGES_NAME),
-          config.getDatabaseUrl(LOUNGES_NAME),
+      lounges = new DatabaseLounges(config.getDatabaseName(LOUNGES_NAME), url,
           options, user, password, "maps", "map_displays");
       lounges.connect();
       this.databasesByName.put(LOUNGES_NAME, lounges);
 
-      support = new DatabaseSupport(config.getDatabaseName(SUPPORT_NAME),
-          config.getDatabaseUrl(SUPPORT_NAME),
+      support = new DatabaseSupport(config.getDatabaseName(SUPPORT_NAME), url,
           options, user, password, "tickets");
       support.connect();
       this.databasesByName.put(SUPPORT_NAME, support);
 
-      hungerGames = new DatabaseHungerGames(config.getDatabaseName(HUNGER_GAMES_NAME),
-          config.getDatabaseUrl(HUNGER_GAMES_NAME), options, user, password, "items");
+      hungerGames = new DatabaseHungerGames(config.getDatabaseName(HUNGER_GAMES_NAME), url, options,
+          user, password, "items");
       hungerGames.connect();
       this.databasesByName.put(HUNGER_GAMES_NAME, hungerGames);
 
-      decorations = new DatabaseDecoration(config.getDatabaseName(DECORATIONS_NAME),
-          config.getDatabaseUrl(DECORATIONS_NAME), options, user, password, "heads");
+      decorations = new DatabaseDecoration(config.getDatabaseName(DECORATIONS_NAME), url, options,
+          user, password, "heads");
       decorations.connect();
       this.databasesByName.put(DECORATIONS_NAME, decorations);
 
-      story = new DatabaseStory(config.getDatabaseName(STORY_NAME),
-          config.getDatabaseUrl(STORY_NAME),
+      story = new DatabaseStory(config.getDatabaseName(STORY_NAME), url,
           options, user, password, "user_quests", "user_bought");
       story.connect();
       this.databasesByName.put(STORY_NAME, story);
 
-      network = new DatabaseNetwork(config.getDatabaseName(NETWORK_NAME),
-          config.getDatabaseUrl(NETWORK_NAME),
+      network = new DatabaseNetwork(config.getDatabaseName(NETWORK_NAME), url,
           options, user, password,
           "files");
       network.connect();
