@@ -10,6 +10,4 @@ public interface DatabaseConfig {
 
   String getDatabaseName(String name) throws DatabaseNotConfiguredException;
 
-  String getDatabaseUrl(String name) throws DatabaseNotConfiguredException;
-
 }
