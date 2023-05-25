@@ -192,7 +192,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
       network = new DatabaseNetwork(config.getDatabaseName(NETWORK_NAME), url,
           options, user, password,
-          "files");
+          "files", "variables");
       network.connect();
       this.databasesByName.put(NETWORK_NAME, network);
 

@@ -451,6 +451,10 @@ public class Column<Value> {
     public static final Network<String> FILE_NAME = new Network<>("name",
         ColumnType.VARCHAR(100));
     public static final Network<File> FILE_PATH = new Network<>("file_path", ColumnType.FILE);
+    public static final Network<String> VARIABLE_KEY = new Network<>("key",
+        ColumnType.VARCHAR(100));
+    public static final Network<String> VARIABLE_VALUE = new Network<>("value",
+        ColumnType.VARCHAR(100));
 
     Network(String name, ColumnType<T> columnType) {
       super(name, columnType);
