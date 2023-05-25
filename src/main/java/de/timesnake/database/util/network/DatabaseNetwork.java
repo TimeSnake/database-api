@@ -19,4 +19,9 @@ public interface DatabaseNetwork {
 
   @NotNull
   List<DbNetworkFile> getNetworkFiles();
+
+  void setValue(String key, String value);
+
+  @Nullable
+  String getValue(String key);
 }

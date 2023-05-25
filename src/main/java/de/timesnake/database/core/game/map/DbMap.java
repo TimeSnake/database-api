@@ -212,7 +212,8 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         .map(Optional::get)
         .toList();
     ;
-    return !authorNames.isEmpty() ? authorNames : List.of(Server.NETWORK_NAME + " Community");
+    return !authorNames.isEmpty() ? authorNames
+        : List.of(Server.DEFAULT_NETWORK_NAME + " Community");
   }
 
   @Override
