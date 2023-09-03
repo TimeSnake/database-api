@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 public abstract class ColumnType<Value> {
 
-  public static final ColumnType<Integer> INTEGER = new ColumnType<>("INT", 10) {
+  public static final ColumnType<Integer> INTEGER = new ColumnType<>("INTEGER", 11) {
     @Override
     public String getName() {
       return "INT";
@@ -54,7 +54,7 @@ public abstract class ColumnType<Value> {
     }
   };
 
-  public static final ColumnType<Long> LONG = new ColumnType<>("BIGINT", 19) {
+  public static final ColumnType<Long> LONG = new ColumnType<>("BIGINT", 20) {
     @Override
     public String getName() {
       return "BIGINT(" + this.length + ")";

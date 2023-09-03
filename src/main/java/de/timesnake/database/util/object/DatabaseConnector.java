@@ -8,26 +8,24 @@ import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.Database;
 import de.timesnake.library.basic.util.Loggers;
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DatabaseConnector {
-
 
   private final String user;
   private final String password;
   protected BasicDataSource ds;
   protected String url;
 
-  public DatabaseConnector(String name, String url, String options, String user,
-      String password) {
+  public DatabaseConnector(String name, String url, String options, String user, String password) {
     this(name, url, options, user, password, DatabaseManager.DEFAULT_MAX_IDLE_CONNECTIONS);
   }
 
-  public DatabaseConnector(String name, String url, String options, String user, String password,
-      int maxIdleConnections) {
+  public DatabaseConnector(String name, String url, String options, String user, String password, int maxIdleConnections) {
     this.url = url + name + "?" + options;
     this.user = user;
     this.password = password;
@@ -60,6 +58,10 @@ public class DatabaseConnector {
 
   public Connection getConnection() throws SQLException {
     return this.ds.getConnection();
+  }
+
+  public boolean isConnected() {
+    return this.ds != null && !this.ds.isClosed();
   }
 
   public void createDatabase(String name) {

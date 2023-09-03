@@ -20,17 +20,15 @@ public abstract class TableQuery extends Table {
   protected final PrimaryEntries primaryEntries;
   private final List<Entry<?>> primaryEntriesList;
 
-  protected TableQuery(DatabaseConnector databaseConnector, String nameTable, Entry<?>... keys) {
-    super(databaseConnector, nameTable);
-    this.primaryEntries = new PrimaryEntries(keys);
-    this.primaryEntriesList = Arrays.asList(keys);
+  @Deprecated
+  protected TableQuery(DatabaseConnector databaseConnector, String tableName, Entry<?>... keys) {
+    this(databaseConnector, tableName, true, keys);
   }
 
-  protected TableQuery(DatabaseConnector databaseConnector, String nameTable,
-      PrimaryEntries primaryEntries) {
-    super(databaseConnector, nameTable);
-    this.primaryEntries = primaryEntries;
-    this.primaryEntriesList = primaryEntries.getPrimaryEntries();
+  protected TableQuery(DatabaseConnector databaseConnector, String tableName, boolean temporary, Entry<?>... keys) {
+    super(databaseConnector, tableName, temporary);
+    this.primaryEntries = new PrimaryEntries(keys);
+    this.primaryEntriesList = Arrays.asList(keys);
   }
 
   private Entry<?>[] addPrimaryKeys(Entry<?>... entries) {

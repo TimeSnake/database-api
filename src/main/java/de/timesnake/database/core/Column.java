@@ -25,7 +25,7 @@ public class Column<Value> {
   private final String name;
   private final ColumnType<Value> columnType;
 
-  Column(String name, ColumnType<Value> columnType) {
+  public Column(String name, ColumnType<Value> columnType) {
     this.name = name;
     this.columnType = columnType;
   }
