@@ -11,17 +11,9 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.sql.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Table {
@@ -56,31 +48,36 @@ public class Table {
   }
 
   static String parseToColumnNameString(Collection<Column<?>> columns) {
-    return columns.stream()
-        .map(c -> c.getType().getSelectWrapper(c.getName()))
-        .collect(Collectors.joining(", "));
+    return columns.stream().map(c -> c.getType().getSelectWrapper(c.getName())).collect(Collectors.joining(", "));
   }
 
   protected final DatabaseConnector databaseConnector;
   protected final String tableName;
+  protected final boolean temporary;
   protected UpdatePolicy updatePolicy;
 
 
-  Table(DatabaseConnector databaseConnector, String tableName) {
-    this.databaseConnector = databaseConnector;
-    this.tableName = tableName;
-    this.updatePolicy = UpdatePolicy.DISCARD_IF_NOT_EXISTS;
-
+  Table(DatabaseConnector databaseConnector, String tableName, boolean temporary) {
+    this(databaseConnector, tableName, UpdatePolicy.DISCARD_IF_NOT_EXISTS, temporary);
   }
 
-  Table(DatabaseConnector databaseConnector, String tableName, UpdatePolicy updatePolicy) {
+  Table(DatabaseConnector databaseConnector, String tableName, UpdatePolicy updatePolicy, boolean temporary) {
     this.databaseConnector = databaseConnector;
     this.tableName = tableName;
+    this.temporary = temporary;
     this.updatePolicy = updatePolicy;
   }
 
-  public String getTitle() {
+  public String getTableName() {
     return this.tableName;
+  }
+
+  public boolean isTemporary() {
+    return temporary;
+  }
+
+  public String buildTableName() {
+    return this.isTemporary() ? this.getTableName() + "_tmp" : this.getTableName();
   }
 
   public UpdatePolicy getUpdatePolicy() {
@@ -97,8 +94,7 @@ public class Table {
     this.addEntrySynchronized(false, primaryValues, values);
   }
 
-  protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute,
-      Entry<?>... values) {
+  protected void addEntry(PrimaryEntries primaryEntries, SyncExecute syncExecute, Entry<?>... values) {
     this.addEntry(false, primaryEntries, syncExecute, values);
   }
 
@@ -109,8 +105,7 @@ public class Table {
 
   // delete entry sync
 
-  protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn,
-      Entry<?>... values) {
+  protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, Entry<?>... values) {
     Integer id = this.getEntryId(idColumn);
     this.addEntrySynchronized(new PrimaryEntries(new Entry<>(id, idColumn)), values);
     return id;
@@ -118,8 +113,7 @@ public class Table {
 
   // delete entry
 
-  protected void addEntrySynchronized(boolean overrideExisting, PrimaryEntries primaryValues,
-      Entry<?>... values) {
+  protected void addEntrySynchronized(boolean overrideExisting, PrimaryEntries primaryValues, Entry<?>... values) {
     if (overrideExisting) {
       this.deleteEntrySynchronized(primaryValues.getPrimaryEntries().toArray(new Entry[0]));
     }
@@ -130,11 +124,9 @@ public class Table {
     try {
       connection = this.databaseConnector.getConnection();
 
-      ValuesClause valuesClause = new ValuesClause(primaryValues.getPrimaryEntries(),
-          Arrays.asList(values));
+      ValuesClause valuesClause = new ValuesClause(primaryValues.getPrimaryEntries(), Arrays.asList(values));
 
-      ps = connection.prepareStatement("INSERT INTO `" + this.tableName + "_tmp`" +
-          valuesClause.getText() + ";");
+      ps = connection.prepareStatement("INSERT INTO " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER + valuesClause.getText() + ";");
       valuesClause.applyValues(ps, 1);
       ps.executeUpdate();
     } catch (SQLException e) {
@@ -144,9 +136,7 @@ public class Table {
     }
   }
 
-  protected void addEntry(boolean overrideExisting, PrimaryEntries primaryEntries,
-      SyncExecute syncExecute,
-      Entry<?>... values) {
+  protected void addEntry(boolean overrideExisting, PrimaryEntries primaryEntries, SyncExecute syncExecute, Entry<?>... values) {
     new Thread(() -> {
       addEntrySynchronized(overrideExisting, primaryEntries, values);
       syncExecute.run();
@@ -177,8 +167,7 @@ public class Table {
 
     try {
       connection = this.databaseConnector.getConnection();
-      ps = connection.prepareStatement(
-          "DELETE FROM `" + this.tableName + "_tmp`" + whereClause.getText() + ";");
+      ps = connection.prepareStatement("DELETE FROM " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER + whereClause.getText() + ";");
       whereClause.applyValues(ps, 1);
       ps.executeUpdate();
     } catch (SQLException e) {
@@ -200,9 +189,7 @@ public class Table {
     }, entries);
   }
 
-  protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn,
-      PrimaryEntries primaryEntries,
-      Entry<?>... values) {
+  protected final Integer addEntryWithAutoIdSynchronized(Column<Integer> idColumn, PrimaryEntries primaryEntries, Entry<?>... values) {
     List<Entry<?>> primaryList = primaryEntries.getPrimaryEntries();
     Entry<?>[] primaryArray = new Entry[primaryList.size()];
     primaryArray = primaryList.toArray(primaryArray);
@@ -213,8 +200,7 @@ public class Table {
 
   // set data
 
-  protected final Integer addEntryWithAutoId(Column<Integer> idColumn, SyncExecute syncExecute,
-      Entry<?>... values) {
+  protected final Integer addEntryWithAutoId(Column<Integer> idColumn, SyncExecute syncExecute, Entry<?>... values) {
     Integer id = this.getEntryId(idColumn);
     this.addEntry(new PrimaryEntries(new Entry<>(id, idColumn)), syncExecute, values);
     return id;
@@ -249,8 +235,8 @@ public class Table {
 
     try {
       connection = this.databaseConnector.getConnection();
-      ps = connection.prepareStatement("SELECT MAX(`" + resultColumn.getName() + "`) FROM `" +
-          this.tableName + "_tmp`" + whereClause.getText() + ";");
+      ps = connection.prepareStatement("SELECT MAX(`" + resultColumn.getName() + "`) FROM " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER + whereClause.getText() + ";");
+
       whereClause.applyValues(ps, 1);
       rs = ps.executeQuery();
 
@@ -280,8 +266,7 @@ public class Table {
 
     try {
       connection = this.databaseConnector.getConnection();
-      ps = connection.prepareStatement("SELECT MIN(`" + resultColumn.getName() + "`) FROM `" +
-          this.tableName + "_tmp`" + whereClause.getText() + ";");
+      ps = connection.prepareStatement("SELECT MIN(`" + resultColumn.getName() + "`) FROM " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER + whereClause.getText() + ";");
       whereClause.applyValues(ps, 1);
       rs = ps.executeQuery();
 
@@ -313,9 +298,7 @@ public class Table {
 
     try {
       connection = this.databaseConnector.getConnection();
-      ps = connection.prepareStatement(
-          "SELECT " + parseToColumnNameString(resultColumn) + " FROM `" +
-              this.tableName + "_tmp`" + whereClause.getText() + ";");
+      ps = connection.prepareStatement("SELECT " + parseToColumnNameString(resultColumn) + " FROM " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER + whereClause.getText() + ";");
 
       whereClause.applyValues(ps, 1);
       rs = ps.executeQuery();
@@ -336,34 +319,31 @@ public class Table {
     return result;
   }
 
-  protected final <Value> void set(Value value, Column<Value> valueColumn, Entry<?>... entries) {
+  protected final <Value> void set(Value value, Column<Value> valueColumn, Entry<?>... keys) {
     this.set(value, valueColumn, () -> {
-    }, entries);
+    }, keys);
   }
 
-  protected final <Value> void set(Value value, Column<Value> valueColumn,
-      SyncExecute syncExecute,
-      Entry<?>... entries) {
+  protected final <Value> void set(Value value, Column<Value> valueColumn, SyncExecute syncExecute, Entry<?>... keys) {
     new Thread(() -> {
-      setSynchronized(value, valueColumn, entries);
+      setSynchronized(value, valueColumn, keys);
       syncExecute.run();
     }).start();
   }
 
-  protected final void set(Set<Entry<?>> values, Entry<?>... entries) {
-    new Thread(() -> setSynchronized(values, entries)).start();
+  protected final void set(Set<Entry<?>> values, Entry<?>... keys) {
+    new Thread(() -> setSynchronized(values, keys)).start();
   }
 
-  protected final void set(Set<Entry<?>> values, SyncExecute syncExecute, Entry<?>... entries) {
+  protected final void set(Set<Entry<?>> values, SyncExecute syncExecute, Entry<?>... keys) {
     new Thread(() -> {
-      setSynchronized(values, entries);
+      setSynchronized(values, keys);
       syncExecute.run();
     }).start();
   }
 
-  protected final <Value> void setSynchronized(Value value, Column<Value> valueColumn,
-      Entry<?>... entries) {
-    this.setSynchronized(Set.of(new Entry<>(value, valueColumn)), entries);
+  protected final <Value> void setSynchronized(Value value, Column<Value> valueColumn, Entry<?>... keys) {
+    this.setSynchronized(Set.of(new Entry<>(value, valueColumn)), keys);
   }
 
   protected final void setSynchronized(Set<Entry<?>> values, Collection<Entry<?>> keys) {
@@ -382,23 +362,14 @@ public class Table {
         if (this.updatePolicy == UpdatePolicy.INSERT_IF_NOT_EXISTS) {
           ValuesClause valuesClause = new ValuesClause(values, Arrays.asList(keys));
 
-          ps = connection.prepareStatement(
-              "INSERT INTO `" + this.tableName + "_tmp` " +
-                  valuesClause.getText() +
-                  "ON DUPLICATE KEY UPDATE " +
-                  equationClause.getText() +
-                  ";");
+          ps = connection.prepareStatement("INSERT INTO " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER + " " + valuesClause.getText() + "ON DUPLICATE KEY UPDATE " + equationClause.getText() + ";");
 
           int index = valuesClause.applyValues(ps, 1);
           equationClause.applyValues(ps, index);
         } else {
           WhereClause whereClause = new WhereClause(keys);
 
-          ps = connection.prepareStatement(
-              "UPDATE `" + this.tableName + "_tmp` SET " +
-                  equationClause.getText() +
-                  whereClause.getText() +
-                  ";");
+          ps = connection.prepareStatement("UPDATE " + TABLE_WRAPPER + this.buildTableName() + TABLE_WRAPPER +" SET " + equationClause.getText() + whereClause.getText() + ";");
 
           int index = equationClause.applyValues(ps, 1);
           whereClause.applyValues(ps, index);
@@ -413,8 +384,7 @@ public class Table {
   }
 
   public enum UpdatePolicy {
-    INSERT_IF_NOT_EXISTS,
-    DISCARD_IF_NOT_EXISTS
+    INSERT_IF_NOT_EXISTS, DISCARD_IF_NOT_EXISTS
   }
 
 }
