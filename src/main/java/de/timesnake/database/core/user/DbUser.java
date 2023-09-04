@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.core.Channel;
+import de.timesnake.channel.core.ServerChannel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -22,12 +22,13 @@ import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DbUser extends DbPlayer implements de.timesnake.database.util.user.DbUser {
 
@@ -90,7 +91,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setPrefix(String prefix) {
     super.setWithKey(prefix, Column.User.PREFIX,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.ALIAS)));
   }
 
@@ -103,7 +104,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setSuffix(String suffix) {
     super.setWithKey(suffix, Column.User.SUFFIX,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.ALIAS)));
   }
 
@@ -116,7 +117,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setNick(String nick) {
     super.setWithKey(nick, Column.User.NICK,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.ALIAS)));
   }
 
@@ -212,7 +213,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setStatus(Status.User status) {
     super.setWithKey(status, Column.User.STATUS,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.STATUS, status)));
   }
 
@@ -224,7 +225,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setService(boolean service) {
     super.setWithKey(service, Column.User.SERVICE,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.SERVICE, service)));
   }
 
@@ -252,7 +253,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setTask(String task) {
     super.setWithKey(task, Column.User.TASK,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.TASK, task)));
   }
 
@@ -341,7 +342,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   public void setStatus(Status.User status, boolean sendChannelMessage) {
     if (sendChannelMessage) {
       super.setWithKey(status, Column.User.STATUS,
-          () -> Channel.getInstance().sendMessage(
+          () -> ServerChannel.getInstance().sendMessage(
               new de.timesnake.channel.util.message.ChannelUserMessage<>(
                   this.getUniqueId(), MessageType.User.STATUS, status)));
     } else {
@@ -353,7 +354,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   public void setTask(String task, boolean sendChannelMessage) {
     if (sendChannelMessage) {
       super.setWithKey(task, Column.User.TASK,
-          () -> Channel.getInstance()
+          () -> ServerChannel.getInstance()
               .sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
                   MessageType.User.TASK, task)));
     } else {
@@ -364,7 +365,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @Override
   public void setTeam(String team) {
     super.setWithKey(team, Column.User.TEAM,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(this.getUniqueId(),
             MessageType.User.TEAM, team)));
   }
 

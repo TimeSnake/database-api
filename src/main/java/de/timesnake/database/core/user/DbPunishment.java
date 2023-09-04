@@ -4,18 +4,19 @@
 
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.core.Channel;
+import de.timesnake.channel.core.ServerChannel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Column.User;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.Type;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DbPunishment extends DbPlayer implements de.timesnake.database.util.user.DbPunishment {
 
@@ -25,7 +26,7 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
 
   @Override
   public void delete() {
-    super.deleteWithKey(() -> Channel.getInstance().sendMessage(
+    super.deleteWithKey(() -> ServerChannel.getInstance().sendMessage(
         new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.PUNISH)));
   }
 
