@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.channel.core.Channel;
+import de.timesnake.channel.core.ServerChannel;
 import de.timesnake.channel.util.message.ChannelGroupMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -15,10 +15,11 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
-import java.util.ArrayList;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class DbPermGroup extends DbGroupBasis implements
     de.timesnake.database.util.group.DbPermGroup {
@@ -35,7 +36,7 @@ public class DbPermGroup extends DbGroupBasis implements
   @Override
   public void removeInheritance() {
     super.setWithKey(null, Column.Group.INHERITANCE,
-        () -> Channel.getInstance().sendMessage(new ChannelGroupMessage<>(this.getName(),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelGroupMessage<>(this.getName(),
             MessageType.Group.PERMISSION)));
   }
 

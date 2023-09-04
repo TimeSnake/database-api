@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.permisson;
 
-import de.timesnake.channel.core.Channel;
+import de.timesnake.channel.core.ServerChannel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -14,9 +14,10 @@ import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.UUID;
-import org.jetbrains.annotations.Nullable;
 
 public class PermissionsTable extends TableDDL {
 
@@ -50,7 +51,7 @@ public class PermissionsTable extends TableDDL {
   protected void addPermission(UUID uuid, String permission, Status.Permission mode,
       String... servers) {
     this.addPermission(uuid.toString(), permission, mode,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid,
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(uuid,
             MessageType.User.PERMISSION)), servers);
   }
 
@@ -66,7 +67,7 @@ public class PermissionsTable extends TableDDL {
 
   protected void removePermission(UUID uuid, String permission) {
     this.removePermission(uuid.toString(), permission,
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid,
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(uuid,
             MessageType.User.PERMISSION)));
   }
 

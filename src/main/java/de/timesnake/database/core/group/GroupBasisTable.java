@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.group;
 
-import de.timesnake.channel.core.Channel;
+import de.timesnake.channel.core.ServerChannel;
 import de.timesnake.channel.util.message.ChannelMessage;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
@@ -12,6 +12,7 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
+
 import java.util.Collection;
 
 public class GroupBasisTable extends TableDDL {
@@ -43,7 +44,7 @@ public class GroupBasisTable extends TableDDL {
 
   protected void addGroup(String name, Integer rank, ChannelMessage<?, ?> channelMessage) {
     super.addEntry(new PrimaryEntries(new Entry<>(name, Column.Group.NAME)),
-        () -> Channel.getInstance().sendMessage(channelMessage),
+        () -> ServerChannel.getInstance().sendMessage(channelMessage),
         new Entry<>(rank, Column.Group.PRIORITY));
   }
 
@@ -57,7 +58,7 @@ public class GroupBasisTable extends TableDDL {
   }
 
   protected void removeGroup(String name, ChannelMessage<?, ?> channelMessage) {
-    this.deleteEntry(() -> Channel.getInstance().sendMessage(channelMessage),
+    this.deleteEntry(() -> ServerChannel.getInstance().sendMessage(channelMessage),
         new Entry<>(name, Column.Group.NAME));
   }
 
