@@ -4,9 +4,10 @@
 
 package de.timesnake.database.core.story;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Set;
 import java.util.UUID;
-import org.jetbrains.annotations.Nullable;
 
 public class DbStoryUser implements de.timesnake.database.util.story.DbStoryUser {
 
@@ -22,40 +23,40 @@ public class DbStoryUser implements de.timesnake.database.util.story.DbStoryUser
 
   @Nullable
   @Override
-  public Set<Integer> getChapterIds() {
+  public Set<String> getBookIds() {
     return this.questTable.getBookIds(this.uuid);
   }
 
   @Nullable
   @Override
-  public Set<String> getChapterIds(Integer bookId) {
+  public Set<String> getBookIds(String bookId) {
     return this.questTable.getChapterIds(this.uuid, bookId);
   }
 
   @Nullable
   @Override
-  public String getQuestName(Integer bookId, String chapterName) {
-    return this.questTable.getQuestName(this.uuid, bookId, chapterName);
+  public String getQuestName(String bookId, String chapterId) {
+    return this.questTable.getQuestName(this.uuid, bookId, chapterId);
   }
 
   @Override
-  public void setQuestName(Integer bookId, String chapterName, String questName) {
-    this.questTable.setQuestName(this.uuid, bookId, chapterName, questName);
+  public void setQuestName(String bookId, String chapterId, String questName) {
+    this.questTable.setQuestName(this.uuid, bookId, chapterId, questName);
   }
 
   @Nullable
   @Override
-  public Set<String> getBoughtChapters(Integer bookId) {
+  public Set<String> getBoughtChapters(String bookId) {
     return this.boughtTable.getBoughtChapters(this.uuid, bookId);
   }
 
   @Override
-  public void addBoughtChapter(Integer bookId, String chapterName) {
-    this.boughtTable.addBoughtPart(this.uuid, bookId, chapterName);
+  public void addBoughtChapter(String bookId, String chapterId) {
+    this.boughtTable.addBoughtPart(this.uuid, bookId, chapterId);
   }
 
   @Override
-  public void removeBoughtChapter(Integer bookId, String chapterName) {
-    this.boughtTable.removeBoughtChapter(this.uuid, bookId, chapterName);
+  public void removeBoughtChapter(String bookId, String chapterId) {
+    this.boughtTable.removeBoughtChapter(this.uuid, bookId, chapterId);
   }
 }
