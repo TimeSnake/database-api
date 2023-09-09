@@ -9,9 +9,10 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Set;
 import java.util.UUID;
-import org.jetbrains.annotations.Nullable;
 
 public class UserBoughtTable extends TableDDL {
 
@@ -30,18 +31,18 @@ public class UserBoughtTable extends TableDDL {
   }
 
   @Nullable
-  public Set<String> getBoughtChapters(UUID uuid, Integer bookId) {
+  public Set<String> getBoughtChapters(UUID uuid, String bookId) {
     return super.get(Column.Story.CHAPTER_NAME, new Entry<>(uuid, Column.Story.USER_UUID),
         new Entry<>(bookId, Column.Story.BOOK_ID));
   }
 
-  public void addBoughtPart(UUID uuid, Integer bookId, String chapterName) {
+  public void addBoughtPart(UUID uuid, String bookId, String chapterId) {
     super.addEntry(new PrimaryEntries(new Entry<>(uuid, Column.Story.USER_UUID), new Entry<>(bookId,
-        Column.Story.BOOK_ID), new Entry<>(chapterName, Column.Story.CHAPTER_NAME)));
+        Column.Story.BOOK_ID), new Entry<>(chapterId, Column.Story.CHAPTER_NAME)));
   }
 
-  public void removeBoughtChapter(UUID uuid, Integer bookId, String chapterName) {
-    super.deleteEntry(new Entry<>(uuid, Column.Story.USER_UUID), new Entry<>(bookId,
-        Column.Story.BOOK_ID), new Entry<>(chapterName, Column.Story.CHAPTER_NAME));
+  public void removeBoughtChapter(UUID uuid, String bookId, String chapterId) {
+    super.deleteEntry(new Entry<>(uuid, Column.Story.USER_UUID), new Entry<>(bookId, Column.Story.BOOK_ID),
+        new Entry<>(chapterId, Column.Story.CHAPTER_NAME));
   }
 }
