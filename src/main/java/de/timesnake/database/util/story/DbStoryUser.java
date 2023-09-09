@@ -4,26 +4,27 @@
 
 package de.timesnake.database.util.story;
 
-import java.util.Set;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public interface DbStoryUser {
 
   @Nullable
-  Set<Integer> getChapterIds();
+  Set<String> getBookIds();
 
   @Nullable
-  Set<String> getChapterIds(Integer bookId);
+  Set<String> getBookIds(String bookId);
 
   @Nullable
-  String getQuestName(Integer bookId, String chapterName);
+  String getQuestName(String bookId, String chapterId);
 
-  void setQuestName(Integer bookId, String chapterName, String sectionId);
+  void setQuestName(String bookId, String chapterId, String sectionId);
 
   @Nullable
-  Set<String> getBoughtChapters(Integer bookId);
+  Set<String> getBoughtChapters(String bookId);
 
-  void addBoughtChapter(Integer bookId, String chapterName);
+  void addBoughtChapter(String bookId, String chapterId);
 
-  void removeBoughtChapter(Integer bookId, String chapterName);
+  void removeBoughtChapter(String bookId, String chapterId);
 }
