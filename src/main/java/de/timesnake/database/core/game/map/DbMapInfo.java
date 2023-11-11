@@ -8,9 +8,10 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class DbMapInfo extends TableQuery {
 
@@ -54,6 +55,15 @@ public class DbMapInfo extends TableQuery {
     super.setWithKey(maxPlayers, Column.Game.MAP_MAX_PLAYERS);
   }
 
+  @NotNull
+  public List<Integer> getTeamAmounts() {
+    return super.getFirstWithKey(Column.Game.MAP_TEAM_AMOUNTS);
+  }
+
+  public void setTeamAmounts(List<Integer> teamAmounts) {
+    super.setWithKey(teamAmounts, Column.Game.MAP_TEAM_AMOUNTS);
+  }
+
   @Nullable
   public String getItemName() {
     return super.getFirstWithKey(Column.Game.MAP_ITEM);
@@ -63,6 +73,7 @@ public class DbMapInfo extends TableQuery {
     this.setWithKey(itemName, Column.Game.MAP_ITEM);
   }
 
+  @NotNull
   public List<String> getDescription() {
     return super.getFirstWithKey(Column.Game.MAP_DESCRIPTION);
   }
@@ -71,6 +82,7 @@ public class DbMapInfo extends TableQuery {
     this.setWithKey(description, Column.Game.MAP_DESCRIPTION);
   }
 
+  @NotNull
   public List<String> getInfo() {
     return super.getFirstWithKey(Column.Game.MAP_INFO);
   }

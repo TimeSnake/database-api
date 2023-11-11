@@ -227,6 +227,7 @@ public class Column<Value> {
     public static final Game<String> MAP_ITEM = new Game<>("item", ColumnType.VARCHAR(100));
     public static final Game<Integer> MAP_MIN_PLAYERS = new Game<>("min_players", Server.MAX_PLAYERS.getType());
     public static final Game<Integer> MAP_MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getType());
+    public static final Game<List<Integer>> MAP_TEAM_AMOUNTS = new Game<>("team_amounts", ColumnType.integerList(1000));
     public static final Game<List<String>> MAP_DESCRIPTION = new Game<>("description", ColumnType.STRING_LIST(1000));
     public static final Game<List<String>> MAP_INFO = new Game<>("info", ColumnType.STRING_LIST(500));
     public static final Game<Boolean> MAP_ENABLE = new Game<>("enable", ColumnType.BOOLEAN);

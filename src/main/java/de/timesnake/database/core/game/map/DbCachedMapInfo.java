@@ -7,9 +7,10 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DbStringArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Set;
-import org.jetbrains.annotations.NotNull;
 
 public class DbCachedMapInfo {
 
@@ -19,6 +20,7 @@ public class DbCachedMapInfo {
   private String displayName;
   private Integer minPlayers;
   private Integer maxPlayers;
+  private List<Integer> teamAmounts;
   private String itemName;
   private List<String> description;
   private List<String> info;
@@ -30,12 +32,13 @@ public class DbCachedMapInfo {
     this.name = mapInfo.getName();
 
     ColumnMap columnMap = mapInfo.getFirstWithKey(Set.of(Column.Game.MAP_DISPLAY_NAME,
-        Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_ITEM,
-        Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
+        Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_TEAM_AMOUNTS,
+        Column.Game.MAP_ITEM, Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
 
     this.displayName = columnMap.get(Column.Game.MAP_DISPLAY_NAME);
     this.minPlayers = columnMap.get(Column.Game.MAP_MIN_PLAYERS);
     this.maxPlayers = columnMap.get(Column.Game.MAP_MAX_PLAYERS);
+    this.teamAmounts = columnMap.get(Column.Game.MAP_TEAM_AMOUNTS);
     this.itemName = columnMap.get(Column.Game.MAP_ITEM);
     this.description = columnMap.get(Column.Game.MAP_DESCRIPTION);
     this.info = columnMap.get(Column.Game.MAP_INFO);
@@ -80,6 +83,16 @@ public class DbCachedMapInfo {
   public void setMaxPlayers(Integer maxPlayers) {
     this.maxPlayers = maxPlayers;
     this.mapInfo.setMaxPlayers(maxPlayers);
+  }
+
+  @NotNull
+  public List<Integer> getTeamAmounts() {
+    return this.teamAmounts;
+  }
+
+  public void setTeamAmounts(List<Integer> teamAmounts) {
+    this.teamAmounts = teamAmounts;
+    this.mapInfo.setTeamAmounts(teamAmounts);
   }
 
   @NotNull

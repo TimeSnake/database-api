@@ -10,9 +10,10 @@ import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import org.jetbrains.annotations.NotNull;
 
 public class MapsInfoTable extends TableDDL {
 
@@ -22,6 +23,7 @@ public class MapsInfoTable extends TableDDL {
     super.addColumn(Column.Game.MAP_ITEM);
     super.addColumn(Column.Game.MAP_MIN_PLAYERS);
     super.addColumn(Column.Game.MAP_MAX_PLAYERS);
+    super.addColumn(Column.Game.MAP_TEAM_AMOUNTS);
     super.addColumn(Column.Game.MAP_DESCRIPTION);
     super.addColumn(Column.Game.MAP_INFO);
     super.addColumn(Column.Game.MAP_ENABLE);
@@ -41,8 +43,7 @@ public class MapsInfoTable extends TableDDL {
   }
 
   public void addMapInfo(String name, String displayName, Integer minPlayers, Integer maxPlayer,
-      String itemName,
-      Collection<String> description, Collection<String> info) {
+                         String itemName, Collection<String> description, Collection<String> info) {
     super.addEntry(new PrimaryEntries(new Entry<>(name, Column.Game.MAP_NAME)),
         new Entry<>(displayName
             , Column.Game.MAP_DISPLAY_NAME), new Entry<>(minPlayers, Column.Game.MAP_MIN_PLAYERS),
