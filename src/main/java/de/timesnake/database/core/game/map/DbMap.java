@@ -9,13 +9,14 @@ import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.library.basic.util.server.Server;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DbMap implements de.timesnake.database.util.game.DbMap {
 
@@ -83,6 +84,12 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
   @Override
   public Integer getMaxPlayers() {
     return this.info.getMaxPlayers();
+  }
+
+  @Override
+  @NotNull
+  public List<Integer> getTeamAmounts() {
+    return this.info.getTeamAmounts();
   }
 
   @Override

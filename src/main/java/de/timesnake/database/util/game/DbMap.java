@@ -8,11 +8,12 @@ import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.DbLocation;
 import de.timesnake.database.util.object.NotCached;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface DbMap extends DbCached<DbMap> {
 
@@ -35,6 +36,9 @@ public interface DbMap extends DbCached<DbMap> {
 
   @Nullable
   Integer getMaxPlayers();
+
+  @NotNull
+  List<Integer> getTeamAmounts();
 
   @NotNull
   String getWorldName();
