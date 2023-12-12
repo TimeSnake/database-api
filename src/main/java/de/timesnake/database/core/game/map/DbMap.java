@@ -151,8 +151,8 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
   }
 
   @Override
-  public void addLocation(Integer number, DbLocation location) {
-    this.mapLocations.addLocation(number, location);
+  public void setLocation(Integer number, DbLocation location) {
+    this.mapLocations.setLocation(number, location);
   }
 
   @Override
