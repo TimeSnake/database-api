@@ -72,7 +72,7 @@ public interface DbMap extends DbCached<DbMap> {
   HashMap<Integer, DbLocation> getMapLocations();
 
   @NotCached
-  void addLocation(Integer number, DbLocation location);
+  void setLocation(Integer number, DbLocation location);
 
   @NotCached
   void deleteLocation(Integer number);

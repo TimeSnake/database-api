@@ -10,15 +10,18 @@ import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
-import java.util.HashMap;
-import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Set;
 
 public class DbMapLocations extends TableQuery {
 
   protected DbMapLocations(DatabaseConnector databaseConnector, String gameName, String mapName) {
     super(databaseConnector, gameName, new Entry<>(mapName, Column.Game.MAP_NAME));
+
+    this.setUpdatePolicy(UpdatePolicy.INSERT_IF_NOT_EXISTS);
   }
 
   @Override
@@ -82,17 +85,17 @@ public class DbMapLocations extends TableQuery {
     return spawns;
   }
 
-  public void addLocation(Integer number, DbLocation location) {
+  public void setLocation(Integer number, DbLocation location) {
     if (number == null) {
       return;
     }
-    super.addEntry(super.primaryEntries.with(new Entry<>(number, Column.Location.NUMBER)),
-        new Entry<>(location.getWorldName(), Column.Location.WORLD),
-        new Entry<>(((float) location.getX()), Column.Location.X),
-        new Entry<>(((float) location.getY()), Column.Location.Y),
-        new Entry<>(((float) location.getZ()), Column.Location.Z),
+    super.setWithKey(Set.of(new Entry<>(location.getWorldName(), Column.Location.WORLD),
+            new Entry<>(location.getX(), Column.Location.X),
+            new Entry<>(location.getY(), Column.Location.Y),
+            new Entry<>(location.getZ(), Column.Location.Z),
         new Entry<>(location.getYaw(), Column.Location.YAW),
-        new Entry<>(location.getPitch(), Column.Location.PITCH));
+            new Entry<>(location.getPitch(), Column.Location.PITCH)),
+        new Entry<>(number, Column.Location.NUMBER));
   }
 
   public void deleteLocation(Integer number) {

@@ -7,11 +7,12 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.DbLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DbCachedMap extends DbCachedMapInfo implements DbMap {
 
@@ -76,8 +77,8 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
   }
 
   @Override
-  public void addLocation(Integer number, DbLocation location) {
-    this.map.addLocation(number, location);
+  public void setLocation(Integer number, DbLocation location) {
+    this.map.setLocation(number, location);
   }
 
   @Override
