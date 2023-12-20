@@ -4,15 +4,14 @@
 
 package de.timesnake.database.core.user;
 
-import de.timesnake.database.core.Column;
 import de.timesnake.database.core.DatabaseManager;
-import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DatabaseUsers extends DatabaseConnector implements
     de.timesnake.database.util.user.DatabaseUsers {
@@ -63,13 +62,6 @@ public class DatabaseUsers extends DatabaseConnector implements
     if (!this.infosTable.containsPlayer(uuid)) {
       this.infosTable.addPlayer(uuid, name, permGroup, server);
     }
-  }
-
-  @Nullable
-  @Override
-  public DbUser getUserByDiscordId(Long discordId) {
-    return this.getUser(this.infosTable.getFirst(Column.User.UUID,
-        new Entry<>(discordId, Column.User.DISCORD_ID)));
   }
 
   @NotNull

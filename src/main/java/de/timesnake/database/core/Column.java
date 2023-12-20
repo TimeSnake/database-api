@@ -349,5 +349,16 @@ public class Column<Value> {
     }
   }
 
+  public static class Pet<T> extends Column<T> {
+
+    public static final Pet<UUID> OWNER_UUID = new Pet<>("owner_uuid", User.UUID.getType());
+    public static final Pet<Integer> PET_ID = new Pet<>("pet_id", ColumnType.INTEGER(true));
+    public static final Pet<String> PET_TYPE = new Pet<>("pet_type", ColumnType.VARCHAR(20));
+    public static final Pet<Boolean> ENABLED = new Pet<>("enabled", ColumnType.BOOLEAN);
+
+    Pet(String name, ColumnType<T> columnType) {
+      super(name, columnType);
+    }
+  }
 
 }

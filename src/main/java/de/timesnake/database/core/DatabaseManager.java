@@ -15,13 +15,13 @@ import de.timesnake.database.core.group.DatabaseGroups;
 import de.timesnake.database.core.hungergames.DatabaseHungerGames;
 import de.timesnake.database.core.network.DatabaseNetwork;
 import de.timesnake.database.core.permisson.DatabasePermissions;
+import de.timesnake.database.core.pet.DatabasePets;
 import de.timesnake.database.core.server.DatabaseServers;
 import de.timesnake.database.core.story.DatabaseStory;
 import de.timesnake.database.core.support.DatabaseSupport;
 import de.timesnake.database.core.user.DatabaseUsers;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.library.basic.util.Loggers;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -58,6 +58,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
   private static final String DECORATIONS_NAME = "decorations";
   private static final String STORY_NAME = "story";
   private static final String NETWORK_NAME = "network";
+  private static final String PET_NAME = "pets";
 
 
   private final ConcurrentHashMap<String, DatabaseConnector> databasesByName = new ConcurrentHashMap<>();
@@ -77,6 +78,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
   private DatabaseDecoration decorations;
   private DatabaseStory story;
   private DatabaseNetwork network;
+  private DatabasePets pets;
 
   private boolean isConnected = false;
 
@@ -114,6 +116,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       connection.createDatabase(config.getDatabaseName(STORY_NAME));
       connection.createDatabase(config.getDatabaseName(GAME_STATISTICS_NAME));
       connection.createDatabase(config.getDatabaseName(NETWORK_NAME));
+      connection.createDatabase(config.getDatabaseName(PET_NAME));
 
       servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), url, options, user, password, "lobbys", "non_tmp_games", "lounges", "tmp_games", "builds", "build_worlds");
       servers.connect();
@@ -174,6 +177,10 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       network = new DatabaseNetwork(config.getDatabaseName(NETWORK_NAME), url, options, user, password, "files", "variables");
       network.connect();
       this.databasesByName.put(NETWORK_NAME, network);
+
+      pets = new DatabasePets(config.getDatabaseName(PET_NAME), url, options, user, password, "user_pets");
+      pets.connect();
+      this.databasesByName.put(PET_NAME, pets);
 
       isConnected = true;
       Database.LOGGER.info("Connected to database");
@@ -278,6 +285,10 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
 
   public DatabaseNetwork getNetwork() {
     return network;
+  }
+
+  public de.timesnake.database.util.pet.DatabasePets getPets() {
+    return pets;
   }
 
   public static void loadDrivers() {
