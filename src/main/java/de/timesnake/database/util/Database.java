@@ -18,6 +18,7 @@ import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.hungergames.DatabaseHungerGames;
 import de.timesnake.database.util.network.DatabaseNetwork;
 import de.timesnake.database.util.permission.DatabasePermissions;
+import de.timesnake.database.util.pet.DatabasePets;
 import de.timesnake.database.util.server.DatabaseServers;
 import de.timesnake.database.util.story.DatabaseStory;
 import de.timesnake.database.util.support.DatabaseSupport;
@@ -29,6 +30,9 @@ import de.timesnake.library.basic.util.LogHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This interface provides static access to the {@link DatabaseManager} singleton.
+ */
 public interface Database {
 
   Logger LOGGER = LogHelper.getLogger("database", Level.WARNING);
@@ -176,6 +180,18 @@ public interface Database {
    */
   static DatabaseNetwork getNetwork() {
     return DatabaseManager.getInstance().getNetwork();
+  }
+
+  /**
+   * Gets the pets database
+   * <p>
+   * The pets database contains user pets
+   * </p>
+   *
+   * @return the {@link DatabasePets}
+   */
+  static DatabasePets getPets() {
+    return DatabaseManager.getInstance().getPets();
   }
 
   boolean connect(DatabaseConfig config) throws DatabaseNotConfiguredException;

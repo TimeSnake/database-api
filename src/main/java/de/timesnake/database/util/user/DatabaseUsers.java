@@ -4,10 +4,11 @@
 
 package de.timesnake.database.util.user;
 
-import java.util.Collection;
-import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.UUID;
 
 public interface DatabaseUsers {
 
@@ -21,11 +22,8 @@ public interface DatabaseUsers {
    */
   void addUser(UUID uuid, String name, String permGroup, String server);
 
-  @Nullable
-  de.timesnake.database.core.user.DbUser getUserByDiscordId(Long discordId);
-
   @NotNull
-  Collection<de.timesnake.database.core.user.DbUser> getUsers();
+  Collection<? extends DbUser> getUsers();
 
   /**
    * Gets a user with unique id
