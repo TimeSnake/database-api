@@ -361,4 +361,14 @@ public class Column<Value> {
     }
   }
 
+  public static class AntiCheat<T> extends Column<T> {
+
+    public static final AntiCheat<Integer> ID = new AntiCheat<>("id", ColumnType.INTEGER(true));
+    public static final AntiCheat<String> WORD = new AntiCheat<>("word", ColumnType.VARCHAR(255));
+
+    AntiCheat(String name, ColumnType<T> columnType) {
+      super(name, columnType);
+    }
+  }
+
 }
