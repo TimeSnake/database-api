@@ -7,6 +7,7 @@ package de.timesnake.database.util;
 import de.timesnake.database.core.DatabaseConfig;
 import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.DatabaseNotConfiguredException;
+import de.timesnake.database.core.anticheat.DatabaseAntiCheat;
 import de.timesnake.database.core.game.DatabaseGames;
 import de.timesnake.database.util.decoration.DatabaseDecoration;
 import de.timesnake.database.util.game.DatabaseLounges;
@@ -192,6 +193,18 @@ public interface Database {
    */
   static DatabasePets getPets() {
     return DatabaseManager.getInstance().getPets();
+  }
+
+  /**
+   * Gets the pets database
+   * <p>
+   * The pets database contains user pets
+   * </p>
+   *
+   * @return the {@link DatabaseAntiCheat}
+   */
+  static de.timesnake.database.util.anticheat.DatabaseAntiCheat getAntiCheat() {
+    return DatabaseManager.getInstance().getAntiCheat();
   }
 
   boolean connect(DatabaseConfig config) throws DatabaseNotConfiguredException;

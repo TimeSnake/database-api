@@ -4,6 +4,7 @@
 
 package de.timesnake.database.core;
 
+import de.timesnake.database.core.anticheat.DatabaseAntiCheat;
 import de.timesnake.database.core.decoration.DatabaseDecoration;
 import de.timesnake.database.core.game.DatabaseGames;
 import de.timesnake.database.core.game.kit.DatabaseKits;
@@ -59,6 +60,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
   private static final String STORY_NAME = "story";
   private static final String NETWORK_NAME = "network";
   private static final String PET_NAME = "pets";
+  private static final String ANTI_CHEAT_NAME = "anticheat";
 
 
   private final ConcurrentHashMap<String, DatabaseConnector> databasesByName = new ConcurrentHashMap<>();
@@ -79,6 +81,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
   private DatabaseStory story;
   private DatabaseNetwork network;
   private DatabasePets pets;
+  private DatabaseAntiCheat antiCheat;
 
   private boolean isConnected = false;
 
@@ -117,6 +120,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       connection.createDatabase(config.getDatabaseName(GAME_STATISTICS_NAME));
       connection.createDatabase(config.getDatabaseName(NETWORK_NAME));
       connection.createDatabase(config.getDatabaseName(PET_NAME));
+      connection.createDatabase(config.getDatabaseName(ANTI_CHEAT_NAME));
 
       servers = new DatabaseServers(config.getDatabaseName(SERVERS_NAME), url, options, user, password, "lobbys", "non_tmp_games", "lounges", "tmp_games", "builds", "build_worlds");
       servers.connect();
@@ -181,6 +185,10 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       pets = new DatabasePets(config.getDatabaseName(PET_NAME), url, options, user, password, "user_pets");
       pets.connect();
       this.databasesByName.put(PET_NAME, pets);
+
+      antiCheat = new DatabaseAntiCheat(config.getDatabaseName(ANTI_CHEAT_NAME), url, options, user, password, "word_blacklist");
+      antiCheat.connect();
+      this.databasesByName.put(ANTI_CHEAT_NAME, antiCheat);
 
       isConnected = true;
       Database.LOGGER.info("Connected to database");
@@ -287,8 +295,12 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     return network;
   }
 
-  public de.timesnake.database.util.pet.DatabasePets getPets() {
+  public DatabasePets getPets() {
     return pets;
+  }
+
+  public DatabaseAntiCheat getAntiCheat() {
+    return antiCheat;
   }
 
   public static void loadDrivers() {
