@@ -4,11 +4,7 @@
 
 package de.timesnake.database.util.object;
 
-import de.timesnake.database.util.server.DbBuildServer;
-import de.timesnake.database.util.server.DbLobbyServer;
-import de.timesnake.database.util.server.DbLoungeServer;
-import de.timesnake.database.util.server.DbNonTmpGameServer;
-import de.timesnake.database.util.server.DbTmpGameServer;
+import de.timesnake.database.util.server.*;
 import net.kyori.adventure.util.Index;
 
 public abstract class Type {
@@ -95,6 +91,7 @@ public abstract class Type {
     public static final Punishment TEMP_BAN = new Punishment("tempban");
     public static final Punishment JAIL = new Punishment("jail");
     public static final Punishment MUTE = new Punishment("mute");
+    public static final Punishment TEMP_MUTE = new Punishment("tempmute");
 
     public static Punishment valueOf(String name) {
       return TYPES_BY_STRING.value(name.replace(PREFIX + DIVIDER, ""));
@@ -104,7 +101,7 @@ public abstract class Type {
       return VALUES;
     }
 
-    private static final Punishment[] VALUES = {BAN, TEMP_BAN, JAIL, MUTE};
+    private static final Punishment[] VALUES = {BAN, TEMP_BAN, JAIL, MUTE, TEMP_MUTE};
     private static final Index<String, Punishment> TYPES_BY_STRING = Index.create(
         Type::getShortName, VALUES);
 
