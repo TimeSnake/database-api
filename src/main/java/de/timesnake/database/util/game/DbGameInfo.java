@@ -5,7 +5,7 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.NotCached;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Availability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,16 +18,16 @@ public interface DbGameInfo extends DbGameInfoBasis {
   void setMaxPlayers(int maxPlayers);
 
   @NotNull
-  Type.Availability getMapAvailability();
+  Availability getMapAvailability();
 
   @NotCached
-  void setMapsAvailability(Type.Availability maps);
+  void setMapsAvailability(Availability maps);
 
   @NotNull
-  Type.Availability getKitAvailability();
+  Availability getKitAvailability();
 
   @NotCached
-  void setKitsAvailability(Type.Availability kits);
+  void setKitsAvailability(Availability kits);
 
   boolean hasStatistics();
 
@@ -61,10 +61,10 @@ public interface DbGameInfo extends DbGameInfoBasis {
   void setViewDistance(Integer viewDistance);
 
   @NotNull
-  Type.Availability getOldPvPAvailability();
+  Availability getOldPvPAvailability();
 
   @NotCached
-  void setOldPvPAvailability(Type.Availability availability);
+  void setOldPvPAvailability(Availability availability);
 
   @NotNull
   @Override

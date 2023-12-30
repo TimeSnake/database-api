@@ -5,22 +5,21 @@
 package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.util.game.DbGameInfo;
-import de.timesnake.database.util.object.Type;
-import de.timesnake.database.util.object.Type.Availability;
+import de.timesnake.library.basic.util.Availability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInfo {
 
   protected Integer maxPlayers;
-  protected Type.Availability mapAvailability;
-  protected Type.Availability kitAvailability;
+  protected Availability mapAvailability;
+  protected Availability kitAvailability;
   protected Boolean statistics;
   protected String texturePackLink;
   protected Integer playerTrackingRange;
   protected Integer maxHealth;
   protected Integer viewDistance;
-  protected Type.Availability oldPvPAvailability;
+  protected Availability oldPvPAvailability;
 
   public DbCachedGameInfo(de.timesnake.database.core.game.info.DbGameInfo database) {
     super(database);
@@ -45,24 +44,24 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
 
   @NotNull
   @Override
-  public Type.Availability getMapAvailability() {
+  public Availability getMapAvailability() {
     return this.mapAvailability;
   }
 
   @Override
-  public void setMapsAvailability(Type.Availability maps) {
+  public void setMapsAvailability(Availability maps) {
     this.mapAvailability = maps;
     this.getDatabase().setMapsAvailability(maps);
   }
 
   @NotNull
   @Override
-  public Type.Availability getKitAvailability() {
+  public Availability getKitAvailability() {
     return this.kitAvailability;
   }
 
   @Override
-  public void setKitsAvailability(Type.Availability kits) {
+  public void setKitsAvailability(Availability kits) {
     this.kitAvailability = kits;
     this.getDatabase().setKitsAvailability(kits);
   }
@@ -133,7 +132,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
 
   @NotNull
   @Override
-  public Type.Availability getOldPvPAvailability() {
+  public Availability getOldPvPAvailability() {
     return oldPvPAvailability;
   }
 

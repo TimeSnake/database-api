@@ -5,7 +5,9 @@
 package de.timesnake.database.core;
 
 import de.timesnake.database.util.object.BlockSide;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Availability;
+import de.timesnake.library.basic.util.DiscordChannelType;
+import de.timesnake.library.basic.util.PunishType;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
@@ -99,12 +101,11 @@ public class Column<Value> {
     public static final User<String> SUFFIX = new User<>("suffix", ColumnType.VARCHAR(16));
     public static final User<String> NICK = new User<>("nick", ColumnType.VARCHAR(16));
 
-    public static final User<Type.Punishment> PUNISH_TYPE = new User<>("type", ColumnType.TYPE());
+    public static final User<PunishType> PUNISH_TYPE = new User<>("type", ColumnType.TYPE());
     public static final User<LocalDateTime> PUNISH_DATE = new User<>("date", ColumnType.LOCAL_DATE_TIME);
     public static final User<Duration> PUNISH_DURATION = new User<>("duration", ColumnType.DURATION);
     public static final User<String> PUNISH_CASTIGATOR = new User<>("castigator", User.NAME.getType().nullable());
     public static final User<String> PUNISH_REASON = new User<>("reason", ColumnType.VARCHAR(255));
-    public static final User<String> PUNISH_SERVER = new User<>("server", ColumnType.VARCHAR(255));
 
     public static final User<Float> TIME_COINS = new User<>("coins", ColumnType.FLOAT);
 
@@ -198,14 +199,14 @@ public class Column<Value> {
     public static final Game<Boolean> ENABLED = new Game<>("enabled", ColumnType.BOOLEAN);
 
     public static final Game<Integer> MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getType());
-    public static final Game<Type.Availability> MAPS = new Game<>("maps", ColumnType.TYPE());
-    public static final Game<Type.Availability> KITS = new Game<>("kits", ColumnType.TYPE());
+    public static final Game<Availability> MAPS = new Game<>("maps", ColumnType.TYPE());
+    public static final Game<Availability> KITS = new Game<>("kits", ColumnType.TYPE());
     public static final Game<Boolean> STATISTICS = new Game<>("statistics", ColumnType.BOOLEAN);
     public static final Game<String> TEXTURE_PACK_LINK = new Game<>("texture_pack_link", ColumnType.VARCHAR(255));
     public static final Game<Integer> PLAYER_TRACKING_RANGE = new Game<>("player_tracking_range", ColumnType.INTEGER);
     public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", ColumnType.INTEGER);
     public static final Game<Integer> VIEW_DISTANCE = new Game<>("view_distance", ColumnType.INTEGER);
-    public static final Game<Type.Availability> OLD_PVP = new Game<>("old_pvp", ColumnType.TYPE());
+    public static final Game<Availability> OLD_PVP = new Game<>("old_pvp", ColumnType.TYPE());
 
     public static final Game<Boolean> CREATION_REQUESTABLE = new Game<>("creation_requestable", ColumnType.BOOLEAN);
     public static final Game<Boolean> OWNABLE = new Game<>("ownable", ColumnType.BOOLEAN);
@@ -214,11 +215,11 @@ public class Column<Value> {
     public static final Game<Integer> AUTO_START_PLAYER_NUMBER = new Game<>("auto_start_player_number", Server.MAX_PLAYERS.getType());
     public static final Game<Integer> MIN_PLAYER_NUMBER = new Game<>("min_player_number", Server.MAX_PLAYERS.getType());
     public static final Game<List<Integer>> TEAM_SIZES = new Game<>("team_sizes", ColumnType.integerList(255));
-    public static final Game<Type.Availability> TEAM_MERGE = new Game<>("team_merge", ColumnType.TYPE());
+    public static final Game<Availability> TEAM_MERGE = new Game<>("team_merge", ColumnType.TYPE());
     public static final Game<Boolean> EQUAL_TEAM_SIZE_REQUIRED = new Game<>("equal_team_size_required", ColumnType.BOOLEAN);
     public static final Game<Boolean> SHOW_SELECTED_KITS = new Game<>("show_selected_kits", ColumnType.BOOLEAN);
     public static final Game<Boolean> HIDE_TEAMS = new Game<>("hide_teams", ColumnType.BOOLEAN);
-    public static final Game<Type.Discord> DISCORD_TYPE = new Game<>("discord_type", ColumnType.TYPE());
+    public static final Game<DiscordChannelType> DISCORD_TYPE = new Game<>("discord_type", ColumnType.TYPE());
     public static final Game<List<String>> DESCRIPTION = new Game<>("description", ColumnType.STRING_LIST(1000));
 
     // map

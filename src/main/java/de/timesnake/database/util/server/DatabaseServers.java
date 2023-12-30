@@ -4,19 +4,20 @@
 
 package de.timesnake.database.util.server;
 
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.ServerType;
 import de.timesnake.library.basic.util.Status;
-import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Set;
+
 public interface DatabaseServers {
 
-  @Nullable <S extends DbServer> Type.Server<S> getServerType(int port);
+  @Nullable <S extends DbServer> ServerType getServerType(int port);
 
-  @Nullable <S extends DbServer> Type.Server<S> getServerType(String name);
+  @Nullable <S extends DbServer> ServerType getServerType(String name);
 
   @Nullable <Server extends DbServer> Server getServer(int port);
 
@@ -25,27 +26,25 @@ public interface DatabaseServers {
   @NotNull
   Collection<Integer> getPorts();
 
-  @Nullable <Server extends DbServer> Server getServer(Type.Server<Server> type, int port);
+  @Nullable <Server extends DbServer> Server getServer(ServerType type, int port);
 
-  @Nullable <Server extends DbServer> Server getServer(Type.Server<Server> type, String name);
+  @Nullable <Server extends DbServer> Server getServer(ServerType type, String name);
 
-  void removeServer(Type.Server<?> type, String name);
+  void removeServer(ServerType type, String name);
 
-  boolean containsServer(Type.Server<?> type, String name);
+  boolean containsServer(ServerType type, String name);
 
-  @NotNull <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type,
-      Status.Server status);
+  @NotNull <Server extends DbServer> Collection<Server> getServers(ServerType type, Status.Server status);
 
-  @NotNull <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type);
+  @NotNull <Server extends DbServer> Collection<Server> getServers(ServerType type);
 
-  @NotNull <Server extends DbTaskServer> Collection<Server> getServers(Type.Server<Server> type,
-      String task);
+  @NotNull <Server extends DbTaskServer> Collection<Server> getServers(ServerType type, String task);
 
   @NotNull
-  Collection<String> getServerNames(Type.Server<?> type);
+  Collection<String> getServerNames(ServerType type);
 
   @NotNull
-  Collection<Integer> getServerPorts(Type.Server<?> type);
+  Collection<Integer> getServerPorts(ServerType type);
 
   void addLobby(String name, int port, Status.Server status, Path folderPath);
 

@@ -10,8 +10,8 @@ import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbLoungeServer;
+import de.timesnake.library.basic.util.ServerType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,13 +60,13 @@ public class DbTmpGameServer extends DbPvPServer implements
   @Override
   public DbLoungeServer getTwinServer() {
     String name = this.getTwinServerName();
-    return name == null ? null : Database.getServers().getServer(Type.Server.LOUNGE, name);
+    return name == null ? null : Database.getServers().getServer(ServerType.LOUNGE, name);
   }
 
   @NotNull
   @Override
-  public Type.Server<de.timesnake.database.util.server.DbTmpGameServer> getType() {
-    return Type.Server.TEMP_GAME;
+  public ServerType getType() {
+    return ServerType.TEMP_GAME;
   }
 
   @Override

@@ -6,22 +6,20 @@ package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.server.DbTaskServer;
+import de.timesnake.library.basic.util.ServerType;
 import de.timesnake.library.basic.util.Status;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.nio.file.Path;
+import java.util.*;
 
 public class DatabaseServers extends DatabaseConnector implements
     de.timesnake.database.util.server.DatabaseServers {
 
-  private final ServerMap serverTables = new ServerMap();
+  private final HashMap<ServerType, ServerTable<?>> serverTables = new HashMap<>();
 
   private final BuildWorldTable buildWorldTable;
 
@@ -33,12 +31,11 @@ public class DatabaseServers extends DatabaseConnector implements
 
     this.buildWorldTable = new BuildWorldTable(this, buildWorldTableName);
 
-    this.serverTables.put(Type.Server.LOBBY, new LobbyTable(this, lobbysTableName));
-    this.serverTables.put(Type.Server.GAME, new NonTmpGameTable(this, gamesTableName));
-    this.serverTables.put(Type.Server.LOUNGE, new LoungeTable(this, loungesTableName));
-    this.serverTables.put(Type.Server.TEMP_GAME, new TmpGameTable(this, tempGamesTableName));
-    this.serverTables.put(Type.Server.BUILD,
-        new BuildTable(this, buildsTableName, this.buildWorldTable));
+    this.serverTables.put(ServerType.LOBBY, new LobbyTable(this, lobbysTableName));
+    this.serverTables.put(ServerType.GAME, new NonTmpGameTable(this, gamesTableName));
+    this.serverTables.put(ServerType.LOUNGE, new LoungeTable(this, loungesTableName));
+    this.serverTables.put(ServerType.TEMP_GAME, new TmpGameTable(this, tempGamesTableName));
+    this.serverTables.put(ServerType.BUILD, new BuildTable(this, buildsTableName, this.buildWorldTable));
   }
 
   @Override
@@ -58,13 +55,12 @@ public class DatabaseServers extends DatabaseConnector implements
   }
 
   @Override
-  public <S extends DbServer> Type.@Nullable Server<S> getServerType(int port) {
-    for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
-        this.serverTables.entrySet()) {
+  public @Nullable ServerType getServerType(int port) {
+    for (Map.Entry<ServerType, ServerTable<? extends DbServer>> entry : this.serverTables.entrySet()) {
       String name = entry.getValue().getNameFromPort(port);
       if (name != null && entry.getValue().getServer(name) != null && entry.getValue()
           .getServer(name).exists()) {
-        return (Type.Server<S>) entry.getKey();
+        return entry.getKey();
       }
     }
     return null;
@@ -72,12 +68,10 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @Nullable
   @Override
-  public <S extends DbServer> Type.Server<S> getServerType(String name) {
-    for (Map.Entry<Type.Server<? extends DbServer>, ServerTable<? extends DbServer>> entry :
-        this.serverTables.entrySet()) {
-      if (entry.getValue().getServer(name) != null && entry.getValue().getServer(name)
-          .exists()) {
-        return (Type.Server<S>) entry.getKey();
+  public ServerType getServerType(String name) {
+    for (Map.Entry<ServerType, ServerTable<? extends DbServer>> entry : this.serverTables.entrySet()) {
+      if (entry.getValue().getServer(name) != null && entry.getValue().getServer(name).exists()) {
+        return entry.getKey();
       }
     }
     return null;
@@ -99,7 +93,7 @@ public class DatabaseServers extends DatabaseConnector implements
   @Override
   public Collection<Integer> getPorts() {
     ArrayList<Integer> ports = new ArrayList<>();
-    for (Type.Server<?> type : Type.Server.values()) {
+    for (ServerType type : ServerType.values()) {
       ports.addAll(this.getServerPorts(type));
     }
     return ports;
@@ -107,27 +101,27 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @Nullable
   @Override
-  public <Server extends DbServer> Server getServer(Type.Server<Server> type, int port) {
-    ServerTable<Server> table = this.serverTables.get(type);
+  public <Server extends DbServer> Server getServer(ServerType type, int port) {
+    ServerTable<?> table = this.serverTables.get(type);
     if (table != null) {
-      return table.getServer(table.getNameFromPort(port));
+      return (Server) table.getServer(table.getNameFromPort(port));
     }
     return null;
   }
 
   @Nullable
   @Override
-  public <Server extends DbServer> Server getServer(Type.Server<Server> type, String name) {
-    ServerTable<Server> table = this.serverTables.get(type);
+  public <Server extends DbServer> Server getServer(ServerType type, String name) {
+    ServerTable<?> table = this.serverTables.get(type);
     if (table != null) {
-      return table.getServer(name);
+      return (Server) table.getServer(name);
     }
     return null;
   }
 
   @Deprecated
   @Override
-  public void removeServer(Type.Server<?> type, String name) {
+  public void removeServer(ServerType type, String name) {
     ServerTable<? extends DbServer> table = this.serverTables.get(type);
     if (table != null) {
       table.removeServer(name);
@@ -135,7 +129,7 @@ public class DatabaseServers extends DatabaseConnector implements
   }
 
   @Override
-  public boolean containsServer(Type.Server<?> type, String name) {
+  public boolean containsServer(ServerType type, String name) {
     ServerTable<? extends DbServer> table = this.serverTables.get(type);
     if (table != null) {
       return table.containsServer(name);
@@ -145,30 +139,28 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @NotNull
   @Override
-  public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type,
-      Status.Server status) {
-    ServerTable<Server> table = this.serverTables.get(type);
+  public <Server extends DbServer> Collection<Server> getServers(ServerType type, Status.Server status) {
+    ServerTable<?> table = this.serverTables.get(type);
     if (table != null) {
-      return table.getServers(status);
+      return (Collection<Server>) table.getServers(status);
     }
     return new ArrayList<>();
   }
 
   @NotNull
   @Override
-  public <Server extends DbServer> Collection<Server> getServers(Type.Server<Server> type) {
-    ServerTable<Server> table = this.serverTables.get(type);
+  public <Server extends DbServer> Collection<Server> getServers(ServerType type) {
+    ServerTable<?> table = this.serverTables.get(type);
     if (table != null) {
-      return table.getServers();
+      return (Collection<Server>) table.getServers();
     }
     return new ArrayList<>();
   }
 
   @NotNull
   @Override
-  public <Server extends DbTaskServer> Collection<Server> getServers(Type.Server<Server> type,
-      String task) {
-    ServerTable<Server> table = this.serverTables.get(type);
+  public <Server extends DbTaskServer> Collection<Server> getServers(ServerType type, String task) {
+    ServerTable<?> table = this.serverTables.get(type);
     if (table instanceof TaskTable) {
       return ((TaskTable<Server>) table).getServers(task);
     }
@@ -177,7 +169,7 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @NotNull
   @Override
-  public Collection<String> getServerNames(Type.Server<?> type) {
+  public Collection<String> getServerNames(ServerType type) {
     ServerTable<? extends DbServer> table = this.serverTables.get(type);
     if (table != null) {
       return table.getServerNames();
@@ -187,7 +179,7 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @NotNull
   @Override
-  public Collection<Integer> getServerPorts(Type.Server<?> type) {
+  public Collection<Integer> getServerPorts(ServerType type) {
     ServerTable<? extends DbServer> table = this.serverTables.get(type);
     if (table != null) {
       return table.getServerPorts();
@@ -197,7 +189,7 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @Override
   public void addLobby(String name, int port, Status.Server status, Path folderPath) {
-    ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOBBY);
+    ServerTable<? extends DbServer> table = this.serverTables.get(ServerType.LOBBY);
     if (table != null) {
       table.addServer(name, port, status, folderPath);
     }
@@ -206,7 +198,7 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @Override
   public void addGame(String name, int port, String task, Status.Server status, Path folderPath) {
-    ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.GAME);
+    ServerTable<? extends DbServer> table = this.serverTables.get(ServerType.GAME);
     if (table != null) {
       ((NonTmpGameTable) table).addServer(name, port, task, status, folderPath);
     }
@@ -214,7 +206,7 @@ public class DatabaseServers extends DatabaseConnector implements
 
   @Override
   public void addLounge(String name, int port, Status.Server status, Path folderPath) {
-    ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.LOUNGE);
+    ServerTable<? extends DbServer> table = this.serverTables.get(ServerType.LOUNGE);
     if (table != null) {
       table.addServer(name, port, status, folderPath);
     }
@@ -223,7 +215,7 @@ public class DatabaseServers extends DatabaseConnector implements
   @Override
   public void addTempGame(String name, int port, String task, Status.Server status,
       Path folderPath) {
-    ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.TEMP_GAME);
+    ServerTable<? extends DbServer> table = this.serverTables.get(ServerType.TEMP_GAME);
     if (table != null) {
       ((TmpGameTable) table).addServer(name, port, task, status, folderPath);
     }
@@ -232,7 +224,7 @@ public class DatabaseServers extends DatabaseConnector implements
   @Override
   public void addBuild(String name, int port, String task, Status.Server status,
       Path folderPath) {
-    ServerTable<? extends DbServer> table = this.serverTables.get(Type.Server.BUILD);
+    ServerTable<? extends DbServer> table = this.serverTables.get(ServerType.BUILD);
     if (table != null) {
       ((BuildTable) table).addServer(name, port, task, status, folderPath);
     }
@@ -250,7 +242,7 @@ public class DatabaseServers extends DatabaseConnector implements
     return this.buildWorldTable.getBuildServer(worldName);
   }
 
-  public ServerMap getServerTables() {
+  public Map<ServerType, ServerTable<?>> getServerTables() {
     return serverTables;
   }
 }

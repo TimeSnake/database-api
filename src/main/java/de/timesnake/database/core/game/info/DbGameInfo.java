@@ -7,7 +7,7 @@ package de.timesnake.database.core.game.info;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Availability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,25 +31,25 @@ public class DbGameInfo extends DbGameInfoBasis implements
 
   @NotNull
   @Override
-  public Type.Availability getMapAvailability() {
-    Type.Availability availability = super.getFirstWithKey(Column.Game.MAPS);
-    return availability != null ? availability : Type.Availability.FORBIDDEN;
+  public Availability getMapAvailability() {
+    Availability availability = super.getFirstWithKey(Column.Game.MAPS);
+    return availability != null ? availability : Availability.FORBIDDEN;
   }
 
   @Override
-  public void setMapsAvailability(Type.Availability maps) {
+  public void setMapsAvailability(Availability maps) {
     super.setWithKey(maps, Column.Game.MAPS);
   }
 
   @NotNull
   @Override
-  public Type.Availability getKitAvailability() {
-    Type.Availability availability = super.getFirstWithKey(Column.Game.KITS);
-    return availability != null ? availability : Type.Availability.FORBIDDEN;
+  public Availability getKitAvailability() {
+    Availability availability = super.getFirstWithKey(Column.Game.KITS);
+    return availability != null ? availability : Availability.FORBIDDEN;
   }
 
   @Override
-  public void setKitsAvailability(Type.Availability kits) {
+  public void setKitsAvailability(Availability kits) {
     super.setWithKey(kits, Column.Game.KITS);
   }
 
@@ -114,13 +114,13 @@ public class DbGameInfo extends DbGameInfoBasis implements
 
   @NotNull
   @Override
-  public Type.Availability getOldPvPAvailability() {
-    Type.Availability availability = super.getFirstWithKey(Game.OLD_PVP);
-    return availability != null ? availability : Type.Availability.FORBIDDEN;
+  public Availability getOldPvPAvailability() {
+    Availability availability = super.getFirstWithKey(Game.OLD_PVP);
+    return availability != null ? availability : Availability.FORBIDDEN;
   }
 
   @Override
-  public void setOldPvPAvailability(Type.Availability availability) {
+  public void setOldPvPAvailability(Availability availability) {
     super.setWithKey(availability, Game.OLD_PVP);
   }
 

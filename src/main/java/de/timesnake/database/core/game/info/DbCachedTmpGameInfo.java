@@ -6,10 +6,12 @@ package de.timesnake.database.core.game.info;
 
 import de.timesnake.database.core.Column.Game;
 import de.timesnake.database.util.object.ColumnMap;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.Availability;
+import de.timesnake.library.basic.util.DiscordChannelType;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Set;
-import org.jetbrains.annotations.NotNull;
 
 public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
     de.timesnake.database.util.game.DbTmpGameInfo {
@@ -17,11 +19,11 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
   protected Integer autoStartPlayerNumber;
   protected Integer minPlayerNumber;
   protected List<Integer> teamSizes;
-  protected Type.Availability teamMerge;
+  protected Availability teamMerge;
   protected boolean equalTimeSizeRequired;
   protected boolean showSelectedKits;
   protected boolean hideTeams;
-  protected Type.Discord discordType;
+  protected DiscordChannelType discordType;
   protected List<String> description;
 
   public DbCachedTmpGameInfo(DbTmpGameInfo database) {
@@ -116,12 +118,12 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
 
   @NotNull
   @Override
-  public Type.Availability getTeamMergeAvailability() {
-    return this.teamMerge != null ? this.teamMerge : Type.Availability.FORBIDDEN;
+  public Availability getTeamMergeAvailability() {
+    return this.teamMerge != null ? this.teamMerge : Availability.FORBIDDEN;
   }
 
   @Override
-  public void setTeamMergeAvailability(Type.Availability availability) {
+  public void setTeamMergeAvailability(Availability availability) {
     this.teamMerge = availability;
     this.getDatabase().setTeamMergeAvailability(availability);
   }
@@ -150,12 +152,12 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
 
   @NotNull
   @Override
-  public Type.Discord getDiscordType() {
-    return this.discordType != null ? this.discordType : Type.Discord.FORBIDDEN;
+  public DiscordChannelType getDiscordType() {
+    return this.discordType != null ? this.discordType : DiscordChannelType.FORBIDDEN;
   }
 
   @Override
-  public void setDiscordType(Type.Discord type) {
+  public void setDiscordType(DiscordChannelType type) {
     this.discordType = type;
     this.getDatabase().setDiscordType(type);
   }

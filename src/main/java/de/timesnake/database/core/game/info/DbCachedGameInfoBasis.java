@@ -7,6 +7,7 @@ package de.timesnake.database.core.game.info;
 import de.timesnake.database.util.game.DbGameInfoBasis;
 import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbCachedGameInfoBasis implements DbGameInfoBasis {
 
@@ -89,7 +90,7 @@ public class DbCachedGameInfoBasis implements DbGameInfoBasis {
     this.database.setItem(itemName);
   }
 
-  @NotNull
+  @Nullable
   @Override
   public String getHeadLine() {
     return headLine;

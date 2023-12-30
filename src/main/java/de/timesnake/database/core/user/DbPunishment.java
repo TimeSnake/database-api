@@ -9,13 +9,16 @@ import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Column.User;
+import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.PunishType;
+import de.timesnake.library.basic.util.Punishment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 public class DbPunishment extends DbPlayer implements de.timesnake.database.util.user.DbPunishment {
@@ -32,12 +35,12 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
 
   @Nullable
   @Override
-  public Type.Punishment getType() {
+  public PunishType getType() {
     return super.getFirstWithKey(Column.User.PUNISH_TYPE);
   }
 
   @Override
-  public void setType(Type.Punishment type) {
+  public void setType(PunishType type) {
     super.setWithKey(type, Column.User.PUNISH_TYPE);
   }
 
@@ -84,4 +87,11 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
     super.setWithKey(reason, Column.User.PUNISH_REASON);
   }
 
+  @Override
+  public Punishment asPunishment() {
+    ColumnMap columnMap = super.getFirstWithKey(Set.of(User.UUID, User.PUNISH_TYPE, User.PUNISH_DATE,
+        User.PUNISH_DURATION, User.PUNISH_CASTIGATOR, User.PUNISH_REASON));
+    return new Punishment(columnMap.get(User.UUID), columnMap.get(User.PUNISH_TYPE), columnMap.get(User.PUNISH_DATE),
+        columnMap.get(User.PUNISH_DURATION), columnMap.get(User.PUNISH_CASTIGATOR), columnMap.get(User.PUNISH_REASON));
+  }
 }

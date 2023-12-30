@@ -6,8 +6,7 @@ package de.timesnake.database.core.game;
 
 import de.timesnake.database.core.game.info.DbCachedNonTmpGameInfo;
 import de.timesnake.database.util.game.DbNonTmpGame;
-import de.timesnake.database.util.object.Type;
-import de.timesnake.database.util.object.Type.Availability;
+import de.timesnake.library.basic.util.Availability;
 import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,23 +41,23 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
 
   @NotNull
   @Override
-  public Type.Availability getMapAvailability() {
+  public Availability getMapAvailability() {
     return getInfo().getMapAvailability();
   }
 
   @Override
-  public void setMapsAvailability(Type.Availability maps) {
+  public void setMapsAvailability(Availability maps) {
     getInfo().setMapsAvailability(maps);
   }
 
   @NotNull
   @Override
-  public Type.Availability getKitAvailability() {
+  public Availability getKitAvailability() {
     return getInfo().getKitAvailability();
   }
 
   @Override
-  public void setKitsAvailability(Type.Availability kits) {
+  public void setKitsAvailability(Availability kits) {
     getInfo().setKitsAvailability(kits);
   }
 
@@ -123,7 +122,7 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
 
   @NotNull
   @Override
-  public Type.Availability getOldPvPAvailability() {
+  public Availability getOldPvPAvailability() {
     return getInfo().getOldPvPAvailability();
   }
 
@@ -189,7 +188,7 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     getInfo().setItem(itemName);
   }
 
-  @NotNull
+  @Nullable
   @Override
   public String getHeadLine() {
     return getInfo().getHeadLine();

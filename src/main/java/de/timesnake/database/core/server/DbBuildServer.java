@@ -9,7 +9,7 @@ import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.ServerType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -20,15 +20,15 @@ public class DbBuildServer extends DbTaskServer implements
   private final BuildWorldTable buildWorldTable;
 
   public DbBuildServer(DatabaseConnector databaseConnector, String name, String nameTable,
-      BuildWorldTable buildWorldTable) {
+                       BuildWorldTable buildWorldTable) {
     super(databaseConnector, name, nameTable);
     this.buildWorldTable = buildWorldTable;
   }
 
   @NotNull
   @Override
-  public Type.Server<de.timesnake.database.util.server.DbBuildServer> getType() {
-    return Type.Server.BUILD;
+  public ServerType getType() {
+    return ServerType.BUILD;
   }
 
   @NotNull

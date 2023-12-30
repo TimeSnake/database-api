@@ -4,7 +4,7 @@
 
 package de.timesnake.database.util.server;
 
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.ServerType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,5 +15,5 @@ public interface DbLoungeServer extends DbTaskServer {
 
   @NotNull
   @Override
-  Type.Server<DbLoungeServer> getType();
+  ServerType getType();
 }

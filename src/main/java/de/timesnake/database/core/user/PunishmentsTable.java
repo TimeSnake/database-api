@@ -10,19 +10,17 @@ import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Column.User;
 import de.timesnake.database.core.Entry;
+import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
-import de.timesnake.database.util.user.DbPunishment;
+import de.timesnake.library.basic.util.Punishment;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-public class PunishmentsTable extends PlayersTable {
+public class PunishmentsTable extends TableDDL {
 
-  public PunishmentsTable(DatabaseConnector databaseConnector, String nameTable) {
-    super(databaseConnector, nameTable);
+  public PunishmentsTable(DatabaseConnector databaseConnector, String tableName) {
+    super(databaseConnector, tableName, User.UUID);
     super.addColumn(User.PUNISH_TYPE);
     super.addColumn(User.PUNISH_DATE);
     super.addColumn(User.PUNISH_DURATION);
@@ -33,27 +31,23 @@ public class PunishmentsTable extends PlayersTable {
   }
 
   @Override
+  public void create() {
+    super.create();
+  }
+
+  @Override
   public void backup() {
     super.backup();
   }
 
-  public void setPunishment(UUID uuid, String name, Type.Punishment type, LocalDateTime date,
-      Duration duration, String castigator, String reason) {
-    super.set(Set.of(new Entry<>(name, Column.User.NAME),
-            new Entry<>(type, Column.User.PUNISH_TYPE),
-            new Entry<>(date, Column.User.PUNISH_DATE),
-            new Entry<>(duration, User.PUNISH_DURATION),
-            new Entry<>(castigator, Column.User.PUNISH_CASTIGATOR),
-            new Entry<>(reason, Column.User.PUNISH_REASON)),
-        () -> ServerChannel.getInstance()
-            .sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PUNISH)),
-        new Entry<>(uuid, Column.User.UUID));
-  }
-
-  public void setPunishment(DbPunishment punishment) {
-    this.setPunishment(punishment.getUniqueId(), punishment.getName(), punishment.getType(),
-        punishment.getDate(), punishment.getDuration(), punishment.getCastigator(),
-        punishment.getReason());
+  public void setPunishment(Punishment punishment) {
+    super.set(Set.of(new Entry<>(punishment.getType(), Column.User.PUNISH_TYPE),
+            new Entry<>(punishment.getDate(), Column.User.PUNISH_DATE),
+            new Entry<>(punishment.getDuration(), User.PUNISH_DURATION),
+            new Entry<>(punishment.getByName(), Column.User.PUNISH_CASTIGATOR),
+            new Entry<>(punishment.getReason(), Column.User.PUNISH_REASON)),
+        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(punishment.getUuid(), MessageType.User.PUNISH, punishment)),
+        new Entry<>(punishment.getUuid(), Column.User.UUID));
   }
 
   public boolean contains(UUID uuid) {

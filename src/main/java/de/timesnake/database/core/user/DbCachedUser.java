@@ -11,7 +11,6 @@ import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.object.TooLongEntryException;
-import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
@@ -19,14 +18,15 @@ import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.database.util.user.DbUserMail;
+import de.timesnake.library.basic.util.Punishment;
 import de.timesnake.library.basic.util.Status;
-import java.time.Duration;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DbCachedUser implements DbUser {
 
@@ -115,9 +115,8 @@ public class DbCachedUser implements DbUser {
   }
 
   @Override
-  public void setPunishment(Type.Punishment type, LocalDateTime date, Duration duration,
-      String castigator, String reason) {
-    this.user.setPunishment(type, date, duration, castigator, reason);
+  public void setPunishment(Punishment punishment) {
+    this.user.setPunishment(punishment);
   }
 
   @Override
@@ -129,11 +128,6 @@ public class DbCachedUser implements DbUser {
   @Override
   public DbPunishment getPunishment() {
     return this.user.getPunishment();
-  }
-
-  @Override
-  public void setPunishment(DbPunishment punishment) {
-    this.user.setPunishment(punishment);
   }
 
   @Nullable
@@ -184,7 +178,7 @@ public class DbCachedUser implements DbUser {
 
   @Override
   public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-      String... servers) {
+                            String... servers) {
     this.user.addPermission(permission, mode, syncExecute, servers);
   }
 

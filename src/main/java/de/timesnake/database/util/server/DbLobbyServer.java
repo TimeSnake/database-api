@@ -4,12 +4,12 @@
 
 package de.timesnake.database.util.server;
 
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.ServerType;
 import org.jetbrains.annotations.NotNull;
 
 public interface DbLobbyServer extends DbServer {
 
   @NotNull
   @Override
-  Type.Server<DbLobbyServer> getType();
+  ServerType getType();
 }

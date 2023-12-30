@@ -11,6 +11,7 @@ import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DbGameInfoBasis extends TableQuery implements
     de.timesnake.database.util.game.DbGameInfoBasis {
@@ -76,7 +77,7 @@ public class DbGameInfoBasis extends TableQuery implements
     super.setWithKey(itemName, Column.Game.ITEM);
   }
 
-  @NotNull
+  @Nullable
   @Override
   public String getHeadLine() {
     return super.getFirstWithKey(Column.Game.HEAD_LINE);
