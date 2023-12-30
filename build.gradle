@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly "de.timesnake:channel-api:3.0.5"
+  compileOnly "de.timesnake:channel-api:3.0.6"
 
   compileOnly "de.timesnake:library-basic:1.2.2"
   compileOnly "de.timesnake:library-chat:1.1"
