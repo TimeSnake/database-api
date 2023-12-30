@@ -6,10 +6,11 @@ package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
-import java.util.UUID;
+import de.timesnake.library.basic.util.ServerType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class DbNonTmpGameServer extends DbPvPServer implements
     de.timesnake.database.util.server.DbNonTmpGameServer {
@@ -47,7 +48,7 @@ public class DbNonTmpGameServer extends DbPvPServer implements
 
   @NotNull
   @Override
-  public Type.Server<de.timesnake.database.util.server.DbNonTmpGameServer> getType() {
-    return Type.Server.GAME;
+  public ServerType getType() {
+    return ServerType.GAME;
   }
 }

@@ -9,15 +9,16 @@ import de.timesnake.database.core.game.info.DbTmpGameInfo;
 import de.timesnake.database.core.game.team.DbTeam;
 import de.timesnake.database.core.game.team.TeamsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.Type;
-import de.timesnake.database.util.object.Type.Availability;
+import de.timesnake.library.basic.util.Availability;
+import de.timesnake.library.basic.util.DiscordChannelType;
 import de.timesnake.library.chat.ExTextColor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DbTmpGame extends DbGame implements de.timesnake.database.util.game.DbTmpGame {
 
@@ -82,7 +83,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
   @Override
   public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio,
-      String colorName) {
+                      String colorName) {
     if (this.loadTeamsTable()) {
       this.teamsTable.get().addTeam(name, rank, prefix, color, ratio, colorName);
     }
@@ -160,23 +161,23 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
   @NotNull
   @Override
-  public Type.Availability getMapAvailability() {
+  public Availability getMapAvailability() {
     return getInfo().getMapAvailability();
   }
 
   @Override
-  public void setMapsAvailability(Type.Availability maps) {
+  public void setMapsAvailability(Availability maps) {
     getInfo().setMapsAvailability(maps);
   }
 
   @NotNull
   @Override
-  public Type.Availability getKitAvailability() {
+  public Availability getKitAvailability() {
     return getInfo().getKitAvailability();
   }
 
   @Override
-  public void setKitsAvailability(Type.Availability kits) {
+  public void setKitsAvailability(Availability kits) {
     getInfo().setKitsAvailability(kits);
   }
 
@@ -241,7 +242,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
   @Override
   @NotNull
-  public Type.Availability getOldPvPAvailability() {
+  public Availability getOldPvPAvailability() {
     return getInfo().getOldPvPAvailability();
   }
 
@@ -307,7 +308,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     getInfo().setItem(itemName);
   }
 
-  @NotNull
+  @Nullable
   @Override
   public String getHeadLine() {
     return getInfo().getHeadLine();
@@ -383,12 +384,12 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
   @NotNull
   @Override
-  public Type.Availability getTeamMergeAvailability() {
+  public Availability getTeamMergeAvailability() {
     return getInfo().getTeamMergeAvailability();
   }
 
   @Override
-  public void setTeamMergeAvailability(Type.Availability availability) {
+  public void setTeamMergeAvailability(Availability availability) {
     getInfo().setTeamMergeAvailability(availability);
   }
 
@@ -414,12 +415,13 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
   @NotNull
   @Override
-  public Type.Discord getDiscordType() {
+  public DiscordChannelType
+  getDiscordType() {
     return getInfo().getDiscordType();
   }
 
   @Override
-  public void setDiscordType(Type.Discord type) {
+  public void setDiscordType(DiscordChannelType type) {
     getInfo().setDiscordType(type);
   }
 

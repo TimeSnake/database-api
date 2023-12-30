@@ -4,7 +4,7 @@
 
 package de.timesnake.database.util.server;
 
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.ServerType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +29,7 @@ public interface DbTmpGameServer extends DbPvPServer {
 
   @NotNull
   @Override
-  Type.Server<DbTmpGameServer> getType();
+  ServerType getType();
 
   boolean areMapsEnabled();
 

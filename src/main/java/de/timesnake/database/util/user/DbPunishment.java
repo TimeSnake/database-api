@@ -5,12 +5,14 @@
 package de.timesnake.database.util.user;
 
 import de.timesnake.database.util.object.NotCached;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.PunishType;
+import de.timesnake.library.basic.util.Punishment;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface DbPunishment extends DbPlayer {
 
@@ -22,17 +24,17 @@ public interface DbPunishment extends DbPlayer {
   /**
    * Gets the type of the punishment
    *
-   * @return the {@link Type.Punishment}
+   * @return the {@link PunishType}
    */
   @Nullable
-  Type.Punishment getType();
+  PunishType getType();
 
   /**
    * Sets the type of the punishment
    *
    * @param type The type to set
    */
-  void setType(Type.Punishment type);
+  void setType(PunishType type);
 
   /**
    * Gets the deletion-date of the punishment
@@ -84,4 +86,11 @@ public interface DbPunishment extends DbPlayer {
    * @param reason The reason to set
    */
   void setReason(String reason);
+
+  /**
+   * Gets this punishment as {@link Punishment}
+   *
+   * @return the punishment
+   */
+  Punishment asPunishment();
 }

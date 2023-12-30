@@ -5,11 +5,12 @@
 package de.timesnake.database.util.server;
 
 import de.timesnake.database.util.object.TooLongEntryException;
-import de.timesnake.database.util.object.Type;
+import de.timesnake.library.basic.util.ServerType;
 import de.timesnake.library.basic.util.Status;
-import java.nio.file.Path;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.nio.file.Path;
 
 public interface DbServer {
 
@@ -44,7 +45,7 @@ public interface DbServer {
   void setOnlinePlayersSynchronized(int playersOnline);
 
   @NotNull
-  Type.Server<?> getType();
+  ServerType getType();
 
   @Nullable
   String getPassword();

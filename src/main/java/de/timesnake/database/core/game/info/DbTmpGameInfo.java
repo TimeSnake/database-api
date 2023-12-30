@@ -8,9 +8,11 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbIntegerArrayList;
 import de.timesnake.database.util.object.DbStringArrayList;
-import de.timesnake.database.util.object.Type;
-import java.util.List;
+import de.timesnake.library.basic.util.Availability;
+import de.timesnake.library.basic.util.DiscordChannelType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class DbTmpGameInfo extends DbGameInfo implements
     de.timesnake.database.util.game.DbTmpGameInfo {
@@ -63,13 +65,13 @@ public class DbTmpGameInfo extends DbGameInfo implements
 
   @NotNull
   @Override
-  public Type.Availability getTeamMergeAvailability() {
-    Type.Availability availability = super.getFirstWithKey(Column.Game.TEAM_MERGE);
-    return availability != null ? availability : Type.Availability.FORBIDDEN;
+  public Availability getTeamMergeAvailability() {
+    Availability availability = super.getFirstWithKey(Column.Game.TEAM_MERGE);
+    return availability != null ? availability : Availability.FORBIDDEN;
   }
 
   @Override
-  public void setTeamMergeAvailability(Type.Availability availability) {
+  public void setTeamMergeAvailability(Availability availability) {
     super.setWithKey(availability, Column.Game.TEAM_MERGE);
   }
 
@@ -95,13 +97,13 @@ public class DbTmpGameInfo extends DbGameInfo implements
 
   @NotNull
   @Override
-  public Type.Discord getDiscordType() {
-    Type.Discord discord = super.getFirstWithKey(Column.Game.DISCORD_TYPE);
-    return discord != null ? discord : Type.Discord.FORBIDDEN;
+  public DiscordChannelType getDiscordType() {
+    DiscordChannelType discord = super.getFirstWithKey(Column.Game.DISCORD_TYPE);
+    return discord != null ? discord : DiscordChannelType.FORBIDDEN;
   }
 
   @Override
-  public void setDiscordType(Type.Discord type) {
+  public void setDiscordType(DiscordChannelType type) {
     super.setWithKey(type, Column.Game.DISCORD_TYPE);
   }
 

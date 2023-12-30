@@ -4,30 +4,23 @@
 
 package de.timesnake.database.core;
 
-import static de.timesnake.database.core.table.Table.ENTRY_ARRAY_DELIMITER;
-
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.object.BlockSide;
-import de.timesnake.database.util.object.Type;
 import de.timesnake.library.basic.util.Status;
+import de.timesnake.library.basic.util.Type;
 import de.timesnake.library.chat.ExTextColor;
-import java.awt.Color;
+
+import java.awt.*;
 import java.io.File;
 import java.nio.file.Path;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static de.timesnake.database.core.table.Table.ENTRY_ARRAY_DELIMITER;
 
 public abstract class ColumnType<Value> {
 
@@ -298,7 +291,7 @@ public abstract class ColumnType<Value> {
 
       @Override
       public void applyOnStatement(PreparedStatement statement, int index,
-          List<String> strings) throws SQLException {
+                                   List<String> strings) throws SQLException {
         if (strings.size() > 0) {
           statement.setString(index, String.join(ENTRY_ARRAY_DELIMITER, strings));
         } else {
@@ -336,7 +329,7 @@ public abstract class ColumnType<Value> {
 
       @Override
       public void applyOnStatement(PreparedStatement statement, int index,
-          List<Integer> integers) throws SQLException {
+                                   List<Integer> integers) throws SQLException {
         if (integers.size() > 0) {
           statement.setString(index, integers.stream()
               .map(String::valueOf)
@@ -466,7 +459,7 @@ public abstract class ColumnType<Value> {
 
     @Override
     public void applyOnStatement(PreparedStatement statement, int index,
-        ExTextColor exTextColor) throws SQLException {
+                                 ExTextColor exTextColor) throws SQLException {
       statement.setString(index, exTextColor.getName());
     }
   };

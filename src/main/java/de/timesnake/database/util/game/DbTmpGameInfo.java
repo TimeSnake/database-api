@@ -5,10 +5,12 @@
 package de.timesnake.database.util.game;
 
 import de.timesnake.database.util.object.NotCached;
-import de.timesnake.database.util.object.Type;
-import java.util.List;
+import de.timesnake.library.basic.util.Availability;
+import de.timesnake.library.basic.util.DiscordChannelType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public interface DbTmpGameInfo extends DbGameInfo {
 
@@ -36,10 +38,10 @@ public interface DbTmpGameInfo extends DbGameInfo {
   void setTeamSizes(List<Integer> sizes);
 
   @NotNull
-  Type.Availability getTeamMergeAvailability();
+  Availability getTeamMergeAvailability();
 
   @NotCached
-  void setTeamMergeAvailability(Type.Availability availability);
+  void setTeamMergeAvailability(Availability availability);
 
   boolean isEqualTeamSizeRequired();
 
@@ -52,9 +54,9 @@ public interface DbTmpGameInfo extends DbGameInfo {
   void setHideTeams(boolean hide);
 
   @NotNull
-  Type.Discord getDiscordType();
+  DiscordChannelType getDiscordType();
 
-  void setDiscordType(Type.Discord type);
+  void setDiscordType(DiscordChannelType type);
 
   @Nullable
   List<String> getDescription();

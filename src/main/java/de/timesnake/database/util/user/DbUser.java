@@ -10,25 +10,24 @@ import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.object.TooLongEntryException;
-import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
+import de.timesnake.library.basic.util.Punishment;
 import de.timesnake.library.basic.util.Status;
-import java.time.Duration;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface DbUser extends DbPlayer, DbCached<DbUser> {
 
   @NotCached
-  void setPunishment(Type.Punishment type, LocalDateTime date, Duration duration,
-      String castigator, String reason);
+  void setPunishment(Punishment punishment);
 
   /**
    * Checks if the user has a punishment
@@ -48,14 +47,6 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
   @NotCached
   @NotNull
   DbPunishment getPunishment();
-
-  /**
-   * Sets the user punishment
-   *
-   * @param punishment The {@link DbPunishment} to set
-   */
-  @NotCached
-  void setPunishment(DbPunishment punishment);
 
   /**
    * Gets the user prefix
@@ -131,7 +122,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
    */
   @NotCached
   void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-      String... servers);
+                     String... servers);
 
 
   /**

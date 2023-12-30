@@ -15,17 +15,16 @@ import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.object.TooLongEntryException;
-import de.timesnake.database.util.object.Type;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.database.util.server.DbLobbyServer;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.database.util.support.DbTicket;
 import de.timesnake.database.util.user.DbUserMail;
+import de.timesnake.library.basic.util.Punishment;
 import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
@@ -40,9 +39,9 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   private final String mailsTableName;
 
   public DbUser(DatabaseConnector databaseConnector, UUID uuid, String infoTable,
-      String punishmentsTableName,
-      String mailsTableName, PunishmentsTable punishmentsTable, MailsTable mailsTable,
-      DisplayGroupsTable displayGroupsTable) {
+                String punishmentsTableName,
+                String mailsTableName, PunishmentsTable punishmentsTable, MailsTable mailsTable,
+                DisplayGroupsTable displayGroupsTable) {
     super(databaseConnector, uuid, infoTable);
 
     this.punishmentsTable = punishmentsTable;
@@ -57,10 +56,8 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   //punishment
 
   @Override
-  public void setPunishment(Type.Punishment type, LocalDateTime date, Duration duration,
-      String castigator, String reason) {
-    this.punishmentsTable.setPunishment(super.getUniqueId(), this.getName(), type, date,
-        duration, castigator, reason);
+  public void setPunishment(Punishment punishment) {
+    this.punishmentsTable.setPunishment(punishment);
   }
 
   @Override
@@ -73,11 +70,6 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   public de.timesnake.database.util.user.DbPunishment getPunishment() {
     return new DbPunishment(this.databaseConnector, super.getUniqueId(),
         this.punishmentTableName);
-  }
-
-  @Override
-  public void setPunishment(de.timesnake.database.util.user.DbPunishment punishment) {
-    this.punishmentsTable.setPunishment(punishment);
   }
 
   //alias
@@ -138,7 +130,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
   @Override
   public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-      String... servers) {
+                            String... servers) {
     Database.getPermissions()
         .addPermission(this.getUniqueId().toString(), permission, mode, syncExecute,
             servers);
