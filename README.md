@@ -1,11 +1,34 @@
 # database-api
 
-This module is part of the plugin-project and won't run without
-the [root module](https://git.timesnake.de/timesnake/plugin-root-project) [1].
+## Setup
 
-# Usage
+This module is part of the plugin-project [1]. You can use it as standalone project or as bundle.
 
-## Queries
+### Standalone
+
+Clone this project and enter your gitlab credentials in your gradle user home
+properties (`~/.gradle/gradle.propreties`):
+
+```
+timesnakeUser=<user>
+timesnakePassword=<access_token>
+```
+
+Replace `<user>` with your gitlab username and `<access_token>` with an access-token.
+
+Run `gradle build` to build it.
+
+### Bundle
+
+To use this project in the multimodule plugin-project, read the setup guide in the root module [1].
+
+## Testing
+
+To test this module, you must set up a test server, therefore read regarding guide in the root module [1].
+
+## Usage
+
+### Queries
 
 Read queries are executed synchronously. So a query can cause a slight delay in the execution.
 Performing multiple queries should be done asynchronously to prevent server lags. Some data objects
@@ -18,7 +41,7 @@ fetch an old invalid value. To prevent this, a channel listener should be used t
 updates. You can find more
 about that in the _channel-api_.
 
-## Caching
+### Caching
 
 All objects with an instance of [DbCached] can be cached. To cache all data simply call the method
 `toLocal()`. Caching data only performs one database query, so it is much faster compared to
@@ -34,7 +57,7 @@ query.
 [DbCached]: /src/main/java/de/timesnake/database/util/object/DbCached.java
 
 [NotCached]: /src/main/java/de/timesnake/database/util/object/NotCached.java
-[root module](https://git.timesnake.de/timesnake/plugin-root-project)
+[root module](https://git.timesnake.de/timesnake/minecraft/plugin-root-project)
 
 ## Code Style
 
@@ -42,7 +65,7 @@ The code style guide can be found in the plugin root project [1].
 
 ## License
 
-- The source is licensed under the GNU GPLv2 license that can be found in the [LICENSE](LICENSE)
+The source is licensed under the GNU GPLv2 license that can be found in the [LICENSE](LICENSE)
   file.
 
-[1] https://git.timesnake.de/timesnake/plugin-root-project
+[1] https://git.timesnake.de/timesnake/minecraft/plugin-root-project
