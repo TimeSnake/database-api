@@ -92,5 +92,6 @@ public interface DbPunishment extends DbPlayer {
    *
    * @return the punishment
    */
+  @NotNull
   Punishment asPunishment();
 }
