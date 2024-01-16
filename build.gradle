@@ -7,7 +7,7 @@ plugins {
 
 
 group = "de.timesnake"
-version = '2.3.0'
+version = '2.4.0'
 var projectId = 45
 
 repositories {
@@ -24,10 +24,10 @@ repositories {
 }
 
 dependencies {
-  compileOnly "de.timesnake:channel-api:3.0.6"
+  compileOnly "de.timesnake:channel-api:3.+"
 
-  compileOnly "de.timesnake:library-basic:1.2.2"
-  compileOnly "de.timesnake:library-chat:1.1"
+  compileOnly "de.timesnake:library-basic:1.+"
+  compileOnly "de.timesnake:library-chat:1.+"
 
   implementation 'org.apache.commons:commons-dbcp2:2.9+'
   implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
