@@ -12,10 +12,11 @@ import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
-import java.util.Collection;
-import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.Set;
 
 public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup {
 
@@ -81,6 +82,7 @@ public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup
     return this.getDatabase().getPermissions();
   }
 
+  @Deprecated
   @Nullable
   @Override
   public DbPermission getPermission(String permission) {
@@ -88,15 +90,13 @@ public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-      String... servers) {
-    this.getDatabase().addPermission(permission, mode, syncExecute,
-        servers);
+  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute) {
+    this.getDatabase().addPermission(permission, mode, syncExecute);
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, String... servers) {
-    this.getDatabase().addPermission(permission, mode, servers);
+  public void addPermission(String permission, Status.Permission mode) {
+    this.getDatabase().addPermission(permission, mode);
   }
 
   @Override

@@ -8,9 +8,10 @@ import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.database.util.permission.DbPermission;
 import de.timesnake.library.basic.util.Status;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 public interface DbPermGroup extends DbGroupBasis {
 
@@ -38,20 +39,19 @@ public interface DbPermGroup extends DbGroupBasis {
   @NotNull
   Collection<DbPermGroup> getGroupsInherit();
 
-  @NotCached
   @NotNull
   Collection<DbPermission> getPermissions();
 
+  @Deprecated
   @Nullable
   @NotCached
   DbPermission getPermission(String permission);
 
   @NotCached
-  void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-      String... servers);
+  void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute);
 
   @NotCached
-  void addPermission(String permission, Status.Permission mode, String... servers);
+  void addPermission(String permission, Status.Permission mode);
 
   @NotCached
   boolean hasPermission(String permission);

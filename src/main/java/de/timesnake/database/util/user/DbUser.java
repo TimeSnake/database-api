@@ -107,22 +107,19 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
    *
    * @param permission The permission to set
    * @param mode       The {@link Status.Permission} to set
-   * @param servers    The servers to set
    */
   @NotCached
-  void addPermission(String permission, Status.Permission mode, String... servers);
+  void addPermission(String permission, Status.Permission mode);
 
   /**
    * Adds a permission to the user
    *
    * @param permission  The permission to set
    * @param mode        The {@link Status.Permission} to set
-   * @param servers     The servers to set
    * @param syncExecute
    */
   @NotCached
-  void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-                     String... servers);
+  void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute);
 
 
   /**
@@ -140,6 +137,7 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
    * @param permission The name of the permission to get
    * @return the {@link DbPermission}
    */
+  @Deprecated
   @Nullable
   @NotCached
   DbPermission getPermission(String permission);
@@ -149,7 +147,6 @@ public interface DbUser extends DbPlayer, DbCached<DbUser> {
    *
    * @return a {@link DbPermission}-{@link List}
    */
-  @NotCached
   @NotNull
   Collection<DbPermission> getPermissions();
 

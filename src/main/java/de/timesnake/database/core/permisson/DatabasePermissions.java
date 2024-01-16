@@ -7,10 +7,10 @@ package de.timesnake.database.core.permisson;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
 import de.timesnake.library.basic.util.Status;
-import java.util.Collection;
-import java.util.LinkedList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 public class DatabasePermissions extends DatabaseConnector implements
     de.timesnake.database.util.permission.DatabasePermissions {
@@ -37,16 +37,13 @@ public class DatabasePermissions extends DatabaseConnector implements
   }
 
   @Override
-  public void addPermission(String name, String permission, Status.Permission mode,
-      String... servers) {
-    this.permissionsTable.addPermission(name, permission, mode, servers);
+  public void addPermission(String name, String permission, Status.Permission mode) {
+    this.permissionsTable.addPermission(name, permission, mode);
   }
 
   @Override
-  public void addPermission(String name, String permission, Status.Permission mode,
-      SyncExecute syncExecute,
-      String... servers) {
-    this.permissionsTable.addPermission(name, permission, mode, syncExecute, servers);
+  public void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute) {
+    this.permissionsTable.addPermission(name, permission, mode, syncExecute);
   }
 
   @Override
@@ -64,10 +61,16 @@ public class DatabasePermissions extends DatabaseConnector implements
     return this.permissionsTable.containsPermission(name, permission);
   }
 
+  @NotNull
+  @Override
+  public de.timesnake.database.util.permission.DbPermission getPermission(Integer id) {
+    return new DbPermission(this, id, this.permissionsTableName);
+  }
+
   @Nullable
   @Override
-  public de.timesnake.database.util.permission.DbPermission getPermission(String name,
-      String permission) {
+  @Deprecated
+  public de.timesnake.database.util.permission.DbPermission getPermission(String name, String permission) {
     if (this.permissionsTable.getIdFromName(name, permission) != 0) {
       return new DbPermission(this, this.permissionsTable.getIdFromName(name, permission),
           this.permissionsTableName);
@@ -77,14 +80,7 @@ public class DatabasePermissions extends DatabaseConnector implements
 
   @NotNull
   @Override
-  public Collection<de.timesnake.database.util.permission.DbPermission> getPermissions(
-      String name) {
-    LinkedList<de.timesnake.database.util.permission.DbPermission> permissions = new LinkedList<>();
-    for (int id : this.permissionsTable.getIdsFromName(name)) {
-      permissions.add(new DbPermission(this, id, this.permissionsTableName));
-    }
-    return permissions;
+  public Collection<de.timesnake.database.util.permission.DbPermission> getCachedPermissions(String name) {
+    return this.permissionsTable.getCachedPermissions(name);
   }
-
-
 }

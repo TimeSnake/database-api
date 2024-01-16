@@ -123,25 +123,21 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   //permissions
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, String... servers) {
-    Database.getPermissions()
-        .addPermission(this.getUniqueId().toString(), permission, mode, servers);
+  public void addPermission(String permission, Status.Permission mode) {
+    Database.getPermissions().addPermission(this.getUniqueId().toString(), permission, mode);
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-                            String... servers) {
-    Database.getPermissions()
-        .addPermission(this.getUniqueId().toString(), permission, mode, syncExecute,
-            servers);
+  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute) {
+    Database.getPermissions().addPermission(this.getUniqueId().toString(), permission, mode, syncExecute);
   }
 
   @Override
   public boolean hasPermission(String permission) {
-    return Database.getPermissions()
-        .containsPermission(super.getUniqueId().toString(), permission);
+    return Database.getPermissions().containsPermission(super.getUniqueId().toString(), permission);
   }
 
+  @Deprecated
   @Nullable
   @Override
   public DbPermission getPermission(String permission) {
@@ -151,7 +147,7 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @NotNull
   @Override
   public Collection<DbPermission> getPermissions() {
-    return Database.getPermissions().getPermissions(super.getUniqueId().toString());
+    return Database.getPermissions().getCachedPermissions(super.getUniqueId().toString());
   }
 
   @Override
