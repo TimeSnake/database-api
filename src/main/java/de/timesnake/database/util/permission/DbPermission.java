@@ -4,12 +4,12 @@
 
 package de.timesnake.database.util.permission;
 
+import de.timesnake.database.util.object.DbCached;
+import de.timesnake.database.util.object.NotCached;
 import de.timesnake.library.basic.util.Status;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public interface DbPermission {
+public interface DbPermission extends DbCached<DbPermission> {
 
   boolean exists();
 
@@ -17,17 +17,14 @@ public interface DbPermission {
   Integer getId();
 
   @NotNull
-  String getName();
+  String getPermission();
 
-  void setName(String name);
+  @NotCached
+  void setPermission(String permission);
 
   @NotNull
   Status.Permission getMode();
 
+  @NotCached
   void setMode(Status.Permission mode);
-
-  @Nullable
-  Collection<String> getServers();
-
-  void setServers(Collection<String> servers);
 }

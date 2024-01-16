@@ -132,7 +132,6 @@ public class Column<Value> {
     public static final Permission<String> NAME = new Permission<>("name", ColumnType.VARCHAR(42));
     public static final Permission<String> PERMISSION = new Permission<>("permission", ColumnType.VARCHAR(255));
     public static final Permission<Status.Permission> MODE = new Permission<>("mode", ColumnType.STATUS());
-    public static final Permission<List<String>> SERVER = new Permission<>("server", ColumnType.STRING_LIST(255));
 
     Permission(String name, ColumnType<T> type) {
       super(name, type);

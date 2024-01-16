@@ -8,14 +8,10 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.table.TableQuery;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.library.basic.util.Status;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class DbPermission extends TableQuery implements
-    de.timesnake.database.util.permission.DbPermission {
+public class DbPermission extends TableQuery implements de.timesnake.database.util.permission.DbPermission {
 
   public DbPermission(DatabaseConnector databaseConnector, int id, String nameTable) {
     super(databaseConnector, nameTable, new Entry<>(id, Column.Permission.ID));
@@ -34,13 +30,13 @@ public class DbPermission extends TableQuery implements
 
   @NotNull
   @Override
-  public String getName() {
+  public String getPermission() {
     return super.getFirstWithKey(Column.Permission.PERMISSION);
   }
 
   @Override
-  public void setName(String name) {
-    super.setWithKey(name, Column.Permission.PERMISSION);
+  public void setPermission(String permission) {
+    super.setWithKey(permission, Column.Permission.PERMISSION);
   }
 
   @NotNull
@@ -54,17 +50,13 @@ public class DbPermission extends TableQuery implements
     super.setWithKey(mode, Column.Permission.MODE);
   }
 
-  @Nullable
   @Override
-  public Collection<String> getServers() {
-    return super.getFirstWithKey(Column.Permission.SERVER);
+  public de.timesnake.database.util.permission.@NotNull DbPermission toLocal() {
+    return new DbCachedPermission(this);
   }
 
   @Override
-  public void setServers(Collection<String> servers) {
-    super.setWithKey(servers != null ? new DbStringArrayList(servers) : null,
-        Column.Permission.SERVER);
+  public de.timesnake.database.util.permission.@NotNull DbPermission toDatabase() {
+    return this;
   }
-
-
 }

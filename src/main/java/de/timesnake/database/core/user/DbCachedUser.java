@@ -172,14 +172,13 @@ public class DbCachedUser implements DbUser {
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, String... servers) {
-    this.user.addPermission(permission, mode, servers);
+  public void addPermission(String permission, Status.Permission mode) {
+    this.user.addPermission(permission, mode);
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-                            String... servers) {
-    this.user.addPermission(permission, mode, syncExecute, servers);
+  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute) {
+    this.user.addPermission(permission, mode, syncExecute);
   }
 
   @Override

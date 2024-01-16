@@ -77,9 +77,10 @@ public class DbPermGroup extends DbGroupBasis implements
   @NotNull
   @Override
   public Collection<DbPermission> getPermissions() {
-    return Database.getPermissions().getPermissions(super.getName());
+    return Database.getPermissions().getCachedPermissions(super.getName());
   }
 
+  @Deprecated
   @Nullable
   @Override
   public DbPermission getPermission(String permission) {
@@ -87,15 +88,14 @@ public class DbPermGroup extends DbGroupBasis implements
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute,
-      String... servers) {
+  public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute) {
     Database.getPermissions()
-        .addPermission(super.getName(), permission, mode, syncExecute, servers);
+        .addPermission(super.getName(), permission, mode, syncExecute);
   }
 
   @Override
-  public void addPermission(String permission, Status.Permission mode, String... servers) {
-    Database.getPermissions().addPermission(super.getName(), permission, mode, servers);
+  public void addPermission(String permission, Status.Permission mode) {
+    Database.getPermissions().addPermission(super.getName(), permission, mode);
   }
 
   @Override
