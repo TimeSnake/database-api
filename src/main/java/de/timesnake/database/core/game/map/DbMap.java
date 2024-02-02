@@ -8,14 +8,12 @@ import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.game.DbGame;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DbLocation;
+import de.timesnake.database.util.user.DbUser;
 import de.timesnake.library.basic.util.server.Server;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DbMap implements de.timesnake.database.util.game.DbMap {
@@ -25,6 +23,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
   private final String name;
 
   private final MapsAuthorTable authorTable;
+  private final MapsPropertyTable propertyTable;
 
   private final DbMapInfo info;
   private final DbMapLocations mapLocations;
@@ -33,12 +32,10 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     this.gameName = gameName;
     this.name = mapName;
 
-    this.info = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName)
-        .getMapInfo(mapName);
-    this.mapLocations =
-        DatabaseManager.getInstance().getGameMaps().getMapsSpawnsTable(gameName)
-            .getMapLocations(mapName);
+    this.info = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName).getMapInfo(mapName);
+    this.mapLocations = DatabaseManager.getInstance().getGameMaps().getLocationTable(gameName).getMapLocations(mapName);
     this.authorTable = DatabaseManager.getInstance().getGameMaps().getMapsAuthorTable(gameName);
+    this.propertyTable = DatabaseManager.getInstance().getGameMaps().getMapsPropertyTable(gameName);
   }
 
   @Override
@@ -80,10 +77,20 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     return this.info.getMinPlayers();
   }
 
+  @Override
+  public void setMinPlayers(Integer minPlayers) {
+    this.info.setMinPlayers(minPlayers);
+  }
+
   @Nullable
   @Override
   public Integer getMaxPlayers() {
     return this.info.getMaxPlayers();
+  }
+
+  @Override
+  public void setMaxPlayers(Integer maxPlayers) {
+    this.info.setMaxPlayers(maxPlayers);
   }
 
   @Override
@@ -171,21 +178,32 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
     return this.info.getItemName();
   }
 
+  @Override
+  public void setItemName(String name) {
+    this.info.setItemName(name);
+  }
+
   @NotNull
   @Override
   public List<String> getDescription() {
     return this.info.getDescription();
   }
 
-  @NotNull
   @Override
-  public List<String> getInfo() {
-    return this.info.getInfo();
+  @NotNull
+  public Map<String, String> getProperties() {
+    return this.propertyTable.getProperties(this.name);
   }
 
   @Override
-  public void setInfo(List<String> info) {
-    this.info.setInfo(info);
+  @Nullable
+  public String getProperty(@NotNull String key) {
+    return this.propertyTable.getProperty(this.name, key);
+  }
+
+  @Override
+  public void setProperty(@NotNull String key, @Nullable String value) {
+    this.propertyTable.setProperty(this.name, key, value);
   }
 
   @NotNull
@@ -218,19 +236,17 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
         .filter(Optional::isPresent)
         .map(Optional::get)
         .toList();
-    ;
-    return !authorNames.isEmpty() ? authorNames
-        : List.of(Server.DEFAULT_NETWORK_NAME + " Community");
+    return !authorNames.isEmpty() ? authorNames : List.of(Server.DEFAULT_NETWORK_NAME + " Community");
   }
 
   @Override
   public void setAuthorNames(List<String> authors) {
     for (String name : authors) {
-      UUID uuid = Database.getUsers().getUser(name).getUniqueId();
-      if (uuid == null) {
+      DbUser user = Database.getUsers().getUser(name);
+      if (user == null) {
         continue;
       }
-      this.authorTable.addMapAuthor(this.name, uuid);
+      this.authorTable.addMapAuthor(this.name, user.getUniqueId());
     }
   }
 

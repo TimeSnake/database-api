@@ -146,7 +146,8 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       gameTeams.connect();
       this.databasesByName.put(TEAMS_NAME, gameTeams);
 
-      gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME), url, options, user, password, "info", "locations", "authors");
+      gameMaps = new DatabaseMaps(config.getDatabaseName(MAPS_NAME), url, options, user, password, "info", "locations"
+          , "authors", "properties");
       gameMaps.connect();
       this.databasesByName.put(MAPS_NAME, gameMaps);
 

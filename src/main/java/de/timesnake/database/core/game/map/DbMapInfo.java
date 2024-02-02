@@ -82,15 +82,6 @@ public class DbMapInfo extends TableQuery {
     this.setWithKey(description, Column.Game.MAP_DESCRIPTION);
   }
 
-  @NotNull
-  public List<String> getInfo() {
-    return super.getFirstWithKey(Column.Game.MAP_INFO);
-  }
-
-  public void setInfo(List<String> info) {
-    this.setWithKey(info, Column.Game.MAP_INFO);
-  }
-
   public boolean isEnabled() {
     return super.getFirstWithKey(Column.Game.MAP_ENABLE);
   }

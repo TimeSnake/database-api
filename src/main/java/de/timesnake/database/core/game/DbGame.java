@@ -195,11 +195,9 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
   }
 
   @Override
-  public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
-                     String itemName, List<String> description, List<String> info, List<String> authors) {
+  public void addMap(String name) {
     if (this.mapsTable != null) {
-      this.mapsTable.addMap(name, displayName, minPlayers, maxPlayers, itemName, description,
-          info, authors);
+      this.mapsTable.addMap(name);
     }
   }
 
@@ -210,7 +208,7 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     }
   }
 
-  @NotNull
+  @Nullable
   @Override
   public DbMap getMap(String mapName) {
     if (this.mapsTable != null) {
@@ -218,7 +216,6 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     }
     return null;
   }
-
 
   @NotNull
   public List<DbMap> getMaps(Integer players) {
@@ -228,6 +225,14 @@ public class DbGame implements de.timesnake.database.util.game.DbGame {
     return new ArrayList<>();
   }
 
+  @NotNull
+  @Override
+  public Collection<String> getMapNames() {
+    if (this.mapsTable != null) {
+      return this.mapsTable.getMapNames();
+    }
+    return List.of();
+  }
 
   @NotNull
   @Override

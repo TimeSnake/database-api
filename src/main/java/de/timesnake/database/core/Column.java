@@ -229,9 +229,10 @@ public class Column<Value> {
     public static final Game<Integer> MAP_MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getType());
     public static final Game<List<Integer>> MAP_TEAM_AMOUNTS = new Game<>("team_amounts", ColumnType.integerList(1000));
     public static final Game<List<String>> MAP_DESCRIPTION = new Game<>("description", ColumnType.STRING_LIST(1000));
-    public static final Game<List<String>> MAP_INFO = new Game<>("info", ColumnType.STRING_LIST(500));
     public static final Game<Boolean> MAP_ENABLE = new Game<>("enable", ColumnType.BOOLEAN);
     public static final Game<UUID> MAP_AUTHOR_UUID = new Game<>("author_uuid", User.UUID.getType());
+    public static final Game<String> MAP_PROPERTY_KEY = new Game<>("property_key", ColumnType.VARCHAR(255));
+    public static final Game<String> MAP_PROPERTY_VALUE = new Game<>("property_value", ColumnType.VARCHAR(255));
     // kit
     public static final Game<Integer> KIT_ID = new Game<>("id", ColumnType.INTEGER);
     public static final Game<String> KIT_NAME = new Game<>("name", ColumnType.VARCHAR(100).unique());

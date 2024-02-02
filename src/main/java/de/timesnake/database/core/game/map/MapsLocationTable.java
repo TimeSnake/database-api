@@ -8,14 +8,15 @@ import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.LocationsTable;
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
 
-public class MapLocationsTable extends LocationsTable {
+import java.util.ArrayList;
+
+public class MapsLocationTable extends LocationsTable {
 
   protected String gameName;
 
-  public MapLocationsTable(DatabaseConnector databaseConnector, String gameName) {
+  public MapsLocationTable(DatabaseConnector databaseConnector, String gameName) {
     super(databaseConnector, gameName, Column.Game.MAP_NAME);
 
     this.gameName = gameName;

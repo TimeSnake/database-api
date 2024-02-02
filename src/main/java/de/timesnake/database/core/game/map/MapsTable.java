@@ -5,22 +5,26 @@
 package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.DatabaseManager;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
+import java.util.Set;
 
 public class MapsTable {
 
   private final String gameName;
 
   private final MapsInfoTable infoTable;
-  private final MapLocationsTable spawnsTable;
+  private final MapsLocationTable spawnsTable;
   private final MapsAuthorTable authorTable;
+  private final MapsPropertyTable propertyTable;
 
   public MapsTable(String gameName) {
     this.infoTable = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName);
-    this.spawnsTable = DatabaseManager.getInstance().getGameMaps().getMapsSpawnsTable(gameName);
+    this.spawnsTable = DatabaseManager.getInstance().getGameMaps().getLocationTable(gameName);
     this.authorTable = DatabaseManager.getInstance().getGameMaps().getMapsAuthorTable(gameName);
+    this.propertyTable = DatabaseManager.getInstance().getGameMaps().getMapsPropertyTable(gameName);
     this.gameName = gameName;
   }
 
@@ -28,26 +32,25 @@ public class MapsTable {
     this.infoTable.create();
     this.spawnsTable.create();
     this.authorTable.create();
+    this.propertyTable.create();
   }
 
   public void backup() {
     this.infoTable.backup();
     this.spawnsTable.backup();
     this.authorTable.backup();
+    this.propertyTable.backup();
   }
 
   public void delete() {
     this.infoTable.delete();
     this.spawnsTable.delete();
     this.authorTable.delete();
+    this.propertyTable.delete();
   }
 
-  public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
-      String itemName,
-      List<String> description, List<String> info, List<String> authors) {
-    this.infoTable.addMapInfo(name, displayName, minPlayers, maxPlayers, itemName, description,
-        info);
-    this.getMap(name).setAuthorNames(authors);
+  public void addMap(String name) {
+    this.infoTable.addMapInfo(name);
   }
 
   public void removeMap(String name) {
@@ -78,5 +81,9 @@ public class MapsTable {
 
   public boolean containsMap(String mapName) {
     return this.infoTable.containsMapInfo(mapName);
+  }
+
+  public Set<String> getMapNames() {
+    return this.infoTable.getMapNames();
   }
 }

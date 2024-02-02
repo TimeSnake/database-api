@@ -7,42 +7,52 @@ package de.timesnake.database.core.game.map;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class DatabaseMaps extends DatabaseConnector {
 
+  private final Map<String, MapsInfoTable> infoTables = new ConcurrentHashMap<>();
+  private final Map<String, MapsLocationTable> locationTables = new ConcurrentHashMap<>();
+  private final Map<String, MapsAuthorTable> authorTables = new ConcurrentHashMap<>();
+  private final Map<String, MapsPropertyTable> propertyTables = new ConcurrentHashMap<>();
+
   private final String infoTableName;
-  private final String spawnsTableName;
-  private final String authorsTableName;
+  private final String locationTableName;
+  private final String authorTableName;
+  private final String propertyTableName;
 
   public DatabaseMaps(String name, String url, String options, String user, String password,
-      String infoTableName,
-      String spawnsTableName, String authorsTableName) {
+                      String infoTableName, String locationTableName, String authorTableName,
+                      String propertyTableName) {
     super(name, url, options, user, password);
     this.infoTableName = infoTableName;
-    this.spawnsTableName = spawnsTableName;
-    this.authorsTableName = authorsTableName;
-  }
-
-  public void addGame(String gameName) {
-    new MapLocationsTable(this, gameName).create();
-  }
-
-  public void deleteGameMaps(String gameName) {
-    new MapLocationsTable(this, gameName).delete();
+    this.locationTableName = locationTableName;
+    this.authorTableName = authorTableName;
+    this.propertyTableName = propertyTableName;
   }
 
   @NotNull
   public MapsInfoTable getMapsInfoTable(String gameName) {
-    return new MapsInfoTable(this, gameName + "_" + this.infoTableName);
+    return this.infoTables.computeIfAbsent(gameName, n ->
+        new MapsInfoTable(this, n + "_" + this.infoTableName));
   }
 
   @NotNull
-  public MapLocationsTable getMapsSpawnsTable(String gameName) {
-    return new MapLocationsTable(this, gameName + "_" + this.spawnsTableName);
+  public MapsLocationTable getLocationTable(String gameName) {
+    return this.locationTables.computeIfAbsent(gameName, n ->
+        new MapsLocationTable(this, n + "_" + this.locationTableName));
   }
 
   @NotNull
   public MapsAuthorTable getMapsAuthorTable(String gameName) {
-    return new MapsAuthorTable(this, gameName + "_" + this.authorsTableName);
+    return this.authorTables.computeIfAbsent(gameName, n ->
+        new MapsAuthorTable(this, n + "_" + this.authorTableName));
   }
 
+  @NotNull
+  public MapsPropertyTable getMapsPropertyTable(String gameName) {
+    return this.propertyTables.computeIfAbsent(gameName, n ->
+        new MapsPropertyTable(this, n + "_" + this.propertyTableName));
+  }
 }

@@ -9,11 +9,11 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.core.PrimaryEntries;
 import de.timesnake.database.core.table.TableDDL;
 import de.timesnake.database.util.object.DatabaseConnector;
-import de.timesnake.database.util.object.DbStringArrayList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 public class MapsInfoTable extends TableDDL {
 
@@ -25,7 +25,6 @@ public class MapsInfoTable extends TableDDL {
     super.addColumn(Column.Game.MAP_MAX_PLAYERS);
     super.addColumn(Column.Game.MAP_TEAM_AMOUNTS);
     super.addColumn(Column.Game.MAP_DESCRIPTION);
-    super.addColumn(Column.Game.MAP_INFO);
     super.addColumn(Column.Game.MAP_ENABLE);
   }
 
@@ -42,15 +41,9 @@ public class MapsInfoTable extends TableDDL {
     super.delete();
   }
 
-  public void addMapInfo(String name, String displayName, Integer minPlayers, Integer maxPlayer,
-                         String itemName, Collection<String> description, Collection<String> info) {
+  public void addMapInfo(String name) {
     super.addEntry(new PrimaryEntries(new Entry<>(name, Column.Game.MAP_NAME)),
-        new Entry<>(displayName
-            , Column.Game.MAP_DISPLAY_NAME), new Entry<>(minPlayers, Column.Game.MAP_MIN_PLAYERS),
-        new Entry<>(maxPlayer, Column.Game.MAP_MAX_PLAYERS), new Entry<>(itemName,
-            Column.Game.MAP_ITEM), new Entry<>(new DbStringArrayList(description),
-            Column.Game.MAP_DESCRIPTION), new Entry<>(new DbStringArrayList(info),
-            Column.Game.MAP_INFO), new Entry<>(true, Column.Game.MAP_ENABLE));
+        new Entry<>(true, Column.Game.MAP_ENABLE));
   }
 
   public void removeMapInfo(String name) {
@@ -81,8 +74,12 @@ public class MapsInfoTable extends TableDDL {
 
   public Collection<DbMapInfo> getMaps(Integer players) {
     Collection<DbMapInfo> maps = this.getMaps();
-    maps.removeIf(map -> map.getMinPlayers() > players || map.getMaxPlayers() < players);
+    maps.removeIf(map -> (map.getMinPlayers() != null && map.getMinPlayers() > players)
+        || (map.getMaxPlayers() != null && map.getMaxPlayers() < players));
     return maps;
   }
 
+  public Set<String> getMapNames() {
+    return this.get(Column.Game.MAP_NAME);
+  }
 }
