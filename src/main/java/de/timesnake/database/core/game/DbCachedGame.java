@@ -11,13 +11,10 @@ import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
 
@@ -91,10 +88,8 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
   }
 
   @Override
-  public void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
-      String itemName, List<String> description, List<String> info, List<String> authors) {
-    this.database.addMap(name, displayName, minPlayers, maxPlayers, itemName, description, info,
-        authors);
+  public void addMap(String name) {
+    this.database.addMap(name);
   }
 
   @Override
@@ -102,10 +97,15 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
     this.database.removeMap(name);
   }
 
-  @NotNull
+  @Nullable
   @Override
   public DbMap getMap(String mapName) {
     return this.database.getMap(mapName);
+  }
+
+  @Override
+  public @NotNull Collection<String> getMapNames() {
+    return this.database.getMapNames();
   }
 
   @NotNull

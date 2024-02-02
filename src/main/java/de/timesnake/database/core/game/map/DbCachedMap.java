@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class DbCachedMap extends DbCachedMapInfo implements DbMap {
@@ -89,6 +90,21 @@ public class DbCachedMap extends DbCachedMapInfo implements DbMap {
   @Override
   public boolean containsLocation(Integer number) {
     return this.map.containsLocation(number);
+  }
+
+  @Override
+  public @NotNull Map<String, String> getProperties() {
+    return this.map.getProperties();
+  }
+
+  @Override
+  public @Nullable String getProperty(@NotNull String key) {
+    return this.map.getProperty(key);
+  }
+
+  @Override
+  public void setProperty(@NotNull String key, @Nullable String value) {
+    this.map.setProperty(key, value);
   }
 
   @NotNull

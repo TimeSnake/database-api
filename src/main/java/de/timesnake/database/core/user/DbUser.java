@@ -207,7 +207,8 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
 
   @Override
   public boolean isService() {
-    return super.getFirstWithKey(Column.User.SERVICE);
+    Boolean service = super.getFirstWithKey(Column.User.SERVICE);
+    return service != null ? service : false;
   }
 
   @Override

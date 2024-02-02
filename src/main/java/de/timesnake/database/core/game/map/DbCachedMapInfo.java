@@ -23,7 +23,6 @@ public class DbCachedMapInfo {
   private List<Integer> teamAmounts;
   private String itemName;
   private List<String> description;
-  private List<String> info;
   private boolean enabled;
 
   public DbCachedMapInfo(DbMapInfo mapInfo) {
@@ -33,7 +32,7 @@ public class DbCachedMapInfo {
 
     ColumnMap columnMap = mapInfo.getFirstWithKey(Set.of(Column.Game.MAP_DISPLAY_NAME,
         Column.Game.MAP_MIN_PLAYERS, Column.Game.MAP_MAX_PLAYERS, Column.Game.MAP_TEAM_AMOUNTS,
-        Column.Game.MAP_ITEM, Column.Game.MAP_DESCRIPTION, Column.Game.MAP_INFO, Column.Game.MAP_ENABLE));
+        Column.Game.MAP_ITEM, Column.Game.MAP_DESCRIPTION, Column.Game.MAP_ENABLE));
 
     this.displayName = columnMap.get(Column.Game.MAP_DISPLAY_NAME);
     this.minPlayers = columnMap.get(Column.Game.MAP_MIN_PLAYERS);
@@ -41,7 +40,6 @@ public class DbCachedMapInfo {
     this.teamAmounts = columnMap.get(Column.Game.MAP_TEAM_AMOUNTS);
     this.itemName = columnMap.get(Column.Game.MAP_ITEM);
     this.description = columnMap.get(Column.Game.MAP_DESCRIPTION);
-    this.info = columnMap.get(Column.Game.MAP_INFO);
     this.enabled = columnMap.get(Column.Game.MAP_ENABLE);
 
   }
@@ -112,16 +110,6 @@ public class DbCachedMapInfo {
   public void setDescription(List<String> description) {
     this.description = new DbStringArrayList(description);
     this.mapInfo.setDescription(description);
-  }
-
-  @NotNull
-  public List<String> getInfo() {
-    return this.info;
-  }
-
-  public void setInfo(List<String> info) {
-    this.info = new DbStringArrayList(info);
-    this.mapInfo.setInfo(info);
   }
 
   public boolean isEnabled() {

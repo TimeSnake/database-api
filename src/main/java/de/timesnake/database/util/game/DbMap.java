@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface DbMap extends DbCached<DbMap> {
@@ -34,8 +35,14 @@ public interface DbMap extends DbCached<DbMap> {
   @Nullable
   Integer getMinPlayers();
 
+  @NotCached
+  void setMinPlayers(Integer minPlayers);
+
   @Nullable
   Integer getMaxPlayers();
+
+  @NotCached
+  void setMaxPlayers(Integer maxPlayers);
 
   @NotNull
   List<Integer> getTeamAmounts();
@@ -83,19 +90,24 @@ public interface DbMap extends DbCached<DbMap> {
   @Nullable
   String getItemName();
 
+  @NotCached
+  void setItemName(String name);
+
   @NotNull
   List<String> getDescription();
-
-  @NotNull
-  List<String> getInfo();
-
-  @NotCached
-  void setInfo(List<String> info);
 
   boolean isEnabled();
 
   @NotCached
   void setEnabled(boolean enable);
+
+  @NotNull Map<String, String> getProperties();
+
+  @NotCached
+  @Nullable String getProperty(@NotNull String key);
+
+  @NotCached
+  void setProperty(@NotNull String key, @Nullable String value);
 
   @NotCached
   @NotNull

@@ -9,13 +9,13 @@ import de.timesnake.database.util.object.NotCached;
 import de.timesnake.database.util.object.UnsupportedStringException;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
 import de.timesnake.library.basic.util.statistics.StatType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface DbGame {
 
@@ -54,16 +54,18 @@ public interface DbGame {
   Collection<DbKit> getKits();
 
   @NotCached
-  void addMap(String name, String displayName, Integer minPlayers, Integer maxPlayers,
-      String itemName,
-      List<String> description, List<String> info, List<String> authors);
+  void addMap(String name);
 
   @NotCached
   void removeMap(String name);
 
   @NotCached
-  @NotNull
+  @Nullable
   DbMap getMap(String mapName);
+
+  @NotCached
+  @NotNull
+  Collection<String> getMapNames();
 
   @NotCached
   @NotNull
