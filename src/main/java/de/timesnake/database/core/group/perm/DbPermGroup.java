@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.group.perm;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelGroupMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -36,7 +36,7 @@ public class DbPermGroup extends DbGroupBasis implements
   @Override
   public void removeInheritance() {
     super.setWithKey(null, Column.Group.INHERITANCE,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelGroupMessage<>(this.getName(),
+        () -> Channel.getInstance().sendMessage(new ChannelGroupMessage<>(this.getName(),
             MessageType.Group.PERMISSION)));
   }
 
@@ -64,8 +64,7 @@ public class DbPermGroup extends DbGroupBasis implements
   @Override
   public Collection<de.timesnake.database.util.group.DbPermGroup> getGroupsInherit() {
     Collection<de.timesnake.database.util.group.DbPermGroup> groups = new ArrayList<>();
-    for (String name : super.get(Column.Group.NAME, new Entry<>(this.getName(),
-        Column.Group.INHERITANCE))) {
+    for (String name : super.get(Column.Group.NAME, new Entry<>(this.getName(), Column.Group.INHERITANCE))) {
       de.timesnake.database.util.group.DbPermGroup group = Database.getGroups().getPermGroup(name);
       if (group.exists()) {
         groups.add(group);
@@ -89,8 +88,7 @@ public class DbPermGroup extends DbGroupBasis implements
 
   @Override
   public void addPermission(String permission, Status.Permission mode, SyncExecute syncExecute) {
-    Database.getPermissions()
-        .addPermission(super.getName(), permission, mode, syncExecute);
+    Database.getPermissions().addPermission(super.getName(), permission, mode, syncExecute);
   }
 
   @Override

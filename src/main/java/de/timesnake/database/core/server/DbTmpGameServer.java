@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.util.Channel;
 import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -41,7 +41,7 @@ public class DbTmpGameServer extends DbPvPServer implements
   @Override
   public void setMapName(String mapName) {
     super.setWithKey(mapName, Column.Server.MAP_NAME,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
+        () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
             MessageType.Server.GAME_MAP, mapName)));
   }
 
@@ -119,7 +119,7 @@ public class DbTmpGameServer extends DbPvPServer implements
   @Override
   public void setDiscord(boolean discordEnabled) {
     super.setWithKey(discordEnabled, Column.Server.DISCORD,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
-            MessageType.Server.DISCORD, discordEnabled)));
+        () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(), MessageType.Server.DISCORD,
+            discordEnabled)));
   }
 }

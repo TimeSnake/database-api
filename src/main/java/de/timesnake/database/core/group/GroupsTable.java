@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.group;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.util.Channel;
 import de.timesnake.channel.util.message.ChannelMessage;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
@@ -38,7 +38,7 @@ public class GroupsTable extends GroupBasisTable {
   protected void addGroup(String name, Integer rank, String prefix, ExTextColor color,
       ChannelMessage<?, ?> channelMessage) {
     super.addEntry(new PrimaryEntries(new Entry<>(rank, Column.Group.PRIORITY)),
-        () -> ServerChannel.getInstance().sendMessage(channelMessage), new Entry<>(name,
+        () -> Channel.getInstance().sendMessage(channelMessage), new Entry<>(name,
             Column.Group.NAME), new Entry<>(prefix, Column.Group.PREFIX),
         new Entry<>(color, Column.Group.PREFIX_COLOR));
   }

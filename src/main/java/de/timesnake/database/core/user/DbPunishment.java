@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.util.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -29,7 +29,7 @@ public class DbPunishment extends DbPlayer implements de.timesnake.database.util
 
   @Override
   public void delete() {
-    super.deleteWithKey(() -> ServerChannel.getInstance().sendMessage(
+    super.deleteWithKey(() -> Channel.getInstance().sendMessage(
         new ChannelUserMessage<>(this.getUniqueId(), MessageType.User.PUNISH)));
   }
 

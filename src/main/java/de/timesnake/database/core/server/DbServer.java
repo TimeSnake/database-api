@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.server;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.core.Channel;
 import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -57,8 +57,8 @@ public abstract class DbServer extends TableQuery implements
   @Override
   public void setStatus(Status.Server status) {
     super.setWithKey(status, Column.Server.STATUS,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
-            MessageType.Server.STATUS, status)));
+        () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(), MessageType.Server.STATUS,
+            status)));
   }
 
   @NotNull
@@ -70,7 +70,7 @@ public abstract class DbServer extends TableQuery implements
   @Override
   public void setOnlinePlayers(int playersOnline) {
     super.setWithKey(playersOnline, Column.Server.ONLINE_PLAYERS,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
+        () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
             MessageType.Server.ONLINE_PLAYERS, playersOnline)));
   }
 
@@ -83,23 +83,22 @@ public abstract class DbServer extends TableQuery implements
   @Override
   public void setMaxPlayers(int playersMax) {
     super.setWithKey(playersMax, Column.Server.MAX_PLAYERS,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
+        () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
             MessageType.Server.MAX_PLAYERS, playersMax)));
   }
 
   @Override
   public void setStatusSynchronized(Status.Server status) {
     super.setWithKeySynchronized(status, Column.Server.STATUS);
-    ServerChannel.getInstance()
-        .sendMessage(new ChannelServerMessage<>(this.getName(), MessageType.Server.STATUS,
-            status));
+    Channel.getInstance()
+        .sendMessage(new ChannelServerMessage<>(this.getName(), MessageType.Server.STATUS, status));
   }
 
   @Override
   public void setOnlinePlayersSynchronized(int playersOnline) {
     super.setWithKeySynchronized(playersOnline, Column.Server.ONLINE_PLAYERS);
-    ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
-        MessageType.Server.ONLINE_PLAYERS, playersOnline));
+    Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(), MessageType.Server.ONLINE_PLAYERS,
+        playersOnline));
   }
 
   @Nullable
@@ -114,7 +113,7 @@ public abstract class DbServer extends TableQuery implements
       throw new TooLongEntryException(password, Column.Server.PASSWORD.getType());
     }
     super.setWithKey(password, Column.Server.PASSWORD,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
+        () -> Channel.getInstance().sendMessage(new ChannelServerMessage<>(this.getName(),
             MessageType.Server.PASSWORD, password)));
   }
 
