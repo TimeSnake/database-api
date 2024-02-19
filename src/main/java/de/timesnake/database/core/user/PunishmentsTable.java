@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.user;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.util.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -46,7 +46,8 @@ public class PunishmentsTable extends TableDDL {
             new Entry<>(punishment.getDuration(), User.PUNISH_DURATION),
             new Entry<>(punishment.getByName(), Column.User.PUNISH_CASTIGATOR),
             new Entry<>(punishment.getReason(), Column.User.PUNISH_REASON)),
-        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(punishment.getUuid(), MessageType.User.PUNISH, punishment)),
+        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(punishment.getUuid(),
+            MessageType.User.PUNISH, punishment)),
         new Entry<>(punishment.getUuid(), Column.User.UUID));
   }
 

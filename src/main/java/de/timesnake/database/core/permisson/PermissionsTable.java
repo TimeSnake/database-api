@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core.permisson;
 
-import de.timesnake.channel.core.ServerChannel;
+import de.timesnake.channel.util.Channel;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
@@ -46,7 +46,7 @@ public class PermissionsTable extends TableDDL {
 
   protected void addPermission(UUID uuid, String permission, Status.Permission mode) {
     this.addPermission(uuid.toString(), permission, mode,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PERMISSION)));
+        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PERMISSION)));
   }
 
   protected void removePermission(String name, String permission) {
@@ -60,7 +60,7 @@ public class PermissionsTable extends TableDDL {
 
   protected void removePermission(UUID uuid, String permission) {
     this.removePermission(uuid.toString(), permission,
-        () -> ServerChannel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PERMISSION)));
+        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(uuid, MessageType.User.PERMISSION)));
   }
 
   @Override
