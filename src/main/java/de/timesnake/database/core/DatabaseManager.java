@@ -195,7 +195,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       Database.LOGGER.info("Connected to database");
       return true;
     } catch (SQLException e) {
-      Database.LOGGER.warning("Could not connect to database: " + e.getMessage());
+      Database.LOGGER.warn("Could not connect to database: " + e.getMessage());
       return false;
     }
   }
@@ -308,14 +308,14 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     try {
       Class.forName("org.mariadb.jdbc.Driver");
     } catch (ClassNotFoundException e) {
-      Database.LOGGER.warning("Unable to load database driver class");
+      Database.LOGGER.warn("Unable to load database driver class");
       e.printStackTrace();
     }
 
     try {
       DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
     } catch (SQLException throwables) {
-      Database.LOGGER.warning("Unable to register database driver");
+      Database.LOGGER.warn("Unable to register database driver");
       throwables.printStackTrace();
     }
   }

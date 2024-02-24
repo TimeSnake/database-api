@@ -26,17 +26,15 @@ import de.timesnake.database.util.support.DatabaseSupport;
 import de.timesnake.database.util.user.DatabaseUsers;
 import de.timesnake.database.util.user.DbPunishment;
 import de.timesnake.database.util.user.DbUser;
-import de.timesnake.library.basic.util.LogHelper;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This interface provides static access to the {@link DatabaseManager} singleton.
  */
 public interface Database {
 
-  Logger LOGGER = LogHelper.getLogger("database", Level.WARNING);
+  Logger LOGGER = LogManager.getLogger("database");
 
   /**
    * Gets the instance of the {@link DatabaseManager} class, read description before use
