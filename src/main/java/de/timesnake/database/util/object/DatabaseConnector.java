@@ -7,7 +7,6 @@ package de.timesnake.database.util.object;
 import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.table.Table;
 import de.timesnake.database.util.Database;
-import de.timesnake.library.basic.util.Loggers;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -71,7 +70,7 @@ public class DatabaseConnector {
     try {
       connection = this.getConnection();
       if (connection == null) {
-        Loggers.CHANNEL.warning("Could not create connection to database '" + name + "'");
+        Database.LOGGER.warn("Could not create connection to database '" + name + "'");
         return;
       }
 

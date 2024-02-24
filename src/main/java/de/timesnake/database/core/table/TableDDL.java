@@ -95,10 +95,10 @@ public class TableDDL extends Table {
         if (column != null) {
           // check column type
           if (!column.getType().getSimpleName().equalsIgnoreCase(type)) {
-            Database.LOGGER.warning("Type ('" + type + "') of column '" + column.getName() + "' in table '" + this.tableName + "' differs from configured type ('" + column.getType().getSimpleName() + "')");
+            Database.LOGGER.warn("Type ('" + type + "') of column '" + column.getName() + "' in table '" + this.tableName + "' differs from configured type ('" + column.getType().getSimpleName() + "')");
           }
           if (column.getType().getLength() != length) {
-            Database.LOGGER.warning("Length ('" + length + "') of column '" + column.getName() + "' in table '" + this.tableName + "' differs from configured length ('" + column.getType().getLength() + "')");
+            Database.LOGGER.warn("Length ('" + length + "') of column '" + column.getName() + "' in table '" + this.tableName + "' differs from configured length ('" + column.getType().getLength() + "')");
           }
         } else {
           ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + " DROP COLUMN " + COLUMN_WRAPPER + name + COLUMN_WRAPPER + ";");
@@ -151,7 +151,7 @@ public class TableDDL extends Table {
               """);
           Database.LOGGER.info("Added 'BIN_TO_UUID' function in table '" + this.tableName + "'");
         } catch (SQLException e) {
-          Database.LOGGER.warning("Could not load bin to uuid function in table " + this.tableName);
+          Database.LOGGER.warn("Could not load bin to uuid function in table " + this.tableName);
           DatabaseManager.getInstance().handleSQLException(e);
         }
 
@@ -165,7 +165,7 @@ public class TableDDL extends Table {
               """);
           Database.LOGGER.info("Added 'UUID_TO_BIN' function in table '" + this.tableName + "'");
         } catch (SQLException e) {
-          Database.LOGGER.warning("Could not load uuid to bin function in table" + this.tableName);
+          Database.LOGGER.warn("Could not load uuid to bin function in table" + this.tableName);
           DatabaseManager.getInstance().handleSQLException(e);
         }
       }
