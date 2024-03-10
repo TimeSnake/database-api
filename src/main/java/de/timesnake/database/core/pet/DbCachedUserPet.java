@@ -7,7 +7,9 @@ package de.timesnake.database.core.pet;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.util.object.ColumnMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -65,6 +67,31 @@ public class DbCachedUserPet implements de.timesnake.database.util.pet.DbUserPet
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
     this.pet.setEnabled(enabled);
+  }
+
+  @Override
+  public Map<@NotNull String, @Nullable String> getProperties() {
+    return this.pet.getProperties();
+  }
+
+  @Override
+  public @Nullable String getProperty(@NotNull String key) {
+    return this.pet.getProperty(key);
+  }
+
+  @Override
+  public void setProperty(@NotNull String key, @Nullable String value) {
+    this.pet.setProperty(key, value);
+  }
+
+  @Override
+  public void removeProperties() {
+    this.pet.removeProperties();
+  }
+
+  @Override
+  public void removeProperty(@NotNull String key) {
+    this.pet.removeProperty(key);
   }
 
   @Override

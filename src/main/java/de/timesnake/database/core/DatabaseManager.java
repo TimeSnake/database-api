@@ -183,7 +183,7 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
       network.connect();
       this.databasesByName.put(NETWORK_NAME, network);
 
-      pets = new DatabasePets(config.getDatabaseName(PET_NAME), url, options, user, password, "user_pets");
+      pets = new DatabasePets(config.getDatabaseName(PET_NAME), url, options, user, password, "user_pets", "pet_properties");
       pets.connect();
       this.databasesByName.put(PET_NAME, pets);
 
