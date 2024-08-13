@@ -81,6 +81,17 @@ public class DbGameInfo extends DbGameInfoBasis implements
 
   @Nullable
   @Override
+  public String getTexturePackHash() {
+    return super.getFirstWithKey(Game.TEXTURE_PACK_HASH);
+  }
+
+  @Override
+  public void setTexturePackHash(String hash) {
+    super.setWithKey(hash, Game.TEXTURE_PACK_HASH);
+  }
+
+  @Nullable
+  @Override
   public Integer getPlayerTrackingRange() {
     return super.getFirstWithKey(Column.Game.PLAYER_TRACKING_RANGE);
   }
