@@ -202,6 +202,7 @@ public class Column<Value> {
     public static final Game<Availability> KITS = new Game<>("kits", ColumnType.TYPE());
     public static final Game<Boolean> STATISTICS = new Game<>("statistics", ColumnType.BOOLEAN);
     public static final Game<String> TEXTURE_PACK_LINK = new Game<>("texture_pack_link", ColumnType.VARCHAR(255));
+    public static final Game<String> TEXTURE_PACK_HASH = new Game<>("texture_pack_hash", ColumnType.VARCHAR(40));
     public static final Game<Integer> PLAYER_TRACKING_RANGE = new Game<>("player_tracking_range", ColumnType.INTEGER);
     public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", ColumnType.INTEGER);
     public static final Game<Integer> VIEW_DISTANCE = new Game<>("view_distance", ColumnType.INTEGER);

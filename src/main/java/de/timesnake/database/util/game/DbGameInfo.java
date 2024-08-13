@@ -43,6 +43,12 @@ public interface DbGameInfo extends DbGameInfoBasis {
   Boolean hasTexturePack();
 
   @Nullable
+  String getTexturePackHash();
+
+  @NotCached
+  void setTexturePackHash(String hash);
+
+  @Nullable
   Integer getPlayerTrackingRange();
 
   @NotCached

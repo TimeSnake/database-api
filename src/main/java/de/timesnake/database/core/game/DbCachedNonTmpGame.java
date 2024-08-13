@@ -89,6 +89,17 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
 
   @Nullable
   @Override
+  public String getTexturePackHash() {
+    return getInfo().getTexturePackHash();
+  }
+
+  @Override
+  public void setTexturePackHash(String hash) {
+    getInfo().setTexturePackHash(hash);
+  }
+
+  @Nullable
+  @Override
   public Integer getPlayerTrackingRange() {
     return getInfo().getPlayerTrackingRange();
   }

@@ -17,6 +17,7 @@ public class GamesInfoTable extends GamesInfoBasisTable {
     super.addColumn(Game.MAPS);
     super.addColumn(Game.STATISTICS);
     super.addColumn(Game.TEXTURE_PACK_LINK);
+    super.addColumn(Game.TEXTURE_PACK_HASH);
     super.addColumn(Game.PLAYER_TRACKING_RANGE);
     super.addColumn(Game.MAX_HEALTH);
     super.addColumn(Game.VIEW_DISTANCE);

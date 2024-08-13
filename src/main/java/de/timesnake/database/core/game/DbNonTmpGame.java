@@ -13,8 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DbNonTmpGame extends DbGame implements de.timesnake.database.util.game.DbNonTmpGame {
 
-  public DbNonTmpGame(DatabaseConnector databaseConnector, String gameName,
-                      DbNonTmpGameInfo info) {
+  public DbNonTmpGame(DatabaseConnector databaseConnector, String gameName, DbNonTmpGameInfo info) {
     super(databaseConnector, gameName, info);
   }
 
@@ -81,6 +80,17 @@ public class DbNonTmpGame extends DbGame implements de.timesnake.database.util.g
   @Override
   public Boolean hasTexturePack() {
     return getInfo().hasTexturePack();
+  }
+
+  @Nullable
+  @Override
+  public String getTexturePackHash() {
+    return getInfo().getTexturePackHash();
+  }
+
+  @Override
+  public void setTexturePackHash(String hash) {
+    getInfo().setTexturePackHash(hash);
   }
 
   @Nullable

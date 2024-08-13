@@ -209,6 +209,17 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
   @Nullable
   @Override
+  public String getTexturePackHash() {
+    return getInfo().getTexturePackHash();
+  }
+
+  @Override
+  public void setTexturePackHash(String hash) {
+    getInfo().setTexturePackHash(hash);
+  }
+
+  @Nullable
+  @Override
   public Integer getPlayerTrackingRange() {
     return getInfo().getPlayerTrackingRange();
   }

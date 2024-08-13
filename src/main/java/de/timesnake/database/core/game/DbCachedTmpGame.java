@@ -88,6 +88,17 @@ public class DbCachedTmpGame extends DbCachedGame implements
     getInfo().setTexturePackLink(texturePack);
   }
 
+  @Nullable
+  @Override
+  public String getTexturePackHash() {
+    return getInfo().getTexturePackHash();
+  }
+
+  @Override
+  public void setTexturePackHash(String hash) {
+    getInfo().setTexturePackHash(hash);
+  }
+
   @Override
   public Boolean hasTexturePack() {
     return getInfo().hasTexturePack();

@@ -16,6 +16,7 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
   protected Availability kitAvailability;
   protected Boolean statistics;
   protected String texturePackLink;
+  protected String texturePackHash;
   protected Integer playerTrackingRange;
   protected Integer maxHealth;
   protected Integer viewDistance;
@@ -92,6 +93,18 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
   @Override
   public Boolean hasTexturePack() {
     return this.texturePackLink != null;
+  }
+
+  @Nullable
+  @Override
+  public String getTexturePackHash() {
+    return this.texturePackHash;
+  }
+
+  @Override
+  public void setTexturePackHash(String hash) {
+    this.texturePackHash = hash;
+    this.getDatabase().setTexturePackHash(hash);
   }
 
   @Nullable
