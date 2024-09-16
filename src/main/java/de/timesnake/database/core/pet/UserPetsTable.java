@@ -21,6 +21,7 @@ public class UserPetsTable extends TableDDL {
     this.addColumn(Column.Pet.OWNER_UUID);
     this.addColumn(Column.Pet.PET_TYPE);
     this.addColumn(Column.Pet.ENABLED);
+    this.addColumn(Column.Pet.ALLOW_FOREIGN_RIDING);
   }
 
   @Override

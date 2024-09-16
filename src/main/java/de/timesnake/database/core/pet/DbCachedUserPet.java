@@ -21,16 +21,19 @@ public class DbCachedUserPet implements de.timesnake.database.util.pet.DbUserPet
   private final UUID ownerUuid;
   private String type;
   private boolean enabled;
+  private boolean allowForeignRiding;
 
   public DbCachedUserPet(DbUserPet pet) {
     this.pet = pet;
 
-    ColumnMap map = pet.getFirstWithKey(Set.of(Column.Pet.PET_TYPE, Column.Pet.ENABLED));
+    ColumnMap map = pet.getFirstWithKey(Set.of(Column.Pet.PET_TYPE, Column.Pet.ENABLED,
+        Column.Pet.ALLOW_FOREIGN_RIDING));
 
     this.id = pet.getPetId();
     this.ownerUuid = pet.getOwnerId();
     this.type = map.get(Column.Pet.PET_TYPE);
     this.enabled = map.get(Column.Pet.ENABLED);
+    this.allowForeignRiding = map.get(Column.Pet.ALLOW_FOREIGN_RIDING);
   }
 
 
@@ -67,6 +70,17 @@ public class DbCachedUserPet implements de.timesnake.database.util.pet.DbUserPet
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
     this.pet.setEnabled(enabled);
+  }
+
+  @Override
+  public boolean isAllowForeignRiding() {
+    return this.allowForeignRiding;
+  }
+
+  @Override
+  public void setAllowForeignRiding(boolean allowForeignRiding) {
+    this.allowForeignRiding = allowForeignRiding;
+    this.pet.setAllowForeignRiding(allowForeignRiding);
   }
 
   @Override

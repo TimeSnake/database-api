@@ -357,6 +357,7 @@ public class Column<Value> {
     public static final Pet<Integer> PET_ID = new Pet<>("pet_id", ColumnType.INTEGER(true));
     public static final Pet<String> PET_TYPE = new Pet<>("pet_type", ColumnType.VARCHAR(20));
     public static final Pet<Boolean> ENABLED = new Pet<>("enabled", ColumnType.BOOLEAN);
+    public static final Pet<Boolean> ALLOW_FOREIGN_RIDING = new Pet<>("allow_foreign_riding", ColumnType.BOOLEAN);
     public static final Pet<Integer> PROPERTY_PET_ID = new Pet<>("pet_id", ColumnType.INTEGER);
     public static final Pet<String> PROPERTY_KEY = new Pet<>("property_key", ColumnType.VARCHAR(100));
     public static final Pet<String> PROPERTY_VALUE = new Pet<>("property_value", ColumnType.VARCHAR(100));

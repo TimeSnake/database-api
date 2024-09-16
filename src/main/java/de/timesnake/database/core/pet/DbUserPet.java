@@ -58,6 +58,16 @@ public class DbUserPet extends TableQuery implements de.timesnake.database.util.
   }
 
   @Override
+  public boolean isAllowForeignRiding() {
+    return this.getFirstWithKey(Column.Pet.ALLOW_FOREIGN_RIDING);
+  }
+
+  @Override
+  public void setAllowForeignRiding(boolean allowForeignRiding) {
+    this.setWithKey(allowForeignRiding, Column.Pet.ALLOW_FOREIGN_RIDING);
+  }
+
+  @Override
   public Map<@NotNull String, @Nullable String> getProperties() {
     return Database.getPets().getPetProperties(this.getOwnerId(), this.getPetId());
   }

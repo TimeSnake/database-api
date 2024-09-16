@@ -29,6 +29,11 @@ public interface DbUserPet extends DbCached<DbUserPet> {
 
   void setEnabled(boolean enabled);
 
+  boolean isAllowForeignRiding();
+
+  @NotCached
+  void setAllowForeignRiding(boolean allowForeignRiding);
+
   @NotCached
   Map<@NotNull String, @Nullable String> getProperties();
 
