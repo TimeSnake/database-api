@@ -49,4 +49,14 @@ public class UserPetsTable extends TableDDL {
   public DbUserPet getPet(UUID ownerUuid, Integer petId) {
     return new DbUserPet(this.databaseConnector, this.tableName, ownerUuid, petId);
   }
+
+  public Integer createPet(UUID ownerUuid, String type) {
+    return super.addEntryWithAutoId(Column.Pet.PET_ID,
+        new Entry<>(ownerUuid, Column.Pet.OWNER_UUID),
+        new Entry<>(type, Column.Pet.PET_TYPE));
+  }
+
+  public void deletePet(UUID ownerUuid, Integer petId) {
+    super.deleteEntry(new Entry<>(ownerUuid, Column.Pet.OWNER_UUID), new Entry<>(petId, Column.Pet.PET_ID));
+  }
 }
