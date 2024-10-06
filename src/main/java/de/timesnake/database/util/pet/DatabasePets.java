@@ -16,6 +16,10 @@ public interface DatabasePets {
 
   DbUserPet getPet(UUID ownerUuid, Integer petId);
 
+  DbUserPet createPet(UUID ownerUuid, String type);
+
+  void deletePet(UUID ownerUuid, Integer petId);
+
   Map<String, String> getPetProperties(UUID ownerUuid, Integer petId);
 
   String getPetProperty(UUID ownerUuid, Integer petId, String key);

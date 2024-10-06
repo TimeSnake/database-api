@@ -57,6 +57,20 @@ public class DatabasePets extends DatabaseConnector implements de.timesnake.data
   }
 
   @Override
+  public de.timesnake.database.util.pet.DbUserPet createPet(UUID ownerUuid, String type) {
+    Integer id = this.userPetsTable.createPet(ownerUuid, type);
+    if (id == null) {
+      return null;
+    }
+    return this.getPet(ownerUuid, id);
+  }
+
+  @Override
+  public void deletePet(UUID ownerUuid, Integer petId) {
+    this.userPetsTable.deletePet(ownerUuid, petId);
+  }
+
+  @Override
   public Map<String, String> getPetProperties(UUID ownerUuid, Integer petId) {
     return this.petPropertiesTable.getProperties(ownerUuid, petId);
   }
