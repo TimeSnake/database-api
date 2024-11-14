@@ -8,6 +8,4 @@ public interface DatabaseConfig {
 
   String getString(String path);
 
-  String getDatabaseName(String name) throws DatabaseNotConfiguredException;
-
 }

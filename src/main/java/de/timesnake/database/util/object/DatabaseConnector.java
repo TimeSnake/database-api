@@ -10,11 +10,12 @@ import de.timesnake.database.util.Database;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseConnector {
 
+  private final String name;
   private final String user;
   private final String password;
   protected BasicDataSource ds;
@@ -24,7 +25,9 @@ public class DatabaseConnector {
     this(name, url, options, user, password, DatabaseManager.DEFAULT_MAX_IDLE_CONNECTIONS);
   }
 
-  public DatabaseConnector(String name, String url, String options, String user, String password, int maxIdleConnections) {
+  public DatabaseConnector(String name, String url, String options, String user, String password,
+                           int maxIdleConnections) {
+    this.name = name;
     this.url = url + name + "?" + options;
     this.user = user;
     this.password = password;
@@ -63,24 +66,26 @@ public class DatabaseConnector {
     return this.ds != null && !this.ds.isClosed();
   }
 
-  public void createDatabase(String name) {
+  public void createDatabase(String... names) {
     Connection connection = null;
-    PreparedStatement ps = null;
+    Statement statement = null;
 
     try {
       connection = this.getConnection();
       if (connection == null) {
-        Database.LOGGER.warn("Could not create connection to database '" + name + "'");
+        Database.LOGGER.warn("Could not create connection to database '{}'", this.name);
         return;
       }
 
-      ps = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS `" + name + "`;");
-      ps.executeUpdate();
-      Database.LOGGER.info("Created database '" + name + "'");
+      statement = connection.createStatement();
+      for (String name : names) {
+        statement.addBatch("CREATE DATABASE IF NOT EXISTS `" + name + "`; ");
+      }
+      Database.LOGGER.info("Created databases '{}'", String.join("', '", names));
     } catch (SQLException e) {
       DatabaseManager.getInstance().handleSQLException(e);
     } finally {
-      Table.closeQuery(connection, ps, null);
+      Table.closeQuery(connection, statement, null);
     }
   }
 

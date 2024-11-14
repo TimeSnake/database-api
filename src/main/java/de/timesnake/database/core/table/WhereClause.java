@@ -5,6 +5,7 @@
 package de.timesnake.database.core.table;
 
 import de.timesnake.database.core.Entry;
+
 import java.util.Collection;
 
 public class WhereClause extends StatementClause {
@@ -19,7 +20,7 @@ public class WhereClause extends StatementClause {
 
   @Override
   public String getText() {
-    return entries.size() > 0 ? " WHERE " + parseToEquation(entries, " AND ") : "";
+    return !entries.isEmpty() ? " WHERE " + parseToEquation(entries, " AND ") : "";
   }
 
 }
