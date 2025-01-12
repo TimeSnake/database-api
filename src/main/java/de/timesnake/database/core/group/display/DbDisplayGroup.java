@@ -9,8 +9,7 @@ import de.timesnake.database.core.group.DbGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 
-public class DbDisplayGroup extends DbGroup implements
-    de.timesnake.database.util.group.DbDisplayGroup {
+public class DbDisplayGroup extends DbGroup implements de.timesnake.database.util.group.DbDisplayGroup {
 
   public DbDisplayGroup(DatabaseConnector databaseConnector, String name, String nameTable) {
     super(databaseConnector, name, nameTable);

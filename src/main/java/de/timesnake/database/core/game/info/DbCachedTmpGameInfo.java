@@ -32,8 +32,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
     ColumnMap map = this.getDatabase().getFirstWithKey(
         Set.of(Game.DISPLAY_NAME, Game.TEXT_COLOR, Game.HEAD_LINE, Game.ITEM, Game.SLOT,
             Game.ENABLED, Game.MAX_PLAYERS, Game.MAPS, Game.KITS, Game.STATISTICS,
-            Game.TEXTURE_PACK_LINK, Game.TEXTURE_PACK_HASH, Game.PLAYER_TRACKING_RANGE, Game.MAX_HEALTH,
-            Game.VIEW_DISTANCE, Game.OLD_PVP, Game.AUTO_START_PLAYER_NUMBER,
+            Game.TEXTURE_PACK_LINK, Game.TEXTURE_PACK_HASH, Game.OLD_PVP, Game.AUTO_START_PLAYER_NUMBER,
             Game.MIN_PLAYER_NUMBER, Game.SHOW_SELECTED_KITS, Game.TEAM_SIZES,
             Game.TEAM_MERGE, Game.EQUAL_TEAM_SIZE_REQUIRED, Game.HIDE_TEAMS,
             Game.DISCORD_TYPE, Game.DESCRIPTION));
@@ -51,9 +50,6 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
     this.statistics = map.get(Game.STATISTICS);
     this.texturePackLink = map.get(Game.TEXTURE_PACK_LINK);
     this.texturePackHash = map.get(Game.TEXTURE_PACK_HASH);
-    this.playerTrackingRange = map.get(Game.PLAYER_TRACKING_RANGE);
-    this.maxHealth = map.get(Game.MAX_HEALTH);
-    this.viewDistance = map.get(Game.VIEW_DISTANCE);
     this.oldPvPAvailability = map.get(Game.OLD_PVP);
     this.autoStartPlayerNumber = map.get(Game.AUTO_START_PLAYER_NUMBER);
     this.minPlayerNumber = map.get(Game.MIN_PLAYER_NUMBER);
@@ -107,7 +103,7 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
   }
 
   @Override
-  public List<Integer> getTeamSizes() {
+  public @NotNull List<Integer> getTeamSizes() {
     return this.teamSizes;
   }
 

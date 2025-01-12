@@ -35,16 +35,6 @@ public class DbNonTmpGameInfo extends DbGameInfo implements
     super.setWithKey(ownable, Column.Game.OWNABLE);
   }
 
-  @Override
-  public boolean isNetherAndEndAllowed() {
-    return super.getFirstWithKey(Column.Game.ALLOW_NETHER_END);
-  }
-
-  @Override
-  public void allowNetherAndEnd(Boolean allow) {
-    super.setWithKey(allow, Column.Game.ALLOW_NETHER_END);
-  }
-
   @NotNull
   @Override
   public de.timesnake.database.util.game.DbNonTmpGameInfo toDatabase() {

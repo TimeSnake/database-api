@@ -6,15 +6,15 @@ package de.timesnake.database.core.story;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.PrimaryKeyEntries;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
 
-public class UserBoughtTable extends TableDDL {
+public class UserBoughtTable extends DefinitionAndQueryTool {
 
   protected UserBoughtTable(DatabaseConnector databaseConnector, String tableName) {
     super(databaseConnector, tableName, Column.Story.USER_UUID, Column.Story.BOOK_ID,
@@ -26,8 +26,8 @@ public class UserBoughtTable extends TableDDL {
   }
 
   @Override
-  public void backup() {
-    super.backup();
+  public void save() {
+    super.save();
   }
 
   @Nullable
@@ -37,7 +37,7 @@ public class UserBoughtTable extends TableDDL {
   }
 
   public void addBoughtPart(UUID uuid, String bookId, String chapterId) {
-    super.addEntry(new PrimaryEntries(new Entry<>(uuid, Column.Story.USER_UUID), new Entry<>(bookId,
+    super.addEntry(new PrimaryKeyEntries(new Entry<>(uuid, Column.Story.USER_UUID), new Entry<>(bookId,
         Column.Story.BOOK_ID), new Entry<>(chapterId, Column.Story.CHAPTER_NAME)));
   }
 

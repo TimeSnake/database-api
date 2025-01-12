@@ -18,7 +18,7 @@ public class NonTmpGameTable extends PvPTable<DbNonTmpGameServer> {
   }
 
   @Override
-  public void backup() {
+  public void save() {
     super.dropTmpTable();
   }
 

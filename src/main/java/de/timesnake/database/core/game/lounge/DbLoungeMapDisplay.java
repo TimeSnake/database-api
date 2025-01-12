@@ -6,19 +6,20 @@ package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.awt.Color;
 import org.jetbrains.annotations.NotNull;
 
-public class DbLoungeMapDisplay extends TableQuery implements
+import java.awt.*;
+
+public class DbLoungeMapDisplay extends KeyedQueryTool implements
     de.timesnake.database.util.game.DbLoungeMapDisplay {
 
   protected DbLoungeMapDisplay(DatabaseConnector databaseConnector, String nameTable,
       String mapName,
       Integer displayIndex) {
-    super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
+    super(databaseConnector, nameTable, true, new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
         new Entry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX));
   }
 
@@ -30,13 +31,13 @@ public class DbLoungeMapDisplay extends TableQuery implements
   @NotNull
   @Override
   public String getMapName() {
-    return (String) super.primaryEntries.getPrimaryEntries().get(0).getValue();
+    return super.keyEntries.get(Column.Game.LOUNGE_MAP_NAME).getValue();
   }
 
   @NotNull
   @Override
   public Integer getIndex() {
-    return (Integer) super.primaryEntries.getPrimaryEntries().get(1).getValue();
+    return super.keyEntries.get(Column.Game.LOUNGE_MAP_DISPLAY_INDEX).getValue();
   }
 
   @NotNull

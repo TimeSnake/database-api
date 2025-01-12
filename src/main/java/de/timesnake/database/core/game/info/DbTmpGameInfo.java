@@ -54,7 +54,7 @@ public class DbTmpGameInfo extends DbGameInfo implements
   }
 
   @Override
-  public List<Integer> getTeamSizes() {
+  public @NotNull List<Integer> getTeamSizes() {
     return super.getFirstWithKey(Column.Game.TEAM_SIZES);
   }
 

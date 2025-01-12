@@ -6,20 +6,21 @@ package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.PrimaryKeyEntries;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbDisplayGroup;
 import de.timesnake.database.util.object.DatabaseConnector;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
-import org.jetbrains.annotations.NotNull;
 
-public class DbDisplayGroupUser extends TableQuery {
+public class DbDisplayGroupUser extends KeyedQueryTool {
 
   protected DbDisplayGroupUser(DatabaseConnector databaseConnector, String nameTable, UUID uuid) {
-    super(databaseConnector, nameTable, new Entry<>(uuid, Column.User.UUID));
+    super(databaseConnector, nameTable, true, new Entry<>(uuid, Column.User.UUID));
   }
 
   @Override
@@ -29,7 +30,7 @@ public class DbDisplayGroupUser extends TableQuery {
 
   @NotNull
   public UUID getUuid() {
-    return (UUID) this.primaryEntries.get(0).getValue();
+    return this.keyEntries.get(Column.User.UUID).getValue();
   }
 
   public Collection<String> getDisplayGroupNames() {
@@ -46,7 +47,7 @@ public class DbDisplayGroupUser extends TableQuery {
   }
 
   public void addDisplayGroup(String name) {
-    super.addEntry(new PrimaryEntries(new Entry<>(this.getUuid(), Column.User.UUID),
+    super.addEntry(new PrimaryKeyEntries(new Entry<>(this.getUuid(), Column.User.UUID),
         new Entry<>(name, Column.User.DISPLAY_GROUP)));
   }
 

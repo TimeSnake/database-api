@@ -75,12 +75,6 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
     this.database.addKit(id, name, itemType, description);
   }
 
-  @Override
-  public void addKit(String name, String itemType, Collection<String> description)
-      throws UnsupportedStringException {
-    this.database.addKit(name, itemType, description);
-  }
-
   @NotNull
   @Override
   public Collection<DbKit> getKits() {
@@ -163,6 +157,26 @@ public class DbCachedGame implements de.timesnake.database.util.game.DbGame {
   @NotNull
   public <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type) {
     return this.database.getStatOfUsers(period, type);
+  }
+
+  @Override
+  public void updateServerOption(String key, String value) {
+    this.database.updateServerOption(key, value);
+  }
+
+  @Override
+  public void removeServerOption(String key) {
+    this.database.removeServerOption(key);
+  }
+
+  @Override
+  public @Nullable String getServerOptionValue(String key) {
+    return this.database.getServerOptionValue(key);
+  }
+
+  @Override
+  public @NotNull Map<String, String> getServerOptions() {
+    return this.database.getServerOptions();
   }
 
   @NotNull

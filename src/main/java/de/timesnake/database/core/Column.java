@@ -158,7 +158,7 @@ public class Column<Value> {
   public static class Group<T> extends Column<T> {
 
     public static final Group<String> NAME = new Group<>("name", ColumnType.VARCHAR(16));
-    public static final Group<Integer> PRIORITY = new Group<>("priority", ColumnType.INTEGER.notNullable().unique());
+    public static final Group<Integer> PRIORITY = new Group<>("priority", ColumnType.INTEGER.notNullable());
     public static final Group<String> PREFIX = new Group<>("prefix", ColumnType.VARCHAR(16));
     public static final Group<ExTextColor> PREFIX_COLOR = new Group<>("prefix_color", ColumnType.TEXT_COLOR);
 
@@ -203,14 +203,10 @@ public class Column<Value> {
     public static final Game<Boolean> STATISTICS = new Game<>("statistics", ColumnType.BOOLEAN);
     public static final Game<String> TEXTURE_PACK_LINK = new Game<>("texture_pack_link", ColumnType.VARCHAR(255));
     public static final Game<String> TEXTURE_PACK_HASH = new Game<>("texture_pack_hash", ColumnType.VARCHAR(40));
-    public static final Game<Integer> PLAYER_TRACKING_RANGE = new Game<>("player_tracking_range", ColumnType.INTEGER);
-    public static final Game<Integer> MAX_HEALTH = new Game<>("max_health", ColumnType.INTEGER);
-    public static final Game<Integer> VIEW_DISTANCE = new Game<>("view_distance", ColumnType.INTEGER);
     public static final Game<Availability> OLD_PVP = new Game<>("old_pvp", ColumnType.TYPE());
 
     public static final Game<Boolean> CREATION_REQUESTABLE = new Game<>("creation_requestable", ColumnType.BOOLEAN);
     public static final Game<Boolean> OWNABLE = new Game<>("ownable", ColumnType.BOOLEAN);
-    public static final Game<Boolean> ALLOW_NETHER_END = new Game<>("allow_nether_end", ColumnType.BOOLEAN);
 
     public static final Game<Integer> AUTO_START_PLAYER_NUMBER = new Game<>("auto_start_player_number", Server.MAX_PLAYERS.getType());
     public static final Game<Integer> MIN_PLAYER_NUMBER = new Game<>("min_player_number", Server.MAX_PLAYERS.getType());
@@ -222,9 +218,12 @@ public class Column<Value> {
     public static final Game<DiscordChannelType> DISCORD_TYPE = new Game<>("discord_type", ColumnType.TYPE());
     public static final Game<List<String>> DESCRIPTION = new Game<>("description", ColumnType.STRING_LIST(1000));
 
+    public static final Game<String> GAME_NAME = new Game<>("game_name", NAME.getType());
+
     // map
     public static final Game<String> MAP_NAME = new Game<>("name", ColumnType.VARCHAR(32));
-    public static final Game<String> MAP_DISPLAY_NAME = new Game<>("display_name", ColumnType.VARCHAR(32));
+    public static final Game<String> MAP_DISPLAY_NAME = new Game<>("display_name",
+        ColumnType.VARCHAR(32).notNullable());
     public static final Game<String> MAP_ITEM = new Game<>("item", ColumnType.VARCHAR(100));
     public static final Game<Integer> MAP_MIN_PLAYERS = new Game<>("min_players", Server.MAX_PLAYERS.getType());
     public static final Game<Integer> MAP_MAX_PLAYERS = new Game<>("max_players", Server.MAX_PLAYERS.getType());
@@ -236,7 +235,7 @@ public class Column<Value> {
     public static final Game<String> MAP_PROPERTY_VALUE = new Game<>("property_value", ColumnType.VARCHAR(255));
     // kit
     public static final Game<Integer> KIT_ID = new Game<>("id", ColumnType.INTEGER);
-    public static final Game<String> KIT_NAME = new Game<>("name", ColumnType.VARCHAR(100).unique());
+    public static final Game<String> KIT_NAME = new Game<>("name", ColumnType.VARCHAR(100));
     public static final Game<String> KIT_ITEM = new Game<>("item_type", ColumnType.VARCHAR(50));
     public static final Game<List<String>> KIT_DESCRIPTION = new Game<>("description", ColumnType.STRING_LIST(2000));
     // lounge map
@@ -272,10 +271,12 @@ public class Column<Value> {
     public static final Game<Integer> STAT_TYPE_GLOBAL_DISPLAY_INDEX = new Game<>("global_display_index", ColumnType.INTEGER);
     public static final Game<Integer> STAT_TYPE_GLOBAL_DISPLAY_LINE_INDEX = new Game<>("global_display_line_index", ColumnType.INTEGER);
 
-    public static final Game<UUID> STAT_USER_UUID = new Game<>("user_uuid", User.UUID.getType());
+    public static final Game<UUID> STAT_USER_UUID = new Game<>("uuid", User.UUID.getType());
     public static final Game<String> STAT_USER_TYPE = new Game<>("type", ColumnType.VARCHAR(100));
     public static final Game<String> STAT_USER_VALUE_QUARTER = new Game<>("value_quarter", ColumnType.VARCHAR(255));
     public static final Game<String> STAT_USER_VALUE_ALL_TIME = new Game<>("value_all_time", ColumnType.VARCHAR(255));
+    public static final Game<String> SERVER_OPTION_KEY = new Game<>("option_key", ColumnType.VARCHAR(255));
+    public static final Game<String> SERVER_OPTION_VALUE = new Game<>("option_value", ColumnType.VARCHAR(255));
 
 
     Game(String name, ColumnType<T> type) {
@@ -286,8 +287,8 @@ public class Column<Value> {
 
   public static class Location<T> extends Column<T> {
 
-    public static final Location<Integer> NUMBER = new Location<>("number", ColumnType.INTEGER);
-    public static final Location<String> WORLD = new Location<>("world", ColumnType.VARCHAR(32));
+    public static final Location<Integer> NUMBER = new Location<>("number", ColumnType.INTEGER.notNullable());
+    public static final Location<String> WORLD = new Location<>("world", ColumnType.VARCHAR(32).notNullable());
     public static final Location<Float> X = new Location<>("x", ColumnType.FLOAT);
     public static final Location<Float> Y = new Location<>("y", ColumnType.FLOAT);
     public static final Location<Float> Z = new Location<>("z", ColumnType.FLOAT);

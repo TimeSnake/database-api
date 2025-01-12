@@ -6,18 +6,21 @@ package de.timesnake.database.core.game.kit;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.Table;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
+import de.timesnake.database.core.table.QueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbStringArrayList;
 import de.timesnake.database.util.object.UnsupportedStringException;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 
-public class DbKit extends TableQuery implements de.timesnake.database.util.game.DbKit {
+import java.util.Collection;
 
-  public DbKit(DatabaseConnector databaseConnector, Integer id, String nameTable) {
-    super(databaseConnector, nameTable, new Entry<>(id, Column.Game.KIT_ID));
+public class DbKit extends KeyedQueryTool implements de.timesnake.database.util.game.DbKit {
+
+  public DbKit(DatabaseConnector databaseConnector, String tableName, String gameName, Integer id) {
+    super(databaseConnector, tableName, true,
+        new Entry<>(gameName, Column.Game.GAME_NAME),
+        new Entry<>(id, Column.Game.KIT_ID));
   }
 
   @Override
@@ -28,7 +31,7 @@ public class DbKit extends TableQuery implements de.timesnake.database.util.game
   @NotNull
   @Override
   public Integer getId() {
-    return (Integer) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.Game.KIT_ID).getValue();
   }
 
   @NotNull
@@ -61,8 +64,8 @@ public class DbKit extends TableQuery implements de.timesnake.database.util.game
   @Override
   public void setDescription(Collection<String> description) throws UnsupportedStringException {
     for (String string : description) {
-      if (string.contains(Table.ENTRY_ARRAY_DELIMITER)) {
-        throw new UnsupportedStringException(Table.ENTRY_ARRAY_DELIMITER);
+      if (string.contains(QueryTool.ENTRY_ARRAY_DELIMITER)) {
+        throw new UnsupportedStringException(QueryTool.ENTRY_ARRAY_DELIMITER);
       }
     }
     super.setWithKey(new DbStringArrayList(description), Column.Game.KIT_DESCRIPTION);

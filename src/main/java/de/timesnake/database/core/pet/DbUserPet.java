@@ -6,7 +6,7 @@ package de.timesnake.database.core.pet;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.UUID;
 
-public class DbUserPet extends TableQuery implements de.timesnake.database.util.pet.DbUserPet {
+public class DbUserPet extends KeyedQueryTool implements de.timesnake.database.util.pet.DbUserPet {
 
   protected DbUserPet(DatabaseConnector databaseConnector, String tableName, UUID userUuid, Integer petId) {
     super(databaseConnector, tableName, true, new Entry<>(userUuid, Column.Pet.OWNER_UUID), new Entry<>(petId,
@@ -29,12 +29,12 @@ public class DbUserPet extends TableQuery implements de.timesnake.database.util.
 
   @Override
   public @NotNull UUID getOwnerId() {
-    return (UUID) this.primaryEntries.get(0).getValue();
+    return this.keyEntries.get(Column.Pet.OWNER_UUID).getValue();
   }
 
   @Override
   public @NotNull Integer getPetId() {
-    return (Integer) this.primaryEntries.get(1).getValue();
+    return this.keyEntries.get(Column.Pet.PET_ID).getValue();
   }
 
   @Override

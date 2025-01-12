@@ -6,16 +6,17 @@ package de.timesnake.database.core.user;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbUserMail extends TableQuery implements de.timesnake.database.util.user.DbUserMail {
+import java.util.UUID;
+
+public class DbUserMail extends KeyedQueryTool implements de.timesnake.database.util.user.DbUserMail {
 
   public DbUserMail(DatabaseConnector databaseConnector, String nameTable, UUID uuid, Integer id) {
-    super(databaseConnector, nameTable, new Entry<>(uuid, Column.User.UUID), new Entry<>(id,
+    super(databaseConnector, nameTable, true, new Entry<>(uuid, Column.User.UUID), new Entry<>(id,
         Column.User.MAIL_ID));
   }
 
@@ -27,13 +28,13 @@ public class DbUserMail extends TableQuery implements de.timesnake.database.util
   @NotNull
   @Override
   public Integer getId() {
-    return (Integer) super.primaryEntries.get(1).getValue();
+    return super.keyEntries.get(Column.User.MAIL_ID).getValue();
   }
 
   @Nullable
   @Override
   public UUID getUniqueId() {
-    return (UUID) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.User.UUID).getValue();
   }
 
   @Nullable

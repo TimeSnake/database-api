@@ -9,7 +9,7 @@ import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.statistics.StatPeriod;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GameUserStatistic extends TableQuery implements
+public class GameUserStatistic extends KeyedQueryTool implements
     de.timesnake.database.util.game.GameUserStatistic {
 
   public static Column<String> getPeriodColumn(StatPeriod period) {
@@ -38,8 +38,10 @@ public class GameUserStatistic extends TableQuery implements
     return columns;
   }
 
-  protected GameUserStatistic(DatabaseConnector databaseConnector, String nameTable, UUID uuid) {
-    super(databaseConnector, nameTable, new Entry<>(uuid, Column.Game.STAT_USER_UUID));
+  protected GameUserStatistic(DatabaseConnector databaseConnector, String nameTable, String gameName, UUID uuid) {
+    super(databaseConnector, nameTable, true,
+        new Entry<>(gameName, Column.Game.GAME_NAME),
+        new Entry<>(uuid, Column.Game.STAT_USER_UUID));
 
     super.setUpdatePolicy(UpdatePolicy.INSERT_IF_NOT_EXISTS);
   }
@@ -149,8 +151,9 @@ public class GameUserStatistic extends TableQuery implements
     }
 
     super.setWithKey(values, () ->
-            Channel.getInstance().sendMessage(new ChannelUserMessage<>(((UUID)
-                this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
+            Channel.getInstance().sendMessage(new ChannelUserMessage<>(
+                this.keyEntries.get(Column.Game.STAT_USER_UUID).getValue(),
+                MessageType.User.STATISTICS, type.getName())),
         new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE));
 
     // TODO safe set
@@ -166,8 +169,9 @@ public class GameUserStatistic extends TableQuery implements
     }
 
     super.setWithKey(values, () ->
-            Channel.getInstance().sendMessage(new ChannelUserMessage<>(((UUID)
-                this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
+            Channel.getInstance().sendMessage(new ChannelUserMessage<>(
+                this.keyEntries.get(Column.Game.STAT_USER_UUID).getValue(),
+                MessageType.User.STATISTICS, type.getName())),
         new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE));
   }
 
@@ -175,9 +179,10 @@ public class GameUserStatistic extends TableQuery implements
   @Deprecated
   public <Value> void addValue(StatPeriod period, StatType<Value> type, Value value) {
     super.addEntry(
-        this.primaryEntries.with(new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE)),
-        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(((UUID)
-            this.primaryEntries.get(0).getValue()), MessageType.User.STATISTICS, type.getName())),
+        this.keyEntries.with(new Entry<>(type.getName(), Column.Game.STAT_USER_TYPE)),
+        () -> Channel.getInstance().sendMessage(new ChannelUserMessage<>(
+            this.keyEntries.get(Column.Game.STAT_USER_UUID).getValue(),
+            MessageType.User.STATISTICS, type.getName())),
         new Entry<>(type.valueToString(value), getPeriodColumn(period)));
   }
 

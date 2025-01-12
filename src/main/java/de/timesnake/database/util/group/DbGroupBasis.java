@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DbGroupBasis extends DbCached<DbGroupBasis> {
 
+  @NotCached
   boolean exists();
 
   @NotNull
@@ -19,6 +20,6 @@ public interface DbGroupBasis extends DbCached<DbGroupBasis> {
   void setName(String name);
 
   @NotNull
-  Integer getRank();
+  Integer getPriority();
 
 }

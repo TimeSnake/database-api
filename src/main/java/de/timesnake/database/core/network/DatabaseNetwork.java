@@ -5,16 +5,17 @@
 package de.timesnake.database.core.network;
 
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.io.File;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+import java.util.List;
 
 public class DatabaseNetwork extends DatabaseConnector implements
     de.timesnake.database.util.network.DatabaseNetwork {
 
-  private final NetworkFilesTable networkFilesTable;
-  private final NetworkVariablesTable networkVariablesTable;
+  private final NetworkFileTable networkFileTable;
+  private final NetworkVariableTable networkVariableTable;
 
   private final String networkFilesTableName;
   private final String networkVariablesTableName;
@@ -24,46 +25,46 @@ public class DatabaseNetwork extends DatabaseConnector implements
     super(name, url, options, user, password);
     this.networkFilesTableName = networkFilesTableName;
     this.networkVariablesTableName = networkVariablesTableName;
-    this.networkFilesTable = new NetworkFilesTable(this, this.networkFilesTableName);
-    this.networkVariablesTable = new NetworkVariablesTable(this, this.networkVariablesTableName);
+    this.networkFileTable = new NetworkFileTable(this, this.networkFilesTableName);
+    this.networkVariableTable = new NetworkVariableTable(this, this.networkVariablesTableName);
   }
 
   @Override
   public void createTables() {
-    networkFilesTable.create();
-    networkVariablesTable.create();
+    networkFileTable.create();
+    networkVariableTable.create();
   }
 
   @Override
-  public void backupTables() {
-    networkFilesTable.backup();
-    networkVariablesTable.backup();
+  public void saveTables() {
+    networkFileTable.save();
+    networkVariableTable.save();
   }
 
   @Override
   public void addNetworkFile(String name, File filePath) {
-    this.networkFilesTable.addNetworkFile(name, filePath);
+    this.networkFileTable.addNetworkFile(name, filePath);
   }
 
   @NotNull
   @Override
   public DbNetworkFile getNetworkFile(String name) {
-    return this.networkFilesTable.getNetworkFile(name);
+    return this.networkFileTable.getNetworkFile(name);
   }
 
   @NotNull
   @Override
   public List<DbNetworkFile> getNetworkFiles() {
-    return this.networkFilesTable.getNetworkFiles();
+    return this.networkFileTable.getNetworkFiles();
   }
 
   public void setValue(String key, String value) {
-    this.networkVariablesTable.setValue(key, value);
+    this.networkVariableTable.setValue(key, value);
   }
 
   @Nullable
   public String getValue(String key) {
-    return this.networkVariablesTable.getValue(key);
+    return this.networkVariableTable.getValue(key);
   }
 
 }

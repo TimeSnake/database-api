@@ -23,9 +23,8 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
     ColumnMap map = this.getDatabase().getFirstWithKey(
         Set.of(Game.DISPLAY_NAME, Game.TEXT_COLOR, Game.HEAD_LINE, Game.ITEM, Game.SLOT,
             Game.ENABLED, Game.MAX_PLAYERS, Game.MAPS, Game.KITS, Game.STATISTICS,
-            Game.TEXTURE_PACK_LINK, Game.TEXTURE_PACK_HASH, Game.PLAYER_TRACKING_RANGE, Game.MAX_HEALTH,
-            Game.VIEW_DISTANCE, Game.OLD_PVP, Game.CREATION_REQUESTABLE, Game.OWNABLE,
-            Game.ALLOW_NETHER_END));
+            Game.TEXTURE_PACK_LINK, Game.TEXTURE_PACK_HASH, Game.OLD_PVP,
+            Game.CREATION_REQUESTABLE, Game.OWNABLE));
 
     this.name = database.getName();
     this.displayName = map.get(Game.DISPLAY_NAME);
@@ -40,13 +39,9 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
     this.statistics = map.get(Game.STATISTICS);
     this.texturePackLink = map.get(Game.TEXTURE_PACK_LINK);
     this.texturePackHash = map.get(Game.TEXTURE_PACK_HASH);
-    this.playerTrackingRange = map.get(Game.PLAYER_TRACKING_RANGE);
-    this.maxHealth = map.get(Game.MAX_HEALTH);
-    this.viewDistance = map.get(Game.VIEW_DISTANCE);
     this.oldPvPAvailability = map.get(Game.OLD_PVP);
     this.creationRequestable = map.get(Game.CREATION_REQUESTABLE);
     this.ownable = map.get(Game.OWNABLE);
-    this.allowNetherAndEnd = map.get(Game.ALLOW_NETHER_END);
   }
 
   @Override
@@ -74,17 +69,6 @@ public class DbCachedNonTmpGameInfo extends DbCachedGameInfo implements DbNonTmp
   public void setOwnable(Boolean ownable) {
     this.ownable = ownable;
     this.getDatabase().setOwnable(ownable);
-  }
-
-  @Override
-  public boolean isNetherAndEndAllowed() {
-    return this.allowNetherAndEnd;
-  }
-
-  @Override
-  public void allowNetherAndEnd(Boolean allow) {
-    this.allowNetherAndEnd = allow;
-    this.getDatabase().allowNetherAndEnd(allow);
   }
 
   @NotNull

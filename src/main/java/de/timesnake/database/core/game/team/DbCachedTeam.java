@@ -6,26 +6,35 @@ package de.timesnake.database.core.game.team;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Column.Team;
-import de.timesnake.database.core.group.DbCachedGroup;
 import de.timesnake.database.util.object.ColumnMap;
-import java.util.Set;
+import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database.util.game.DbTeam {
+import java.util.Set;
 
+public class DbCachedTeam implements de.timesnake.database.util.game.DbTeam {
+
+  private final DbTeam database;
+
+  private final String name;
+  private int priority;
   private float ratio;
+  private String prefix;
+  private ExTextColor color;
   private String colorName;
   private Boolean privateChat;
   private Integer minSize;
 
   public DbCachedTeam(DbTeam team) {
-    super(team);
+    this.database = team;
 
-    ColumnMap map = team.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.PREFIX,
+    ColumnMap map = team.getFirstWithKey(Set.of(Column.Group.NAME, Column.Group.PRIORITY, Column.Group.PREFIX,
         Column.Group.PREFIX_COLOR, Column.Team.RATIO, Column.Team.COLOR,
         Column.Team.PRIVATE_CHAT, Team.MIN_SIZE));
 
     this.name = map.get(Column.Group.NAME);
+    this.priority = map.get(Column.Group.PRIORITY);
     this.prefix = map.get(Column.Group.PREFIX);
     this.color = map.get(Column.Group.PREFIX_COLOR);
     this.ratio = map.get(Column.Team.RATIO);
@@ -35,8 +44,26 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
   }
 
   @Override
-  public DbTeam getDatabase() {
-    return (DbTeam) super.getDatabase();
+  public boolean exists() {
+    return this.database.exists();
+  }
+
+  @NotNull
+  @Override
+  public String getName() {
+    return this.name;
+  }
+
+  @NotNull
+  @Override
+  public Integer getPriority() {
+    return this.priority;
+  }
+
+  @Override
+  public void setPriority(int priority) {
+    this.priority = priority;
+    this.database.setPriority(priority);
   }
 
   @NotNull
@@ -48,13 +75,50 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
   @Override
   public void setRatio(float ratio) {
     this.ratio = ratio;
-    this.getDatabase().setRatio(ratio);
+    this.database.setRatio(ratio);
+  }
+
+  @Nullable
+  @Override
+  public String getPrefix() {
+    return this.prefix;
+  }
+
+  @Override
+  public void setPrefix(String prefix) {
+    this.prefix = prefix;
+    this.database.setPrefix(prefix);
+  }
+
+  @Nullable
+  @Override
+  public String getChatColorName() {
+    return this.color.toString();
+  }
+
+  @Override
+  @Deprecated
+  public void setChatColorName(String chatColorName) {
+    this.color = ExTextColor.NAMES.value(chatColorName);
+    this.database.setChatColor(color);
+  }
+
+  @Nullable
+  @Override
+  public ExTextColor getChatColor() {
+    return this.color;
+  }
+
+  @Override
+  public void setChatColor(ExTextColor color) {
+    this.color = color;
+    this.database.setChatColor(color);
   }
 
   @Override
   public void setColor(String colorName) {
     this.colorName = colorName;
-    this.getDatabase().setColor(colorName);
+    this.database.setColor(colorName);
   }
 
   @NotNull
@@ -71,7 +135,7 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
   @Override
   public void setPrivateChat(Boolean privateChat) {
     this.privateChat = privateChat;
-    this.getDatabase().setPrivateChat(privateChat);
+    this.database.setPrivateChat(privateChat);
   }
 
   @Override
@@ -82,18 +146,18 @@ public class DbCachedTeam extends DbCachedGroup implements de.timesnake.database
   @Override
   public void setMinSize(Integer size) {
     this.minSize = size;
-    this.getDatabase().setMinSize(size);
+    this.database.setMinSize(size);
   }
 
   @NotNull
   @Override
   public de.timesnake.database.util.game.DbTeam toLocal() {
-    return this.getDatabase().toLocal();
+    return this.database.toLocal();
   }
 
   @NotNull
   @Override
   public de.timesnake.database.util.game.DbTeam toDatabase() {
-    return this.getDatabase();
+    return this.database;
   }
 }

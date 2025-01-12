@@ -19,10 +19,6 @@ public interface DbNonTmpGameInfo extends DbGameInfo {
   @NotCached
   void setOwnable(Boolean ownable);
 
-  boolean isNetherAndEndAllowed();
-
-  void allowNetherAndEnd(Boolean allow);
-
   @NotNull
   @Override
   DbNonTmpGameInfo toDatabase();

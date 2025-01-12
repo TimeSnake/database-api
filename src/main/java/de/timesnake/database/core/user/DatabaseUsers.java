@@ -16,10 +16,10 @@ import java.util.UUID;
 public class DatabaseUsers extends DatabaseConnector implements
     de.timesnake.database.util.user.DatabaseUsers {
 
-  private final InfosTable infosTable;
-  private final PunishmentsTable punishmentsTable;
-  private final MailsTable mailsTable;
-  private final DisplayGroupsTable displayGroupsTable;
+  private final InfoTable infoTable;
+  private final PunishmentTable punishmentTable;
+  private final MailTable mailTable;
+  private final DisplayGroupTable displayGroupTable;
 
   private final String infoTableName;
   private final String punishmentTableName;
@@ -35,32 +35,32 @@ public class DatabaseUsers extends DatabaseConnector implements
     this.mailsTableName = mailsTable;
     this.displayGroupsTableName = displayGroupsTable;
 
-    this.infosTable = new InfosTable(this, this.infoTableName);
-    this.punishmentsTable = new PunishmentsTable(this, this.punishmentTableName);
-    this.mailsTable = new MailsTable(this, this.mailsTableName);
-    this.displayGroupsTable = new DisplayGroupsTable(this, this.displayGroupsTableName);
+    this.infoTable = new InfoTable(this, this.infoTableName);
+    this.punishmentTable = new PunishmentTable(this, this.punishmentTableName);
+    this.mailTable = new MailTable(this, this.mailsTableName);
+    this.displayGroupTable = new DisplayGroupTable(this, this.displayGroupsTableName);
   }
 
   @Override
   public void createTables() {
-    this.infosTable.create();
-    this.punishmentsTable.create();
-    this.mailsTable.create();
-    this.displayGroupsTable.create();
+    this.infoTable.create();
+    this.punishmentTable.create();
+    this.mailTable.create();
+    this.displayGroupTable.create();
   }
 
   @Override
-  public void backupTables() {
-    this.infosTable.backup();
-    this.punishmentsTable.backup();
-    this.mailsTable.backup();
-    this.displayGroupsTable.backup();
+  public void saveTables() {
+    this.infoTable.save();
+    this.punishmentTable.save();
+    this.mailTable.save();
+    this.displayGroupTable.save();
   }
 
   @Override
   public void addUser(UUID uuid, String name, String permGroup, String server) {
-    if (!this.infosTable.containsPlayer(uuid)) {
-      this.infosTable.addPlayer(uuid, name, permGroup, server);
+    if (!this.infoTable.containsPlayer(uuid)) {
+      this.infoTable.addPlayer(uuid, name, permGroup, server);
     }
   }
 
@@ -80,7 +80,7 @@ public class DatabaseUsers extends DatabaseConnector implements
     if (uuid != null) {
       return new DbUser(this, uuid, this.infoTableName, this.punishmentTableName,
           this.mailsTableName,
-          this.punishmentsTable, this.mailsTable, this.displayGroupsTable);
+          this.punishmentTable, this.mailTable, this.displayGroupTable);
     }
     return null;
   }
@@ -88,35 +88,35 @@ public class DatabaseUsers extends DatabaseConnector implements
   @Nullable
   @Override
   public DbUser getUser(String name) {
-    return new DbUser(this, this.infosTable.getUniqueIdFromName(name), this.infoTableName,
-        this.punishmentTableName, this.mailsTableName, this.punishmentsTable,
-        this.mailsTable,
-        this.displayGroupsTable);
+    return new DbUser(this, this.infoTable.getUniqueIdFromName(name), this.infoTableName,
+        this.punishmentTableName, this.mailsTableName, this.punishmentTable,
+        this.mailTable,
+        this.displayGroupTable);
   }
 
   @Override
   public boolean containsUser(UUID uuid) {
     if (uuid != null) {
-      return this.infosTable.containsPlayer(uuid);
+      return this.infoTable.containsPlayer(uuid);
     }
     return false;
   }
 
   @Override
   public boolean containsUser(String name) {
-    return this.infosTable.containsPlayer(name);
+    return this.infoTable.containsPlayer(name);
   }
 
   @NotNull
   @Override
   public Collection<UUID> getUsersUuid() {
-    return this.infosTable.getPlayerUniqueIds();
+    return this.infoTable.getPlayerUniqueIds();
   }
 
   @NotNull
   @Override
   public Collection<String> getUsersName() {
-    return this.infosTable.getPlayerNames();
+    return this.infoTable.getPlayerNames();
   }
 
 

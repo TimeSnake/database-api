@@ -48,24 +48,6 @@ public interface DbGameInfo extends DbGameInfoBasis {
   @NotCached
   void setTexturePackHash(String hash);
 
-  @Nullable
-  Integer getPlayerTrackingRange();
-
-  @NotCached
-  void setPlayerTrackingRange(Integer playerTrackingRange);
-
-  @Nullable
-  Integer getMaxHealth();
-
-  @NotCached
-  void setMaxHealth(Integer maxHealth);
-
-  @Nullable
-  Integer getViewDistance();
-
-  @NotCached
-  void setViewDistance(Integer viewDistance);
-
   @NotNull
   Availability getOldPvPAvailability();
 

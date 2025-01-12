@@ -31,37 +31,35 @@ import java.util.UUID;
 
 public class DbUser extends DbPlayer implements de.timesnake.database.util.user.DbUser {
 
-  private final PunishmentsTable punishmentsTable;
-  private final MailsTable mailsTable;
+  private final PunishmentTable punishmentTable;
+  private final MailTable mailTable;
   private final DbDisplayGroupUser dbDisplayGroupUser;
 
   private final String punishmentTableName;
-  private final String mailsTableName;
 
   public DbUser(DatabaseConnector databaseConnector, UUID uuid, String infoTable,
-                String punishmentsTableName, String mailsTableName, PunishmentsTable punishmentsTable,
-                MailsTable mailsTable, DisplayGroupsTable displayGroupsTable) {
+                String punishmentsTableName, String mailsTableName, PunishmentTable punishmentTable,
+                MailTable mailTable, DisplayGroupTable displayGroupTable) {
     super(databaseConnector, uuid, infoTable);
 
-    this.punishmentsTable = punishmentsTable;
-    this.mailsTable = mailsTable;
+    this.punishmentTable = punishmentTable;
+    this.mailTable = mailTable;
 
     this.punishmentTableName = punishmentsTableName;
-    this.mailsTableName = mailsTableName;
 
-    this.dbDisplayGroupUser = displayGroupsTable.getUser(this.getUniqueId());
+    this.dbDisplayGroupUser = displayGroupTable.getUser(this.getUniqueId());
   }
 
   //punishment
 
   @Override
   public void setPunishment(Punishment punishment) {
-    this.punishmentsTable.setPunishment(punishment);
+    this.punishmentTable.setPunishment(punishment);
   }
 
   @Override
   public boolean hasPunishment() {
-    return this.punishmentsTable.contains(super.getUniqueId());
+    return this.punishmentTable.contains(super.getUniqueId());
   }
 
   @NotNull
@@ -438,23 +436,23 @@ public class DbUser extends DbPlayer implements de.timesnake.database.util.user.
   @NotNull
   @Override
   public Collection<de.timesnake.database.util.user.DbUserMail> getMails() {
-    return this.mailsTable.getMails(this.getUniqueId());
+    return this.mailTable.getMails(this.getUniqueId());
   }
 
   @Nullable
   @Override
   public DbUserMail getMail(Integer id) {
-    return this.mailsTable.getMail(this.getUniqueId(), id);
+    return this.mailTable.getMail(this.getUniqueId(), id);
   }
 
   @Override
   public boolean deleteMail(Integer id) {
-    return this.mailsTable.removeMail(this.getUniqueId(), id);
+    return this.mailTable.removeMail(this.getUniqueId(), id);
   }
 
   @Override
   public Integer addMail(UUID senderUuid, String senderName, String message) throws TooLongEntryException {
-    return this.mailsTable.addMessage(this.getUniqueId(), this.getName(), senderUuid, senderName, message);
+    return this.mailTable.addMessage(this.getUniqueId(), this.getName(), senderUuid, senderName, message);
   }
 
   @NotNull

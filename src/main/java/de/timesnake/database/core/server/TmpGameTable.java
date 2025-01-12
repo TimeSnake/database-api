@@ -24,7 +24,7 @@ public class TmpGameTable extends PvPTable<DbTmpGameServer> {
   }
 
   @Override
-  public void backup() {
+  public void save() {
     super.dropTmpTable();
   }
 

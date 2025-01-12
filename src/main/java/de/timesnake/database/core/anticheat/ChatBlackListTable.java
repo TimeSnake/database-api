@@ -6,12 +6,12 @@ package de.timesnake.database.core.anticheat;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 
 import java.util.Collection;
 
-public class ChatBlackListTable extends TableDDL {
+public class ChatBlackListTable extends DefinitionAndQueryTool {
 
   protected ChatBlackListTable(DatabaseConnector databaseConnector, String tableName) {
     super(databaseConnector, tableName, Column.AntiCheat.ID);
@@ -25,8 +25,8 @@ public class ChatBlackListTable extends TableDDL {
   }
 
   @Override
-  protected void backup() {
-    super.backup();
+  protected void save() {
+    super.save();
   }
 
   public Collection<String> getWordList() {

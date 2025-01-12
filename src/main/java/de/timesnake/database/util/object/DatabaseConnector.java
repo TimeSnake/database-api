@@ -5,7 +5,7 @@
 package de.timesnake.database.util.object;
 
 import de.timesnake.database.core.DatabaseManager;
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.QueryTool;
 import de.timesnake.database.util.Database;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -85,7 +85,7 @@ public class DatabaseConnector {
     } catch (SQLException e) {
       DatabaseManager.getInstance().handleSQLException(e);
     } finally {
-      Table.closeQuery(connection, statement, null);
+      QueryTool.closeQuery(connection, statement, null);
     }
   }
 
@@ -101,7 +101,7 @@ public class DatabaseConnector {
 
   }
 
-  public void backupTables() {
+  public void saveTables() {
 
   }
 

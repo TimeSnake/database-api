@@ -6,14 +6,14 @@ package de.timesnake.database.core.decoration;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 
-public class DbHead extends TableQuery implements de.timesnake.database.util.decoration.DbHead {
+public class DbHead extends KeyedQueryTool implements de.timesnake.database.util.decoration.DbHead {
 
   protected DbHead(DatabaseConnector databaseConnector, String nameTable, String tag) {
-    super(databaseConnector, nameTable, new Entry<>(tag, Column.Decoration.HEAD_TAG));
+    super(databaseConnector, nameTable, true, new Entry<>(tag, Column.Decoration.HEAD_TAG));
   }
 
   @Override
@@ -29,7 +29,7 @@ public class DbHead extends TableQuery implements de.timesnake.database.util.dec
   @NotNull
   @Override
   public String getTag() {
-    return (String) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.Decoration.HEAD_TAG).getValue();
   }
 
   @NotNull

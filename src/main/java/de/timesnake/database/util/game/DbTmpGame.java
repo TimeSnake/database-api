@@ -7,9 +7,10 @@ package de.timesnake.database.util.game;
 import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
 import de.timesnake.library.chat.ExTextColor;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
 
@@ -32,16 +33,12 @@ public interface DbTmpGame extends DbGame, DbTmpGameInfo, DbCached<DbTmpGame> {
   boolean containsTeam(String name);
 
   @NotCached
-  @NotNull
+  @Nullable
   de.timesnake.database.core.game.team.DbTeam getTeam(String name);
 
   @NotCached
   @NotNull
   Collection<String> getTeamNames();
-
-  @NotCached
-  @NotNull
-  Collection<Integer> getTeamRanks();
 
   @NotCached
   @NotNull

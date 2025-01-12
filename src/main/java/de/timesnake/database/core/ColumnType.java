@@ -4,7 +4,7 @@
 
 package de.timesnake.database.core;
 
-import de.timesnake.database.core.table.Table;
+import de.timesnake.database.core.table.QueryTool;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.library.basic.util.Status;
 import de.timesnake.library.basic.util.Type;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static de.timesnake.database.core.table.Table.ENTRY_ARRAY_DELIMITER;
+import static de.timesnake.database.core.table.QueryTool.ENTRY_ARRAY_DELIMITER;
 
 public abstract class ColumnType<Value> {
 
@@ -292,7 +292,7 @@ public abstract class ColumnType<Value> {
       @Override
       public void applyOnStatement(PreparedStatement statement, int index,
                                    List<String> strings) throws SQLException {
-        if (strings.size() > 0) {
+        if (!strings.isEmpty()) {
           statement.setString(index, String.join(ENTRY_ARRAY_DELIMITER, strings));
         } else {
           statement.setNull(index, Types.NULL);
@@ -330,7 +330,7 @@ public abstract class ColumnType<Value> {
       @Override
       public void applyOnStatement(PreparedStatement statement, int index,
                                    List<Integer> integers) throws SQLException {
-        if (integers.size() > 0) {
+        if (!integers.isEmpty()) {
           statement.setString(index, integers.stream()
               .map(String::valueOf)
               .collect(Collectors.joining(ENTRY_ARRAY_DELIMITER)));
@@ -495,7 +495,7 @@ public abstract class ColumnType<Value> {
   }
 
   public String getSelectWrapper(String columnName) {
-    return Table.COLUMN_WRAPPER + columnName + Table.COLUMN_WRAPPER;
+    return QueryTool.COLUMN_WRAPPER + columnName + QueryTool.COLUMN_WRAPPER;
   }
 
   public int getLength() {

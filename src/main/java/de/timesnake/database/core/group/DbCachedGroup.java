@@ -8,7 +8,7 @@ import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbCachedGroup extends DbCachedGroupBasis implements
+public class DbCachedGroup extends DbCachedSimpleGroup implements
     de.timesnake.database.util.group.DbGroup {
 
   protected String prefix;

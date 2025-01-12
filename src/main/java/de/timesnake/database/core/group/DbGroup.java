@@ -10,8 +10,7 @@ import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbGroup extends DbGroupBasis implements de.timesnake.database.util.group.DbGroup {
-
+public class DbGroup extends DbSimpleGroup implements de.timesnake.database.util.group.DbGroup {
 
   protected DbGroup(DatabaseConnector databaseConnector, String name, String tableName) {
     super(databaseConnector, name, tableName);

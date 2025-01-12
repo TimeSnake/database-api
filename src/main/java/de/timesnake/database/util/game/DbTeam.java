@@ -4,11 +4,44 @@
 
 package de.timesnake.database.util.game;
 
-import de.timesnake.database.util.group.DbGroup;
+import de.timesnake.database.util.object.DbCached;
 import de.timesnake.database.util.object.NotCached;
+import de.timesnake.library.chat.ExTextColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public interface DbTeam extends DbGroup {
+public interface DbTeam extends DbCached<DbTeam> {
+
+  @NotCached
+  boolean exists();
+
+  @NotNull
+  String getName();
+
+  @NotNull
+  Integer getPriority();
+
+  @NotCached
+  void setPriority(int priority);
+
+  @Nullable
+  String getPrefix();
+
+  @NotCached
+  void setPrefix(String prefix);
+
+  @Deprecated
+  @Nullable
+  String getChatColorName();
+
+  @NotCached
+  @Deprecated
+  void setChatColorName(String chatColorName);
+
+  @Nullable
+  ExTextColor getChatColor();
+
+  void setChatColor(ExTextColor color);
 
   @NotNull
   Float getRatio();

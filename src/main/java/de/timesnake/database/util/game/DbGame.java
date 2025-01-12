@@ -46,10 +46,6 @@ public interface DbGame {
       throws UnsupportedStringException;
 
   @NotCached
-  void addKit(String name, String itemType, Collection<String> description)
-      throws UnsupportedStringException;
-
-  @NotCached
   @NotNull
   Collection<DbKit> getKits();
 
@@ -103,6 +99,20 @@ public interface DbGame {
   @NotNull
   @NotCached
   <Value> Map<UUID, Value> getStatOfUsers(StatPeriod period, StatType<Value> type);
+
+  @NotCached
+  void updateServerOption(String key, String value);
+
+  @NotCached
+  void removeServerOption(String key);
+
+  @NotCached
+  @Nullable
+  String getServerOptionValue(String key);
+
+  @NotCached
+  @NotNull
+  Map<String, String> getServerOptions();
 
   @NotNull
   DbGame toDatabase();

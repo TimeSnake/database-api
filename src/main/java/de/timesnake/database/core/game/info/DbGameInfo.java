@@ -11,7 +11,7 @@ import de.timesnake.library.basic.util.Availability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbGameInfo extends DbGameInfoBasis implements
+public class DbGameInfo extends DbSimpleGameInfo implements
     de.timesnake.database.util.game.DbGameInfo {
 
   public DbGameInfo(DatabaseConnector databaseConnector, String nameTable, String gameName) {
@@ -88,39 +88,6 @@ public class DbGameInfo extends DbGameInfoBasis implements
   @Override
   public void setTexturePackHash(String hash) {
     super.setWithKey(hash, Game.TEXTURE_PACK_HASH);
-  }
-
-  @Nullable
-  @Override
-  public Integer getPlayerTrackingRange() {
-    return super.getFirstWithKey(Column.Game.PLAYER_TRACKING_RANGE);
-  }
-
-  @Override
-  public void setPlayerTrackingRange(Integer playerTrackingRange) {
-    super.setWithKey(playerTrackingRange, Column.Game.PLAYER_TRACKING_RANGE);
-  }
-
-  @Nullable
-  @Override
-  public Integer getMaxHealth() {
-    return super.getFirstWithKey(Column.Game.MAX_HEALTH);
-  }
-
-  @Override
-  public void setMaxHealth(Integer maxHealth) {
-    super.setWithKey(maxHealth, Column.Game.MAX_HEALTH);
-  }
-
-  @Nullable
-  @Override
-  public Integer getViewDistance() {
-    return super.getFirstWithKey(Column.Game.VIEW_DISTANCE);
-  }
-
-  @Override
-  public void setViewDistance(Integer viewDistance) {
-    super.setWithKey(viewDistance, Column.Game.VIEW_DISTANCE);
   }
 
   @NotNull

@@ -6,18 +6,19 @@ package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.PrimaryKeyEntries;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.BlockSide;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.awt.Color;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
-import org.jetbrains.annotations.NotNull;
 
-public class DbLoungeMapDisplayTable extends TableDDL {
+public class DbLoungeMapDisplayTable extends DefinitionAndQueryTool {
 
   public DbLoungeMapDisplayTable(DatabaseConnector databaseConnector, String tableName) {
     super(databaseConnector, tableName, Column.Game.LOUNGE_MAP_NAME,
@@ -39,14 +40,14 @@ public class DbLoungeMapDisplayTable extends TableDDL {
   }
 
   @Override
-  public void backup() {
-    super.backup();
+  public void save() {
+    super.save();
   }
 
   public void addDisplay(String mapName, Integer displayIndex, Integer x, Integer y, Integer z,
       BlockSide facing, BlockSide orientation, Color titleColor, Color statNameColor,
       Color firstColor, Color secondColor, Color thirdColor) {
-    super.addEntry(new PrimaryEntries(new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
+    super.addEntry(new PrimaryKeyEntries(new Entry<>(mapName, Column.Game.LOUNGE_MAP_NAME),
             new Entry<>(displayIndex, Column.Game.LOUNGE_MAP_DISPLAY_INDEX)),
         new Entry<>(x, Column.Game.LOUNGE_MAP_DISPLAY_X),
         new Entry<>(y, Column.Game.LOUNGE_MAP_DISPLAY_Y),
