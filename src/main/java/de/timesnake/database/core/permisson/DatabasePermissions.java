@@ -15,7 +15,7 @@ import java.util.Collection;
 public class DatabasePermissions extends DatabaseConnector implements
     de.timesnake.database.util.permission.DatabasePermissions {
 
-  private final PermissionsTable permissionsTable;
+  private final PermissionTable permissionTable;
 
   private final String permissionsTableName;
 
@@ -23,42 +23,42 @@ public class DatabasePermissions extends DatabaseConnector implements
       String permissionsTable) {
     super(name, url, options, user, password);
     this.permissionsTableName = permissionsTable;
-    this.permissionsTable = new PermissionsTable(this, permissionsTableName);
+    this.permissionTable = new PermissionTable(this, permissionsTableName);
   }
 
   @Override
   public void createTables() {
-    permissionsTable.create();
+    permissionTable.create();
   }
 
   @Override
-  public void backupTables() {
-    permissionsTable.backup();
+  public void saveTables() {
+    permissionTable.save();
   }
 
   @Override
   public void addPermission(String name, String permission, Status.Permission mode) {
-    this.permissionsTable.addPermission(name, permission, mode);
+    this.permissionTable.addPermission(name, permission, mode);
   }
 
   @Override
   public void addPermission(String name, String permission, Status.Permission mode, SyncExecute syncExecute) {
-    this.permissionsTable.addPermission(name, permission, mode, syncExecute);
+    this.permissionTable.addPermission(name, permission, mode, syncExecute);
   }
 
   @Override
   public void deletePermission(String name, String permission) {
-    this.permissionsTable.removePermission(name, permission);
+    this.permissionTable.removePermission(name, permission);
   }
 
   @Override
   public void deletePermission(String name, String permission, SyncExecute syncExecute) {
-    this.permissionsTable.removePermission(name, permission, syncExecute);
+    this.permissionTable.removePermission(name, permission, syncExecute);
   }
 
   @Override
   public boolean containsPermission(String name, String permission) {
-    return this.permissionsTable.containsPermission(name, permission);
+    return this.permissionTable.containsPermission(name, permission);
   }
 
   @NotNull
@@ -71,8 +71,8 @@ public class DatabasePermissions extends DatabaseConnector implements
   @Override
   @Deprecated
   public de.timesnake.database.util.permission.DbPermission getPermission(String name, String permission) {
-    if (this.permissionsTable.getIdFromName(name, permission) != 0) {
-      return new DbPermission(this, this.permissionsTable.getIdFromName(name, permission),
+    if (this.permissionTable.getIdFromName(name, permission) != 0) {
+      return new DbPermission(this, this.permissionTable.getIdFromName(name, permission),
           this.permissionsTableName);
     }
     return null;
@@ -81,6 +81,6 @@ public class DatabasePermissions extends DatabaseConnector implements
   @NotNull
   @Override
   public Collection<de.timesnake.database.util.permission.DbPermission> getCachedPermissions(String name) {
-    return this.permissionsTable.getCachedPermissions(name);
+    return this.permissionTable.getCachedPermissions(name);
   }
 }

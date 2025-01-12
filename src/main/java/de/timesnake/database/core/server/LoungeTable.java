@@ -14,7 +14,7 @@ public class LoungeTable extends TaskTable<DbLoungeServer> {
   }
 
   @Override
-  public void backup() {
+  public void save() {
     this.dropTmpTable();
   }
 

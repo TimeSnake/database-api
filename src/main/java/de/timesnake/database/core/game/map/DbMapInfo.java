@@ -6,22 +6,24 @@ package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DbMapInfo extends TableQuery {
+public class DbMapInfo extends KeyedQueryTool {
 
-  protected DbMapInfo(DatabaseConnector databaseConnector, String nameTable, String mapName) {
-    super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.MAP_NAME));
+  protected DbMapInfo(DatabaseConnector databaseConnector, String nameTable, String gameName, String mapName) {
+    super(databaseConnector, nameTable, true,
+        new Entry<>(gameName, Column.Game.GAME_NAME),
+        new Entry<>(mapName, Column.Game.MAP_NAME));
   }
 
   @NotNull
   public String getName() {
-    return (String) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.Game.MAP_NAME).getValue();
   }
 
   public boolean exists() {

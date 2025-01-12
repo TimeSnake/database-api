@@ -5,6 +5,9 @@
 package de.timesnake.database.core.game;
 
 import de.timesnake.database.core.game.info.DbNonTmpGameInfo;
+import de.timesnake.database.core.game.kit.KitTable;
+import de.timesnake.database.core.game.server_options.GameServerOptionTable;
+import de.timesnake.database.core.game.statistic.StatisticTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Availability;
 import de.timesnake.library.chat.ExTextColor;
@@ -13,8 +16,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class DbNonTmpGame extends DbGame implements de.timesnake.database.util.game.DbNonTmpGame {
 
-  public DbNonTmpGame(DatabaseConnector databaseConnector, String gameName, DbNonTmpGameInfo info) {
-    super(databaseConnector, gameName, info);
+  public DbNonTmpGame(DatabaseConnector databaseConnector, String gameName, DbNonTmpGameInfo info,
+                      KitTable kitTable, StatisticTable statisticTable, GameServerOptionTable gameServerOptionTable) {
+    super(databaseConnector, gameName, info, kitTable, statisticTable, gameServerOptionTable);
   }
 
   @NotNull
@@ -91,39 +95,6 @@ public class DbNonTmpGame extends DbGame implements de.timesnake.database.util.g
   @Override
   public void setTexturePackHash(String hash) {
     getInfo().setTexturePackHash(hash);
-  }
-
-  @Nullable
-  @Override
-  public Integer getPlayerTrackingRange() {
-    return getInfo().getPlayerTrackingRange();
-  }
-
-  @Override
-  public void setPlayerTrackingRange(Integer playerTrackingRange) {
-    getInfo().setPlayerTrackingRange(playerTrackingRange);
-  }
-
-  @Nullable
-  @Override
-  public Integer getMaxHealth() {
-    return getInfo().getMaxHealth();
-  }
-
-  @Override
-  public void setMaxHealth(Integer maxHealth) {
-    getInfo().setMaxHealth(maxHealth);
-  }
-
-  @Nullable
-  @Override
-  public Integer getViewDistance() {
-    return getInfo().getViewDistance();
-  }
-
-  @Override
-  public void setViewDistance(Integer viewDistance) {
-    getInfo().setViewDistance(viewDistance);
   }
 
   @NotNull
@@ -245,17 +216,6 @@ public class DbNonTmpGame extends DbGame implements de.timesnake.database.util.g
   public void setOwnable(Boolean ownable) {
     getInfo().setOwnable(ownable);
   }
-
-  @Override
-  public boolean isNetherAndEndAllowed() {
-    return getInfo().isNetherAndEndAllowed();
-  }
-
-  @Override
-  public void allowNetherAndEnd(Boolean allow) {
-    getInfo().allowNetherAndEnd(allow);
-  }
-
 
   @NotNull
   @Override

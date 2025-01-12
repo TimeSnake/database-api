@@ -5,8 +5,9 @@
 package de.timesnake.database.core.story;
 
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 public class DatabaseStory extends DatabaseConnector implements
     de.timesnake.database.util.story.DatabaseStory {
@@ -35,9 +36,9 @@ public class DatabaseStory extends DatabaseConnector implements
   }
 
   @Override
-  public void backupTables() {
-    this.checkpointsTable.backup();
-    this.boughtTable.backup();
+  public void saveTables() {
+    this.checkpointsTable.save();
+    this.boughtTable.save();
   }
 
   @NotNull

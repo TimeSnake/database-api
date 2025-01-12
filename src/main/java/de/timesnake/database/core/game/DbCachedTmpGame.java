@@ -104,39 +104,6 @@ public class DbCachedTmpGame extends DbCachedGame implements
     return getInfo().hasTexturePack();
   }
 
-  @Nullable
-  @Override
-  public Integer getPlayerTrackingRange() {
-    return getInfo().getPlayerTrackingRange();
-  }
-
-  @Override
-  public void setPlayerTrackingRange(Integer playerTrackingRange) {
-    getInfo().setPlayerTrackingRange(playerTrackingRange);
-  }
-
-  @Nullable
-  @Override
-  public Integer getMaxHealth() {
-    return getInfo().getMaxHealth();
-  }
-
-  @Override
-  public void setMaxHealth(Integer maxHealth) {
-    getInfo().setMaxHealth(maxHealth);
-  }
-
-  @Nullable
-  @Override
-  public Integer getViewDistance() {
-    return getInfo().getViewDistance();
-  }
-
-  @Override
-  public void setViewDistance(Integer viewDistance) {
-    getInfo().setViewDistance(viewDistance);
-  }
-
   @NotNull
   @Override
   public Availability getOldPvPAvailability() {
@@ -270,7 +237,7 @@ public class DbCachedTmpGame extends DbCachedGame implements
   }
 
   @Override
-  public List<Integer> getTeamSizes() {
+  public @NotNull List<Integer> getTeamSizes() {
     return getInfo().getTeamSizes();
   }
 
@@ -363,12 +330,6 @@ public class DbCachedTmpGame extends DbCachedGame implements
   @Override
   public Collection<String> getTeamNames() {
     return this.getDatabase().getTeamNames();
-  }
-
-  @NotNull
-  @Override
-  public Collection<Integer> getTeamRanks() {
-    return this.getDatabase().getTeamRanks();
   }
 
   @NotNull

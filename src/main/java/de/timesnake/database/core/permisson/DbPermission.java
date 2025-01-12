@@ -6,15 +6,15 @@ package de.timesnake.database.core.permisson;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Status;
 import org.jetbrains.annotations.NotNull;
 
-public class DbPermission extends TableQuery implements de.timesnake.database.util.permission.DbPermission {
+public class DbPermission extends KeyedQueryTool implements de.timesnake.database.util.permission.DbPermission {
 
   public DbPermission(DatabaseConnector databaseConnector, int id, String nameTable) {
-    super(databaseConnector, nameTable, new Entry<>(id, Column.Permission.ID));
+    super(databaseConnector, nameTable, true, new Entry<>(id, Column.Permission.ID));
   }
 
   @Override
@@ -25,7 +25,7 @@ public class DbPermission extends TableQuery implements de.timesnake.database.ut
   @NotNull
   @Override
   public Integer getId() {
-    return (Integer) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.Permission.ID).getValue();
   }
 
   @NotNull

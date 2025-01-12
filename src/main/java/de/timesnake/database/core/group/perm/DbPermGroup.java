@@ -9,7 +9,7 @@ import de.timesnake.channel.util.message.ChannelGroupMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.group.DbGroupBasis;
+import de.timesnake.database.core.group.DbSimpleGroup;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class DbPermGroup extends DbGroupBasis implements
+public class DbPermGroup extends DbSimpleGroup implements
     de.timesnake.database.util.group.DbPermGroup {
 
   public DbPermGroup(DatabaseConnector databaseConnector, String name, String nameTable) {

@@ -9,6 +9,7 @@ import de.timesnake.database.core.Entry;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbTaskServer;
 import de.timesnake.library.basic.util.Status;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,11 +28,11 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
   }
 
   @Override
-  public void backup() {
+  public void save() {
     Column<?>[] columns = {Column.Server.NAME, Column.Server.PORT, Column.Server.MAX_PLAYERS,
         Column.Server.TASK,
         Column.Server.PASSWORD};
-    super.backup(columns);
+    super.save(columns);
   }
 
   public List<Server> getServers(String task) {

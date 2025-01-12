@@ -9,7 +9,7 @@ import de.timesnake.channel.util.message.ChannelServerMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.library.basic.util.Status;
@@ -18,17 +18,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 
-public abstract class DbServer extends TableQuery implements
+public abstract class DbServer extends KeyedQueryTool implements
     de.timesnake.database.util.server.DbServer {
 
   public DbServer(DatabaseConnector databaseConnector, String name, String nameTable) {
-    super(databaseConnector, nameTable, new Entry<>(name, Column.Server.NAME));
+    super(databaseConnector, nameTable, true, new Entry<>(name, Column.Server.NAME));
   }
 
   @NotNull
   @Override
   public String getName() {
-    return (String) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.Server.NAME).getValue();
   }
 
   @Override

@@ -4,14 +4,15 @@
 
 package de.timesnake.database.core.table;
 
-import static de.timesnake.database.core.table.Table.COLUMN_WRAPPER;
-
 import de.timesnake.database.core.Entry;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
+import static de.timesnake.database.core.table.QueryTool.COLUMN_WRAPPER;
 
 public abstract class StatementClause {
 

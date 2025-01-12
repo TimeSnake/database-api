@@ -47,11 +47,11 @@ public class DatabaseServers extends DatabaseConnector implements
   }
 
   @Override
-  public void backupTables() {
+  public void saveTables() {
     for (ServerTable<? extends DbServer> serverTable : this.serverTables.values()) {
-      serverTable.backup();
+      serverTable.save();
     }
-    this.buildWorldTable.backup();
+    this.buildWorldTable.save();
   }
 
   @Override

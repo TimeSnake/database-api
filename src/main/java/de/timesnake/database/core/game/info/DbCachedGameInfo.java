@@ -9,7 +9,7 @@ import de.timesnake.library.basic.util.Availability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInfo {
+public class DbCachedGameInfo extends DbCachedSimpleGameInfo implements DbGameInfo {
 
   protected Integer maxPlayers;
   protected Availability mapAvailability;
@@ -17,9 +17,6 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
   protected Boolean statistics;
   protected String texturePackLink;
   protected String texturePackHash;
-  protected Integer playerTrackingRange;
-  protected Integer maxHealth;
-  protected Integer viewDistance;
   protected Availability oldPvPAvailability;
 
   public DbCachedGameInfo(de.timesnake.database.core.game.info.DbGameInfo database) {
@@ -105,42 +102,6 @@ public class DbCachedGameInfo extends DbCachedGameInfoBasis implements DbGameInf
   public void setTexturePackHash(String hash) {
     this.texturePackHash = hash;
     this.getDatabase().setTexturePackHash(hash);
-  }
-
-  @Nullable
-  @Override
-  public Integer getPlayerTrackingRange() {
-    return this.playerTrackingRange;
-  }
-
-  @Override
-  public void setPlayerTrackingRange(Integer playerTrackingRange) {
-    this.playerTrackingRange = playerTrackingRange;
-    this.getDatabase().setPlayerTrackingRange(playerTrackingRange);
-  }
-
-  @Nullable
-  @Override
-  public Integer getMaxHealth() {
-    return maxHealth;
-  }
-
-  @Override
-  public void setMaxHealth(Integer maxHealth) {
-    this.maxHealth = maxHealth;
-    this.getDatabase().setMaxHealth(maxHealth);
-  }
-
-  @Nullable
-  @Override
-  public Integer getViewDistance() {
-    return this.viewDistance;
-  }
-
-  @Override
-  public void setViewDistance(Integer viewDistance) {
-    this.viewDistance = viewDistance;
-    this.getDatabase().setViewDistance(viewDistance);
   }
 
   @NotNull

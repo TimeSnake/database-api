@@ -6,7 +6,7 @@ package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.ColumnMap;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
@@ -16,10 +16,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Set;
 
-public class DbMapLocations extends TableQuery {
+public class DbMapLocations extends KeyedQueryTool {
 
-  protected DbMapLocations(DatabaseConnector databaseConnector, String gameName, String mapName) {
-    super(databaseConnector, gameName, new Entry<>(mapName, Column.Game.MAP_NAME));
+  protected DbMapLocations(DatabaseConnector databaseConnector, String tableName, String gameName, String mapName) {
+    super(databaseConnector, tableName, true,
+        new Entry<>(gameName, Column.Game.GAME_NAME),
+        new Entry<>(mapName, Column.Game.MAP_NAME));
 
     this.setUpdatePolicy(UpdatePolicy.INSERT_IF_NOT_EXISTS);
   }
@@ -31,7 +33,7 @@ public class DbMapLocations extends TableQuery {
 
   @NotNull
   public String getName() {
-    return (String) super.primaryEntries.get(0).getValue();
+    return super.keyEntries.get(Column.Game.MAP_NAME).getValue();
   }
 
   @NotNull

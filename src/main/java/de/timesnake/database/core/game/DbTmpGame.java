@@ -4,10 +4,12 @@
 
 package de.timesnake.database.core.game;
 
-import de.timesnake.database.core.DatabaseManager;
 import de.timesnake.database.core.game.info.DbTmpGameInfo;
+import de.timesnake.database.core.game.kit.KitTable;
+import de.timesnake.database.core.game.server_options.GameServerOptionTable;
+import de.timesnake.database.core.game.statistic.StatisticTable;
 import de.timesnake.database.core.game.team.DbTeam;
-import de.timesnake.database.core.game.team.TeamsTable;
+import de.timesnake.database.core.game.team.TeamTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.basic.util.Availability;
 import de.timesnake.library.basic.util.DiscordChannelType;
@@ -18,14 +20,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class DbTmpGame extends DbGame implements de.timesnake.database.util.game.DbTmpGame {
 
-  private Optional<TeamsTable> teamsTable;
+  private final TeamTable teamTable;
 
-  protected DbTmpGame(DatabaseConnector databaseConnector, String gameName, DbTmpGameInfo info) {
-    super(databaseConnector, gameName, info);
+  private final boolean teams;
+
+  protected DbTmpGame(DatabaseConnector databaseConnector, String gameName, DbTmpGameInfo info, KitTable kitTable,
+                      StatisticTable statisticTable, GameServerOptionTable gameServerOptionTable, TeamTable teamTable) {
+    super(databaseConnector, gameName, info, kitTable, statisticTable, gameServerOptionTable);
+
+    this.teamTable = teamTable;
+
+    Collection<Integer> teamSizes = this.getInfo().getTeamSizes();
+    this.teams = !teamSizes.isEmpty() && !(teamSizes.size() == 1 && teamSizes.contains(0));
   }
 
   @NotNull
@@ -34,90 +43,43 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
     return (de.timesnake.database.core.game.info.DbTmpGameInfo) super.getInfo();
   }
 
-  private boolean loadTeamsTable() {
-    if (this.teamsTable != null) {
-      if (this.teamsTable.isEmpty()) {
-        return false;
-      }
-
-      if (this.teamsTable.get() != null) {
-        return true;
-      }
-    }
-
-    Collection<Integer> teamSizes = this.getInfo().getTeamSizes();
-    if (teamSizes.size() > 0 && !(teamSizes.size() == 1 && teamSizes.contains(0))) {
-      this.teamsTable = Optional.of(
-          DatabaseManager.getInstance().getGameTeams().getGameTeams(gameName));
-      return true;
-    } else {
-      this.teamsTable = Optional.empty();
-      return false;
-    }
-  }
-
-  @Override
-  public void createTables() {
-    if (this.loadTeamsTable()) {
-      this.teamsTable.get().create();
-    }
-    super.createTables();
-  }
-
-  @Override
-  public void backup() {
-    if (this.loadTeamsTable()) {
-      this.teamsTable.get().backup();
-    }
-    super.backup();
-  }
-
-  @Override
-  public void delete() {
-    if (this.loadTeamsTable()) {
-      this.teamsTable.get().delete();
-    }
-    super.delete();
-  }
-
-
   @Override
   public void addTeam(String name, int rank, String prefix, ExTextColor color, float ratio,
                       String colorName) {
-    if (this.loadTeamsTable()) {
-      this.teamsTable.get().addTeam(name, rank, prefix, color, ratio, colorName);
+    if (this.teams) {
+      this.teamTable.addTeam(this.gameName, name, rank, prefix, color, ratio, colorName);
     }
   }
 
   @Override
   public void removeTeam(String name) {
-    if (this.loadTeamsTable()) {
-      this.teamsTable.get().removeTeam(name);
+    if (this.teams) {
+      this.teamTable.removeTeam(this.gameName, name);
     }
   }
 
   @Nullable
   @Override
   public Integer getHighestRank() {
-    if (this.loadTeamsTable()) {
-      return this.teamsTable.get().getHighestRank();
+    if (this.teams) {
+      return this.teamTable.getHighestRank(this.gameName);
     }
     return null;
   }
 
   @Override
   public boolean containsTeam(String name) {
-    if (this.loadTeamsTable()) {
-      return this.teamsTable.get().containsTeam(name);
+    if (this.teams) {
+      return this.teamTable.containsTeam(this.gameName, name);
     }
     return false;
   }
 
-  @NotNull
+  @Nullable
   @Override
   public DbTeam getTeam(String name) {
-    if (this.loadTeamsTable()) {
-      return this.teamsTable.get().getTeam(name);
+    if (this.teams) {
+      return this.teamTable.getTeam(this.gameName, name);
     }
     return null;
   }
@@ -125,17 +87,8 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
   @NotNull
   @Override
   public Collection<String> getTeamNames() {
-    if (this.loadTeamsTable()) {
-      return this.teamsTable.get().getTeamNames();
-    }
-    return new ArrayList<>(0);
-  }
-
-  @NotNull
-  @Override
-  public Collection<Integer> getTeamRanks() {
-    if (this.loadTeamsTable()) {
-      return this.teamsTable.get().getTeamRanks();
+    if (this.teams) {
+      return this.teamTable.getTeamNames(this.gameName);
     }
     return new ArrayList<>(0);
   }
@@ -143,8 +96,8 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
   @NotNull
   @Override
   public Collection<de.timesnake.database.util.game.DbTeam> getTeams() {
-    if (this.loadTeamsTable()) {
-      return this.teamsTable.get().getTeams();
+    if (this.teams) {
+      return this.teamTable.getTeams(this.gameName);
     }
     return new ArrayList<>(0);
   }
@@ -216,39 +169,6 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
   @Override
   public void setTexturePackHash(String hash) {
     getInfo().setTexturePackHash(hash);
-  }
-
-  @Nullable
-  @Override
-  public Integer getPlayerTrackingRange() {
-    return getInfo().getPlayerTrackingRange();
-  }
-
-  @Override
-  public void setPlayerTrackingRange(Integer playerTrackingRange) {
-    getInfo().setPlayerTrackingRange(playerTrackingRange);
-  }
-
-  @Nullable
-  @Override
-  public Integer getMaxHealth() {
-    return getInfo().getMaxHealth();
-  }
-
-  @Override
-  public void setMaxHealth(Integer maxHealth) {
-    getInfo().setMaxHealth(maxHealth);
-  }
-
-  @Override
-  @Nullable
-  public Integer getViewDistance() {
-    return getInfo().getViewDistance();
-  }
-
-  @Override
-  public void setViewDistance(Integer viewDistance) {
-    getInfo().setViewDistance(viewDistance);
   }
 
   @Override
@@ -384,7 +304,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
   }
 
   @Override
-  public List<Integer> getTeamSizes() {
+  public @NotNull List<Integer> getTeamSizes() {
     return getInfo().getTeamSizes();
   }
 

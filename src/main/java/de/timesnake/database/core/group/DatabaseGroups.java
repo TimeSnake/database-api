@@ -5,117 +5,111 @@
 package de.timesnake.database.core.group;
 
 import de.timesnake.database.core.group.display.DbDisplayGroup;
-import de.timesnake.database.core.group.display.DisplayGroupsTable;
+import de.timesnake.database.core.group.display.DisplayGroupTable;
 import de.timesnake.database.core.group.perm.DbPermGroup;
-import de.timesnake.database.core.group.perm.PermGroupsTable;
+import de.timesnake.database.core.group.perm.PermGroupTable;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.library.chat.ExTextColor;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 public class DatabaseGroups extends DatabaseConnector implements
     de.timesnake.database.util.group.DatabaseGroups {
 
-  private final PermGroupsTable permGroupsTable;
-  private final DisplayGroupsTable displayGroupsTable;
-
-  private final String permGroupsTableName;
-  private final String displayGroupsTableName;
+  private final PermGroupTable permGroupTable;
+  private final DisplayGroupTable displayGroupTable;
 
   public DatabaseGroups(String name, String url, String options, String user, String password,
       String permGroupsTableName,
       String displayGroupsTableName) {
     super(name, url, options, user, password);
-    this.permGroupsTableName = permGroupsTableName;
-    this.displayGroupsTableName = displayGroupsTableName;
-    this.permGroupsTable = new PermGroupsTable(this, this.permGroupsTableName);
-    this.displayGroupsTable = new DisplayGroupsTable(this, this.displayGroupsTableName);
+    this.permGroupTable = new PermGroupTable(this, permGroupsTableName);
+    this.displayGroupTable = new DisplayGroupTable(this, displayGroupsTableName);
   }
 
   @Override
   public void createTables() {
-    this.permGroupsTable.create();
-    this.displayGroupsTable.create();
+    this.permGroupTable.create();
+    this.displayGroupTable.create();
   }
 
   @Override
-  public void backupTables() {
-    this.permGroupsTable.backup();
-    this.displayGroupsTable.backup();
+  public void saveTables() {
+    this.permGroupTable.save();
+    this.displayGroupTable.save();
   }
 
   @Override
   public void addPermGroup(String name, int rank) {
-    this.permGroupsTable.addGroup(name, rank);
+    this.permGroupTable.addGroup(name, rank);
   }
 
   @Override
   public boolean containsPermGroup(String name) {
-    return this.permGroupsTable.containsGroup(name);
+    return this.permGroupTable.containsGroup(name);
   }
 
   @NotNull
   @Override
   public de.timesnake.database.util.group.DbPermGroup getPermGroup(String name) {
-    return this.permGroupsTable.getGroup(name);
+    return this.permGroupTable.getGroup(name);
   }
 
   @Override
   public void removePermGroup(String name) {
-    this.permGroupsTable.removeGroup(name);
+    this.permGroupTable.removeGroup(name);
   }
 
   @Override
   public Collection<String> getPermGroupNames() {
-    return this.permGroupsTable.getGroupNames();
+    return this.permGroupTable.getGroupNames();
   }
 
   @Override
   public Collection<Integer> getPermGroupRanks() {
-    return this.permGroupsTable.getGroupRanks();
+    return this.permGroupTable.getGroupRanks();
   }
 
   @Override
   public Collection<DbPermGroup> getPermGroups() {
-    return this.permGroupsTable.getGroups();
+    return this.permGroupTable.getGroups();
   }
 
   @Override
   public void addDisplayGroup(String name, int rank, String prefix, ExTextColor color) {
-    this.displayGroupsTable.addGroup(name, rank, prefix, color);
+    this.displayGroupTable.addGroup(name, rank, prefix, color);
   }
 
   @Override
   public boolean containsDisplayGroup(String name) {
-    return this.displayGroupsTable.containsGroup(name);
+    return this.displayGroupTable.containsGroup(name);
   }
 
-  @Nullable
   @NotNull
   @Override
   public DbDisplayGroup getDisplayGroup(String name) {
-    return this.displayGroupsTable.getGroup(name);
+    return this.displayGroupTable.getGroup(name);
   }
 
   @Override
   public void removeDisplayGroup(String name) {
-    this.displayGroupsTable.removeGroup(name);
+    this.displayGroupTable.removeGroup(name);
   }
 
   @Override
   public Collection<String> getDisplayGroupNames() {
-    return this.displayGroupsTable.getGroupNames();
+    return this.displayGroupTable.getGroupNames();
   }
 
   @Override
   public Collection<Integer> getDisplayGroupRanks() {
-    return this.displayGroupsTable.getGroupRanks();
+    return this.displayGroupTable.getGroupRanks();
   }
 
   @Override
   public Collection<DbDisplayGroup> getDisplayGroups() {
-    return this.displayGroupsTable.getGroups();
+    return this.displayGroupTable.getGroups();
   }
 
 }

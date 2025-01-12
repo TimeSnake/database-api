@@ -6,13 +6,14 @@ package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.SyncExecute;
-import java.util.Set;
 import org.jetbrains.annotations.Nullable;
 
-public class BuildWorldTable extends TableDDL {
+import java.util.Set;
+
+public class BuildWorldTable extends DefinitionAndQueryTool {
 
   protected BuildWorldTable(DatabaseConnector databaseConnector, String tableName) {
     super(databaseConnector, tableName, Column.Server.NAME, Column.Server.BUILD_WORLD);
@@ -25,7 +26,7 @@ public class BuildWorldTable extends TableDDL {
   }
 
   @Override
-  protected void backup() {
+  protected void save() {
     super.dropTmpTable();
   }
 

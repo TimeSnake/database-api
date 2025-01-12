@@ -98,39 +98,6 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
     getInfo().setTexturePackHash(hash);
   }
 
-  @Nullable
-  @Override
-  public Integer getPlayerTrackingRange() {
-    return getInfo().getPlayerTrackingRange();
-  }
-
-  @Override
-  public void setPlayerTrackingRange(Integer playerTrackingRange) {
-    getInfo().setPlayerTrackingRange(playerTrackingRange);
-  }
-
-  @Nullable
-  @Override
-  public Integer getMaxHealth() {
-    return getInfo().getMaxHealth();
-  }
-
-  @Override
-  public void setMaxHealth(Integer maxHealth) {
-    this.getInfo().setMaxHealth(maxHealth);
-  }
-
-  @Nullable
-  @Override
-  public Integer getViewDistance() {
-    return getInfo().getViewDistance();
-  }
-
-  @Override
-  public void setViewDistance(Integer viewDistance) {
-    getInfo().setViewDistance(viewDistance);
-  }
-
   @NotNull
   @Override
   public Availability getOldPvPAvailability() {
@@ -250,17 +217,6 @@ public class DbCachedNonTmpGame extends DbCachedGame implements DbNonTmpGame {
   public void setOwnable(Boolean ownable) {
     getInfo().setOwnable(ownable);
   }
-
-  @Override
-  public boolean isNetherAndEndAllowed() {
-    return getInfo().isNetherAndEndAllowed();
-  }
-
-  @Override
-  public void allowNetherAndEnd(Boolean allow) {
-    getInfo().allowNetherAndEnd(allow);
-  }
-
 
   @NotNull
   @Override

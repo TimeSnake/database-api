@@ -22,20 +22,21 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
 
   private final String name;
 
-  private final MapsAuthorTable authorTable;
-  private final MapsPropertyTable propertyTable;
-
   private final DbMapInfo info;
   private final DbMapLocations mapLocations;
 
-  protected DbMap(String gameName, String mapName) {
+  private final MapAuthorTable authorTable;
+  private final MapPropertyTable mapPropertyTable;
+
+  public DbMap(String gameName, String mapName, DbMapInfo info, DbMapLocations mapLocations,
+               MapAuthorTable authorTable, MapPropertyTable mapPropertyTable) {
     this.gameName = gameName;
     this.name = mapName;
 
-    this.info = DatabaseManager.getInstance().getGameMaps().getMapsInfoTable(gameName).getMapInfo(mapName);
-    this.mapLocations = DatabaseManager.getInstance().getGameMaps().getLocationTable(gameName).getMapLocations(mapName);
-    this.authorTable = DatabaseManager.getInstance().getGameMaps().getMapsAuthorTable(gameName);
-    this.propertyTable = DatabaseManager.getInstance().getGameMaps().getMapsPropertyTable(gameName);
+    this.info = info;
+    this.mapLocations = mapLocations;
+    this.authorTable = authorTable;
+    this.mapPropertyTable = mapPropertyTable;
   }
 
   @Override
@@ -47,7 +48,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
   public void delete() {
     this.info.delete();
     this.mapLocations.delete();
-    this.authorTable.removeMapAuthors(this.name);
+    this.authorTable.removeMapAuthors(this.gameName, this.name);
   }
 
   protected DbMapInfo getDbInfo() {
@@ -192,24 +193,24 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
   @Override
   @NotNull
   public Map<String, String> getProperties() {
-    return this.propertyTable.getProperties(this.name);
+    return this.mapPropertyTable.getProperties(this.gameName, this.name);
   }
 
   @Override
   @Nullable
   public String getProperty(@NotNull String key) {
-    return this.propertyTable.getProperty(this.name, key);
+    return this.mapPropertyTable.getProperty(this.gameName, this.name, key);
   }
 
   @Override
   public void setProperty(@NotNull String key, @Nullable String value) {
-    this.propertyTable.setProperty(this.name, key, value);
+    this.mapPropertyTable.setProperty(this.gameName, this.name, key, value);
   }
 
   @NotNull
   @Override
   public List<UUID> getAuthors() {
-    return this.authorTable.getAuthors(this.name).stream().map((DbMapAuthor::getAuthorUuid))
+    return this.authorTable.getAuthors(this.gameName, this.name).stream().map((DbMapAuthor::getAuthorUuid))
         .collect(Collectors.toList());
   }
 
@@ -220,18 +221,18 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
 
   @Override
   public void addAuthor(UUID author) {
-    this.authorTable.addMapAuthor(this.name, author);
+    this.authorTable.addMapAuthor(this.gameName, this.name, author);
   }
 
   @Override
   public void removeAuthor(UUID author) {
-    this.authorTable.removeMapAuthor(this.name, author);
+    this.authorTable.removeMapAuthor(this.gameName, this.name, author);
   }
 
   @NotNull
   @Override
   public List<String> getAuthorNames() {
-    List<String> authorNames = this.authorTable.getAuthors(this.name).stream()
+    List<String> authorNames = this.authorTable.getAuthors(this.gameName, this.name).stream()
         .map((DbMapAuthor::getAuthorName))
         .filter(Optional::isPresent)
         .map(Optional::get)
@@ -246,7 +247,7 @@ public class DbMap implements de.timesnake.database.util.game.DbMap {
       if (user == null) {
         continue;
       }
-      this.authorTable.addMapAuthor(this.name, user.getUniqueId());
+      this.authorTable.addMapAuthor(this.gameName, this.name, user.getUniqueId());
     }
   }
 

@@ -10,7 +10,6 @@ import de.timesnake.database.core.DatabaseNotConfiguredException;
 import de.timesnake.database.core.anticheat.DatabaseAntiCheat;
 import de.timesnake.database.core.game.DatabaseGames;
 import de.timesnake.database.util.decoration.DatabaseDecoration;
-import de.timesnake.database.util.game.DatabaseLounges;
 import de.timesnake.database.util.game.DbKit;
 import de.timesnake.database.util.game.DbMap;
 import de.timesnake.database.util.game.DbTeam;
@@ -110,18 +109,6 @@ public interface Database {
    */
   static DatabaseGames getGames() {
     return DatabaseManager.getInstance().getGames();
-  }
-
-  /**
-   * Gets the game-lounges database
-   * <p>
-   * <\p> The lounge database contains the lounge maps. Infos of the maps can be changed here, like
-   * world, spawn, ... </\p>
-   *
-   * @return the {@link DatabaseLounges}
-   */
-  static DatabaseLounges getLounges() {
-    return DatabaseManager.getInstance().getLounges();
   }
 
   /**

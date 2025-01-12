@@ -12,14 +12,10 @@ public class DatabaseAntiCheat extends DatabaseConnector implements de.timesnake
 
   private final ChatBlackListTable chatBlackListTable;
 
-  private final String chatBlackListTableName;
-
   public DatabaseAntiCheat(String name, String url, String options, String user, String password, String chatBlackListTableName) {
     super(name, url, options, user, password);
 
     this.chatBlackListTable = new ChatBlackListTable(this, chatBlackListTableName);
-
-    this.chatBlackListTableName = chatBlackListTableName;
   }
 
   @Override
@@ -28,8 +24,8 @@ public class DatabaseAntiCheat extends DatabaseConnector implements de.timesnake
   }
 
   @Override
-  public void backupTables() {
-    this.chatBlackListTable.backup();
+  public void saveTables() {
+    this.chatBlackListTable.save();
   }
 
   @Override

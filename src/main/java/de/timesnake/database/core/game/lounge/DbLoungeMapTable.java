@@ -6,16 +6,17 @@ package de.timesnake.database.core.game.lounge;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.PrimaryKeyEntries;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.object.DbLocation;
-import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 
-public class DbLoungeMapTable extends TableDDL {
+import java.util.Collection;
 
-  protected DbLoungeMapTable(DatabaseConnector databaseConnector, String tableName) {
+public class DbLoungeMapTable extends DefinitionAndQueryTool {
+
+  public DbLoungeMapTable(DatabaseConnector databaseConnector, String tableName) {
     super(databaseConnector, tableName, Column.Game.LOUNGE_MAP_NAME);
     super.addColumn(Column.Game.LOUNGE_MAP_WORLD);
     super.addColumn(Column.Game.LOUNGE_MAP_LOC_X);
@@ -31,12 +32,12 @@ public class DbLoungeMapTable extends TableDDL {
   }
 
   @Override
-  public void backup() {
-    super.backup();
+  public void save() {
+    super.save();
   }
 
   public void addMap(String name, DbLocation spawn) {
-    super.addEntry(new PrimaryEntries(new Entry<>(name, Column.Game.LOUNGE_MAP_NAME)),
+    super.addEntry(new PrimaryKeyEntries(new Entry<>(name, Column.Game.LOUNGE_MAP_NAME)),
         new Entry<>(spawn.getWorldName(), Column.Game.LOUNGE_MAP_WORLD),
         new Entry<>(spawn.getX(), Column.Game.LOUNGE_MAP_LOC_X),
         new Entry<>(spawn.getY(), Column.Game.LOUNGE_MAP_LOC_Y),

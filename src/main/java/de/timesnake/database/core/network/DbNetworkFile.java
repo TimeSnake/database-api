@@ -6,16 +6,16 @@ package de.timesnake.database.core.network;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
-import java.io.File;
-import org.jetbrains.annotations.NotNull;
 
-public class DbNetworkFile extends TableQuery implements
+import java.io.File;
+
+public class DbNetworkFile extends KeyedQueryTool implements
     de.timesnake.database.util.network.DbNetworkFile {
 
   protected DbNetworkFile(DatabaseConnector databaseConnector, String nameTable, String name) {
-    super(databaseConnector, nameTable, new Entry<>(name, Column.Network.FILE_NAME));
+    super(databaseConnector, nameTable, true, new Entry<>(name, Column.Network.FILE_NAME));
   }
 
   @Override
@@ -23,7 +23,6 @@ public class DbNetworkFile extends TableQuery implements
     return this.getFile() != null;
   }
 
-  @NotNull
   @Override
   public File getFile() {
     return super.getFirstWithKey(Column.Network.FILE_PATH);

@@ -26,7 +26,7 @@ public class BuildTable extends TaskTable<DbBuildServer> {
   }
 
   @Override
-  public void backup() {
+  public void save() {
     super.dropTmpTable();
   }
 }

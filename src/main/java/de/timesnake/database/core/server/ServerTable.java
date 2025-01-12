@@ -6,18 +6,19 @@ package de.timesnake.database.core.server;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.PrimaryKeyEntries;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.server.DbServer;
 import de.timesnake.library.basic.util.Status;
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.jetbrains.annotations.Nullable;
 
-public abstract class ServerTable<Server extends DbServer> extends TableDDL {
+public abstract class ServerTable<Server extends DbServer> extends DefinitionAndQueryTool {
 
   public ServerTable(DatabaseConnector databaseConnector, String nameTable) {
     super(databaseConnector, nameTable, Column.Server.NAME);
@@ -34,10 +35,10 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
   }
 
   @Override
-  public void backup() {
+  public void save() {
     Column<?>[] columns = {Column.Server.NAME, Column.Server.PORT, Column.Server.MAX_PLAYERS,
         Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
-    super.backup(columns);
+    super.save(columns);
   }
 
   @Nullable
@@ -54,7 +55,7 @@ public abstract class ServerTable<Server extends DbServer> extends TableDDL {
   }
 
   public void addServer(String name, int port, Status.Server status, Path folderPath) {
-    super.addEntrySynchronized(true, new PrimaryEntries(new Entry<>(name, Column.Server.NAME)),
+    super.addEntrySynchronized(true, new PrimaryKeyEntries(new Entry<>(name, Column.Server.NAME)),
         new Entry<>(status, Column.Server.STATUS), new Entry<>(port, Column.Server.PORT),
         new Entry<>(0, Column.Server.ONLINE_PLAYERS), new Entry<>(folderPath,
             Column.Server.FOLDER_PATH));

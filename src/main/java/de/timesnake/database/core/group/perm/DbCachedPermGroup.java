@@ -5,7 +5,7 @@
 package de.timesnake.database.core.group.perm;
 
 import de.timesnake.database.core.Column;
-import de.timesnake.database.core.group.DbCachedGroupBasis;
+import de.timesnake.database.core.group.DbCachedSimpleGroup;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.group.DbPermGroup;
 import de.timesnake.database.util.object.ColumnMap;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Set;
 
-public class DbCachedPermGroup extends DbCachedGroupBasis implements DbPermGroup {
+public class DbCachedPermGroup extends DbCachedSimpleGroup implements DbPermGroup {
 
   private String inheritGroup;
 

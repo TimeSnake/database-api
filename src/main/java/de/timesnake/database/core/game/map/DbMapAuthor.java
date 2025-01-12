@@ -6,19 +6,22 @@ package de.timesnake.database.core.game.map;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.table.TableQuery;
+import de.timesnake.database.core.table.KeyedQueryTool;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.DatabaseConnector;
 import de.timesnake.database.util.user.DbUser;
-import java.util.Optional;
-import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
-public class DbMapAuthor extends TableQuery {
+import java.util.Optional;
+import java.util.UUID;
 
-  protected DbMapAuthor(DatabaseConnector databaseConnector, String nameTable, String mapName,
-      UUID authorUuid) {
-    super(databaseConnector, nameTable, new Entry<>(mapName, Column.Game.MAP_NAME),
+public class DbMapAuthor extends KeyedQueryTool {
+
+  protected DbMapAuthor(DatabaseConnector databaseConnector, String tableName, String gameName,
+                        String mapName, UUID authorUuid) {
+    super(databaseConnector, tableName, true,
+        new Entry<>(gameName, Column.Game.GAME_NAME),
+        new Entry<>(mapName, Column.Game.MAP_NAME),
         new Entry<>(authorUuid, Column.Game.MAP_AUTHOR_UUID));
   }
 
@@ -29,12 +32,12 @@ public class DbMapAuthor extends TableQuery {
 
   @NotNull
   public String getMapName() {
-    return ((String) super.primaryEntries.get(0).getValue());
+    return super.keyEntries.get(Column.Game.MAP_NAME).getValue();
   }
 
   @NotNull
   public UUID getAuthorUuid() {
-    return ((UUID) super.primaryEntries.get(1).getValue());
+    return super.keyEntries.get(Column.Game.MAP_AUTHOR_UUID).getValue();
   }
 
   public Optional<String> getAuthorName() {

@@ -6,15 +6,15 @@ package de.timesnake.database.core.story;
 
 import de.timesnake.database.core.Column;
 import de.timesnake.database.core.Entry;
-import de.timesnake.database.core.PrimaryEntries;
-import de.timesnake.database.core.table.TableDDL;
+import de.timesnake.database.core.PrimaryKeyEntries;
+import de.timesnake.database.core.table.DefinitionAndQueryTool;
 import de.timesnake.database.util.object.DatabaseConnector;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
 
-public class UserQuestTable extends TableDDL {
+public class UserQuestTable extends DefinitionAndQueryTool {
 
   protected UserQuestTable(DatabaseConnector databaseConnector, String tableName) {
     super(databaseConnector, tableName, Column.Story.USER_UUID, Column.Story.BOOK_ID,
@@ -27,8 +27,8 @@ public class UserQuestTable extends TableDDL {
   }
 
   @Override
-  public void backup() {
-    super.backup();
+  public void save() {
+    super.save();
   }
 
   @Nullable
@@ -62,7 +62,7 @@ public class UserQuestTable extends TableDDL {
   }
 
   public void addStoryUser(UUID uuid, String bookId, String chapterId, String questName) {
-    super.addEntry(new PrimaryEntries(new Entry<>(bookId, Column.Story.BOOK_ID),
+    super.addEntry(new PrimaryKeyEntries(new Entry<>(bookId, Column.Story.BOOK_ID),
             new Entry<>(chapterId, Column.Story.CHAPTER_NAME),
             new Entry<>(uuid, Column.Story.USER_UUID)),
         new Entry<>(questName, Column.Story.QUEST_NAME));
