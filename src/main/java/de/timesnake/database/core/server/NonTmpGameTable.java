@@ -17,11 +17,6 @@ public class NonTmpGameTable extends PvPTable<DbNonTmpGameServer> {
     super.addColumn(Column.Server.OWNER);
   }
 
-  @Override
-  public void save() {
-    super.dropTmpTable();
-  }
-
   @Nullable
   @Override
   public DbNonTmpGameServer getServer(String name) {

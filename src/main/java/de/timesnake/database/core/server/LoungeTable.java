@@ -13,11 +13,6 @@ public class LoungeTable extends TaskTable<DbLoungeServer> {
     super(databaseConnector, nameTable);
   }
 
-  @Override
-  public void save() {
-    this.dropTmpTable();
-  }
-
   @Nullable
   @Override
   public DbLoungeServer getServer(String name) {

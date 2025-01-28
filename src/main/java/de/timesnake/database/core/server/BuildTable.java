@@ -24,9 +24,4 @@ public class BuildTable extends TaskTable<DbBuildServer> {
         this.buildWorldTable);
     return server.exists() ? server : null;
   }
-
-  @Override
-  public void save() {
-    super.dropTmpTable();
-  }
 }
