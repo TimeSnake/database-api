@@ -27,14 +27,6 @@ public abstract class TaskTable<Server extends DbTaskServer> extends ServerTable
     super.setSynchronized(task, Column.Server.TASK, new Entry<>(name, Column.Server.NAME));
   }
 
-  @Override
-  public void save() {
-    Column<?>[] columns = {Column.Server.NAME, Column.Server.PORT, Column.Server.MAX_PLAYERS,
-        Column.Server.TASK,
-        Column.Server.PASSWORD};
-    super.save(columns);
-  }
-
   public List<Server> getServers(String task) {
     List<Server> servers = new ArrayList<>();
     Collection<String> names = super.get(Column.Server.NAME, new Entry<>(task, Column.Server.TASK));

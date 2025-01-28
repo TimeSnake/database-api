@@ -23,11 +23,6 @@ public class TmpGameTable extends PvPTable<DbTmpGameServer> {
     super.addColumn(Column.Server.DISCORD);
   }
 
-  @Override
-  public void save() {
-    super.dropTmpTable();
-  }
-
   @Nullable
   @Override
   public DbTmpGameServer getServer(String name) {

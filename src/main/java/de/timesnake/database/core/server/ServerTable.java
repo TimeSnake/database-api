@@ -36,9 +36,7 @@ public abstract class ServerTable<Server extends DbServer> extends DefinitionAnd
 
   @Override
   public void save() {
-    Column<?>[] columns = {Column.Server.NAME, Column.Server.PORT, Column.Server.MAX_PLAYERS,
-        Column.Server.FOLDER_PATH, Column.Server.PASSWORD};
-    super.save(columns);
+    super.dropTmpTable();
   }
 
   @Nullable
