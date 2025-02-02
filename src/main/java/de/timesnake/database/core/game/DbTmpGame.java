@@ -33,7 +33,7 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
 
     this.teamTable = teamTable;
 
-    Collection<Integer> teamSizes = this.getInfo().getTeamSizes();
+    Collection<Integer> teamSizes = this.getInfo().getTeamAmounts();
     this.teams = !teamSizes.isEmpty() && !(teamSizes.size() == 1 && teamSizes.contains(0));
   }
 
@@ -304,13 +304,13 @@ public class DbTmpGame extends DbGame implements de.timesnake.database.util.game
   }
 
   @Override
-  public @NotNull List<Integer> getTeamSizes() {
-    return getInfo().getTeamSizes();
+  public @NotNull List<Integer> getTeamAmounts() {
+    return getInfo().getTeamAmounts();
   }
 
   @Override
-  public void setTeamSizes(List<Integer> sizes) {
-    getInfo().setTeamSizes(sizes);
+  public void setTeamAmounts(List<Integer> sizes) {
+    getInfo().setTeamAmounts(sizes);
   }
 
   @NotNull
