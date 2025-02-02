@@ -103,14 +103,14 @@ public class DbCachedTmpGameInfo extends DbCachedGameInfo implements
   }
 
   @Override
-  public @NotNull List<Integer> getTeamSizes() {
+  public @NotNull List<Integer> getTeamAmounts() {
     return this.teamSizes;
   }
 
   @Override
-  public void setTeamSizes(List<Integer> sizes) {
+  public void setTeamAmounts(List<Integer> sizes) {
     this.teamSizes = sizes;
-    this.getDatabase().setTeamSizes(sizes);
+    this.getDatabase().setTeamAmounts(sizes);
   }
 
   @NotNull

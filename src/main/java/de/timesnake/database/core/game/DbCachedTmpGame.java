@@ -237,13 +237,13 @@ public class DbCachedTmpGame extends DbCachedGame implements
   }
 
   @Override
-  public @NotNull List<Integer> getTeamSizes() {
-    return getInfo().getTeamSizes();
+  public @NotNull List<Integer> getTeamAmounts() {
+    return getInfo().getTeamAmounts();
   }
 
   @Override
-  public void setTeamSizes(List<Integer> sizes) {
-    getInfo().setTeamSizes(sizes);
+  public void setTeamAmounts(List<Integer> sizes) {
+    getInfo().setTeamAmounts(sizes);
   }
 
   @NotNull

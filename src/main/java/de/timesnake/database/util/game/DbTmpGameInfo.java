@@ -32,10 +32,10 @@ public interface DbTmpGameInfo extends DbGameInfo {
   void setShowSelectedKits(boolean showSelectedKits);
 
   @NotNull
-  List<Integer> getTeamSizes();
+  List<Integer> getTeamAmounts();
 
   @NotCached
-  void setTeamSizes(List<Integer> sizes);
+  void setTeamAmounts(List<Integer> sizes);
 
   @NotNull
   Availability getTeamMergeAvailability();
