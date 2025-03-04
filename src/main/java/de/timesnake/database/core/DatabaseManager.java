@@ -80,7 +80,13 @@ public class DatabaseManager implements de.timesnake.database.util.Database {
     Database.LOGGER.info("Connecting to database...");
 
     String user = config.getString("database.user");
+    if (user == null) {
+      user = "root";
+    }
     String password = config.getString("database.password");
+    if (password == null) {
+      password = System.getenv("MYSQL_ROOT_PASSWORD");
+    }
     String options = config.getString("database.options");
     String url = config.getString("database.url");
 
