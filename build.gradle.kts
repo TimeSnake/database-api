@@ -7,7 +7,7 @@ plugins {
 
 
 group = "de.timesnake"
-version = "4.1.0"
+version = "5.0.0"
 var projectId = 45
 
 repositories {
@@ -21,27 +21,29 @@ repositories {
 }
 
 dependencies {
-    compileOnly("de.timesnake:channel-api:5.+")
+    api("de.timesnake:channel-api:6.+")
 
-    compileOnly("de.timesnake:library-basic:2.+")
-    compileOnly("de.timesnake:library-chat:2.+")
+    api("de.timesnake:library-basic:3.+")
+    api("de.timesnake:library-chat:3.+")
 
-    compileOnly("org.apache.logging.log4j:log4j-api:2.22.1")
-    compileOnly("org.apache.logging.log4j:log4j-core:2.22.1")
+    api("org.apache.logging.log4j:log4j-api:2.22.1")
+    api("org.apache.logging.log4j:log4j-core:2.22.1")
 
-    implementation("org.apache.commons:commons-dbcp2:2.9+")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.0.6")
+    api("org.apache.commons:commons-dbcp2:2.9+")
+    api("org.mariadb.jdbc:mariadb-java-client:3.0.6")
 
-    compileOnly("net.kyori:adventure-api:4.11.0")
+    api("net.kyori:adventure-api:4.11.0")
 }
 
-configurations.configureEach {
-    resolutionStrategy.dependencySubstitution {
-        if (project.parent != null) {
-            substitute(module("de.timesnake:channel-api")).using(project(":channel:channel-api"))
-
-            substitute(module("de.timesnake:library-basic")).using(project(":libraries:library-basic"))
-            substitute(module("de.timesnake:library-chat")).using(project(":libraries:library-chat"))
+configurations.all {
+    resolutionStrategy.dependencySubstitution.all {
+        requested.let {
+            if (it is ModuleComponentSelector && it.group == "de.timesnake") {
+                val targetProject = findProject(":${it.module}")
+                if (targetProject != null) {
+                    useTarget(targetProject)
+                }
+            }
         }
     }
 }
