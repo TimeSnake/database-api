@@ -115,10 +115,10 @@ public abstract class ColumnType<Value> {
     };
   }
 
-  public static final ColumnType<Float> FLOAT = new ColumnType<>("float", 12) {
+  public static final ColumnType<Float> DECIMAL = new ColumnType<>("decimal", 12) {
     @Override
     public String getName() {
-      return "float(" + this.length + ")";
+      return "decimal(10,3)";
     }
 
     @Override

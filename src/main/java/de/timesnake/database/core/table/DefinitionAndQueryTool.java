@@ -74,7 +74,7 @@ public class DefinitionAndQueryTool extends QueryTool {
 
       ps.executeUpdate("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + " (" + this.primaryColumnsCreation + ");");
 
-      Database.LOGGER.info("Table " + this.tableName + " created with primary-keys: '" + primaryColumnsCreation + "'");
+      Database.LOGGER.info("Table {} created with primary-keys: '{}'", this.tableName, primaryColumnsCreation);
 
       Set<String> primaryColumnNames = this.primaryColumns.stream().map(Column::getName).collect(Collectors.toSet());
 
@@ -98,14 +98,14 @@ public class DefinitionAndQueryTool extends QueryTool {
         if (column != null) {
           // check column type
           if (!column.getType().getSimpleName().equalsIgnoreCase(type)) {
-            Database.LOGGER.warn("Type ('" + type + "') of column '" + column.getName() + "' in table '" + this.tableName + "' differs from configured type ('" + column.getType().getSimpleName() + "')");
+            Database.LOGGER.warn("Type ('{}') of column '{}' in table '{}' differs from configured type ('{}')", type, column.getName(), this.tableName, column.getType().getSimpleName());
           }
           if (column.getType().getLength() != length) {
-            Database.LOGGER.warn("Length ('" + length + "') of column '" + column.getName() + "' in table '" + this.tableName + "' differs from configured length ('" + column.getType().getLength() + "')");
+            Database.LOGGER.warn("Length ('{}') of column '{}' in table '{}' differs from configured length ('{}')", length, column.getName(), this.tableName, column.getType().getLength());
           }
         } else {
           ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + " DROP COLUMN " + COLUMN_WRAPPER + name + COLUMN_WRAPPER + ";");
-          Database.LOGGER.info("Dropped column '" + name + "' in table '" + this.tableName + "'");
+          Database.LOGGER.info("Dropped column '{}' in table '{}'", name, this.tableName);
         }
       }
 
@@ -115,7 +115,7 @@ public class DefinitionAndQueryTool extends QueryTool {
         // add new column
         if (columnByName.remove(column.getName()) != null) {
           ps.executeUpdate("ALTER TABLE " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + " ADD COLUMN " + COLUMN_WRAPPER + column.getName() + COLUMN_WRAPPER + " " + column.getType().getEnhancedName() + " AFTER " + COLUMN_WRAPPER + columnBefore.getName() + COLUMN_WRAPPER + ";");
-          Database.LOGGER.info("Added column '" + column.getName() + "' in table '" + this.tableName + "'");
+          Database.LOGGER.info("Added column '{}' in table '{}'", column.getName(), this.tableName);
         }
 
         columnBefore = column;
@@ -152,9 +152,9 @@ public class DefinitionAndQueryTool extends QueryTool {
                 RETURN LOWER(CONCAT(LEFT(hex, 8), '-', MID(hex, 9, 4), '-', MID(hex, 13, 4), '-', MID(hex, 17, 4), '-', RIGHT(hex, 12)));
               END;
               """);
-          Database.LOGGER.info("Added 'BIN_TO_UUID' function in table '" + this.tableName + "'");
+          Database.LOGGER.info("Added 'BIN_TO_UUID' function in table '{}'", this.tableName);
         } catch (SQLException e) {
-          Database.LOGGER.warn("Could not load bin to uuid function in table " + this.tableName);
+          Database.LOGGER.warn("Could not load bin to uuid function in table {}", this.tableName);
           DatabaseManager.getInstance().handleSQLException(e);
         }
 
@@ -166,9 +166,9 @@ public class DefinitionAndQueryTool extends QueryTool {
                 RETURN UNHEX(CONCAT(REPLACE(uuid, '-', '')));
               END;
               """);
-          Database.LOGGER.info("Added 'UUID_TO_BIN' function in table '" + this.tableName + "'");
+          Database.LOGGER.info("Added 'UUID_TO_BIN' function in table '{}'", this.tableName);
         } catch (SQLException e) {
-          Database.LOGGER.warn("Could not load uuid to bin function in table" + this.tableName);
+          Database.LOGGER.warn("Could not load uuid to bin function in table{}", this.tableName);
           DatabaseManager.getInstance().handleSQLException(e);
         }
       }
@@ -191,7 +191,7 @@ public class DefinitionAndQueryTool extends QueryTool {
       ps.addBatch("CREATE TABLE IF NOT EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + " LIKE " + this.tableName + "");
       ps.addBatch("ALTER TABLE " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + " ENGINE=memory");
       ps.executeBatch();
-      Database.LOGGER.info("Created temporary table '" + this.tableName + "'");
+      Database.LOGGER.info("Created temporary table '{}'", this.tableName);
     } catch (SQLException e) {
       DatabaseManager.getInstance().handleSQLException(e);
     } finally {
@@ -212,7 +212,7 @@ public class DefinitionAndQueryTool extends QueryTool {
         ps.addBatch("DROP TABLE IF EXISTS " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER);
       }
       ps.executeBatch();
-      Database.LOGGER.info("Deleted tables '" + this.tableName + "' and '" + this.tableName + "_tmp'");
+      Database.LOGGER.info("Deleted tables '{}' and '{}_tmp'", this.tableName, this.tableName);
     } catch (SQLException e) {
       DatabaseManager.getInstance().handleSQLException(e);
     } finally {
@@ -229,7 +229,7 @@ public class DefinitionAndQueryTool extends QueryTool {
       connection = this.databaseConnector.getConnection();
       ps = connection.prepareStatement("INSERT INTO " + TABLE_WRAPPER + this.tableName + "_tmp" + TABLE_WRAPPER + " SELECT * FROM " + TABLE_WRAPPER + this.tableName + TABLE_WRAPPER + ";");
       ps.executeUpdate();
-      Database.LOGGER.info("Inserted data into temporary for table '" + this.tableName + "'");
+      Database.LOGGER.info("Inserted data into temporary for table '{}'", this.tableName);
     } catch (SQLException e) {
       DatabaseManager.getInstance().handleSQLException(e);
     } finally {

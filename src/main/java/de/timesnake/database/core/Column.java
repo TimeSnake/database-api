@@ -107,7 +107,7 @@ public class Column<Value> {
     public static final User<String> PUNISH_CASTIGATOR = new User<>("castigator", User.NAME.getType().nullable());
     public static final User<String> PUNISH_REASON = new User<>("reason", ColumnType.VARCHAR(255));
 
-    public static final User<Float> TIME_COINS = new User<>("coins", ColumnType.FLOAT);
+    public static final User<Float> TIME_COINS = new User<>("coins", ColumnType.DECIMAL);
 
     public static final User<LocalDateTime> PRIVACY_POLICY = new User<>("privacy_policy_date_time", ColumnType.LOCAL_DATE_TIME);
 
@@ -175,7 +175,7 @@ public class Column<Value> {
   public static class Team<T> extends Column<T> {
 
     // all from group
-    public static final Team<Float> RATIO = new Team<>("ratio", ColumnType.FLOAT);
+    public static final Team<Float> RATIO = new Team<>("ratio", ColumnType.DECIMAL);
     public static final Team<String> COLOR = new Team<>("color", ColumnType.VARCHAR(20));
     public static final Team<Boolean> PRIVATE_CHAT = new Team<>("private_chat", ColumnType.BOOLEAN);
     public static final Team<Integer> MIN_SIZE = new Team<>("min_size", ColumnType.INTEGER);
@@ -241,11 +241,11 @@ public class Column<Value> {
     // lounge map
     public static final Game<String> LOUNGE_MAP_NAME = new Game<>("name", ColumnType.VARCHAR(100));
     public static final Game<String> LOUNGE_MAP_WORLD = new Game<>("world", ColumnType.VARCHAR(100));
-    public static final Game<Float> LOUNGE_MAP_LOC_X = new Game<>("spawn_loc_x", ColumnType.FLOAT);
-    public static final Game<Float> LOUNGE_MAP_LOC_Y = new Game<>("spawn_loc_y", ColumnType.FLOAT);
-    public static final Game<Float> LOUNGE_MAP_LOC_Z = new Game<>("spawn_loc_z", ColumnType.FLOAT);
-    public static final Game<Float> LOUNGE_MAP_LOC_YAW = new Game<>("spawn_loc_yaw", ColumnType.FLOAT);
-    public static final Game<Float> LOUNGE_MAP_LOC_PITCH = new Game<>("spawn_loc_pitch", ColumnType.FLOAT);
+    public static final Game<Float> LOUNGE_MAP_LOC_X = new Game<>("spawn_loc_x", ColumnType.DECIMAL);
+    public static final Game<Float> LOUNGE_MAP_LOC_Y = new Game<>("spawn_loc_y", ColumnType.DECIMAL);
+    public static final Game<Float> LOUNGE_MAP_LOC_Z = new Game<>("spawn_loc_z", ColumnType.DECIMAL);
+    public static final Game<Float> LOUNGE_MAP_LOC_YAW = new Game<>("spawn_loc_yaw", ColumnType.DECIMAL);
+    public static final Game<Float> LOUNGE_MAP_LOC_PITCH = new Game<>("spawn_loc_pitch", ColumnType.DECIMAL);
 
     public static final Game<Integer> LOUNGE_MAP_DISPLAY_INDEX = new Game<>("display_index", ColumnType.INTEGER);
     public static final Game<Integer> LOUNGE_MAP_DISPLAY_X = new Game<>("display_x", ColumnType.INTEGER);
@@ -289,11 +289,11 @@ public class Column<Value> {
 
     public static final Location<Integer> NUMBER = new Location<>("number", ColumnType.INTEGER.notNullable());
     public static final Location<String> WORLD = new Location<>("world", ColumnType.VARCHAR(32).notNullable());
-    public static final Location<Float> X = new Location<>("x", ColumnType.FLOAT);
-    public static final Location<Float> Y = new Location<>("y", ColumnType.FLOAT);
-    public static final Location<Float> Z = new Location<>("z", ColumnType.FLOAT);
-    public static final Location<Float> YAW = new Location<>("yaw", ColumnType.FLOAT);
-    public static final Location<Float> PITCH = new Location<>("pitch", ColumnType.FLOAT);
+    public static final Location<Float> X = new Location<>("x", ColumnType.DECIMAL);
+    public static final Location<Float> Y = new Location<>("y", ColumnType.DECIMAL);
+    public static final Location<Float> Z = new Location<>("z", ColumnType.DECIMAL);
+    public static final Location<Float> YAW = new Location<>("yaw", ColumnType.DECIMAL);
+    public static final Location<Float> PITCH = new Location<>("pitch", ColumnType.DECIMAL);
 
     Location(String name, ColumnType<T> type) {
       super(name, type);
@@ -306,7 +306,7 @@ public class Column<Value> {
     public static final HungerGames<Integer> ITEM_ID = new HungerGames<>("id", ColumnType.INTEGER(true));
     public static final HungerGames<String> ITEM_TYPE = new HungerGames<>("type", ColumnType.VARCHAR(100).notNullable());
     public static final HungerGames<Integer> ITEM_AMOUNT = new HungerGames<>("amount", ColumnType.INTEGER.notNullable());
-    public static final HungerGames<Float> ITEM_CHANCE = new HungerGames<>("chance", ColumnType.FLOAT.notNullable());
+    public static final HungerGames<Float> ITEM_CHANCE = new HungerGames<>("chance", ColumnType.DECIMAL.notNullable());
     public static final HungerGames<Integer> ITEM_LEVEL = new HungerGames<>("level", ColumnType.INTEGER.notNullable());
 
     HungerGames(String name, ColumnType<T> type) {
