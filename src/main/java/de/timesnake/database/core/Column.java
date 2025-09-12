@@ -73,7 +73,7 @@ public class Column<Value> {
     public static final Server<Path> FOLDER_PATH = new Server<>("folder_path", ColumnType.PATH);
     public static final Server<Boolean> DISCORD = new Server<>("discord", ColumnType.BOOLEAN);
 
-    public static final Server<String> BUILD_WORLD = new Server<>("world", ColumnType.VARCHAR(64));
+    public static final Server<String> BUILD_WORLD = new Server<>("world", ColumnType.VARCHAR(100));
 
 
     Server(String name, ColumnType<T> type) {
@@ -288,7 +288,7 @@ public class Column<Value> {
   public static class Location<T> extends Column<T> {
 
     public static final Location<Integer> NUMBER = new Location<>("number", ColumnType.INTEGER.notNullable());
-    public static final Location<String> WORLD = new Location<>("world", ColumnType.VARCHAR(32).notNullable());
+    public static final Location<String> WORLD = new Location<>("world", ColumnType.VARCHAR(100).notNullable());
     public static final Location<Float> X = new Location<>("x", ColumnType.DECIMAL);
     public static final Location<Float> Y = new Location<>("y", ColumnType.DECIMAL);
     public static final Location<Float> Z = new Location<>("z", ColumnType.DECIMAL);
